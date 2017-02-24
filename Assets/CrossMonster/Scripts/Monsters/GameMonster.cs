@@ -21,6 +21,10 @@ namespace CrossMonsters {
             RemainingHP -= damage;
         }
 
+        public bool IsDead() {
+            return RemainingHP <= 0;
+        }
+
         private void SetStats( IMonsterData i_data ) {
             RemainingHP = i_data.GetMaxHP();
             Defense = i_data.GetDefense();

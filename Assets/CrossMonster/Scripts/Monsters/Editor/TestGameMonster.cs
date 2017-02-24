@@ -53,5 +53,20 @@ namespace CrossMonsters {
             int expectedHP = 100 - i_expectedDamage;
             Assert.AreEqual( expectedHP, systemUnderTest.RemainingHP );
         }
+
+        static object[] IsDeadTestCases = {
+            new object[] { 0, true },
+            new object[] { 1, false },
+            new object[] { 10, false },
+            new object[] { -1, true },
+        };
+
+        [Test, TestCaseSource("IsDeadTestCases")]
+        public void IsDead_ReturnsExpected( int i_remainingHP, bool i_isDead ) {
+            GameMonster systemUnderTest = new GameMonster( Substitute.For<IMonsterData>() );
+            systemUnderTest.RemainingHP = i_remainingHP;
+
+            Assert.AreEqual( i_isDead, systemUnderTest.IsDead() );
+        }
     }
 }
