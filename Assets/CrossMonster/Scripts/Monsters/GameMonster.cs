@@ -10,7 +10,11 @@ namespace CrossMonsters {
         public int Defense { get { return mDefense; } set { mDefense = value; } }        
         public int DefenseType { get { return mDefenseType; } set { mDefenseType = value; } }
 
+        private float mAttackCycle;
+        public float AttackCycle { get { return mAttackCycle; } set { mAttackCycle = value; } }
+
         public GameMonster( IMonsterData i_data ) {
+            ResetAttackCycle();
             SetStats( i_data );
         }
 
@@ -23,6 +27,10 @@ namespace CrossMonsters {
 
         public bool IsDead() {
             return RemainingHP <= 0;
+        }
+
+        private void ResetAttackCycle() {
+            AttackCycle = 0f;
         }
 
         private void SetStats( IMonsterData i_data ) {

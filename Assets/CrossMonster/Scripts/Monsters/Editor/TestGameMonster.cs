@@ -19,6 +19,13 @@ namespace CrossMonsters {
         }
 
         [Test]
+        public void WhenCreating_AttackCycleIsZero() {
+            GameMonster systemUnderTest = new GameMonster( Substitute.For<IMonsterData>() );
+
+            Assert.AreEqual( 0f, systemUnderTest.AttackCycle );
+        }
+
+        [Test]
         public void WhenCreating_StatsSetToDataValues() {
             IMonsterData mockData = Substitute.For<IMonsterData>();
             mockData.GetDefense().Returns( 10 );
@@ -67,6 +74,6 @@ namespace CrossMonsters {
             systemUnderTest.RemainingHP = i_remainingHP;
 
             Assert.AreEqual( i_isDead, systemUnderTest.IsDead() );
-        }
+        }        
     }
 }
