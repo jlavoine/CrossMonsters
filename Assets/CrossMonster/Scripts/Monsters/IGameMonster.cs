@@ -1,6 +1,7 @@
 ﻿
 namespace CrossMonsters {
     public interface IGameMonster {
-        int RemainingHP { get; set; }       
+        int RemainingHP { get; set; }    
+   
     }
 }

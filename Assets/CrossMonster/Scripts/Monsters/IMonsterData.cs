@@ -4,6 +4,7 @@ namespace CrossMonsters {
         string GetId();
 
         int GetMaxHP();
+        int GetDefense();
         int GetDefenseType();
         int GetDamage();
         int GetDamageType();
