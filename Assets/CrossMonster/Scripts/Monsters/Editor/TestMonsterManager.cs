@@ -134,6 +134,23 @@ namespace CrossMonsters {
             Assert.AreEqual( 0, systemUnderTest.RemainingMonsters.Count );
         }
 
+        [Test]
+        public void WhenCreatingMonsterManagerWithAllMonsters_CurrentAndRemainingListsAsExpected() {
+            GameRules.Instance.GetActiveMonsterCount().Returns( 4 );
+            List<IGameMonster> allMonsters = new List<IGameMonster>();
+            allMonsters.Add( Substitute.For<IGameMonster>() );
+            allMonsters.Add( Substitute.For<IGameMonster>() );
+            allMonsters.Add( Substitute.For<IGameMonster>() );
+            allMonsters.Add( Substitute.For<IGameMonster>() );
+            allMonsters.Add( Substitute.For<IGameMonster>() );
+            allMonsters.Add( Substitute.For<IGameMonster>() );
+
+            MonsterManager systemUnderTest = new MonsterManager( allMonsters );
+
+            Assert.AreEqual( 4, systemUnderTest.CurrentMonsters.Count );
+            Assert.AreEqual( 2, systemUnderTest.RemainingMonsters.Count );
+        }
+
         private IGameMonster GetMockMonsterWithMatchCombo( bool i_doesMatch ) {
             IGameMonster mockMonster = Substitute.For<IGameMonster>();
             mockMonster.DoesMatchCombo( Arg.Any<List<int>>() ).Returns( i_doesMatch );
