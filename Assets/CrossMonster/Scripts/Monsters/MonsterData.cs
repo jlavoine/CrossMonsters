@@ -7,7 +7,7 @@ namespace CrossMonsters {
         public int DefenseType;
         public int Damage;
         public int DamageType;
-        public float AttackRate;
+        public long AttackRate;
 
         public string GetId() { return Id; }
         public int GetMaxHP() { return MaxHP; }
@@ -15,6 +15,6 @@ namespace CrossMonsters {
         public int GetDefenseType() { return DefenseType; }
         public int GetDamage() { return Damage; }
         public int GetDamageType() { return DamageType; }
-        public float GetAttackRate() { return AttackRate; }
+        public long GetAttackRate() { return AttackRate; }
     }
 }

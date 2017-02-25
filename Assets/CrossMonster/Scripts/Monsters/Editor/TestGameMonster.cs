@@ -4,6 +4,7 @@ using UnityEngine;
 using MyLibrary;
 
 #pragma warning disable 0219
+#pragma warning disable 0414
 
 namespace CrossMonsters {
     [TestFixture]
@@ -30,11 +31,13 @@ namespace CrossMonsters {
             IMonsterData mockData = Substitute.For<IMonsterData>();
             mockData.GetDefense().Returns( 10 );
             mockData.GetDefenseType().Returns( 2 );
+            mockData.GetAttackRate().Returns( 1500 );
 
             GameMonster systemUnderTest = new GameMonster( mockData );
 
             Assert.AreEqual( 10, systemUnderTest.Defense );
             Assert.AreEqual( 2, systemUnderTest.DefenseType );
+            Assert.AreEqual( 1500, systemUnderTest.AttackRate );
         }
 
         static object[] DamagedTestCases = {
@@ -75,5 +78,60 @@ namespace CrossMonsters {
 
             Assert.AreEqual( i_isDead, systemUnderTest.IsDead() );
         }        
+
+        [Test]
+        public void AfterTick_WhenAttackIsNotCycled_ValueIsAsExpected() {
+            IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
+            mockMonsterData.GetAttackRate().Returns( 1000 );
+
+            GameMonster systemUnderTest = new GameMonster( mockMonsterData );
+            systemUnderTest.Tick( 100 );
+
+            Assert.AreEqual( 100, systemUnderTest.AttackCycle );
+        }
+
+        [Test]
+        public void AfterTick_AttackCycleResetsToZero_WhenTickEqualsRate() {
+            IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
+            mockMonsterData.GetAttackRate().Returns( 1000 );
+
+            GameMonster systemUnderTest = new GameMonster( mockMonsterData );
+            systemUnderTest.Tick( 1000 );
+
+            Assert.AreEqual( 0, systemUnderTest.AttackCycle );
+        }
+
+        [Test]
+        public void AfterTick_WhenAttackCycled_ValueIsAsExpected() {
+            IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
+            mockMonsterData.GetAttackRate().Returns( 1000 );
+
+            GameMonster systemUnderTest = new GameMonster( mockMonsterData );
+            systemUnderTest.Tick( 1100 );
+
+            Assert.AreEqual( 100, systemUnderTest.AttackCycle );
+        }
+
+        [Test]
+        public void NegativeTicks_DoNotChangeAttackCycle() {
+            IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
+            mockMonsterData.GetAttackRate().Returns( 1000 );
+
+            GameMonster systemUnderTest = new GameMonster( mockMonsterData );
+            systemUnderTest.Tick( -1000 );
+
+            Assert.AreEqual( 0, systemUnderTest.AttackCycle );
+        }
+
+        [Test]
+        public void AfterTick_IfLappingCycle_ValueIsAsExpected() {
+            IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
+            mockMonsterData.GetAttackRate().Returns( 1000 );
+
+            GameMonster systemUnderTest = new GameMonster( mockMonsterData );
+            systemUnderTest.Tick( 2254 );
+
+            Assert.AreEqual( 254, systemUnderTest.AttackCycle );
+        }
     }
 }

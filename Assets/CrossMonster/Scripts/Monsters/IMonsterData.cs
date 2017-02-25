@@ -8,6 +8,6 @@ namespace CrossMonsters {
         int GetDefenseType();
         int GetDamage();
         int GetDamageType();
-        float GetAttackRate();
+        long GetAttackRate();
     }
 }

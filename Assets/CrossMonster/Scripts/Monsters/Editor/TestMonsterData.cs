@@ -16,7 +16,7 @@ namespace CrossMonsters {
             systemUnderTest.Damage = 10;
             systemUnderTest.DamageType = 1;
             systemUnderTest.DefenseType = 2;
-            systemUnderTest.AttackRate = 1.5f;
+            systemUnderTest.AttackRate = 1500;
             systemUnderTest.Defense = 11;
 
             Assert.AreEqual( 100, systemUnderTest.GetMaxHP() );
@@ -24,7 +24,7 @@ namespace CrossMonsters {
             Assert.AreEqual( 10, systemUnderTest.GetDamage() );
             Assert.AreEqual( 1, systemUnderTest.GetDamageType() );
             Assert.AreEqual( 2, systemUnderTest.GetDefenseType() );
-            Assert.AreEqual( 1.5f, systemUnderTest.GetAttackRate() );
+            Assert.AreEqual( 1500, systemUnderTest.GetAttackRate() );
             Assert.AreEqual( 11, systemUnderTest.GetDefense() );
         }
     }
