@@ -19,8 +19,9 @@ namespace CrossMonsters {
         private Dictionary<int, int> mPieceRotations;
         public Dictionary<int, int> PieceRotations { get { return mPieceRotations; } set { mPieceRotations = value; } }
 
-        private List<int> mPieceTypes;
         public List<int> PieceTypes;
+
+        public int BoardSize;
 
         public GameRules() {
             PieceTypes = new List<int>() { 0, 1, 2, 3, 4 };
@@ -37,6 +38,14 @@ namespace CrossMonsters {
 
         public int GetActiveMonsterCount() {
             return 4;
+        }
+
+        public int GetBoardSize() {
+            return 6;
+        }
+
+        public List<int> GetPieceTypes() {
+            return PieceTypes;
         }
     }
 }
