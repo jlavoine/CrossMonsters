@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using MyLibrary;
 
 namespace CrossMonsters {
     public class GameMonster : IGameMonster {
@@ -32,11 +33,28 @@ namespace CrossMonsters {
                 i_time = 0;
             }
 
-            AttackCycle += i_time;
+            AddTimeToAttackCycle( i_time );            
 
             while ( AttackCycle >= AttackRate ) {
-                AttackCycle -= AttackRate;
+                PerformAttack();                
             }
+        }
+
+        private void AddTimeToAttackCycle( long i_time ) {
+            AttackCycle += i_time;
+        }
+
+        private void PerformAttack() {
+            RemoveAttackRateFromCycle();
+            SendAttackMessage();
+        }
+
+        private void RemoveAttackRateFromCycle() {
+            AttackCycle -= AttackRate;
+        }
+
+        private void SendAttackMessage() {
+            MyMessenger.Instance.Send<IGameMonster>( GameMessages.MONSTER_ATTACK, this );
         }
 
         public bool IsDead() {

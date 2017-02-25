@@ -8,7 +8,7 @@ using MyLibrary;
 
 namespace CrossMonsters {
     [TestFixture]
-    public class TestGameMonster {
+    public class TestGameMonster : CrossMonstersUnitTest {
         [Test]
         public void WhenCreating_RemainingHP_EqualsMaxHP() {
             IMonsterData mockData = Substitute.For<IMonsterData>();
@@ -132,6 +132,24 @@ namespace CrossMonsters {
             systemUnderTest.Tick( 2254 );
 
             Assert.AreEqual( 254, systemUnderTest.AttackCycle );
+        }
+
+        static object[] AttackCountTests = {
+            new object[] { 1000, 1 },
+            new object[] { 1500, 1 },
+            new object[] { 2000, 2 },
+            new object[] { 2222, 2 },
+        };
+
+        [Test, TestCaseSource("AttackCountTests")]
+        public void AfterTick_IfLappingCycle_CorrectNumberOfAttacksSent( long i_tick, int i_expectedAttacks ) {
+            IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
+            mockMonsterData.GetAttackRate().Returns( 1000 );
+
+            GameMonster systemUnderTest = new GameMonster( mockMonsterData );
+            systemUnderTest.Tick( i_tick );
+
+            MyMessenger.Instance.Received( i_expectedAttacks ).Send<IGameMonster>( GameMessages.MONSTER_ATTACK, systemUnderTest );
         }
     }
 }
