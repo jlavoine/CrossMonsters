@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace CrossMonsters {
     public class GameRules : IGameRules {
@@ -16,8 +16,15 @@ namespace CrossMonsters {
             }
         }
 
+        private Dictionary<int, int> mPieceRotations;
+        public Dictionary<int, int> PieceRotations { get { return mPieceRotations; } set { mPieceRotations = value; } }
+
         public int GetGamePieceRotation( int i_pieceType ) {
-            throw new NotImplementedException();
+            if ( PieceRotations.ContainsKey( i_pieceType ) ) {
+                return PieceRotations[i_pieceType];
+            } else {
+                return i_pieceType;
+            }
         }
     }
 }
