@@ -2,6 +2,7 @@
 using NSubstitute;
 using UnityEngine;
 using MyLibrary;
+using System.Collections.Generic;
 
 #pragma warning disable 0219
 #pragma warning disable 0414
@@ -28,16 +29,20 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenCreating_StatsSetToDataValues() {
+            List<int> mockAttackCombo = new List<int>() { 1, 2, 3 };
+
             IMonsterData mockData = Substitute.For<IMonsterData>();
             mockData.GetDefense().Returns( 10 );
             mockData.GetDefenseType().Returns( 2 );
             mockData.GetAttackRate().Returns( 1500 );
+            mockData.GetAttackCombo().Returns( mockAttackCombo );
 
             GameMonster systemUnderTest = new GameMonster( mockData );
 
             Assert.AreEqual( 10, systemUnderTest.Defense );
             Assert.AreEqual( 2, systemUnderTest.DefenseType );
             Assert.AreEqual( 1500, systemUnderTest.AttackRate );
+            Assert.AreEqual( mockAttackCombo, systemUnderTest.AttackCombo );
         }
 
         static object[] DamagedTestCases = {
@@ -150,6 +155,26 @@ namespace CrossMonsters {
             systemUnderTest.Tick( i_tick );
 
             MyMessenger.Instance.Received( i_expectedAttacks ).Send<IGameMonster>( GameMessages.MONSTER_ATTACK, systemUnderTest );
+        }
+
+        static object[] AttackComboMatchTests = {
+            new object[] { new List<int>() { 1, 2, 3 }, true },
+            new object[] { new List<int>() { 1, 2, 3, 4 }, false },
+            new object[] { new List<int>() { 1, 2 }, false },
+            new object[] { null, false },
+            new object[] { new List<int>(), false },
+        };
+
+        [Test, TestCaseSource( "AttackComboMatchTests" )]
+        public void DoesMatchCombo_ReturnsAsExpected( List<int> i_comboAttempt, bool i_expectedMatch ) {
+            IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
+            mockMonsterData.GetAttackCombo().Returns( new List<int>() { 1, 2, 3 });
+
+            GameMonster systemUnderTest = new GameMonster( mockMonsterData );
+
+            bool doesMatch = systemUnderTest.DoesMatchCombo( i_comboAttempt );
+
+            Assert.AreEqual( i_expectedMatch, doesMatch );
         }
     }
 }

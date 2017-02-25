@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using MyLibrary;
+using System.Collections.Generic;
 
 namespace CrossMonsters {
     public class GameMonster : IGameMonster {
@@ -7,11 +8,13 @@ namespace CrossMonsters {
         private int mDefense;
         private int mDefenseType;
         private long mAttackRate;
+        private List<int> mAttackCombo;
 
         public int RemainingHP { get { return mRemainingHP; } set { mRemainingHP = value; } }        
         public int Defense { get { return mDefense; } set { mDefense = value; } }        
         public int DefenseType { get { return mDefenseType; } set { mDefenseType = value; } }
         public long AttackRate { get { return mAttackRate; } set { mAttackRate = value; } }
+        public List<int> AttackCombo { get { return mAttackCombo; } set { mAttackCombo = value; } }
 
         private float mAttackCycle;
         public float AttackCycle { get { return mAttackCycle; } set { mAttackCycle = value; } }
@@ -38,6 +41,20 @@ namespace CrossMonsters {
             while ( AttackCycle >= AttackRate ) {
                 PerformAttack();                
             }
+        }
+
+        public bool DoesMatchCombo( List<int> i_combo ) {
+            if ( i_combo == null || i_combo.Count != AttackCombo.Count ) {
+                return false;
+            }
+
+            for ( int i = 0; i < AttackCombo.Count; ++i ) {
+                if ( AttackCombo[i] != i_combo[i] ) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void AddTimeToAttackCycle( long i_time ) {
@@ -70,6 +87,7 @@ namespace CrossMonsters {
             Defense = i_data.GetDefense();
             DefenseType = i_data.GetDefenseType();
             AttackRate = i_data.GetAttackRate();
+            AttackCombo = i_data.GetAttackCombo();
         }
     }
 }
