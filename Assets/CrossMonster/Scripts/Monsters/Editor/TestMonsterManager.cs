@@ -27,5 +27,42 @@ namespace CrossMonsters {
                 monster.Received().Tick( 1000 );
             }
         }
+
+        [Test]
+        public void WhenProcessingPlayerMove_AnyMatchingCurrentMonsters_GetAttacked() {
+            IGamePlayer mockPlayer = Substitute.For<IGamePlayer>();
+            List<int> mockMove = new List<int>();
+            MonsterManager systemUnderTest = new MonsterManager();
+
+            List<IGameMonster> mockCurrentMonsters = new List<IGameMonster>();
+            mockCurrentMonsters.Add( GetMockMonsterWithMatchCombo( true ) );
+            mockCurrentMonsters.Add( GetMockMonsterWithMatchCombo( false ) );
+            mockCurrentMonsters.Add( GetMockMonsterWithMatchCombo( false ) );
+
+            List<IGameMonster> mockRemainingMonsters = new List<IGameMonster>();
+            mockRemainingMonsters.Add( GetMockMonsterWithMatchCombo( true ) );
+            mockRemainingMonsters.Add( GetMockMonsterWithMatchCombo( false ) );
+            mockRemainingMonsters.Add( GetMockMonsterWithMatchCombo( false ) );
+
+            systemUnderTest.CurrentMonsters = mockCurrentMonsters;
+            systemUnderTest.RemainingMonsters = mockRemainingMonsters;
+
+            systemUnderTest.ProcessPlayerMove( mockPlayer, mockMove );
+
+            mockCurrentMonsters[0].Received( 1 ).AttackedByPlayer( mockPlayer );
+            mockCurrentMonsters[1].Received( 0 ).AttackedByPlayer( mockPlayer );
+            mockCurrentMonsters[2].Received( 0 ).AttackedByPlayer( mockPlayer );
+
+            mockRemainingMonsters[0].Received( 0 ).AttackedByPlayer( mockPlayer );
+            mockRemainingMonsters[1].Received( 0 ).AttackedByPlayer( mockPlayer );
+            mockRemainingMonsters[2].Received( 0 ).AttackedByPlayer( mockPlayer );
+        }
+
+        private IGameMonster GetMockMonsterWithMatchCombo( bool i_doesMatch ) {
+            IGameMonster mockMonster = Substitute.For<IGameMonster>();
+            mockMonster.DoesMatchCombo( Arg.Any<List<int>>() ).Returns( i_doesMatch );
+
+            return mockMonster;
+        }
     }
 }

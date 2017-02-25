@@ -13,5 +13,13 @@ namespace CrossMonsters {
                 monster.Tick( i_time );
             }
         }
+
+        public void ProcessPlayerMove( IGamePlayer i_player, List<int> i_move ) {
+            foreach ( IGameMonster monster in CurrentMonsters ) {
+                if ( monster.DoesMatchCombo( i_move ) ) {
+                    monster.AttackedByPlayer( i_player );
+                }
+            }
+        }
     }
 }
