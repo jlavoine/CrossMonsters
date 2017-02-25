@@ -11,6 +11,7 @@ namespace CrossMonsters {
             BackendManager.Instance = Substitute.For<IBackendManager>();
             MyMessenger.Instance = Substitute.For<IMessageService>();
             StringTableManager.Instance = Substitute.For<IStringTableManager>();
+            GameRules.Instance = Substitute.For<IGameRules>();
         }
 
         [TearDown]
@@ -18,6 +19,7 @@ namespace CrossMonsters {
             BackendManager.Instance = null;
             MyMessenger.Instance = null;
             StringTableManager.Instance = null;
+            GameRules.Instance = null;
         }
     }
 }
