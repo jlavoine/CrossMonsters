@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace CrossMonsters {
     public interface IMonsterData  {
         string GetId();
@@ -9,5 +10,6 @@ namespace CrossMonsters {
         int GetDamage();
         int GetDamageType();
         long GetAttackRate();
+        List<int> GetAttackCombo();
     }
 }
