@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace CrossMonsters {
     public class GameRules : IGameRules {
         private static IGameRules mInstance;
@@ -13,6 +14,10 @@ namespace CrossMonsters {
                 // tests only!
                 mInstance = value;
             }
+        }
+
+        public int GetGamePieceRotation( int i_pieceType ) {
+            throw new NotImplementedException();
         }
     }
 }
