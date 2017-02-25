@@ -3,5 +3,6 @@
 namespace CrossMonsters {
     public interface IGameRules {
         int GetGamePieceRotation( int i_pieceType );
+        int GetActiveMonsterCount();
     }
 }

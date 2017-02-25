@@ -26,5 +26,9 @@ namespace CrossMonsters {
                 return i_pieceType;
             }
         }
+
+        public int GetActiveMonsterCount() {
+            return 4;
+        }
     }
 }

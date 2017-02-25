@@ -8,5 +8,6 @@ namespace CrossMonsters {
         void AttackedByPlayer( IGamePlayer i_player );
 
         bool DoesMatchCombo( List<int> i_combo );
+        bool IsDead();
     }
 }
