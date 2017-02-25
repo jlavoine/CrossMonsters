@@ -19,11 +19,11 @@ namespace CrossMonsters {
             mockMonsters.Add( Substitute.For<IGameMonster>() );
 
             MonsterManager systemUnderTest = new MonsterManager();
-            systemUnderTest.Monsters = mockMonsters;
+            systemUnderTest.CurrentMonsters = mockMonsters;
 
             systemUnderTest.Tick( 1000 );
 
-            foreach ( IGameMonster monster in systemUnderTest.Monsters ) {
+            foreach ( IGameMonster monster in systemUnderTest.CurrentMonsters ) {
                 monster.Received().Tick( 1000 );
             }
         }
