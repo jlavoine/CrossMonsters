@@ -8,15 +8,25 @@ namespace CrossMonsters {
         private List<IGameMonster> mRemainingMonsters;
         public List<IGameMonster> RemainingMonsters { get { return mRemainingMonsters; } set { mRemainingMonsters = value; } }
 
+        private List<int> mUsedPieceTypes;
+
         // for testing
         public MonsterManager() { }
 
         public MonsterManager( List<IGameMonster> i_allMonsters ) {
+            //SetUsedPieceTypes( i_allMonsters );
+
             CurrentMonsters = new List<IGameMonster>();
             RemainingMonsters = i_allMonsters;
             RemainingMonsters.Shuffle();
+
             FillCurrentMonstersWithRemaining();
-        }        
+        }       
+        
+        /*public void SetUsedPieceTypes( List<IGameMonster> i_monsters ) {
+            mUsedPieceTypes = new List<int>();
+            foreach ( IGameMonster monster in )
+        }*/
 
         public void Tick( long i_time ) {
             foreach ( IGameMonster monster in CurrentMonsters ) {
