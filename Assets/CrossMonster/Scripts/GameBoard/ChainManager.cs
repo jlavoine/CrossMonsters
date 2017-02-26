@@ -49,6 +49,13 @@ namespace CrossMonsters {
             }
         }
 
+        public void CancelChain() {
+            if ( IsActiveChain() ) {
+                ResetChain();
+                SendChainResetEvent();
+            }
+        }
+
         public bool IsNoChain() {
             return mChain == null;
         }
@@ -61,12 +68,20 @@ namespace CrossMonsters {
             mChain = new List<IGamePiece>();
         }
 
+        private void ResetChain() {
+            mChain = null;
+        }
+
         private void AddPieceToChain( IGamePiece i_piece ) {
             mChain.Add( i_piece );
         }
 
         private void SendPieceAddedEvent( IGamePiece i_piece ) {
             MyMessenger.Instance.Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, i_piece );
+        }
+
+        private void SendChainResetEvent() {
+            MyMessenger.Instance.Send( GameMessages.CHAIN_RESET );
         }
 
         private bool IsPieceInChain( IGamePiece i_piece ) {
