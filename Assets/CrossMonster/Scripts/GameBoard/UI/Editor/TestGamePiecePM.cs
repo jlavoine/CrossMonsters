@@ -28,12 +28,24 @@ namespace CrossMonsters {
         }
 
         [Test]
-        public void WhenSelected_BackgroundColorProperty_IsExpected() {
-            GamePiecePM systemUnderTest = new GamePiecePM( Substitute.For<IGamePiece>() );
+        public void WhenPieceIsAddedToChain_IfThisPMsPiece_BackgroundColorPropertyAsExpected() {
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();
+            GamePiecePM systemUnderTest = new GamePiecePM( mockPiece );
 
-            systemUnderTest.Selected();
+            systemUnderTest.OnPieceAddedToChain( mockPiece );
 
             Assert.AreEqual( Color.yellow, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenPieceIsAddedToChain_IfNotPMsPiece_BackgroundColorIsDefault() {
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();
+            IGamePiece notSamePiece = Substitute.For<IGamePiece>();
+            GamePiecePM systemUnderTest = new GamePiecePM( mockPiece );
+
+            systemUnderTest.OnPieceAddedToChain( notSamePiece );
+
+            Assert.AreEqual( Color.white, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
         }
     }
 }

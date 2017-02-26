@@ -18,7 +18,7 @@ namespace CrossMonsters {
         }
 
         public void OnPointerDown() {
-            mPM.Selected();
+            MyMessenger.Instance.Send( GameMessages.START_CHAIN, mPM.GamePiece );
         }
     }
 }

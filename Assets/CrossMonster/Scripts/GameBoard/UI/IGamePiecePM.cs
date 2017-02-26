@@ -2,6 +2,6 @@
 
 namespace CrossMonsters {
     public interface IGamePiecePM : IPresentationModel {
-        void Selected();
+        IGamePiece GamePiece { get; }
     }
 }
