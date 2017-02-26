@@ -15,7 +15,7 @@ namespace CrossMonsters {
             ListenForMessages( true );
 
             SetPieceTypeProperty( i_piece );
-            SetBackgroundColorProperty( Color.white ); // TODO make constant
+            ResetColorBackgroundPropertyToDefault();            
         }
 
         public override void Dispose() {
@@ -25,8 +25,10 @@ namespace CrossMonsters {
         private void ListenForMessages( bool i_listen ) {
             if ( i_listen ) {
                 MyMessenger.Instance.AddListener<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, OnPieceAddedToChain );
+                MyMessenger.Instance.AddListener( GameMessages.CHAIN_RESET, OnChainReset );
             } else {
                 MyMessenger.Instance.RemoveListener<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, OnPieceAddedToChain );
+                MyMessenger.Instance.RemoveListener( GameMessages.CHAIN_RESET, OnChainReset );
             }
         }
 
@@ -36,12 +38,20 @@ namespace CrossMonsters {
             }
         }
 
+        public void OnChainReset() {
+            ResetColorBackgroundPropertyToDefault();
+        }
+
         private void SetPieceTypeProperty( IGamePiece i_piece ) {
             ViewModel.SetProperty( PIECE_TYPE_PROPERTY, i_piece.PieceType.ToString() );
         }
 
         private void SetBackgroundColorProperty( Color i_color ) {
             ViewModel.SetProperty( BG_COLOR_PROPERTY, i_color );
+        }
+
+        private void ResetColorBackgroundPropertyToDefault() {
+            SetBackgroundColorProperty( Color.white ); // TODO make constant
         }
     }
 }

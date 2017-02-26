@@ -15,6 +15,7 @@ namespace CrossMonsters {
             GamePiecePM systemUnderTest = new GamePiecePM( Substitute.For<IGamePiece>() );
 
             MyMessenger.Instance.Received().AddListener<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, Arg.Any<Callback<IGamePiece>>() );
+            MyMessenger.Instance.Received().AddListener( GameMessages.CHAIN_RESET, Arg.Any<Callback>() );
         }
 
         [Test]
@@ -24,6 +25,7 @@ namespace CrossMonsters {
             systemUnderTest.Dispose();
 
             MyMessenger.Instance.Received().RemoveListener<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, Arg.Any<Callback<IGamePiece>>() );
+            MyMessenger.Instance.Received().RemoveListener( GameMessages.CHAIN_RESET, Arg.Any<Callback>() );
         }
 
         [Test]
@@ -60,6 +62,16 @@ namespace CrossMonsters {
             GamePiecePM systemUnderTest = new GamePiecePM( mockPiece );
 
             systemUnderTest.OnPieceAddedToChain( notSamePiece );
+
+            Assert.AreEqual( Color.white, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenChainIsReset_BackgroundColorPropertyIsDefault() {
+            GamePiecePM systemUnderTest = new GamePiecePM( Substitute.For<IGamePiece>() );
+            systemUnderTest.ViewModel.SetProperty( GamePiecePM.BG_COLOR_PROPERTY, Color.yellow );
+
+            systemUnderTest.OnChainReset();
 
             Assert.AreEqual( Color.white, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
         }
