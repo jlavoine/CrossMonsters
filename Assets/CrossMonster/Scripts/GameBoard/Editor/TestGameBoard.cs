@@ -17,7 +17,7 @@ namespace CrossMonsters {
 
             GameBoard systemUnderTest = new GameBoard();
 
-            Assert.AreEqual( 16, systemUnderTest.Board.Length );
+            Assert.AreEqual( 16, systemUnderTest.BoardPieces.Length );
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace CrossMonsters {
 
             GameBoard systemUnderTest = new GameBoard();
 
-            foreach ( IGamePiece piece in systemUnderTest.Board ) {
+            foreach ( IGamePiece piece in systemUnderTest.BoardPieces ) {
                 Assert.Contains( piece.PieceType, pieceTypes );
             }
         }

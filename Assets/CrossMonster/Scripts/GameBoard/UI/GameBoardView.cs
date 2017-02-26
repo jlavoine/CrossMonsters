@@ -4,12 +4,12 @@ using UnityEngine;
 namespace CrossMonsters {
     public class GameBoardView : GroupView {
 
-        public GameObject GamePiecePrefab;
+        public GameObject GamePieceViewPrefab;
 
         private GameBoardPM mPM;
 
         void Start() {
-            mPM = new GameBoardPM();
+            mPM = new GameBoardPM( new GameBoard() );
 
             SetModel( mPM.ViewModel );
         }
