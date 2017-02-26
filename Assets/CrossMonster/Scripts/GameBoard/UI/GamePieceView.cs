@@ -28,5 +28,11 @@ namespace CrossMonsters {
                 ChainManager.Instance.ContinueChain( mPM.GamePiece );
             }
         }
+
+        public void OnPointerUp() {
+            if ( ChainManager.Instance.IsActiveChain() ) {
+                ChainManager.Instance.EndChain();
+            }
+        }
     }
 }

@@ -135,6 +135,24 @@ namespace CrossMonsters {
             MyMessenger.Instance.Received().Send( GameMessages.CHAIN_RESET );
         }
 
+        [Test]
+        public void WhenChainEnded_ChainIsNull() {
+            ChainManager systemUnderTest = CreateChainManager_WithEmptyActiveChain();
+
+            systemUnderTest.EndChain();
+
+            Assert.IsNull( systemUnderTest.Chain );
+        }
+
+        [Test]
+        public void WhenChainEnded_ChainResetEventIsSent() {
+            ChainManager systemUnderTest = CreateChainManager_WithEmptyActiveChain();
+
+            systemUnderTest.EndChain();
+
+            MyMessenger.Instance.Received().Send( GameMessages.CHAIN_RESET );
+        }
+
         private ChainManager CreateChainManager_WithNoChain() {
             ChainManager systemUnderTest = new ChainManager();
             systemUnderTest.Chain = null;

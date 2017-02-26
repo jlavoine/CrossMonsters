@@ -49,6 +49,13 @@ namespace CrossMonsters {
             }
         }
 
+        public void EndChain() {
+            if ( IsActiveChain() ) {
+                ResetChain();
+                SendChainResetEvent();
+            }
+        }
+
         public void CancelChain() {
             if ( IsActiveChain() ) {
                 ResetChain();
