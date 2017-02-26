@@ -40,5 +40,21 @@ namespace CrossMonsters {
 
             Assert.AreEqual( i_expected, systemUnderTest.IsNoCurrentChain() );
         }
+
+        [Test]
+        public void WhenNoChain_StartChain_CreatesChain() {
+            ChainManager systemUnderTest = CreateChainManager_WithNoChain();
+
+            systemUnderTest.StartChain( Substitute.For<IGamePiece>() );
+
+            Assert.IsNotNull( systemUnderTest.Chain );
+        }
+
+        private ChainManager CreateChainManager_WithNoChain() {
+            ChainManager systemUnderTest = new ChainManager();
+            systemUnderTest.Chain = null;
+
+            return systemUnderTest;
+        }
     }
 }

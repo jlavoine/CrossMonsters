@@ -30,15 +30,15 @@ namespace CrossMonsters {
 
         private void ListenForMessages( bool i_listen ) {
             if ( i_listen ) {
-                MyMessenger.Instance.AddListener<IGamePiece>( GameMessages.START_CHAIN, OnStartChain );
+                MyMessenger.Instance.AddListener<IGamePiece>( GameMessages.START_CHAIN, StartChain );
             } else {
-                MyMessenger.Instance.RemoveListener<IGamePiece>( GameMessages.START_CHAIN, OnStartChain );
+                MyMessenger.Instance.RemoveListener<IGamePiece>( GameMessages.START_CHAIN, StartChain );
             }
         }
 
-        public void OnStartChain( IGamePiece i_piece ) {
+        public void StartChain( IGamePiece i_piece ) {
             if ( IsNoCurrentChain() ) {
-                //CreateChain();
+                CreateChain();
                 //AddPieceToChain( i_piece );
                 //SendPieceAddedEvent( i_piece );
             }
