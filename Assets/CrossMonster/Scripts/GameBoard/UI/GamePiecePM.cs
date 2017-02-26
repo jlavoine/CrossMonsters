@@ -11,6 +11,10 @@ namespace CrossMonsters {
             SetBackgroundColorProperty( Color.white ); // TODO make constant
         }
 
+        public void Selected() {
+            SetBackgroundColorProperty( Color.yellow ); // TODO make constant
+        }
+
         private void SetPieceTypeProperty( IGamePiece i_piece ) {
             ViewModel.SetProperty( PIECE_TYPE_PROPERTY, i_piece.PieceType.ToString() );
         }

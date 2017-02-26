@@ -18,7 +18,7 @@ namespace CrossMonsters {
         }
 
         public void OnPointerDown() {
-
+            mPM.Selected();
         }
     }
 }

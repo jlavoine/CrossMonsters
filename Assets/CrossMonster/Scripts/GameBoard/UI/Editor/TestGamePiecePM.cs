@@ -26,5 +26,14 @@ namespace CrossMonsters {
 
             Assert.AreEqual( Color.white, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
         }
+
+        [Test]
+        public void WhenSelected_BackgroundColorProperty_IsExpected() {
+            GamePiecePM systemUnderTest = new GamePiecePM( Substitute.For<IGamePiece>() );
+
+            systemUnderTest.Selected();
+
+            Assert.AreEqual( Color.yellow, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
+        }
     }
 }
