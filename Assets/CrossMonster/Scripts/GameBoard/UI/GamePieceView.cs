@@ -16,5 +16,9 @@ namespace CrossMonsters {
 
             mPM.Dispose();
         }
+
+        public void OnPointerDown() {
+
+        }
     }
 }
