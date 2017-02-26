@@ -1,8 +1,14 @@
 ﻿using MyLibrary;
 
 namespace CrossMonsters {
-    public class GameBoardPM : DefaultModel {
+    public class GameBoardPM : PresentationModel {
 
-        
+        public GameBoardPM() {
+
+        }
+
+        public override void Dispose() {
+
+        }
     }
 }

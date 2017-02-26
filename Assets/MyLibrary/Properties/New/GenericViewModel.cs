@@ -7,5 +7,7 @@ namespace MyLibrary {
         public GenericViewModel() {
             mModel = new ViewModel();
         }
+
+        public virtual void Dispose() { }
     }
 }

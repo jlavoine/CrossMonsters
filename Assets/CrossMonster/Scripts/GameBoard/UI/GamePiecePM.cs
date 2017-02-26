@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 
 namespace CrossMonsters {
-    public class GamePiecePM : DefaultModel {
+    public class GamePiecePM : PresentationModel, IGamePiecePM {
 
     }
 }
