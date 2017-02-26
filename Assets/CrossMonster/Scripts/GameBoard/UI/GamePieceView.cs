@@ -18,7 +18,15 @@ namespace CrossMonsters {
         }
 
         public void OnPointerDown() {
-            MyMessenger.Instance.Send( GameMessages.START_CHAIN, mPM.GamePiece );
+            if ( ChainManager.Instance.IsNoChain() ) {
+                ChainManager.Instance.StartChain( mPM.GamePiece );
+            }
+        }
+
+        public void OnPointerEnter() {
+            if ( ChainManager.Instance.IsActiveChain() ) {
+                ChainManager.Instance.ContinueChain( mPM.GamePiece );
+            }
         }
     }
 }

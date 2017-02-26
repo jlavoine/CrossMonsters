@@ -13,9 +13,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenCreating_SubscribesToExpectedMessages() {
-            ChainManager systemUnderTest = new ChainManager();
-
-            MyMessenger.Instance.Received().AddListener<IGamePiece>( GameMessages.START_CHAIN, Arg.Any<Callback<IGamePiece>>() );
+            //ChainManager systemUnderTest = new ChainManager();
         }
 
         [Test]
@@ -23,8 +21,6 @@ namespace CrossMonsters {
             ChainManager systemUnderTest = new ChainManager();
 
             systemUnderTest.Dispose();
-
-            MyMessenger.Instance.Received().RemoveListener<IGamePiece>( GameMessages.START_CHAIN, Arg.Any<Callback<IGamePiece>>() );
         }
 
         static object[] IsNoChainTests = {
@@ -38,7 +34,7 @@ namespace CrossMonsters {
             ChainManager systemUnderTest = new ChainManager();
             systemUnderTest.Chain = i_chain;
 
-            Assert.AreEqual( i_expected, systemUnderTest.IsNoCurrentChain() );
+            Assert.AreEqual( i_expected, systemUnderTest.IsNoChain() );
         }
 
         [Test]
@@ -48,6 +44,17 @@ namespace CrossMonsters {
             systemUnderTest.StartChain( Substitute.For<IGamePiece>() );
 
             Assert.IsNotNull( systemUnderTest.Chain );
+        }
+
+        [Test]
+        public void WhenAlreadyChain_StartChain_DoesNotChangeChain() {
+            List<IGamePiece> mockChain = new List<IGamePiece>();
+            ChainManager systemUnderTest = new ChainManager();
+            systemUnderTest.Chain = mockChain;
+
+            systemUnderTest.StartChain( Substitute.For<IGamePiece>() );
+
+            Assert.AreEqual( mockChain, systemUnderTest.Chain );
         }
 
         [Test]
@@ -70,9 +77,45 @@ namespace CrossMonsters {
             MyMessenger.Instance.Received().Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, mockPiece );
         }
 
+        [Test]
+        public void WhenNoChain_ContinuingChain_DoesNothing() {
+            ChainManager systemUnderTest = CreateChainManager_WithNoChain();
+
+            systemUnderTest.ContinueChain( Substitute.For<IGamePiece>() );
+
+            Assert.IsNull( systemUnderTest.Chain );
+        }
+
+        [Test]
+        public void WhenActiveChain_ContinuingChain_AddPieceToChain() {
+            ChainManager systemUnderTest = CreateChainManager_WithEmptyActiveChain();
+
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();
+            systemUnderTest.ContinueChain( mockPiece );
+
+            Assert.Contains( mockPiece, systemUnderTest.Chain );
+        }
+
+        [Test]
+        public void WhenActiveChain_ContinuingChain_SendsPieceAddedEvent() {
+            ChainManager systemUnderTest = CreateChainManager_WithEmptyActiveChain();
+
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();
+            systemUnderTest.ContinueChain( mockPiece );
+
+            MyMessenger.Instance.Received().Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, mockPiece );
+        }
+
         private ChainManager CreateChainManager_WithNoChain() {
             ChainManager systemUnderTest = new ChainManager();
             systemUnderTest.Chain = null;
+
+            return systemUnderTest;
+        }
+
+        private ChainManager CreateChainManager_WithEmptyActiveChain() {
+            ChainManager systemUnderTest = new ChainManager();
+            systemUnderTest.Chain = new List<IGamePiece>();
 
             return systemUnderTest;
         }

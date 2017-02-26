@@ -30,22 +30,31 @@ namespace CrossMonsters {
 
         private void ListenForMessages( bool i_listen ) {
             if ( i_listen ) {
-                MyMessenger.Instance.AddListener<IGamePiece>( GameMessages.START_CHAIN, StartChain );
             } else {
-                MyMessenger.Instance.RemoveListener<IGamePiece>( GameMessages.START_CHAIN, StartChain );
             }
         }
 
         public void StartChain( IGamePiece i_piece ) {
-            if ( IsNoCurrentChain() ) {
+            if ( IsNoChain() ) {
                 CreateChain();
                 AddPieceToChain( i_piece );
                 SendPieceAddedEvent( i_piece );
             }
         }
 
-        public bool IsNoCurrentChain() {
+        public void ContinueChain( IGamePiece i_piece ) {
+            if ( IsActiveChain() ) {
+                AddPieceToChain( i_piece );
+                SendPieceAddedEvent( i_piece );
+            }
+        }
+
+        public bool IsNoChain() {
             return mChain == null;
+        }
+
+        public bool IsActiveChain() {
+            return mChain != null;
         }
 
         private void CreateChain() {
