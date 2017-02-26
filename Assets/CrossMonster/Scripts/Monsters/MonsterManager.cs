@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace CrossMonsters {
-    public class MonsterManager {
+    public class MonsterManager : IMonsterManager {
         private List<IGameMonster> mCurrentMonsters;
         public List<IGameMonster> CurrentMonsters { get { return mCurrentMonsters; } set { mCurrentMonsters = value; } }
 

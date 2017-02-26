@@ -36,6 +36,7 @@ namespace CrossMonsters {
             mockData.GetDefenseType().Returns( 2 );
             mockData.GetAttackRate().Returns( 1500 );
             mockData.GetAttackCombo().Returns( mockAttackCombo );
+            mockData.GetId().Returns( "Blob" );
 
             GameMonster systemUnderTest = new GameMonster( mockData );
 
@@ -43,6 +44,7 @@ namespace CrossMonsters {
             Assert.AreEqual( 2, systemUnderTest.DefenseType );
             Assert.AreEqual( 1500, systemUnderTest.AttackRate );
             Assert.AreEqual( mockAttackCombo, systemUnderTest.AttackCombo );
+            Assert.AreEqual( "Blob", systemUnderTest.Id );
         }
 
         static object[] DamagedTestCases = {

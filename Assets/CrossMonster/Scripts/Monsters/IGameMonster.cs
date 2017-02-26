@@ -2,6 +2,7 @@
 
 namespace CrossMonsters {
     public interface IGameMonster {
+        string Id { get; }
         int RemainingHP { get; set; }
 
         void Tick( long i_time );
