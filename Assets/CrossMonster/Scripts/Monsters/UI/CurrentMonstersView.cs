@@ -29,6 +29,7 @@ namespace CrossMonsters {
             MonsterData blobData = new MonsterData();
             blobData.Id = "Blob";
             blobData.MaxHP = 25;
+            blobData.AttackCombo = new List<int>() { 0, 0 };
 
             monsters.Add( new GameMonster( blobData ) );
 
