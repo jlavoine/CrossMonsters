@@ -39,7 +39,7 @@ namespace CrossMonsters {
         public void StartChain( IGamePiece i_piece ) {
             if ( IsNoCurrentChain() ) {
                 CreateChain();
-                //AddPieceToChain( i_piece );
+                AddPieceToChain( i_piece );
                 //SendPieceAddedEvent( i_piece );
             }
         }

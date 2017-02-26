@@ -50,6 +50,16 @@ namespace CrossMonsters {
             Assert.IsNotNull( systemUnderTest.Chain );
         }
 
+        [Test]
+        public void WhenNoChain_StartChain_AddsPieceToChain() {
+            ChainManager systemUnderTest = CreateChainManager_WithNoChain();
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();
+
+            systemUnderTest.StartChain( mockPiece );
+
+            Assert.Contains( mockPiece, systemUnderTest.Chain );
+        }
+
         private ChainManager CreateChainManager_WithNoChain() {
             ChainManager systemUnderTest = new ChainManager();
             systemUnderTest.Chain = null;
