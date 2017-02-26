@@ -1,4 +1,5 @@
 ﻿using MyLibrary;
+using System.Collections.Generic;
 
 namespace CrossMonsters {
     public class MonsterPM : PresentationModel, IMonsterPM {
@@ -6,6 +7,7 @@ namespace CrossMonsters {
         public const string HP_PROPERTY = "HP";
 
         private IGameMonster mMonster;
+        public List<int> AttackCombo { get { return mMonster.AttackCombo; } }
 
         public MonsterPM( IGameMonster i_monster ) {
             mMonster = i_monster;
