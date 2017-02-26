@@ -106,6 +106,17 @@ namespace CrossMonsters {
             MyMessenger.Instance.Received().Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, mockPiece );
         }
 
+        [Test]
+        public void WhenContinuingChain_DuplicatePiecesNotAdded() {
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();
+            ChainManager systemUnderTest = new ChainManager();
+            systemUnderTest.Chain = new List<IGamePiece>() { mockPiece };
+
+            systemUnderTest.ContinueChain( mockPiece );
+
+            Assert.AreEqual( 1, systemUnderTest.Chain.Count );
+        }
+
         private ChainManager CreateChainManager_WithNoChain() {
             ChainManager systemUnderTest = new ChainManager();
             systemUnderTest.Chain = null;

@@ -18,13 +18,17 @@ namespace CrossMonsters {
         }
 
         public void OnPointerDown() {
+            UnityEngine.Debug.LogError( "S1" );
             if ( ChainManager.Instance.IsNoChain() ) {
+                UnityEngine.Debug.LogError( "S2" );
                 ChainManager.Instance.StartChain( mPM.GamePiece );
             }
         }
 
         public void OnPointerEnter() {
+            UnityEngine.Debug.LogError( "a" );
             if ( ChainManager.Instance.IsActiveChain() ) {
+                UnityEngine.Debug.LogError( "b" );
                 ChainManager.Instance.ContinueChain( mPM.GamePiece );
             }
         }

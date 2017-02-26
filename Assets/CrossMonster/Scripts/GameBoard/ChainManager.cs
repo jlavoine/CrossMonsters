@@ -43,7 +43,9 @@ namespace CrossMonsters {
         }
 
         public void ContinueChain( IGamePiece i_piece ) {
-            if ( IsActiveChain() ) {
+            UnityEngine.Debug.LogError( "continuing the chain" );
+            if ( IsActiveChain() && !IsPieceInChain( i_piece ) ) {
+                UnityEngine.Debug.LogError( "continuing the chain2" );
                 AddPieceToChain( i_piece );
                 SendPieceAddedEvent( i_piece );
             }
@@ -67,6 +69,10 @@ namespace CrossMonsters {
 
         private void SendPieceAddedEvent( IGamePiece i_piece ) {
             MyMessenger.Instance.Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, i_piece );
+        }
+
+        private bool IsPieceInChain( IGamePiece i_piece ) {
+            return Chain.Contains( i_piece );
         }
     }
 }
