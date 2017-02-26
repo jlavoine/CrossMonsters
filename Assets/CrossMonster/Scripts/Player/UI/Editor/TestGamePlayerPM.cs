@@ -10,6 +10,13 @@ using System.Collections.Generic;
 namespace CrossMonsters {
     [TestFixture]
     public class TestGamePlayerPM : CrossMonstersUnitTest {
+        [Test]
+        public void HpProperty_MatchesGamePlayerHP() {
+            IGamePlayer mockPlayer = Substitute.For<IGamePlayer>();
+            mockPlayer.HP.Returns( 100 );
+            GamePlayerPM systemUnderTest = new GamePlayerPM( mockPlayer );
 
+            Assert.AreEqual( 100, systemUnderTest.ViewModel.GetPropertyValue<int>( GamePlayerPM.HP_PROPERTY ) );
+        }
     }
 }
