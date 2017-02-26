@@ -29,7 +29,7 @@ namespace CrossMonsters {
         }
 
         private void ListenForMessages( bool i_listen ) {
-            if ( i_listen ) {
+            if ( i_listen ) {                
             } else {
             }
         }

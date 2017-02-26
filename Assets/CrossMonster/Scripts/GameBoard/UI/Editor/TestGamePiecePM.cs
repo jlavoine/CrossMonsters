@@ -11,6 +11,22 @@ namespace CrossMonsters {
     [TestFixture]
     public class TestGamePiecePM : CrossMonstersUnitTest {
         [Test]
+        public void WhenCreating_SubscribesToExpectedMessages() {
+            GamePiecePM systemUnderTest = new GamePiecePM( Substitute.For<IGamePiece>() );
+
+            MyMessenger.Instance.Received().AddListener<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, Arg.Any<Callback<IGamePiece>>() );
+        }
+
+        [Test]
+        public void WhenDisposing_UnsubscribesToExpectedMessages() {
+            GamePiecePM systemUnderTest = new GamePiecePM( Substitute.For<IGamePiece>() );
+
+            systemUnderTest.Dispose();
+
+            MyMessenger.Instance.Received().RemoveListener<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, Arg.Any<Callback<IGamePiece>>() );
+        }
+
+        [Test]
         public void WhenCreating_PieceTypeProperty_MatchesPieceType() {
             IGamePiece mockPiece = Substitute.For<IGamePiece>();
             mockPiece.PieceType.Returns( 3 );

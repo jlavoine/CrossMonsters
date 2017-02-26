@@ -12,12 +12,14 @@ namespace CrossMonsters {
         public GamePiecePM( IGamePiece i_piece ) {
             GamePiece = i_piece;
 
+            ListenForMessages( true );
+
             SetPieceTypeProperty( i_piece );
             SetBackgroundColorProperty( Color.white ); // TODO make constant
         }
 
         public override void Dispose() {
-
+            ListenForMessages( false );
         }
 
         private void ListenForMessages( bool i_listen ) {
