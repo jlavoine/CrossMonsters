@@ -1,6 +1,7 @@
-﻿
+﻿using MyLibrary;
+
 namespace CrossMonsters {
-    public interface IGamePiecePM {
+    public interface IGamePiecePM : IPresentationModel {
 
     }
 }

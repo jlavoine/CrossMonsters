@@ -3,9 +3,9 @@
 namespace CrossMonsters {
     public class GamePieceView : GroupView {
 
-        private GamePiecePM mPM;
+        private IGamePiecePM mPM;
 
-        void Init( GamePiecePM i_pm ) {
+        public void Init( IGamePiecePM i_pm ) {
             mPM = i_pm;
 
             SetModel( i_pm.ViewModel );

@@ -1,5 +1,6 @@
 ﻿using MyLibrary;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace CrossMonsters {
     public class GameBoardView : GroupView {
@@ -11,6 +12,8 @@ namespace CrossMonsters {
         void Start() {
             mPM = new GameBoardPM( new GameBoard() );
 
+            CreateGamePieceViews();
+
             SetModel( mPM.ViewModel );
         }
 
@@ -18,6 +21,15 @@ namespace CrossMonsters {
             base.OnDestroy();
 
             mPM.Dispose();
+        }
+
+        private void CreateGamePieceViews() {
+            List<IGamePiecePM> gamePiecePMs = mPM.GamePiecePMs;
+            foreach ( IGamePiecePM piecePM in gamePiecePMs ) {
+                GameObject pieceObject = gameObject.InstantiateUI( GamePieceViewPrefab, gameObject );
+                GamePieceView pieceView = pieceObject.GetComponent<GamePieceView>();
+                pieceView.Init( piecePM );
+            }
         }
     }
 }
