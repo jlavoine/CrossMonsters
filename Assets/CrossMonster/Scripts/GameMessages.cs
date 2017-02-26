@@ -7,5 +7,7 @@ namespace CrossMonsters {
         public const string CONTINUE_CHAIN = "ContinueChain";
         public const string END_CHAIN = "EndChain";
         public const string CANCEL_CHAIN = "CancelChain";
+
+        public const string PIECE_ADDED_TO_CHAIN = "PieceAddedToChain";
     }
 }

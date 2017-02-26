@@ -40,7 +40,7 @@ namespace CrossMonsters {
             if ( IsNoCurrentChain() ) {
                 CreateChain();
                 AddPieceToChain( i_piece );
-                //SendPieceAddedEvent( i_piece );
+                SendPieceAddedEvent( i_piece );
             }
         }
 
