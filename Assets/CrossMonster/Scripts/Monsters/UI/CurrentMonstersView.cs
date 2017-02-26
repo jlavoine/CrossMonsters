@@ -26,14 +26,21 @@ namespace CrossMonsters {
         // TODO just for testing
         private List<IGameMonster> GetMonsters() {
             List<IGameMonster> monsters = new List<IGameMonster>();
-            MonsterData blobData = new MonsterData();
-            blobData.Id = "Blob";
-            blobData.MaxHP = 25;
-            blobData.AttackCombo = new List<int>() { 0, 0 };
+            
 
-            monsters.Add( new GameMonster( blobData ) );
+            monsters.Add( GetMonsterDataTEMP( "Blob", 25, new List<int>() { 0, 0 } ) );
+            monsters.Add( GetMonsterDataTEMP( "Dragon", 50, new List<int>() { 1, 1 } ) );
 
             return monsters;
+        }
+
+        private GameMonster GetMonsterDataTEMP( string i_id, int i_hp, List<int> i_combo ) {
+            MonsterData data = new MonsterData();
+            data.Id = i_id;
+            data.MaxHP = i_hp;
+            data.AttackCombo = i_combo;
+
+            return new GameMonster( data );
         }
     }
 }
