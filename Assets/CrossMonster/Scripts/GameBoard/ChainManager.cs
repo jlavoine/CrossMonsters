@@ -1,4 +1,5 @@
 ﻿using MyLibrary;
+using System.Collections.Generic;
 
 namespace CrossMonsters {
     public class ChainManager : IChainManager {
@@ -15,6 +16,9 @@ namespace CrossMonsters {
                 mInstance = value;
             }
         }
+
+        private List<IGamePiece> mChain = null;
+        public List<IGamePiece> Chain { get { return mChain; } set { mChain = value; } }
 
         public ChainManager() {
             ListenForMessages( true );
@@ -33,7 +37,27 @@ namespace CrossMonsters {
         }
 
         public void OnStartChain( IGamePiece i_piece ) {
+            if ( IsNoCurrentChain() ) {
+                //CreateChain();
+                //AddPieceToChain( i_piece );
+                //SendPieceAddedEvent( i_piece );
+            }
+        }
 
+        public bool IsNoCurrentChain() {
+            return mChain == null;
+        }
+
+        private void CreateChain() {
+            mChain = new List<IGamePiece>();
+        }
+
+        private void AddPieceToChain( IGamePiece i_piece ) {
+            mChain.Add( i_piece );
+        }
+
+        private void SendPieceAddedEvent( IGamePiece i_piece ) {
+            MyMessenger.Instance.Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, i_piece );
         }
     }
 }

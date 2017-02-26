@@ -26,5 +26,19 @@ namespace CrossMonsters {
 
             MyMessenger.Instance.Received().RemoveListener<IGamePiece>( GameMessages.START_CHAIN, Arg.Any<Callback<IGamePiece>>() );
         }
+
+        static object[] IsNoChainTests = {
+            new object[] { null, true },
+            new object[] { new List<IGamePiece>(), false },
+            new object[] { new List<IGamePiece>() { Substitute.For<IGamePiece>() }, false }
+        };
+
+        [Test, TestCaseSource("IsNoChainTests")]
+        public void IsNoChain_ReturnsAsExpected( List<IGamePiece> i_chain, bool i_expected ) {
+            ChainManager systemUnderTest = new ChainManager();
+            systemUnderTest.Chain = i_chain;
+
+            Assert.AreEqual( i_expected, systemUnderTest.IsNoCurrentChain() );
+        }
     }
 }
