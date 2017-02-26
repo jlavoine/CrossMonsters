@@ -72,7 +72,7 @@ namespace MyLibrary {
 
         private void InitPopup( GameObject i_popup, QueuedInfoPopupData i_popupData ) {
             InfoPopupView infoView = i_popup.GetComponent<InfoPopupView>();
-            infoView.Init( i_popupData.ViewModel );
+            infoView.SetModel( i_popupData.ViewModel );
         }
 
         private void RemovedPopupDataFromList( QueuedInfoPopupData i_popupData ) {
