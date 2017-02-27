@@ -53,5 +53,15 @@ namespace CrossMonsters {
 
             Assert.AreEqual( 90, systemUnderTest.HP );
         }
+
+        [Test]
+        public void WhenAttacked_UpdateMessageIsSent() {
+            DamageCalculator.Instance.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );
+            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>() );
+
+            systemUnderTest.OnAttacked( Substitute.For<IGameMonster>() );
+
+            MyMessenger.Instance.Received().Send( GameMessages.UPDATE_PLAYER_HP );
+        }
     }
 }
