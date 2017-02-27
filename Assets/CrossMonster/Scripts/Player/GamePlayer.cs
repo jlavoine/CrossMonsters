@@ -28,16 +28,9 @@ namespace CrossMonsters {
         }
 
         public void OnAttacked( IGameMonster i_monster ) {
-            int damageTaken = GetDamageFromMonster( i_monster );
+            int damageTaken = DamageCalculator.Instance.GetDamageFromMonster( i_monster, this );
             RemoveHP( damageTaken );
             SendUpdateHealthMessage();
-        }
-
-        public int GetDamageFromMonster( IGameMonster i_monster ) {
-            int monsterAttack = i_monster.AttackPower;
-            int playerDefense = GetDefenseForType( i_monster.AttackType );
-
-            return Mathf.Max( 1, monsterAttack - playerDefense );
         }
 
         public int GetAttackPowerForType( int i_type ) {

@@ -43,24 +43,15 @@ namespace CrossMonsters {
             Assert.AreEqual( 100, systemUnderTest.GetDefenseForType( 0 ) );
         }
 
-        static object[] GetDamageFromMonsterTests = {
-            new object[] { 100, 0, 100 },
-            new object[] { 100, 50, 50 },
-            new object[] { 100, 1000, 1 },
-        };
+        [Test]
+        public void WhenAttacked_DamageIsSubstractedFromHP() {
+            DamageCalculator.Instance.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );
+            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>() );
+            systemUnderTest.HP = 100;
 
-        [Test, TestCaseSource("GetDamageFromMonsterTests")]
-        public void GetDamageFromMonster_ReturnsAsExpected( int i_monsterAttack, int i_playerDefenseForType, int i_expectedDamage ) {
-            IGameMonster mockMonster = Substitute.For<IGameMonster>();
-            mockMonster.AttackPower.Returns( i_monsterAttack );
+            systemUnderTest.OnAttacked( Substitute.For<IGameMonster>() );
 
-            IPlayerData mockPlayerData = Substitute.For<IPlayerData>();
-            mockPlayerData.GetDefenseForType( Arg.Any<int>() ).Returns( i_playerDefenseForType );
-
-            GamePlayer systemUnderTest = new GamePlayer( mockPlayerData );
-
-            int damageTaken = systemUnderTest.GetDamageFromMonster( mockMonster );
-            Assert.AreEqual( i_expectedDamage, damageTaken );
-        } 
+            Assert.AreEqual( 90, systemUnderTest.HP );
+        }
     }
 }

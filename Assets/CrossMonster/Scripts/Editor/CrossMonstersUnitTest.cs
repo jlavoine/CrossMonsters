@@ -13,6 +13,7 @@ namespace CrossMonsters {
             StringTableManager.Instance = Substitute.For<IStringTableManager>();
             GameRules.Instance = Substitute.For<IGameRules>();
             ChainManager.Instance = Substitute.For<IChainManager>();
+            DamageCalculator.Instance = Substitute.For<IDamageCalculator>();
         }
 
         [TearDown]
@@ -22,6 +23,7 @@ namespace CrossMonsters {
             StringTableManager.Instance = null;
             GameRules.Instance = null;
             ChainManager.Instance = null;
+            DamageCalculator.Instance = null;
         }
     }
 }
