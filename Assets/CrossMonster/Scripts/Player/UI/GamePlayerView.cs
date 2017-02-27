@@ -1,4 +1,5 @@
 ﻿using MyLibrary;
+using System.Collections.Generic;
 
 namespace CrossMonsters {
     public class GamePlayerView : GroupView {
@@ -22,6 +23,7 @@ namespace CrossMonsters {
         public IPlayerData GetPlayerData() {
             PlayerData data = new PlayerData();
             data.HP = 100;
+            data.Defenses = new Dictionary<int, int>() { { 0, 5 }, { 1, 5 } };
 
             return data;
         }
