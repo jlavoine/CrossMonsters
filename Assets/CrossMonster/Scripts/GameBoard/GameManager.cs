@@ -40,6 +40,10 @@ namespace CrossMonsters {
             SetState( GameStates.Ended );
         }
 
+        public bool IsGamePlaying() {
+            return State == GameStates.Playing;
+        }
+
         private void SetState( GameStates i_state ) {
             State = i_state;
         }

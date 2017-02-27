@@ -16,7 +16,9 @@ namespace CrossMonsters {
         }
 
         void Update() {
-            TickCurrentMonsters( (long) ( Time.deltaTime * 1000 ) );            
+            if ( GameManager.Instance.IsGamePlaying() ) {
+                TickCurrentMonsters( (long) ( Time.deltaTime * 1000 ) );
+            }           
         }
 
         private void TickCurrentMonsters( long i_tick ) {
