@@ -7,6 +7,8 @@ namespace CrossMonsters {
         private int mRemainingHP;
         private int mDefense;
         private int mDefenseType;
+        public int mAttackPower;
+        public int mAttackType;
         private long mAttackRate;
         private string mId;
         private List<int> mAttackCombo;
@@ -14,6 +16,8 @@ namespace CrossMonsters {
         public int RemainingHP { get { return mRemainingHP; } set { mRemainingHP = value; } }        
         public int Defense { get { return mDefense; } set { mDefense = value; } }        
         public int DefenseType { get { return mDefenseType; } set { mDefenseType = value; } }
+        public int AttackPower { get { return mAttackPower; } set { mAttackPower = value; } }
+        public int AttackType { get { return mAttackType; } set { mAttackType = value; } }
         public long AttackRate { get { return mAttackRate; } set { mAttackRate = value; } }
         public List<int> AttackCombo { get { return mAttackCombo; } set { mAttackCombo = value; } }
         public string Id { get { return mId; } set { mId = value; } }
@@ -88,6 +92,8 @@ namespace CrossMonsters {
             RemainingHP = i_data.GetMaxHP();
             Defense = i_data.GetDefense();
             DefenseType = i_data.GetDefenseType();
+            AttackPower = i_data.GetDamage();
+            AttackType = i_data.GetDamageType();
             AttackRate = i_data.GetAttackRate();
             AttackCombo = i_data.GetAttackCombo();
             Id = i_data.GetId();

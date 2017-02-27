@@ -12,6 +12,12 @@ namespace CrossMonsters {
             SetModel( mPM.ViewModel );
         }
 
+        protected override void OnDestroy() {
+            base.OnDestroy();
+
+            mPM.Dispose();
+        }
+
         // TODO this is just temp testing
         public IPlayerData GetPlayerData() {
             PlayerData data = new PlayerData();

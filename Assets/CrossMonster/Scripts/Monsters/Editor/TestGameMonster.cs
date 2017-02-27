@@ -35,6 +35,8 @@ namespace CrossMonsters {
             mockData.GetDefense().Returns( 10 );
             mockData.GetDefenseType().Returns( 2 );
             mockData.GetAttackRate().Returns( 1500 );
+            mockData.GetDamage().Returns( 1000 );
+            mockData.GetDamageType().Returns( 30 );
             mockData.GetAttackCombo().Returns( mockAttackCombo );
             mockData.GetId().Returns( "Blob" );
 
@@ -43,6 +45,8 @@ namespace CrossMonsters {
             Assert.AreEqual( 10, systemUnderTest.Defense );
             Assert.AreEqual( 2, systemUnderTest.DefenseType );
             Assert.AreEqual( 1500, systemUnderTest.AttackRate );
+            Assert.AreEqual( 1000, systemUnderTest.AttackPower );
+            Assert.AreEqual( 30, systemUnderTest.AttackType );
             Assert.AreEqual( mockAttackCombo, systemUnderTest.AttackCombo );
             Assert.AreEqual( "Blob", systemUnderTest.Id );
         }

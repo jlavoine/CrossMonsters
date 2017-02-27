@@ -4,6 +4,8 @@ namespace CrossMonsters {
     public interface IGameMonster {
         string Id { get; }
         int RemainingHP { get; set; }
+        int AttackPower { get; set; }
+        int AttackType { get; set; }
         List<int> AttackCombo { get; set; }
 
         void Tick( long i_time );
