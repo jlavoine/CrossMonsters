@@ -41,16 +41,28 @@ namespace CrossMonsters {
             return mData.GetDefenseForType( i_type );
         }
 
-        private void RemoveHP( int i_damage ) {
-            HP -= i_damage;
+        public void RemoveHP( int i_damage ) {
+            HP = Mathf.Max( 0, HP - i_damage );
+
+            if ( IsDead() ) {
+                SendPlayerDeadMessage();
+            }
         }
 
         private void SetHP( IPlayerData i_data ) {
             HP = i_data.GetHP();
         }
 
+        private bool IsDead() {
+            return HP <= 0;
+        }
+
         private void SendUpdateHealthMessage() {
             MyMessenger.Instance.Send( GameMessages.UPDATE_PLAYER_HP );
+        }
+
+        private void SendPlayerDeadMessage() {
+            MyMessenger.Instance.Send( GameMessages.PLAYER_DEAD );
         }
     }
 }

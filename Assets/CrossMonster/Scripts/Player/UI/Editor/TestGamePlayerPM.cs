@@ -33,6 +33,6 @@ namespace CrossMonsters {
             GamePlayerPM systemUnderTest = new GamePlayerPM( mockPlayer );
 
             Assert.AreEqual( 100, systemUnderTest.ViewModel.GetPropertyValue<int>( GamePlayerPM.HP_PROPERTY ) );
-        }
+        }        
     }
 }

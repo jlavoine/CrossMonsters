@@ -63,5 +63,25 @@ namespace CrossMonsters {
 
             MyMessenger.Instance.Received().Send( GameMessages.UPDATE_PLAYER_HP );
         }
+
+        [Test]
+        public void WhenRemovingHP_IfPlayerIsDead_MessageSent() {
+            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>() );
+            systemUnderTest.HP = 100;
+
+            systemUnderTest.RemoveHP( 101 );
+
+            MyMessenger.Instance.Received().Send( GameMessages.PLAYER_DEAD );
+        }
+
+        [Test]
+        public void WhenRemovingHP_HpWontFallBelowZero() {
+            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>() );
+            systemUnderTest.HP = 100;
+
+            systemUnderTest.RemoveHP( 101 );
+
+            Assert.AreEqual( 0, systemUnderTest.HP );
+        }
     }
 }
