@@ -38,6 +38,7 @@ namespace CrossMonsters {
 
         public void OnPlayerDied() {
             SetState( GameStates.Ended );
+            SendGameOverMessage();
         }
 
         public bool IsGamePlaying() {
@@ -46,6 +47,10 @@ namespace CrossMonsters {
 
         private void SetState( GameStates i_state ) {
             State = i_state;
+        }
+
+        private void SendGameOverMessage() {
+            MyMessenger.Instance.Send<bool>( GameMessages.GAME_OVER, false );
         }
     }
 }

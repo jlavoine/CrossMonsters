@@ -8,5 +8,7 @@ namespace CrossMonsters {
 
         public const string PIECE_ADDED_TO_CHAIN = "PieceAddedToChain";
         public const string CHAIN_RESET = "ChainReset";
+
+        public const string GAME_OVER = "GameOver";
     }
 }

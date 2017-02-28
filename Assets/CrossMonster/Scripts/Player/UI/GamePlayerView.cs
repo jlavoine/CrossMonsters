@@ -22,7 +22,7 @@ namespace CrossMonsters {
         // TODO this is just temp testing
         public IPlayerData GetPlayerData() {
             PlayerData data = new PlayerData();
-            data.HP = 100;
+            data.HP = 10;
             data.Defenses = new Dictionary<int, int>() { { 0, 5 }, { 1, 5 } };
 
             return data;

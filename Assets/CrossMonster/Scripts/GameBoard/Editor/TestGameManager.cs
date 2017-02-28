@@ -41,5 +41,14 @@ namespace CrossMonsters {
 
             Assert.AreEqual( GameStates.Ended, systemUnderTest.State );
         }
+
+        [Test]
+        public void WhenPlayerDies_GameOverMessageSent() {
+            GameManager systemUnderTest = new GameManager();
+
+            systemUnderTest.OnPlayerDied();
+
+            MyMessenger.Instance.Received().Send<bool>( GameMessages.GAME_OVER, false );
+        }
     }
 }
