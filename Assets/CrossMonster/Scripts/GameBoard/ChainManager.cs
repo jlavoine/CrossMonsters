@@ -3,24 +3,11 @@ using System.Collections.Generic;
 
 namespace CrossMonsters {
     public class ChainManager : IChainManager {
-        private static IChainManager mInstance;
-        public static IChainManager Instance {
-            get {
-                if ( mInstance == null ) {
-                    mInstance = new ChainManager();
-                }
-                return mInstance;
-            }
-            set {
-                // tests only!
-                mInstance = value;
-            }
-        }
-
         private List<IGamePiece> mChain = null;
         public List<IGamePiece> Chain { get { return mChain; } set { mChain = value; } }
 
         public ChainManager() {
+            UnityEngine.Debug.LogError( "Initing!" );
             ListenForMessages( true );
         }
 
