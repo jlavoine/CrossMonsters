@@ -1,7 +1,10 @@
 ﻿using MyLibrary;
+using Zenject;
 
 namespace CrossMonsters {
     public class GamePieceView : GroupView {
+        [Inject]
+        IChainManager ChainManager;
 
         private IGamePiecePM mPM;
 
@@ -18,20 +21,20 @@ namespace CrossMonsters {
         }
 
         public void OnPointerDown() {
-            if ( ChainManager.Instance.IsNoChain() ) {
-                ChainManager.Instance.StartChain( mPM.GamePiece );
+            if ( ChainManager.IsNoChain() ) {
+                ChainManager.StartChain( mPM.GamePiece );
             }
         }
 
         public void OnPointerEnter() {
-            if ( ChainManager.Instance.IsActiveChain() ) {
-                ChainManager.Instance.ContinueChain( mPM.GamePiece );
+            if ( ChainManager.IsActiveChain() ) {
+                ChainManager.ContinueChain( mPM.GamePiece );
             }
         }
 
         public void OnPointerUp() {
-            if ( ChainManager.Instance.IsActiveChain() ) {
-                ChainManager.Instance.EndChain();
+            if ( ChainManager.IsActiveChain() ) {
+                ChainManager.EndChain();
             }
         }
     }
