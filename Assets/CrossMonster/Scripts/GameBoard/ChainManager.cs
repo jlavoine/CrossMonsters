@@ -7,7 +7,6 @@ namespace CrossMonsters {
         public List<IGamePiece> Chain { get { return mChain; } set { mChain = value; } }
 
         public ChainManager() {
-            UnityEngine.Debug.LogError( "Initing!" );
             ListenForMessages( true );
         }
 
