@@ -13,7 +13,7 @@ namespace CrossMonsters {
         // for testing
         public MonsterManager() { }
 
-        public void Init( List<IGameMonster> i_allMonsters ) {
+        public MonsterManager( List<IGameMonster> i_allMonsters ) {
             //SetUsedPieceTypes( i_allMonsters );
 
             CurrentMonsters = new List<IGameMonster>();

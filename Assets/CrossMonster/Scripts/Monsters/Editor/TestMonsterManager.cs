@@ -145,8 +145,7 @@ namespace CrossMonsters {
             allMonsters.Add( Substitute.For<IGameMonster>() );
             allMonsters.Add( Substitute.For<IGameMonster>() );
 
-            MonsterManager systemUnderTest = new MonsterManager();
-            systemUnderTest.Init( allMonsters );
+            MonsterManager systemUnderTest = new MonsterManager( allMonsters );
 
             Assert.AreEqual( 4, systemUnderTest.CurrentMonsters.Count );
             Assert.AreEqual( 2, systemUnderTest.RemainingMonsters.Count );
