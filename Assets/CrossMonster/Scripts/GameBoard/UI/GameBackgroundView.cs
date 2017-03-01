@@ -1,21 +1,18 @@
 ﻿using MyLibrary;
-using Zenject;
 
 namespace CrossMonsters {
     public class GameBackgroundView : GroupView {
-        [Inject]
-        IChainManager ChainManager;
-
-        [Inject]
-        GameBackgroundPM BackgroundPM;
+        private GameBackgroundPM mPM;
 
         void Start() {
-            SetModel( BackgroundPM.ViewModel );
+            mPM = new GameBackgroundPM();
+
+            SetModel( mPM.ViewModel );
         }
 
         public void OnPointerEnter() {
-            if ( ChainManager.IsActiveChain() ) {
-                BackgroundPM.PlayerEnteredBackground();
+            if ( ChainManager.Instance.IsActiveChain() ) {
+                mPM.PlayerEnteredBackground();
             }
         }
     }

@@ -1,12 +1,9 @@
 ﻿using MyLibrary;
 using UnityEngine;
 using System.Collections.Generic;
-using Zenject;
 
 namespace CrossMonsters {
     public class GameBoardView : GroupView {
-        [Inject]
-        DiContainer container;
 
         public GameObject GamePieceViewPrefab;
 
@@ -29,8 +26,7 @@ namespace CrossMonsters {
         private void CreateGamePieceViews() {
             List<IGamePiecePM> gamePiecePMs = mPM.GamePiecePMs;
             foreach ( IGamePiecePM piecePM in gamePiecePMs ) {
-                GameObject pieceObject = container.InstantiatePrefab( GamePieceViewPrefab, transform );
-                //GameObject pieceObject = gameObject.InstantiateUI( GamePieceViewPrefab, gameObject );
+                GameObject pieceObject = gameObject.InstantiateUI( GamePieceViewPrefab, gameObject );
                 GamePieceView pieceView = pieceObject.GetComponent<GamePieceView>();
                 pieceView.Init( piecePM );
             }

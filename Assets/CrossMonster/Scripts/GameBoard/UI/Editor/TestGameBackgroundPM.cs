@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using NSubstitute;
-using Zenject;
 using UnityEngine;
 using MyLibrary;
 using System.Collections.Generic;
@@ -10,23 +9,14 @@ using System.Collections.Generic;
 
 namespace CrossMonsters {
     [TestFixture]
-    public class TestGameBackgroundPM : ZenjectUnitTestFixture {
-        [Inject]
-        IChainManager ChainManager;
-
-        [SetUp]
-        public void CommonInstall() {
-            Container.Bind<IChainManager>().To<ChainManager>().AsSingle();
-            Container.Inject( this );
-        }
-
+    public class TestGameBackgroundPM : CrossMonstersUnitTest {
         [Test]
         public void EnteringBackground_CancelsChain() {
             GameBackgroundPM systemUnderTest = new GameBackgroundPM();
 
             systemUnderTest.PlayerEnteredBackground();
 
-            ChainManager.Received().CancelChain();
+            ChainManager.Instance.Received().CancelChain();
         }
     }
 }
