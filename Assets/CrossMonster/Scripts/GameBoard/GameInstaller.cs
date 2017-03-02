@@ -7,6 +7,7 @@ namespace CrossMonsters {
             Container.Bind<IChainManager>().To<ChainManager>().AsSingle();
 
             Container.Bind<IPlayerData>().To<PlayerData>().FromInstance( GetPlayerData() );
+            Container.Bind<IInitializable>().To<GamePlayer>().AsSingle();
             Container.Bind<IGamePlayer>().To<GamePlayer>().AsSingle();
             Container.Bind<IGamePlayerPM>().To<GamePlayerPM>().AsTransient();
 

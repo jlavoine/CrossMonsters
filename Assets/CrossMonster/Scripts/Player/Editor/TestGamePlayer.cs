@@ -9,47 +9,53 @@ using Zenject;
 namespace CrossMonsters {
     [TestFixture]
     public class TestGamePlayer : ZenjectUnitTestFixture {
-    
+
+        [Inject]
+        IMessageService Messenger;
+
+        [Inject]
+        IDamageCalculator DamageCalculator;
+
+        [Inject]
+        GamePlayer systemUnderTest;
+
+        [Inject]
+        IPlayerData PlayerData;
+
+        [SetUp]
+        public void CommonInstall() {
+            Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
+            Container.Bind<IDamageCalculator>().FromInstance( Substitute.For<IDamageCalculator>() );
+            Container.Bind<IPlayerData>().FromInstance( Substitute.For<IPlayerData>() );
+            Container.Bind<GamePlayer>().AsSingle();
+            Container.Inject( this );
+        }
+
         [Test]
         public void WhenCreating_SubscribesToExpectedMessages() {
-            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>(), Substitute.For<IDamageCalculator>() );
+            systemUnderTest.Initialize();
 
-            MyMessenger.Instance.Received().AddListener<IGameMonster>( GameMessages.MONSTER_ATTACK, Arg.Any<Callback<IGameMonster>>() );
+            Messenger.Received().AddListener<IGameMonster>( GameMessages.MONSTER_ATTACK, Arg.Any<Callback<IGameMonster>>() );
         }
 
         [Test]
         public void WhenDisposing_UnsubscribesToExpectedMessages() {
-            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>(), Substitute.For<IDamageCalculator>() );
-
+            systemUnderTest.Initialize();
             systemUnderTest.Dispose();
 
-            MyMessenger.Instance.Received().RemoveListener<IGameMonster>( GameMessages.MONSTER_ATTACK, Arg.Any<Callback<IGameMonster>>() );
-        }
-
-        [Test]
-        public void PlayerHP_MatchesData() {
-            IPlayerData mockData = Substitute.For<IPlayerData>();
-            mockData.GetHP().Returns( 101 );
-            GamePlayer systemUnderTest = new GamePlayer( mockData, Substitute.For<IDamageCalculator>() );
-
-            Assert.AreEqual( 101, systemUnderTest.HP );
+            Messenger.Received().RemoveListener<IGameMonster>( GameMessages.MONSTER_ATTACK, Arg.Any<Callback<IGameMonster>>() );
         }
 
         [Test]
         public void GetDefenseForType_ReturnsExpected() {
-            IPlayerData mockData = Substitute.For<IPlayerData>();
-            mockData.GetDefenseForType( 0 ).Returns( 100 );
-
-            GamePlayer systemUnderTest = new GamePlayer( mockData, Substitute.For<IDamageCalculator>() );
-
+            PlayerData.GetDefenseForType( 0 ).Returns( 100 );
+            
             Assert.AreEqual( 100, systemUnderTest.GetDefenseForType( 0 ) );
         }
 
         [Test]
         public void WhenAttacked_DamageIsSubstractedFromHP() {
-            IDamageCalculator mockDamageCalculator = Substitute.For<IDamageCalculator>();
-            mockDamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );
-            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>(), mockDamageCalculator );
+            DamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );            
             systemUnderTest.HP = 100;
 
             systemUnderTest.OnAttacked( Substitute.For<IGameMonster>() );
@@ -59,28 +65,24 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenAttacked_UpdateMessageIsSent() {
-            IDamageCalculator mockDamageCalculator = Substitute.For<IDamageCalculator>();
-            mockDamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );
-            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>(), mockDamageCalculator );
+            DamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );
 
             systemUnderTest.OnAttacked( Substitute.For<IGameMonster>() );
 
-            MyMessenger.Instance.Received().Send( GameMessages.UPDATE_PLAYER_HP );
+            Messenger.Received().Send( GameMessages.UPDATE_PLAYER_HP );
         }
 
         [Test]
         public void WhenRemovingHP_IfPlayerIsDead_MessageSent() {
-            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>(), Substitute.For<IDamageCalculator>() );
             systemUnderTest.HP = 100;
 
             systemUnderTest.RemoveHP( 101 );
 
-            MyMessenger.Instance.Received().Send( GameMessages.PLAYER_DEAD );
+            Messenger.Received().Send( GameMessages.PLAYER_DEAD );
         }
 
         [Test]
         public void WhenRemovingHP_HpWontFallBelowZero() {
-            GamePlayer systemUnderTest = new GamePlayer( Substitute.For<IPlayerData>(), Substitute.For<IDamageCalculator>() );
             systemUnderTest.HP = 100;
 
             systemUnderTest.RemoveHP( 101 );

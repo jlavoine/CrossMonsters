@@ -4,7 +4,10 @@ using UnityEngine;
 using Zenject;
 
 namespace CrossMonsters {
-    public class GamePlayer : IGamePlayer {
+    public class GamePlayer : IGamePlayer, IInitializable {
+        [Inject]
+        IMessageService Messenger;
+
         private IDamageCalculator mDamageCalculator;
 
         private int mHP;
@@ -14,9 +17,12 @@ namespace CrossMonsters {
 
         public GamePlayer( IPlayerData i_data, IDamageCalculator i_damageCalculator ) {
             mDamageCalculator = i_damageCalculator;
-            
+
             mData = i_data;
-            SetHP( i_data );
+            SetHP( i_data );            
+        }
+
+        public void Initialize() {
             ListenForMessages( true );
         }
 
@@ -26,9 +32,9 @@ namespace CrossMonsters {
 
         private void ListenForMessages( bool i_listen ) {
             if ( i_listen ) {
-                MyMessenger.Instance.AddListener<IGameMonster>( GameMessages.MONSTER_ATTACK, OnAttacked );
+                Messenger.AddListener<IGameMonster>( GameMessages.MONSTER_ATTACK, OnAttacked );
             } else {
-                MyMessenger.Instance.RemoveListener<IGameMonster>( GameMessages.MONSTER_ATTACK, OnAttacked );
+                Messenger.RemoveListener<IGameMonster>( GameMessages.MONSTER_ATTACK, OnAttacked );
             }
         }
 
@@ -63,11 +69,11 @@ namespace CrossMonsters {
         }
 
         private void SendUpdateHealthMessage() {
-            MyMessenger.Instance.Send( GameMessages.UPDATE_PLAYER_HP );
+            Messenger.Send( GameMessages.UPDATE_PLAYER_HP );
         }
 
         private void SendPlayerDeadMessage() {
-            MyMessenger.Instance.Send( GameMessages.PLAYER_DEAD );
+            Messenger.Send( GameMessages.PLAYER_DEAD );
         }
     }
 }
