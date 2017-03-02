@@ -45,7 +45,7 @@ namespace CrossMonsters {
         }
 
         public int GetAttackPowerForType( int i_type ) {
-            throw new NotImplementedException();
+            return 10;
         }
 
         public int GetDefenseForType( int i_type ) {

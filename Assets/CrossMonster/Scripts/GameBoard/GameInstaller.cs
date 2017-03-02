@@ -5,6 +5,8 @@ namespace CrossMonsters {
     public class GameInstaller : MonoInstaller {
         public override void InstallBindings() {
             Container.Bind<IChainManager>().To<ChainManager>().AsSingle();
+            Container.Bind<IChainProcessor>().To<ChainProcessor>().AsSingle();
+
             Container.Bind<IInitializable>().To<GameManager>().AsSingle();
             Container.Bind<IGameManager>().To<GameManager>().AsSingle();
 
