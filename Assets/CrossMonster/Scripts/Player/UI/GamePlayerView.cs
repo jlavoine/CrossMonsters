@@ -8,7 +8,6 @@ namespace CrossMonsters {
         IGamePlayerPM PM;
 
         void Start() {
-            UnityEngine.Debug.LogError( "Creating the player pm: " + PM );
             SetModel( PM.ViewModel );
         }
 
