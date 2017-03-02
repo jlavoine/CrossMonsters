@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace CrossMonsters {
     public class GameManagerObject : MonoBehaviour {
-        private IGameManager mManager;
+        [Inject]
+        IGameManager GameManager;
 
         void Start() {
-            mManager = new GameManager();
         }
 
         void OnDestroy() {
-            mManager.Dispose();
+            GameManager.Dispose();
         }
     }
 }
