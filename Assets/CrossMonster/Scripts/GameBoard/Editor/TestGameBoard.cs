@@ -25,7 +25,6 @@ namespace CrossMonsters {
             Container.Inject( this );            
         }
 
-
         [Test]
         public void WhenCreating_GameBoardSizeIsExpected() {
             GameRules.GetBoardSize().Returns( 4 );

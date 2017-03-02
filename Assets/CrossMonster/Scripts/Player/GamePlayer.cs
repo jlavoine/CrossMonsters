@@ -1,15 +1,20 @@
 ﻿using MyLibrary;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace CrossMonsters {
     public class GamePlayer : IGamePlayer {
+        private IDamageCalculator mDamageCalculator;
+
         private int mHP;
         public int HP { get { return mHP; } set { mHP = value; } }
 
         private IPlayerData mData;
 
-        public GamePlayer( IPlayerData i_data ) {
+        public GamePlayer( IPlayerData i_data, IDamageCalculator i_damageCalculator ) {
+            mDamageCalculator = i_damageCalculator;
+            
             mData = i_data;
             SetHP( i_data );
             ListenForMessages( true );
@@ -28,7 +33,7 @@ namespace CrossMonsters {
         }
 
         public void OnAttacked( IGameMonster i_monster ) {
-            int damageTaken = DamageCalculator.Instance.GetDamageFromMonster( i_monster, this );
+            int damageTaken = mDamageCalculator.GetDamageFromMonster( i_monster, this );
             RemoveHP( damageTaken );
             SendUpdateHealthMessage();
         }

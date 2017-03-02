@@ -1,31 +1,21 @@
 ﻿using MyLibrary;
 using System.Collections.Generic;
+using Zenject;
 
 namespace CrossMonsters {
     public class GamePlayerView : GroupView {
-        private IGamePlayerPM mPM;
+        [Inject]
+        IGamePlayerPM PM;
 
         void Start() {
-            IPlayerData playerData = GetPlayerData();
-            IGamePlayer player = new GamePlayer( playerData );
-
-            mPM = new GamePlayerPM( player );
-            SetModel( mPM.ViewModel );
+            UnityEngine.Debug.LogError( "Creating the player pm: " + PM );
+            SetModel( PM.ViewModel );
         }
 
         protected override void OnDestroy() {
             base.OnDestroy();
 
-            mPM.Dispose();
-        }
-
-        // TODO this is just temp testing
-        public IPlayerData GetPlayerData() {
-            PlayerData data = new PlayerData();
-            data.HP = 10;
-            data.Defenses = new Dictionary<int, int>() { { 0, 5 }, { 1, 5 } };
-
-            return data;
+            PM.Dispose();
         }
     }
 }
