@@ -3,40 +3,48 @@ using NSubstitute;
 using UnityEngine;
 using MyLibrary;
 using System.Collections.Generic;
+using Zenject;
 
 #pragma warning disable 0219
 #pragma warning disable 0414
 
 namespace CrossMonsters {
     [TestFixture]
-    public class TestGameManager : CrossMonstersUnitTest {
+    public class TestGameManager : ZenjectUnitTestFixture {
+        [Inject]
+        IMessageService MyMessenger;
+
+        [Inject]
+        GameManager systemUnderTest;
+
+        [SetUp]
+        public void CommonInstall() {
+            Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
+            Container.Bind<GameManager>().AsSingle();
+            Container.Inject( this );
+        }
+
         [Test]
         public void WhenCreating_SubscribesToExpectedMessages() {
-            GameManager systemUnderTest = new GameManager();
+            systemUnderTest.Initialize();
 
-            MyMessenger.Instance.Received().AddListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
+            MyMessenger.Received().AddListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
         }
 
         [Test]
         public void WhenDisposing_UnsubscribesToExpectedMessages() {
-            GameManager systemUnderTest = new GameManager();
-
             systemUnderTest.Dispose();
 
-            MyMessenger.Instance.Received().RemoveListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
+            MyMessenger.Received().RemoveListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
         }
 
         [Test]
         public void WhenCreated_StateIsPlaying() {
-            GameManager systemUnderTest = new GameManager();
-
             Assert.AreEqual( GameStates.Playing, systemUnderTest.State );
         }
 
         [Test]
         public void WhenPlayerDies_GameStateIsEnded() {
-            GameManager systemUnderTest = new GameManager();
-
             systemUnderTest.OnPlayerDied();
 
             Assert.AreEqual( GameStates.Ended, systemUnderTest.State );
@@ -44,11 +52,9 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenPlayerDies_GameOverMessageSent() {
-            GameManager systemUnderTest = new GameManager();
-
             systemUnderTest.OnPlayerDied();
 
-            MyMessenger.Instance.Received().Send<bool>( GameMessages.GAME_OVER, false );
+            MyMessenger.Received().Send<bool>( GameMessages.GAME_OVER, false );
         }
     }
 }

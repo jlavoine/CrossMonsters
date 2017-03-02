@@ -10,6 +10,9 @@ namespace CrossMonsters {
         [Inject]
         IMonsterManager MonsterManager;
 
+        [Inject]
+        IGameManager GameManager;
+
         void Start() {
             List<IGameMonster> monsters = GetMonsters();
             MonsterManager.SetMonsters( monsters );
@@ -18,7 +21,7 @@ namespace CrossMonsters {
         }
 
         void Update() {
-            if ( GameManager.Instance.IsGamePlaying() ) {
+            if ( GameManager.IsGamePlaying() ) {
                 TickCurrentMonsters( (long) ( Time.deltaTime * 1000 ) );
             }           
         }

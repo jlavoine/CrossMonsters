@@ -1,26 +1,19 @@
 ﻿using MyLibrary;
+using Zenject;
 
 namespace CrossMonsters {
-    public class GameManager : IGameManager {
-        private static IGameManager mInstance;
-        public static IGameManager Instance {
-            get {
-                if ( mInstance == null ) {
-                    mInstance = new GameManager();
-                }
-                return mInstance;
-            }
-            set {
-                // tests only!
-                mInstance = value;
-            }
-        }
+    public class GameManager : IGameManager, IInitializable {
+        [Inject]
+        IMessageService MyMessenger;
 
         private GameStates mState;
         public GameStates State { get { return mState; } set { mState = value; } }
 
         public GameManager() {
             SetState( GameStates.Playing );
+        }
+
+        public void Initialize() {
             ListenForMessages( true );
         }
 
@@ -30,9 +23,9 @@ namespace CrossMonsters {
 
         private void ListenForMessages( bool i_listen ) {
             if ( i_listen ) {
-                MyMessenger.Instance.AddListener( GameMessages.PLAYER_DEAD, OnPlayerDied );
+                MyMessenger.AddListener( GameMessages.PLAYER_DEAD, OnPlayerDied );
             } else {
-                MyMessenger.Instance.RemoveListener( GameMessages.PLAYER_DEAD, OnPlayerDied );
+                MyMessenger.RemoveListener( GameMessages.PLAYER_DEAD, OnPlayerDied );
             }
         }
 
@@ -50,7 +43,7 @@ namespace CrossMonsters {
         }
 
         private void SendGameOverMessage() {
-            MyMessenger.Instance.Send<bool>( GameMessages.GAME_OVER, false );
+            MyMessenger.Send<bool>( GameMessages.GAME_OVER, false );
         }
     }
 }
