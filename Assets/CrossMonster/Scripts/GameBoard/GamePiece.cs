@@ -1,6 +1,10 @@
-﻿
+﻿using Zenject;
+
 namespace CrossMonsters {
     public class GamePiece : IGamePiece {
+        [Inject]
+        IGameRules GameRules;
+
         private int mPieceType;
         public int PieceType { get { return mPieceType; } set { mPieceType = value; } }
 
@@ -13,7 +17,9 @@ namespace CrossMonsters {
         }
 
         private void RotatePieceType() {
-            PieceType = GameRules.Instance.GetGamePieceRotation( PieceType );
+            PieceType = GameRules.GetGamePieceRotation( PieceType );
         }
+
+        public class Factory : Factory<int, GamePiece> {}
     }
 }

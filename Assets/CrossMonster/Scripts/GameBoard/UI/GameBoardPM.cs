@@ -1,17 +1,16 @@
 ﻿using MyLibrary;
 using System.Collections.Generic;
+using Zenject;
 
 namespace CrossMonsters {
-    public class GameBoardPM : PresentationModel {
-
-        private IGameBoard mBoard;
+    public class GameBoardPM : PresentationModel, IInitializable {
+        [Inject]
+        IGameBoard GameBoard;
 
         private List<IGamePiecePM> mGamePiecePMs = new List<IGamePiecePM>();
         public List<IGamePiecePM> GamePiecePMs { get { return mGamePiecePMs; } set { GamePiecePMs = value; } }
 
-        public GameBoardPM( IGameBoard i_board ) {
-            mBoard = i_board;
-
+        public void Initialize() {
             CreateGamePiecePMs();
         }
 
@@ -20,7 +19,7 @@ namespace CrossMonsters {
         }
 
         private void CreateGamePiecePMs() {
-            foreach ( IGamePiece piece in mBoard.BoardPieces ) {
+            foreach ( IGamePiece piece in GameBoard.BoardPieces ) {
                 IGamePiecePM piecePM = new GamePiecePM( piece );
                 GamePiecePMs.Add( piecePM );
             }

@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using Zenject;
 
 namespace CrossMonsters {
     public class MonsterManager : IMonsterManager {
+        [Inject]
+        IGameRules GameRules;
+
         private List<IGameMonster> mCurrentMonsters;
         public List<IGameMonster> CurrentMonsters { get { return mCurrentMonsters; } set { mCurrentMonsters = value; } }
 
@@ -10,10 +14,7 @@ namespace CrossMonsters {
 
         private List<int> mUsedPieceTypes;
 
-        // for testing
-        public MonsterManager() { }
-
-        public MonsterManager( List<IGameMonster> i_allMonsters ) {
+        public void SetMonsters( List<IGameMonster> i_allMonsters ) {
             //SetUsedPieceTypes( i_allMonsters );
 
             CurrentMonsters = new List<IGameMonster>();
@@ -74,7 +75,7 @@ namespace CrossMonsters {
 
         private int GetNumberOfMissingCurrentMonsters() {
             int numCurrentMonsters = CurrentMonsters.Count;
-            int requiredActiveMonsters = GameRules.Instance.GetActiveMonsterCount();
+            int requiredActiveMonsters = GameRules.GetActiveMonsterCount();
 
             return requiredActiveMonsters - numCurrentMonsters;
         }

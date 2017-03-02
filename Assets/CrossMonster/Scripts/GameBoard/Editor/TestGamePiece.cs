@@ -3,25 +3,38 @@ using NSubstitute;
 using UnityEngine;
 using MyLibrary;
 using System.Collections.Generic;
+using Zenject;
 
 #pragma warning disable 0219
 #pragma warning disable 0414
 
 namespace CrossMonsters {
     [TestFixture]
-    public class TestGamePiece : CrossMonstersUnitTest {
+    public class TestGamePiece : ZenjectUnitTestFixture {
+        [Inject]
+        IGameRules GameRules;
+
+        [Inject]
+        GamePiece.Factory SystemFactory;
+
+        [SetUp]
+        public void CommonInstall() {
+            Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
+            Container.BindFactory<int, GamePiece, GamePiece.Factory>();
+            Container.Inject( this );
+        }
 
         [Test]
         public void WhenCreatingPiece_PieceTypeMatchesConstructor() {
-            GamePiece systemUnderTest = new GamePiece( 5 );
+            GamePiece systemUnderTest = SystemFactory.Create( 5 );
 
             Assert.AreEqual( 5, systemUnderTest.PieceType );
         }
 
         [Test]
         public void WhenUsingPiece_PieceTypeRotatesAccordingToGameRules() {
-            GameRules.Instance.GetGamePieceRotation( 0 ).Returns( 3 );
-            GamePiece systemUnderTest = new GamePiece( 0 );
+            GameRules.GetGamePieceRotation( 0 ).Returns( 3 );
+            GamePiece systemUnderTest = SystemFactory.Create( 0 );
 
             systemUnderTest.UsePiece();
 

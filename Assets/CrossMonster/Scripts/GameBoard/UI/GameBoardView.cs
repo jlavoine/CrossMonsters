@@ -10,24 +10,23 @@ namespace CrossMonsters {
 
         public GameObject GamePieceViewPrefab;
 
-        private GameBoardPM mPM;
+        [Inject]
+        GameBoardPM PM;
 
         void Start() {
-            mPM = new GameBoardPM( new GameBoard() );
-
             CreateGamePieceViews();
 
-            SetModel( mPM.ViewModel );
+            SetModel( PM.ViewModel );
         }
 
         protected override void OnDestroy() {
             base.OnDestroy();
 
-            mPM.Dispose();
+            PM.Dispose();
         }
 
         private void CreateGamePieceViews() {
-            List<IGamePiecePM> gamePiecePMs = mPM.GamePiecePMs;
+            List<IGamePiecePM> gamePiecePMs = PM.GamePiecePMs;
             foreach ( IGamePiecePM piecePM in gamePiecePMs ) {
                 GameObject pieceObject = container.InstantiatePrefab( GamePieceViewPrefab, transform );
                 //GameObject pieceObject = gameObject.InstantiateUI( GamePieceViewPrefab, gameObject );

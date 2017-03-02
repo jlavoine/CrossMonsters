@@ -3,13 +3,26 @@ using NSubstitute;
 using UnityEngine;
 using MyLibrary;
 using System.Collections.Generic;
+using Zenject;
 
 #pragma warning disable 0219
 #pragma warning disable 0414
 
 namespace CrossMonsters {
     [TestFixture]
-    public class TestMonsterManager : CrossMonstersUnitTest {
+    public class TestMonsterManager : ZenjectUnitTestFixture {
+        [Inject]
+        IGameRules GameRules;
+
+        [Inject]
+        MonsterManager systemUnderTest;
+
+        [SetUp]
+        public void CommonInstall() {
+            Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
+            Container.Bind<MonsterManager>().AsSingle();
+            Container.Inject( this );
+        }
 
         [Test]
         public void WhenManagerTicks_AllMonstersTick() {
@@ -18,7 +31,6 @@ namespace CrossMonsters {
             mockMonsters.Add( Substitute.For<IGameMonster>() );
             mockMonsters.Add( Substitute.For<IGameMonster>() );
 
-            MonsterManager systemUnderTest = new MonsterManager();
             systemUnderTest.CurrentMonsters = mockMonsters;
 
             systemUnderTest.Tick( 1000 );
@@ -32,7 +44,6 @@ namespace CrossMonsters {
         public void WhenProcessingPlayerMove_AnyMatchingCurrentMonsters_GetAttacked() {
             IGamePlayer mockPlayer = Substitute.For<IGamePlayer>();
             List<int> mockMove = new List<int>();
-            MonsterManager systemUnderTest = new MonsterManager();
 
             List<IGameMonster> mockCurrentMonsters = new List<IGameMonster>();
             mockCurrentMonsters.Add( GetMockMonsterWithMatchCombo( true ) );
@@ -60,8 +71,6 @@ namespace CrossMonsters {
 
         [Test]
         public void DeadMonstersGetRemovedFromCurrentList() {
-            MonsterManager systemUnderTest = new MonsterManager();
-            
             IGameMonster mock1 = GetMockMonsterWithIsDead( true );
             IGameMonster mock2 = GetMockMonsterWithIsDead( false );
             IGameMonster mock3 = GetMockMonsterWithIsDead( false );
@@ -79,9 +88,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenSufficientMonstersInRemainingList_TransferredToCurrentListAsExpected() {
-            GameRules.Instance.GetActiveMonsterCount().Returns( 4 );
-
-            MonsterManager systemUnderTest = new MonsterManager();
+            GameRules.GetActiveMonsterCount().Returns( 4 );
 
             systemUnderTest.CurrentMonsters = new List<IGameMonster>();
             systemUnderTest.CurrentMonsters.Add( Substitute.For<IGameMonster>() );
@@ -99,9 +106,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenTooFewMonstersInRemainingList_TransferredAllToCurrentList() {
-            GameRules.Instance.GetActiveMonsterCount().Returns( 4 );
-
-            MonsterManager systemUnderTest = new MonsterManager();
+            GameRules.GetActiveMonsterCount().Returns( 4 );
 
             systemUnderTest.CurrentMonsters = new List<IGameMonster>();
             systemUnderTest.CurrentMonsters.Add( Substitute.For<IGameMonster>() );
@@ -118,9 +123,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenNoMonstersInRemainingList_NoneTransferredToCurrentList() {
-            GameRules.Instance.GetActiveMonsterCount().Returns( 4 );
-
-            MonsterManager systemUnderTest = new MonsterManager();
+            GameRules.GetActiveMonsterCount().Returns( 4 );
 
             systemUnderTest.CurrentMonsters = new List<IGameMonster>();
             systemUnderTest.CurrentMonsters.Add( Substitute.For<IGameMonster>() );
@@ -136,7 +139,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenCreatingMonsterManagerWithAllMonsters_CurrentAndRemainingListsAsExpected() {
-            GameRules.Instance.GetActiveMonsterCount().Returns( 4 );
+            GameRules.GetActiveMonsterCount().Returns( 4 );
             List<IGameMonster> allMonsters = new List<IGameMonster>();
             allMonsters.Add( Substitute.For<IGameMonster>() );
             allMonsters.Add( Substitute.For<IGameMonster>() );
@@ -145,7 +148,7 @@ namespace CrossMonsters {
             allMonsters.Add( Substitute.For<IGameMonster>() );
             allMonsters.Add( Substitute.For<IGameMonster>() );
 
-            MonsterManager systemUnderTest = new MonsterManager( allMonsters );
+            systemUnderTest.SetMonsters( allMonsters );
 
             Assert.AreEqual( 4, systemUnderTest.CurrentMonsters.Count );
             Assert.AreEqual( 2, systemUnderTest.RemainingMonsters.Count );

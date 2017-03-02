@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using MyLibrary;
 using System.Collections.Generic;
+using Zenject;
 
 namespace CrossMonsters {
     public class CurrentMonstersView : GroupView {
         public GameObject MonsterViewPrefab;
 
-        private IMonsterManager mManager;
+        [Inject]
+        IMonsterManager MonsterManager;
 
         void Start() {
             List<IGameMonster> monsters = GetMonsters();
-            mManager = new MonsterManager( monsters );
+            MonsterManager.SetMonsters( monsters );
 
             CreateMonsterViews();
         }
@@ -22,11 +24,11 @@ namespace CrossMonsters {
         }
 
         private void TickCurrentMonsters( long i_tick ) {
-            mManager.Tick( i_tick );
+            MonsterManager.Tick( i_tick );
         }
 
         private void CreateMonsterViews() {
-            foreach ( IGameMonster monster in mManager.CurrentMonsters ) {
+            foreach ( IGameMonster monster in MonsterManager.CurrentMonsters ) {
                 GameObject monsterObject = gameObject.InstantiateUI( MonsterViewPrefab, gameObject );
                 MonsterView monsterView = monsterObject.GetComponent<MonsterView>();
                 monsterView.Init( new MonsterPM( monster ) );
