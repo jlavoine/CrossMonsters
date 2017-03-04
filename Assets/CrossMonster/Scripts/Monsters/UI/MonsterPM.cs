@@ -9,16 +9,12 @@ namespace CrossMonsters {
         private IGameMonster mMonster;
         public List<int> AttackCombo { get { return mMonster.AttackCombo; } }
 
-        public MonsterPM( IGameMonster i_monster ) {
+        public MonsterPM( IGameMonster i_monster ) : base( i_monster ) {
             mMonster = i_monster;
             mMonster.ModelUpdated += OnModelUpdated;
             
             SetIdProperty();
             UpdateProperties();            
-        }
-
-        public override void Dispose() {
-            mMonster.ModelUpdated -= OnModelUpdated;
         }
 
         private void SetIdProperty() {
@@ -33,7 +29,7 @@ namespace CrossMonsters {
             SetHpProperty();
         }
 
-        public void OnModelUpdated() {
+        protected override void OnModelUpdated() {
             UpdateProperties();
         }
     }

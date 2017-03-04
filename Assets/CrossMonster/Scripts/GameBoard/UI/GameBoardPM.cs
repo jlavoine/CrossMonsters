@@ -14,9 +14,7 @@ namespace CrossMonsters {
             CreateGamePiecePMs();
         }
 
-        public override void Dispose() {
-
-        }
+        protected override void _Dispose() {}
 
         private void CreateGamePiecePMs() {
             foreach ( IGamePiece piece in GameBoard.BoardPieces ) {

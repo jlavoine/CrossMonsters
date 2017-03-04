@@ -18,7 +18,7 @@ namespace CrossMonsters {
             ResetColorBackgroundPropertyToDefault();            
         }
 
-        public override void Dispose() {
+        protected override void _Dispose() {
             ListenForMessages( false );
         }
 

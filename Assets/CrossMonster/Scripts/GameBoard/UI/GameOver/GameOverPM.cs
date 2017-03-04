@@ -13,7 +13,7 @@ namespace CrossMonsters {
             ListenForMessages( true );
         }
 
-        public override void Dispose() {
+        protected override void _Dispose() {
             ListenForMessages( false );
         }
 

@@ -12,7 +12,7 @@ namespace CrossMonsters {
             UpdateRemainingHealthProperty();
         }
 
-        public override void Dispose() {
+        protected override void _Dispose() {
             mPlayer.Dispose();
             ListenForMessages( false );
         }
