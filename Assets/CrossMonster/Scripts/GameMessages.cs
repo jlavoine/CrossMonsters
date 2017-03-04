@@ -5,6 +5,7 @@ namespace CrossMonsters {
 
         public const string UPDATE_PLAYER_HP = "UpdatePlayerHP";
         public const string PLAYER_DEAD = "PlayerDead";
+        public const string ALL_MONSTERS_DEAD = "AllMonstersDead";
 
         public const string PIECE_ADDED_TO_CHAIN = "PieceAddedToChain";
         public const string CHAIN_RESET = "ChainReset";

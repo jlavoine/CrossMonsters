@@ -24,14 +24,21 @@ namespace CrossMonsters {
         private void ListenForMessages( bool i_listen ) {
             if ( i_listen ) {
                 MyMessenger.AddListener( GameMessages.PLAYER_DEAD, OnPlayerDied );
+                MyMessenger.AddListener( GameMessages.ALL_MONSTERS_DEAD, OnAllMonstersDead );
             } else {
                 MyMessenger.RemoveListener( GameMessages.PLAYER_DEAD, OnPlayerDied );
+                MyMessenger.RemoveListener( GameMessages.ALL_MONSTERS_DEAD, OnAllMonstersDead );
             }
         }
 
         public void OnPlayerDied() {
             SetState( GameStates.Ended );
-            SendGameOverMessage();
+            SendGameOverMessage( false );
+        }
+
+        public void OnAllMonstersDead() {
+            SetState( GameStates.Ended );
+            SendGameOverMessage( true );
         }
 
         public bool IsGamePlaying() {
@@ -42,8 +49,8 @@ namespace CrossMonsters {
             State = i_state;
         }
 
-        private void SendGameOverMessage() {
-            MyMessenger.Send<bool>( GameMessages.GAME_OVER, false );
+        private void SendGameOverMessage( bool i_won ) {
+            MyMessenger.Send<bool>( GameMessages.GAME_OVER, i_won );
         }
     }
 }
