@@ -29,7 +29,6 @@ namespace CrossMonsters {
             systemUnderTest.Initialize();
 
             MyMessenger.Received().AddListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
-            MyMessenger.Received().AddListener( GameMessages.ALL_MONSTERS_DEAD, Arg.Any<Callback>() );
         }
 
         [Test]
@@ -37,7 +36,6 @@ namespace CrossMonsters {
             systemUnderTest.Dispose();
 
             MyMessenger.Received().RemoveListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
-            MyMessenger.Received().RemoveListener( GameMessages.ALL_MONSTERS_DEAD, Arg.Any<Callback>() );
         }
 
         [Test]

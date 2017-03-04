@@ -24,10 +24,8 @@ namespace CrossMonsters {
         private void ListenForMessages( bool i_listen ) {
             if ( i_listen ) {
                 MyMessenger.AddListener( GameMessages.PLAYER_DEAD, OnPlayerDied );
-                MyMessenger.AddListener( GameMessages.ALL_MONSTERS_DEAD, OnAllMonstersDead );
             } else {
                 MyMessenger.RemoveListener( GameMessages.PLAYER_DEAD, OnPlayerDied );
-                MyMessenger.RemoveListener( GameMessages.ALL_MONSTERS_DEAD, OnAllMonstersDead );
             }
         }
 

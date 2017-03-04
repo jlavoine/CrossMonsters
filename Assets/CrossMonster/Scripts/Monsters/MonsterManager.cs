@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using Zenject;
+using MyLibrary;
 
 namespace CrossMonsters {
     public class MonsterManager : IMonsterManager {
         [Inject]
         IGameRules GameRules;
+
+        [Inject]
+        IGameManager GameManager;
 
         private List<IGameMonster> mCurrentMonsters;
         public List<IGameMonster> CurrentMonsters { get { return mCurrentMonsters; } set { mCurrentMonsters = value; } }
@@ -39,6 +43,7 @@ namespace CrossMonsters {
             ProcessPlayerMoveOnCurrentMonsters( i_player, i_move );
             RemoveDeadMonstersFromCurrentList();
             FillCurrentMonstersWithRemaining();
+            SendMessageIfAllMonstersDead();
         }
 
         public void ProcessPlayerMoveOnCurrentMonsters( IGamePlayer i_player, List<IGamePiece> i_move ) {
@@ -73,11 +78,17 @@ namespace CrossMonsters {
             }
         }
 
+        public void SendMessageIfAllMonstersDead() {
+            if ( CurrentMonsters.Count == 0 ) {
+                GameManager.OnAllMonstersDead();
+            }
+        }
+
         private int GetNumberOfMissingCurrentMonsters() {
             int numCurrentMonsters = CurrentMonsters.Count;
             int requiredActiveMonsters = GameRules.GetActiveMonsterCount();
 
             return requiredActiveMonsters - numCurrentMonsters;
-        }
+        }        
     }
 }

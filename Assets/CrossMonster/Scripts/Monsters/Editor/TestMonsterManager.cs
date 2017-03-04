@@ -15,11 +15,15 @@ namespace CrossMonsters {
         IGameRules GameRules;
 
         [Inject]
+        IGameManager GameManager;
+
+        [Inject]
         MonsterManager systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
+            Container.Bind<IGameManager>().FromInstance( Substitute.For<IGameManager>() );
             Container.Bind<MonsterManager>().AsSingle();
             Container.Inject( this );
         }
@@ -32,7 +36,7 @@ namespace CrossMonsters {
             mockMonsters.Add( Substitute.For<IGameMonster>() );
 
             systemUnderTest.CurrentMonsters = mockMonsters;
-
+            UnityEngine.Debug.LogError( "ticking" );
             systemUnderTest.Tick( 1000 );
 
             foreach ( IGameMonster monster in systemUnderTest.CurrentMonsters ) {
@@ -135,6 +139,17 @@ namespace CrossMonsters {
 
             Assert.AreEqual( 2, systemUnderTest.CurrentMonsters.Count );
             Assert.AreEqual( 0, systemUnderTest.RemainingMonsters.Count );
+        }
+
+        [Test]
+        public void AfterProcessingMove_IfNoMonstersInCurrentList_MessageIsSent() {
+            GameRules.GetActiveMonsterCount().Returns( 4 );
+            systemUnderTest.CurrentMonsters = new List<IGameMonster>();
+            systemUnderTest.RemainingMonsters = new List<IGameMonster>();
+
+            systemUnderTest.SendMessageIfAllMonstersDead();
+
+            GameManager.Received().OnAllMonstersDead();
         }
 
         [Test]

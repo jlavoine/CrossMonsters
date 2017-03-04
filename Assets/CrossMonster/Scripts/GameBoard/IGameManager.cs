@@ -4,5 +4,6 @@ namespace CrossMonsters {
         bool IsGamePlaying();
 
         void Dispose();
+        void OnAllMonstersDead();
     }
 }
