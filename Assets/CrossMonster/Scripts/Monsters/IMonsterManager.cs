@@ -7,5 +7,6 @@ namespace CrossMonsters {
         void SetMonsters( List<IGameMonster> i_monsters );
 
         List<IGameMonster> CurrentMonsters { get; }
+        List<IGameMonster> RemainingMonsters { get; }
     }
 }

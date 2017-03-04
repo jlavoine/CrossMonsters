@@ -53,7 +53,7 @@ namespace CrossMonsters {
             List<IGameMonster> newCurrentMonsters = new List<IGameMonster>();
 
             foreach ( IGameMonster monster in CurrentMonsters ) {
-                if ( !monster.IsDead() ) {
+                if ( !monster.IsDead() ) {                    
                     newCurrentMonsters.Add( monster );
                 }
             }

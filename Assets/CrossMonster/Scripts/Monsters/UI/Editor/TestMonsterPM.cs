@@ -22,6 +22,7 @@ namespace CrossMonsters {
             Assert.AreEqual( "Blob", systemUnderTest.ViewModel.GetPropertyValue<string>( MonsterPM.ID_PROPERTY ) );
             Assert.AreEqual( 100, systemUnderTest.ViewModel.GetPropertyValue<int>( MonsterPM.HP_PROPERTY ) );
             Assert.AreEqual( mockAttackCombo, systemUnderTest.AttackCombo );
+            Assert.AreEqual( false, systemUnderTest.ViewModel.GetPropertyValue<bool>( MonsterPM.DESTROY_PROPERTY ) );
         }
 
         [Test]
@@ -35,6 +36,17 @@ namespace CrossMonsters {
             mockMonster.RemainingHP = 50;
             mockMonster.ModelUpdated += Raise.Event<ModelUpdateHandler>();
             Assert.AreEqual( 50, systemUnderTest.ViewModel.GetPropertyValue<int>( MonsterPM.HP_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenModelUpdated_IfMonsterIsDead_DestroyPropertyIsTrue() {
+            IGameMonster mockMonster = Substitute.For<IGameMonster>();
+            mockMonster.IsDead().Returns( false );
+            MonsterPM systemUnderTest = new MonsterPM( mockMonster );
+
+            mockMonster.IsDead().Returns( true );
+            mockMonster.ModelUpdated += Raise.Event<ModelUpdateHandler>();
+            Assert.AreEqual( true, systemUnderTest.ViewModel.GetPropertyValue<bool>( MonsterPM.DESTROY_PROPERTY ) );
         }
     }
 }

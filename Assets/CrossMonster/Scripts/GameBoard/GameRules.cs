@@ -24,7 +24,7 @@ namespace CrossMonsters {
         }
 
         public int GetActiveMonsterCount() {
-            return 4;
+            return 3;
         }
 
         public int GetBoardSize() {
