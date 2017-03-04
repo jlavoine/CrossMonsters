@@ -176,9 +176,18 @@ namespace CrossMonsters {
             IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
             mockMonsterData.GetAttackCombo().Returns( new List<int>() { 1, 2, 3 });
 
+            List<IGamePiece> comboAttempt = new List<IGamePiece>();
+            if ( i_comboAttempt != null ) {
+                foreach ( int pieceType in i_comboAttempt ) {
+                    IGamePiece mockPiece = Substitute.For<IGamePiece>();
+                    mockPiece.PieceType.Returns( pieceType );
+                    comboAttempt.Add( mockPiece );
+                }
+            }
+
             GameMonster systemUnderTest = new GameMonster( mockMonsterData );
 
-            bool doesMatch = systemUnderTest.DoesMatchCombo( i_comboAttempt );
+            bool doesMatch = systemUnderTest.DoesMatchCombo( comboAttempt );
 
             Assert.AreEqual( i_expectedMatch, doesMatch );
         }

@@ -1,8 +1,15 @@
 ﻿using MyLibrary;
 using System.Collections.Generic;
+using Zenject;
 
 namespace CrossMonsters {
     public class ChainManager : IChainManager {
+        [Inject]
+        IChainProcessor ChainProcessor;
+
+        [Inject]
+        IMessageService MyMessenger;
+
         private List<IGamePiece> mChain = null;
         public List<IGamePiece> Chain { get { return mChain; } set { mChain = value; } }
 
@@ -37,8 +44,9 @@ namespace CrossMonsters {
 
         public void EndChain() {
             if ( IsActiveChain() ) {
+                ChainProcessor.Process( mChain );
                 ResetChain();
-                SendChainResetEvent();
+                SendChainResetEvent();                
             }
         }
 
@@ -70,11 +78,11 @@ namespace CrossMonsters {
         }
 
         private void SendPieceAddedEvent( IGamePiece i_piece ) {
-            MyMessenger.Instance.Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, i_piece );
+            MyMessenger.Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, i_piece );
         }
 
         private void SendChainResetEvent() {
-            MyMessenger.Instance.Send( GameMessages.CHAIN_RESET );
+            MyMessenger.Send( GameMessages.CHAIN_RESET );
         }
 
         private bool IsPieceInChain( IGamePiece i_piece ) {

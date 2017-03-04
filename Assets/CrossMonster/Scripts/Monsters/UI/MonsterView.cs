@@ -12,6 +12,10 @@ namespace CrossMonsters {
             InitAttackComboView();
         }
 
+        protected override void OnDestroy() {
+            mPM.Dispose();
+        }
+
         private void InitAttackComboView() {
             AttackComboView comboView = gameObject.GetComponentInChildren<AttackComboView>();
             comboView.Init( mPM.AttackCombo );

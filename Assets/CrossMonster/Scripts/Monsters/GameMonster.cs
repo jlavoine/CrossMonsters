@@ -3,7 +3,7 @@ using MyLibrary;
 using System.Collections.Generic;
 
 namespace CrossMonsters {
-    public class GameMonster : IGameMonster {
+    public class GameMonster : BusinessModel, IGameMonster {
         private int mRemainingHP;
         private int mDefense;
         private int mDefenseType;
@@ -35,6 +35,7 @@ namespace CrossMonsters {
             int damage = Mathf.Max( playerAttackPower - Defense, 1 );
 
             RemainingHP -= damage;
+            SendModelChangedEvent();
         }
 
         public void Tick( long i_time ) {
@@ -49,13 +50,13 @@ namespace CrossMonsters {
             }
         }
 
-        public bool DoesMatchCombo( List<int> i_combo ) {
+        public bool DoesMatchCombo( List<IGamePiece> i_combo ) {
             if ( i_combo == null || i_combo.Count != AttackCombo.Count ) {
                 return false;
             }
 
             for ( int i = 0; i < AttackCombo.Count; ++i ) {
-                if ( AttackCombo[i] != i_combo[i] ) {
+                if ( AttackCombo[i] != i_combo[i].PieceType ) {
                     return false;
                 }
             }

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using MyLibrary;
 
 namespace CrossMonsters {
-    public interface IGameMonster {
+    public interface IGameMonster : IBusinessModel {
         string Id { get; }
         int RemainingHP { get; set; }
         int AttackPower { get; set; }
@@ -11,7 +12,7 @@ namespace CrossMonsters {
         void Tick( long i_time );
         void AttackedByPlayer( IGamePlayer i_player );
 
-        bool DoesMatchCombo( List<int> i_combo );
+        bool DoesMatchCombo( List<IGamePiece> i_combo );
         bool IsDead();
     }
 }

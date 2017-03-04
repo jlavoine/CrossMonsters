@@ -27,7 +27,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenProcessingChain_MonsterManagerProcesses() {
-            List<int> chain = new List<int>();
+            List<IGamePiece> chain = new List<IGamePiece>();
 
             systemUnderTest.Process( chain );
 

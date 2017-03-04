@@ -43,7 +43,7 @@ namespace CrossMonsters {
         [Test]
         public void WhenProcessingPlayerMove_AnyMatchingCurrentMonsters_GetAttacked() {
             IGamePlayer mockPlayer = Substitute.For<IGamePlayer>();
-            List<int> mockMove = new List<int>();
+            List<IGamePiece> mockMove = new List<IGamePiece>();
 
             List<IGameMonster> mockCurrentMonsters = new List<IGameMonster>();
             mockCurrentMonsters.Add( GetMockMonsterWithMatchCombo( true ) );
@@ -156,7 +156,7 @@ namespace CrossMonsters {
 
         private IGameMonster GetMockMonsterWithMatchCombo( bool i_doesMatch ) {
             IGameMonster mockMonster = Substitute.For<IGameMonster>();
-            mockMonster.DoesMatchCombo( Arg.Any<List<int>>() ).Returns( i_doesMatch );
+            mockMonster.DoesMatchCombo( Arg.Any<List<IGamePiece>>() ).Returns( i_doesMatch );
 
             return mockMonster;
         }

@@ -9,7 +9,7 @@ namespace CrossMonsters {
         [Inject]
         IGamePlayer GamePlayer;
 
-        public void Process( List<int> i_chain ) {
+        public void Process( List<IGamePiece> i_chain ) {
             MonsterManager.ProcessPlayerMove( GamePlayer, i_chain );
         }
     }

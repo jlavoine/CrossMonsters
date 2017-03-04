@@ -11,9 +11,14 @@ namespace CrossMonsters {
 
         public MonsterPM( IGameMonster i_monster ) {
             mMonster = i_monster;
-
+            mMonster.ModelUpdated += OnModelUpdated;
+            
             SetIdProperty();
-            SetHpProperty();
+            UpdateProperties();            
+        }
+
+        public override void Dispose() {
+            mMonster.ModelUpdated -= OnModelUpdated;
         }
 
         private void SetIdProperty() {
@@ -22,6 +27,14 @@ namespace CrossMonsters {
 
         private void SetHpProperty() {
             ViewModel.SetProperty( HP_PROPERTY, mMonster.RemainingHP );
+        }
+
+        private void UpdateProperties() {
+            SetHpProperty();
+        }
+
+        public void OnModelUpdated() {
+            UpdateProperties();
         }
     }
 }

@@ -2,6 +2,6 @@
 
 namespace CrossMonsters {
     public interface IChainProcessor {
-        void Process( List<int> i_chain );
+        void Process( List<IGamePiece> i_chain );
     }
 }

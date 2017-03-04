@@ -34,7 +34,7 @@ namespace CrossMonsters {
         // TODO this is just temp testing
         public PlayerData GetPlayerData() {
             PlayerData data = new PlayerData();
-            data.HP = 10;
+            data.HP = 100;
             data.Defenses = new Dictionary<int, int>() { { 0, 5 }, { 1, 5 } };
 
             return data;

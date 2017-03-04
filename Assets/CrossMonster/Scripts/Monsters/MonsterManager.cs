@@ -35,13 +35,13 @@ namespace CrossMonsters {
             }
         }
 
-        public void ProcessPlayerMove( IGamePlayer i_player, List<int> i_move ) {
+        public void ProcessPlayerMove( IGamePlayer i_player, List<IGamePiece> i_move ) {
             ProcessPlayerMoveOnCurrentMonsters( i_player, i_move );
             RemoveDeadMonstersFromCurrentList();
             FillCurrentMonstersWithRemaining();
         }
 
-        public void ProcessPlayerMoveOnCurrentMonsters( IGamePlayer i_player, List<int> i_move ) {
+        public void ProcessPlayerMoveOnCurrentMonsters( IGamePlayer i_player, List<IGamePiece> i_move ) {
             foreach ( IGameMonster monster in CurrentMonsters ) {
                 if ( monster.DoesMatchCombo( i_move ) ) {
                     monster.AttackedByPlayer( i_player );
