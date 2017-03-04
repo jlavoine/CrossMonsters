@@ -23,5 +23,18 @@ namespace CrossMonsters {
             Assert.AreEqual( 100, systemUnderTest.ViewModel.GetPropertyValue<int>( MonsterPM.HP_PROPERTY ) );
             Assert.AreEqual( mockAttackCombo, systemUnderTest.AttackCombo );
         }
+
+        [Test]
+        public void WhenModelUpdated_PropertiesAsExpected() {
+            IGameMonster mockMonster = Substitute.For<IGameMonster>();
+            mockMonster.RemainingHP = 100;
+            MonsterPM systemUnderTest = new MonsterPM( mockMonster );
+
+            Assert.AreEqual( 100, systemUnderTest.ViewModel.GetPropertyValue<int>( MonsterPM.HP_PROPERTY ) );
+
+            mockMonster.RemainingHP = 50;
+            mockMonster.ModelUpdated += Raise.Event<ModelUpdateHandler>();
+            Assert.AreEqual( 50, systemUnderTest.ViewModel.GetPropertyValue<int>( MonsterPM.HP_PROPERTY ) );
+        }
     }
 }
