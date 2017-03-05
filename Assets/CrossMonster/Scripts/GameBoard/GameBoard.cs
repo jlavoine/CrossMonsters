@@ -41,7 +41,7 @@ namespace CrossMonsters {
             for ( int i = 0; i < BoardPieces.GetLength(0); ++i ) {
                 for ( int j = 0; j < BoardPieces.GetLength(1); ++j ) {
                     int randomPieceType = ListUtils.GetRandomElement<int>( GameRules.GetPieceTypes() );
-                    BoardPieces[i, j] = GamePieceFactory.Create( 1 );// GamePieceFactory.Create( randomPieceType );
+                    BoardPieces[i, j] = GamePieceFactory.Create( randomPieceType );
                 }
             }
         }
