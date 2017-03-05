@@ -25,6 +25,7 @@ namespace CrossMonsters {
             systemUnderTest.Init( mockBackend );
 
             mockBackend.Received().GetTitleData( TreasureDataManager.TREASURE_DATA_TITLE_KEY, Arg.Any<Callback<string>>() );
+            mockBackend.Received().GetTitleData( TreasureDataManager.TREASURE_SETS_TITLE_KEY, Arg.Any<Callback<string>>() );
         }
     }
 }
