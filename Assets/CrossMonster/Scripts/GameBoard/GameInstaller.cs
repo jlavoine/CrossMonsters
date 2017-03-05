@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace CrossMonsters {
     public class GameInstaller : MonoInstaller {
         public override void InstallBindings() {
-            Container.Bind<IChainManager>().To<ChainManager>().AsSingle();
+            Container.Bind<IChainBuilder>().To<ChainBuilder>().AsSingle();
             Container.Bind<IChainProcessor>().To<ChainProcessor>().AsSingle();
 
             Container.Bind<IInitializable>().To<GameManager>().AsSingle();

@@ -4,7 +4,7 @@ using Zenject;
 namespace CrossMonsters {
     public class GameBackgroundView : GroupView {
         [Inject]
-        IChainManager ChainManager;
+        IChainBuilder ChainManager;
 
         [Inject]
         GameBackgroundPM BackgroundPM;

@@ -10,10 +10,10 @@ using Zenject;
 
 namespace CrossMonsters {
     [TestFixture]
-    public class TestChainManager : ZenjectUnitTestFixture {
+    public class TestChainBuilder : ZenjectUnitTestFixture {
 
         [Inject]
-        ChainManager systemUnderTest;
+        ChainBuilder systemUnderTest;
 
         [Inject]
         IChainProcessor ChainProcessor;
@@ -25,7 +25,7 @@ namespace CrossMonsters {
         public void CommonInstall() {
             Container.Bind<IChainProcessor>().FromInstance( Substitute.For<IChainProcessor>() );
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
-            Container.Bind<ChainManager>().AsSingle();
+            Container.Bind<ChainBuilder>().AsSingle();
             Container.Inject( this );
         }
 
@@ -175,13 +175,13 @@ namespace CrossMonsters {
             ChainProcessor.Received().Process( Arg.Any<List<IGamePiece>>() );
         }
 
-        private ChainManager CreateChainManager_WithNoChain() {
+        private ChainBuilder CreateChainManager_WithNoChain() {
             systemUnderTest.Chain = null;
 
             return systemUnderTest;
         }
 
-        private ChainManager CreateChainManager_WithEmptyActiveChain() {
+        private ChainBuilder CreateChainManager_WithEmptyActiveChain() {
             systemUnderTest.Chain = new List<IGamePiece>();
 
             return systemUnderTest;

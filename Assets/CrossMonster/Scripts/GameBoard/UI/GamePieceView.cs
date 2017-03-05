@@ -4,7 +4,7 @@ using Zenject;
 namespace CrossMonsters {
     public class GamePieceView : GroupView {
         [Inject]
-        IChainManager ChainManager;
+        IChainBuilder ChainManager;
 
         private IGamePiecePM mPM;
 

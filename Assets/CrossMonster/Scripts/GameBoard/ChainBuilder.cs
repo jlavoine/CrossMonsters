@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Zenject;
 
 namespace CrossMonsters {
-    public class ChainManager : IChainManager {
+    public class ChainBuilder : IChainBuilder {
         [Inject]
         IChainProcessor ChainProcessor;
 
@@ -13,7 +13,7 @@ namespace CrossMonsters {
         private List<IGamePiece> mChain = null;
         public List<IGamePiece> Chain { get { return mChain; } set { mChain = value; } }
 
-        public ChainManager() {
+        public ChainBuilder() {
             ListenForMessages( true );
         }
 

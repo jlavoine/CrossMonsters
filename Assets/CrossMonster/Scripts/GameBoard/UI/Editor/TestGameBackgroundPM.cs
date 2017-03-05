@@ -12,14 +12,14 @@ namespace CrossMonsters {
     [TestFixture]
     public class TestGameBackgroundPM : ZenjectUnitTestFixture {
         [Inject]
-        IChainManager ChainManager;
+        IChainBuilder ChainManager;
 
         [Inject]
         GameBackgroundPM systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
-            Container.Bind<IChainManager>().FromInstance( Substitute.For<IChainManager>() );
+            Container.Bind<IChainBuilder>().FromInstance( Substitute.For<IChainBuilder>() );
             Container.Bind<GameBackgroundPM>().AsSingle();
             Container.Inject( this );
         }

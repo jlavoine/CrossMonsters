@@ -4,7 +4,7 @@ using Zenject;
 namespace CrossMonsters {
     public class GameBackgroundPM : PresentationModel {
         [Inject]
-        IChainManager ChainManager;
+        IChainBuilder ChainManager;
 
         public GameBackgroundPM() {}
 
