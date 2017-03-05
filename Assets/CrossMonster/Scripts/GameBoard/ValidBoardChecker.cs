@@ -8,6 +8,10 @@ namespace CrossMonsters {
 
         public bool IsMonsterComboAvailableOnBoard( IGamePiece[,] i_board ) {
             List<List<int>> combosToCheck = MonsterManager.GetCurrentMonsterCombos();
+            if ( combosToCheck == null || combosToCheck.Count == 0 ) {
+                return true;    // this doesn't feel like clean code, but if the combosToCheck is null/0, we don't want to randomize
+            }
+
             bool doesBoardHaveAnyCombo = false;
             
             foreach ( List<int> combo in combosToCheck ) {

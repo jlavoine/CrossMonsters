@@ -26,6 +26,19 @@ namespace CrossMonsters {
         }
 
         [Test]
+        public void IfSearchIsEmpty_BoardIsValid() {
+            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0), new GamePiece( 0 ), new GamePiece( 0 ), new GamePiece( 0 ) },
+            { new GamePiece(0), new GamePiece( 1 ), new GamePiece( 0 ), new GamePiece( 0 ) },
+            { new GamePiece(0), new GamePiece( 2 ), new GamePiece( 0 ), new GamePiece( 0 ) },
+            { new GamePiece(0), new GamePiece( 3 ), new GamePiece( 0 ), new GamePiece( 0 ) }};
+
+            MonsterManager.GetCurrentMonsterCombos().Returns( new List<List<int>>() );
+
+            bool isOnBoard = systemUnderTest.IsMonsterComboAvailableOnBoard( mockBoard );
+            Assert.IsTrue( isOnBoard );
+        }
+
+        [Test]
         public void TestSearch_1() {
             IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0), new GamePiece( 0 ), new GamePiece( 0 ), new GamePiece( 0 ) },
             { new GamePiece(0), new GamePiece( 1 ), new GamePiece( 0 ), new GamePiece( 0 ) },
