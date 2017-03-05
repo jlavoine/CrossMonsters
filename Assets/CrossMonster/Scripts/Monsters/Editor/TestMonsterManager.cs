@@ -18,11 +18,15 @@ namespace CrossMonsters {
         IGameManager GameManager;
 
         [Inject]
+        IGameBoard GameBoard;
+
+        [Inject]
         MonsterManager systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
+            Container.Bind<IGameBoard>().FromInstance( Substitute.For<IGameBoard>() );
             Container.Bind<IGameManager>().FromInstance( Substitute.For<IGameManager>() );
             Container.Bind<MonsterManager>().AsSingle();
             Container.Inject( this );
@@ -122,7 +126,7 @@ namespace CrossMonsters {
             systemUnderTest.RemainingMonsters.Add( Substitute.For<IGameMonster>() );
             systemUnderTest.RemainingMonsters.Add( Substitute.For<IGameMonster>() );
 
-            systemUnderTest.FillCurrentMonstersWithRemaining();
+            systemUnderTest.FillCurrentMonstersWithRemainingMonsters();
 
             Assert.AreEqual( 4, systemUnderTest.CurrentMonsters.Count );
             Assert.AreEqual( 0, systemUnderTest.RemainingMonsters.Count );
@@ -139,7 +143,7 @@ namespace CrossMonsters {
             systemUnderTest.RemainingMonsters = new List<IGameMonster>();
             systemUnderTest.RemainingMonsters.Add( Substitute.For<IGameMonster>() );
 
-            systemUnderTest.FillCurrentMonstersWithRemaining();
+            systemUnderTest.FillCurrentMonstersWithRemainingMonsters();
 
             Assert.AreEqual( 3, systemUnderTest.CurrentMonsters.Count );
             Assert.AreEqual( 0, systemUnderTest.RemainingMonsters.Count );
@@ -155,7 +159,7 @@ namespace CrossMonsters {
 
             systemUnderTest.RemainingMonsters = new List<IGameMonster>();
 
-            systemUnderTest.FillCurrentMonstersWithRemaining();
+            systemUnderTest.FillCurrentMonstersWithRemainingMonsters();
 
             Assert.AreEqual( 2, systemUnderTest.CurrentMonsters.Count );
             Assert.AreEqual( 0, systemUnderTest.RemainingMonsters.Count );
@@ -187,6 +191,13 @@ namespace CrossMonsters {
 
             Assert.AreEqual( 4, systemUnderTest.CurrentMonsters.Count );
             Assert.AreEqual( 2, systemUnderTest.RemainingMonsters.Count );
+        }
+
+        [Test]
+        public void WhenSettingMonsters_ChecksToSeeIfBoardShouldBeRandomized() {
+            systemUnderTest.SetMonsters( new List<IGameMonster>() );
+
+            GameBoard.Received().RandomizeGameBoardIfNoMonsterCombosAvailable();
         }
 
         private IGameMonster GetMockMonsterWithMatchCombo( bool i_doesMatch ) {

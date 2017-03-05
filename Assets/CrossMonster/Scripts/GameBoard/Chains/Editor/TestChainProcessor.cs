@@ -15,18 +15,22 @@ namespace CrossMonsters {
         IMonsterManager MonsterManager;
 
         [Inject]
+        IGameBoard GameBoard;
+
+        [Inject]
         ChainProcessor systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IMonsterManager>().FromInstance( Substitute.For<IMonsterManager>() );
+            Container.Bind<IGameBoard>().FromInstance( Substitute.For<IGameBoard>() );
             Container.Bind<IGamePlayer>().FromInstance( Substitute.For<IGamePlayer>() );
             Container.Bind<ChainProcessor>().AsSingle();
             Container.Inject( this );
         }
 
         [Test]
-        public void WhenProcessingChain_IfChainIsMatchesAnyMonster_MonsterManagerProcesses() {
+        public void WhenProcessingChain_IfChainMatchesAnyMonster_MonsterManagerProcesses() {
             MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( true );
             List<IGamePiece> chain = new List<IGamePiece>();
 
@@ -58,6 +62,16 @@ namespace CrossMonsters {
             foreach ( IGamePiece piece in chain ) {
                 piece.Received().UsePiece();
             }
+        }
+
+        [Test]
+        public void WhenProcessingChain_IfChainIsProcessed_GameBoardIsCheckedToBeRandomized() {
+            MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( true );
+            List<IGamePiece> chain = new List<IGamePiece>();
+
+            systemUnderTest.Process( chain );
+
+            GameBoard.Received().RandomizeGameBoardIfNoMonsterCombosAvailable();
         }
     }
 }

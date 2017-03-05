@@ -10,6 +10,9 @@ namespace CrossMonsters {
         [Inject]
         IGameManager GameManager;
 
+        [Inject]
+        IGameBoard GameBoard;
+
         private List<IGameMonster> mCurrentMonsters;
         public List<IGameMonster> CurrentMonsters { get { return mCurrentMonsters; } set { mCurrentMonsters = value; } }
 
@@ -25,7 +28,9 @@ namespace CrossMonsters {
             RemainingMonsters = i_allMonsters;
             RemainingMonsters.Shuffle();
 
-            FillCurrentMonstersWithRemaining();
+            FillCurrentMonstersWithRemainingMonsters();
+
+            RandomizeGameBoardIfNoMonsterCombosAvailable();
         }       
         
         /*public void SetUsedPieceTypes( List<IGameMonster> i_monsters ) {
@@ -42,7 +47,7 @@ namespace CrossMonsters {
         public void ProcessPlayerMove( IGamePlayer i_player, List<IGamePiece> i_move ) {
             ProcessPlayerMoveOnCurrentMonsters( i_player, i_move );
             RemoveDeadMonstersFromCurrentList();
-            FillCurrentMonstersWithRemaining();
+            FillCurrentMonstersWithRemainingMonsters();            
             SendMessageIfAllMonstersDead();
         }
 
@@ -76,7 +81,7 @@ namespace CrossMonsters {
             CurrentMonsters = newCurrentMonsters;
         }
 
-        public void FillCurrentMonstersWithRemaining() {
+        public void FillCurrentMonstersWithRemainingMonsters() {
             int monstersToAdd = GetNumberOfMissingCurrentMonsters();
 
             for ( int i = 0; i < monstersToAdd; ++i ) {
@@ -99,6 +104,10 @@ namespace CrossMonsters {
             int requiredActiveMonsters = GameRules.GetActiveMonsterCount();
 
             return requiredActiveMonsters - numCurrentMonsters;
-        }        
+        }           
+
+        private void RandomizeGameBoardIfNoMonsterCombosAvailable() {
+            GameBoard.RandomizeGameBoardIfNoMonsterCombosAvailable();
+        }
     }
 }

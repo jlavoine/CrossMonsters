@@ -20,6 +20,7 @@ namespace CrossMonsters {
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
+            Container.Bind<IMonsterManager>().FromInstance( Substitute.For<IMonsterManager>() );
             Container.BindFactory<int, GamePiece, GamePiece.Factory>();
             Container.Bind<GameBoard>().AsSingle();
             Container.Inject( this );            

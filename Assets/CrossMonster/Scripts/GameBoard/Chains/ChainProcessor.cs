@@ -9,10 +9,14 @@ namespace CrossMonsters {
         [Inject]
         IGamePlayer GamePlayer;
 
+        [Inject]
+        IGameBoard GameBoard;
+
         public void Process( List<IGamePiece> i_chain ) {
             if ( MonsterManager.DoesMoveMatchAnyCurrentMonsters( i_chain ) ) {
                 MonsterManager.ProcessPlayerMove( GamePlayer, i_chain );
                 UsePiecesInChain( i_chain );
+                RandomizeGameBoardIfNoMonsterCombosAvailable();
             }
         }
 
@@ -20,6 +24,10 @@ namespace CrossMonsters {
             foreach ( IGamePiece piece in i_pieces ) {
                 piece.UsePiece();
             }
+        }
+
+        private void RandomizeGameBoardIfNoMonsterCombosAvailable() {
+            GameBoard.RandomizeGameBoardIfNoMonsterCombosAvailable();
         }
     }
 }
