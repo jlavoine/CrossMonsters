@@ -5,5 +5,6 @@ namespace CrossMonsters {
         int PieceType { get; }
 
         void UsePiece();
+        void Randomize();
     }
 }
