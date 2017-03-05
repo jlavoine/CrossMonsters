@@ -6,6 +6,7 @@ using System.Collections;
 using TMPro;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Zenject;
 
 namespace CrossMonsters {
     public class LoginScreen : MonoBehaviour {
@@ -27,6 +28,9 @@ namespace CrossMonsters {
 
         public GameObject PlayerSelectionArea;
         public TextMeshProUGUI LoginStatusText;
+
+        [Inject]
+        ITreasureDataManager TreasureDataManager;
 
         void Start() {
             mBackend = new CrossBackend();
@@ -84,6 +88,7 @@ namespace CrossMonsters {
             LoginStatusText.text = STATUS_DOWNLOADING_GAME;
            
             StringTableManager.Instance.Init( "English", mBackend );
+            TreasureDataManager.Init( mBackend );
             //PlayerManager.Instance.Init( new PlayerData() );
 
             //Constants.Init( mBackend );

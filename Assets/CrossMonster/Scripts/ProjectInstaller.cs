@@ -1,9 +1,11 @@
 using UnityEngine;
 using Zenject;
 using MyLibrary;
+using CrossMonsters;
 
-public class ProjectInstaller : MonoInstaller{
+public class ProjectInstaller : MonoInstaller {
     public override void InstallBindings() {
         Container.Bind<IMessageService>().To<MyMessenger>().AsSingle();
+        Container.Bind<ITreasureDataManager>().To<TreasureDataManager>().AsSingle();
     }
 }
