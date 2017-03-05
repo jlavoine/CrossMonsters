@@ -46,6 +46,16 @@ namespace CrossMonsters {
             SendMessageIfAllMonstersDead();
         }
 
+        public bool DoesMoveMatchAnyCurrentMonsters( List<IGamePiece> i_move ) {
+            foreach ( IGameMonster monster in CurrentMonsters ) {
+                if ( monster.DoesMatchCombo( i_move ) ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void ProcessPlayerMoveOnCurrentMonsters( IGamePlayer i_player, List<IGamePiece> i_move ) {
             foreach ( IGameMonster monster in CurrentMonsters ) {
                 if ( monster.DoesMatchCombo( i_move ) ) {

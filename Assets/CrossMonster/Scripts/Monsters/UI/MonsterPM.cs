@@ -12,7 +12,6 @@ namespace CrossMonsters {
 
         public MonsterPM( IGameMonster i_monster ) : base( i_monster ) {
             mMonster = i_monster;
-            mMonster.ModelUpdated += OnModelUpdated;
             
             SetIdProperty();
             UpdateProperties();            

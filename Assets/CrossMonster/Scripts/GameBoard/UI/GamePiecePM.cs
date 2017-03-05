@@ -9,12 +9,12 @@ namespace CrossMonsters {
         private IGamePiece mPiece;
         public IGamePiece GamePiece { get { return mPiece; } set { mPiece = value; } }
 
-        public GamePiecePM( IGamePiece i_piece ) {
+        public GamePiecePM( IGamePiece i_piece ) : base( i_piece ) {
             GamePiece = i_piece;
 
             ListenForMessages( true );
 
-            SetPieceTypeProperty( i_piece );
+            UpdateProperties();            
             ResetColorBackgroundPropertyToDefault();            
         }
 
@@ -42,8 +42,16 @@ namespace CrossMonsters {
             ResetColorBackgroundPropertyToDefault();
         }
 
-        private void SetPieceTypeProperty( IGamePiece i_piece ) {
-            ViewModel.SetProperty( PIECE_TYPE_PROPERTY, i_piece.PieceType.ToString() );
+        protected override void OnModelUpdated() {
+            UpdateProperties();
+        }
+
+        private void UpdateProperties() {
+            SetPieceTypeProperty();
+        }
+
+        private void SetPieceTypeProperty() {
+            ViewModel.SetProperty( PIECE_TYPE_PROPERTY, GamePiece.PieceType.ToString() );
         }
 
         private void SetBackgroundColorProperty( Color i_color ) {

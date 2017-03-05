@@ -26,12 +26,38 @@ namespace CrossMonsters {
         }
 
         [Test]
-        public void WhenProcessingChain_MonsterManagerProcesses() {
+        public void WhenProcessingChain_IfChainIsMatchesAnyMonster_MonsterManagerProcesses() {
+            MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( true );
             List<IGamePiece> chain = new List<IGamePiece>();
 
             systemUnderTest.Process( chain );
 
             MonsterManager.Received().ProcessPlayerMove( Arg.Any<IGamePlayer>(), chain );
+        }
+
+        [Test]
+        public void WhenProcessingChain_IfChainDoesNotMatchAnyMonster_MonsterManagerProcesses() {
+            MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( false );
+            List<IGamePiece> chain = new List<IGamePiece>();
+
+            systemUnderTest.Process( chain );
+
+            MonsterManager.DidNotReceive().ProcessPlayerMove( Arg.Any<IGamePlayer>(), chain );
+        }
+
+        [Test]
+        public void WhenProcessingChain_IfChainIsProcessed_PiecesInvolvedAreUsed() {
+            MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( true );
+            List<IGamePiece> chain = new List<IGamePiece>();
+            chain.Add( Substitute.For<IGamePiece>() );
+            chain.Add( Substitute.For<IGamePiece>() );
+            chain.Add( Substitute.For<IGamePiece>() );
+
+            systemUnderTest.Process( chain );
+
+            foreach ( IGamePiece piece in chain ) {
+                piece.Received().UsePiece();
+            }
         }
     }
 }

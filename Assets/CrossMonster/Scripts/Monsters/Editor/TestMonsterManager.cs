@@ -45,6 +45,26 @@ namespace CrossMonsters {
         }
 
         [Test]
+        public void DoesMoveMatchAnyCurrentMonsters_ReturnsTrue_WhenMonsterMatches() {
+            List<IGamePiece> mockMove = new List<IGamePiece>();
+            List<IGameMonster> mockCurrentMonsters = new List<IGameMonster>();
+            mockCurrentMonsters.Add( GetMockMonsterWithMatchCombo( true ) );
+            systemUnderTest.CurrentMonsters = mockCurrentMonsters;
+
+            Assert.IsTrue( systemUnderTest.DoesMoveMatchAnyCurrentMonsters( mockMove ) );
+        }
+
+        [Test]
+        public void DoesMoveMatchAnyCurrentMonsters_ReturnsFalse_WhenNoMonsterMatches() {
+            List<IGamePiece> mockMove = new List<IGamePiece>();
+            List<IGameMonster> mockCurrentMonsters = new List<IGameMonster>();
+            mockCurrentMonsters.Add( GetMockMonsterWithMatchCombo( false ) );
+            systemUnderTest.CurrentMonsters = mockCurrentMonsters;
+
+            Assert.IsFalse( systemUnderTest.DoesMoveMatchAnyCurrentMonsters( mockMove ) );
+        }
+
+        [Test]
         public void WhenProcessingPlayerMove_AnyMatchingCurrentMonsters_GetAttacked() {
             IGamePlayer mockPlayer = Substitute.For<IGamePlayer>();
             List<IGamePiece> mockMove = new List<IGamePiece>();

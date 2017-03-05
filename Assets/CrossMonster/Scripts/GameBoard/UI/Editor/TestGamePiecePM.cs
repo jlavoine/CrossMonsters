@@ -75,5 +75,18 @@ namespace CrossMonsters {
 
             Assert.AreEqual( Color.white, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
         }
+
+        [Test]
+        public void WhenModelUpdated_PropertiesAsExpected() {
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();
+            mockPiece.PieceType.Returns( 0 );
+            GamePiecePM systemUnderTest = new GamePiecePM( mockPiece );
+
+            Assert.AreEqual( "0", systemUnderTest.ViewModel.GetPropertyValue<string>( GamePiecePM.PIECE_TYPE_PROPERTY ) );
+
+            mockPiece.PieceType.Returns( 1 );
+            mockPiece.ModelUpdated += Raise.Event<ModelUpdateHandler>();
+            Assert.AreEqual( "1", systemUnderTest.ViewModel.GetPropertyValue<string>( GamePiecePM.PIECE_TYPE_PROPERTY ) );
+        }
     }
 }

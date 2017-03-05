@@ -1,7 +1,8 @@
 ﻿using Zenject;
+using MyLibrary;
 
 namespace CrossMonsters {
-    public class GamePiece : IGamePiece {
+    public class GamePiece : BusinessModel, IGamePiece {
         [Inject]
         IGameRules GameRules;
 
@@ -14,6 +15,7 @@ namespace CrossMonsters {
 
         public void UsePiece() {
             RotatePieceType();
+            SendModelChangedEvent();
         }
 
         private void RotatePieceType() {

@@ -10,7 +10,16 @@ namespace CrossMonsters {
         IGamePlayer GamePlayer;
 
         public void Process( List<IGamePiece> i_chain ) {
-            MonsterManager.ProcessPlayerMove( GamePlayer, i_chain );
+            if ( MonsterManager.DoesMoveMatchAnyCurrentMonsters( i_chain ) ) {
+                MonsterManager.ProcessPlayerMove( GamePlayer, i_chain );
+                UsePiecesInChain( i_chain );
+            }
+        }
+
+        private void UsePiecesInChain( List<IGamePiece> i_pieces ) {
+            foreach ( IGamePiece piece in i_pieces ) {
+                piece.UsePiece();
+            }
         }
     }
 }
