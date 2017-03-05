@@ -6,7 +6,7 @@ namespace CrossMonsters {
 
         void Start() {
 #if UNITY_STANDALONE
-            Screen.SetResolution( 1024, 768, false );
+            Screen.SetResolution( 768, 1024, false );
             Application.runInBackground = true;
 #endif
             SceneManager.LoadScene( "Login" );
