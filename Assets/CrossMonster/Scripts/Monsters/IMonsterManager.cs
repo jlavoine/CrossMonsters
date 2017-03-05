@@ -10,5 +10,7 @@ namespace CrossMonsters {
 
         List<IGameMonster> CurrentMonsters { get; }
         List<IGameMonster> RemainingMonsters { get; }
+
+        List<List<int>> GetCurrentMonsterCombos();
     }
 }

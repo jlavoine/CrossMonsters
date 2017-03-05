@@ -99,6 +99,16 @@ namespace CrossMonsters {
             }
         }
 
+        public List<List<int>> GetCurrentMonsterCombos() {
+            List<List<int>> currentCombos = new List<List<int>>();
+
+            foreach ( IGameMonster monster in CurrentMonsters ) {
+                currentCombos.Add( monster.AttackCombo );
+            }
+
+            return currentCombos;
+        }
+
         private int GetNumberOfMissingCurrentMonsters() {
             int numCurrentMonsters = CurrentMonsters.Count;
             int requiredActiveMonsters = GameRules.GetActiveMonsterCount();

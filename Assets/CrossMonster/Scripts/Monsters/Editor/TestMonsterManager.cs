@@ -40,7 +40,6 @@ namespace CrossMonsters {
             mockMonsters.Add( Substitute.For<IGameMonster>() );
 
             systemUnderTest.CurrentMonsters = mockMonsters;
-            UnityEngine.Debug.LogError( "ticking" );
             systemUnderTest.Tick( 1000 );
 
             foreach ( IGameMonster monster in systemUnderTest.CurrentMonsters ) {

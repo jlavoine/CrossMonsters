@@ -15,12 +15,15 @@ namespace CrossMonsters {
         IGameRules GameRules;
 
         [Inject]
+        IValidBoardChecker ValidBoardChecker;
+
+        [Inject]
         GameBoard systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
-            Container.Bind<IMonsterManager>().FromInstance( Substitute.For<IMonsterManager>() );
+            Container.Bind<IValidBoardChecker>().FromInstance( Substitute.For<IValidBoardChecker>() );
             Container.BindFactory<int, GamePiece, GamePiece.Factory>();
             Container.Bind<GameBoard>().AsSingle();
             Container.Inject( this );            
@@ -43,8 +46,8 @@ namespace CrossMonsters {
             }
         }
 
-        [Test, Ignore("This doesn't work because the game pieces created are actual implementations")]
-        public void WhenRandomizingBoard_AllPiecesAreRandomized() {
+        //[Test, Ignore("This doesn't work because the game pieces created are actual implementations")]
+        /*public void WhenRandomizingBoard_AllPiecesAreRandomized() {
             InitBoardWithSizeAndList( 4, new List<int>() { 1, 2, 3 } );
 
             systemUnderTest.RandomizeBoard();
@@ -52,7 +55,7 @@ namespace CrossMonsters {
             foreach ( IGamePiece piece in systemUnderTest.BoardPieces ) {
                 piece.Received( 1 ).Randomize();
             }
-        }
+        }*/
 
         private void InitBoardWithSizeAndList( int i_size, List<int> i_pieceTypes ) {
             GameRules.GetBoardSize().Returns( i_size );

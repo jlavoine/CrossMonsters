@@ -9,6 +9,7 @@ namespace CrossMonsters {
 
             Container.Bind<IInitializable>().To<GameManager>().AsSingle();
             Container.Bind<IGameManager>().To<GameManager>().AsSingle();
+            Container.Bind<IValidBoardChecker>().To<ValidBoardChecker>().AsSingle();
 
             Container.Bind<IPlayerData>().To<PlayerData>().FromInstance( GetPlayerData() );
             Container.Bind<IInitializable>().To<GamePlayer>().AsSingle();
