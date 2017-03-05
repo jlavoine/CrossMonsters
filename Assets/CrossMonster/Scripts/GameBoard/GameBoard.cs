@@ -18,6 +18,15 @@ namespace CrossMonsters {
             FillBoard();
         }
 
+        public void RandomizeBoard() {
+            for ( int i = 0; i < BoardPieces.GetLength( 0 ); ++i ) {
+                for ( int j = 0; j < BoardPieces.GetLength( 1 ); ++j ) {
+                    IGamePiece piece = BoardPieces[i, j];
+                    piece.Randomize();
+                }
+            }
+        }
+
         private void CreateBoard() {
             int size = GameRules.GetBoardSize();
             BoardPieces = new IGamePiece[size,size];
