@@ -1,4 +1,4 @@
-﻿#if UNITY_IOS || UNITY_ANDROID
+﻿/*#if UNITY_IOS || UNITY_ANDROID
 using UnityEngine.Advertisements;
 #endif
 
@@ -69,4 +69,4 @@ namespace MyLibrary {
             EasyMessenger.Instance.Send( REWARD_AD_FINISHED_MESSAGE, i_result );            
         }
     }
-}
+}*/
