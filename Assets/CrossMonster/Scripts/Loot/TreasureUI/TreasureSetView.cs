@@ -1,16 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using MyLibrary;
 
-public class TreasureSetView : MonoBehaviour {
+namespace CrossMonsters {
+    public class TreasureSetView : GroupView {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public void Init( ITreasureSetPM i_pm ) {
+            SetModel( i_pm.ViewModel );
+        }
+    }
 }

@@ -1,5 +1,6 @@
-﻿
+﻿using MyLibrary;
+
 namespace CrossMonsters {
-    public interface ITreasureSetPM {
+    public interface ITreasureSetPM : IPresentationModel {
     }
 }

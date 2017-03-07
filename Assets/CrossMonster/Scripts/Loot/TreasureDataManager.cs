@@ -11,8 +11,10 @@ namespace CrossMonsters {
         private IBasicBackend mBackend;
 
         private List<TreasureData> mAllTreasure;
-        private List<TreasureSetData> mAllTreasureSets;
+        private List<ITreasureSetData> mAllTreasureSets;
         private List<string> mPlayerTreasure;
+
+        public List<ITreasureSetData> TreasureSetData { get { return mAllTreasureSets; } set { mAllTreasureSets = value; } }
 
         public void Init( IBasicBackend i_backend ) {
             UnityEngine.Debug.LogError( "Initing treasure data manager" );
@@ -32,10 +34,14 @@ namespace CrossMonsters {
         }
 
         private void DownloadTreasureSets() {
-            mAllTreasureSets = new List<TreasureSetData>();
+            mAllTreasureSets = new List<ITreasureSetData>();
 
             mBackend.GetTitleData( TREASURE_SETS_TITLE_KEY, ( result ) => {
-                mAllTreasureSets = JsonConvert.DeserializeObject<List<TreasureSetData>>( result );
+                List<TreasureSetData> setData = JsonConvert.DeserializeObject<List<TreasureSetData>>( result );
+
+                foreach( TreasureSetData set in setData) {
+                    mAllTreasureSets.Add( set );
+                }
             } );
         }
 

@@ -12,16 +12,22 @@ namespace CrossMonsters {
     public class TestAllTreasurePM : ZenjectUnitTestFixture {
 
         [Inject]
+        ITreasureDataManager TreasureDataManager;
+
+        [Inject]
         AllTreasurePM systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
+            Container.Bind<ITreasureDataManager>().FromInstance( Substitute.For<ITreasureDataManager>() );
             Container.Bind<AllTreasurePM>().AsSingle();
             Container.Inject( this );
         }
 
         [Test]
         public void IsVisible_IsFalse_ByDefault() {
+            systemUnderTest.Initialize();
+
             bool isVisible = systemUnderTest.ViewModel.GetPropertyValue<bool>( AllTreasurePM.VISIBLE_PROPERTY );
             Assert.IsFalse( isVisible );
         }
@@ -42,6 +48,18 @@ namespace CrossMonsters {
 
             bool isVisible = systemUnderTest.ViewModel.GetPropertyValue<bool>( AllTreasurePM.VISIBLE_PROPERTY );
             Assert.IsFalse( isVisible );
+        }
+
+        [Test]
+        public void WhenInited_TreasureSetPMs_MatchDataManager() {
+            List<ITreasureSetData> mockTreasureSets = new List<ITreasureSetData>();
+            mockTreasureSets.Add( Substitute.For<ITreasureSetData>() );
+            mockTreasureSets.Add( Substitute.For<ITreasureSetData>() );
+            mockTreasureSets.Add( Substitute.For<ITreasureSetData>() );
+            TreasureDataManager.TreasureSetData.Returns( mockTreasureSets );
+            systemUnderTest.Initialize();
+
+            Assert.AreEqual( 3, systemUnderTest.TreasureSetPMs.Count );
         }
     }
 }
