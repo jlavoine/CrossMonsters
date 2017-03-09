@@ -6,5 +6,7 @@ namespace CrossMonsters {
         void Init( IBasicBackend i_backend );
 
         List<ITreasureSetData> TreasureSetData { get; }
+
+        bool DoesPlayerHaveTreasure( string i_treasureId );
     }
 }

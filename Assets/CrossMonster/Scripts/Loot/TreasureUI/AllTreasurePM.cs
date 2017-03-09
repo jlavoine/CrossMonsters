@@ -9,6 +9,9 @@ namespace CrossMonsters {
         [Inject]
         ITreasureDataManager TreasureDataManager;
 
+        [Inject]
+        ITreasureSetPM_Spawner TreasureSetPM_Spawner;
+
         private List<ITreasureSetPM> mTreasureSetPMs;
         public List<ITreasureSetPM> TreasureSetPMs { get { return mTreasureSetPMs; } set { mTreasureSetPMs = value; } }
 
@@ -30,7 +33,7 @@ namespace CrossMonsters {
 
             if ( TreasureDataManager.TreasureSetData != null ) {
                 foreach ( ITreasureSetData setData in TreasureDataManager.TreasureSetData ) {
-                    mTreasureSetPMs.Add( new TreasureSetPM( setData ) );
+                    mTreasureSetPMs.Add( TreasureSetPM_Spawner.Create( setData ) );
                 }
             }
         }

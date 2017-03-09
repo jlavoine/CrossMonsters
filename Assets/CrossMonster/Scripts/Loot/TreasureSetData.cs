@@ -8,5 +8,9 @@ namespace CrossMonsters {
         public string GetId() {
             return Id;
         }
+
+        public List<string> GetTreasuresInSet() {
+            return TreasureInSet;
+        }
     }
 }

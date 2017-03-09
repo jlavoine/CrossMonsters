@@ -15,6 +15,7 @@ namespace CrossMonsters {
         private List<string> mPlayerTreasure;
 
         public List<ITreasureSetData> TreasureSetData { get { return mAllTreasureSets; } set { mAllTreasureSets = value; } }
+        public List<string> PlayerTreasure { get { return mPlayerTreasure; } set { mPlayerTreasure = value; } }
 
         public void Init( IBasicBackend i_backend ) {
             UnityEngine.Debug.LogError( "Initing treasure data manager" );
@@ -23,6 +24,10 @@ namespace CrossMonsters {
             DownloadTreasureData();
             DownloadTreasureSets();
             DownloadPlayerTreasure();
+        }
+
+        public bool DoesPlayerHaveTreasure( string i_treasureId ) {
+            return PlayerTreasure.Contains( i_treasureId );
         }
 
         private void DownloadTreasureData() {

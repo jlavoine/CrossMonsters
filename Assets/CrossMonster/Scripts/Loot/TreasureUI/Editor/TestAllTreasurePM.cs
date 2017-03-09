@@ -15,11 +15,15 @@ namespace CrossMonsters {
         ITreasureDataManager TreasureDataManager;
 
         [Inject]
+        ITreasureSetPM_Spawner TreasurePM_Spawner;
+
+        [Inject]
         AllTreasurePM systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<ITreasureDataManager>().FromInstance( Substitute.For<ITreasureDataManager>() );
+            Container.Bind<ITreasureSetPM_Spawner>().FromInstance( Substitute.For<ITreasureSetPM_Spawner>() );
             Container.Bind<AllTreasurePM>().AsSingle();
             Container.Inject( this );
         }

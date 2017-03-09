@@ -1,20 +1,41 @@
 ﻿using MyLibrary;
+using System.Collections.Generic;
+using Zenject;
 
 namespace CrossMonsters {
     public class TreasureSetPM : PresentationModel, ITreasureSetPM {
         public const string NAME_PROPERTY = "TreasureSetName";
 
+        readonly ITreasurePM_Spawner TreasurePM_Spawner;
+
         private ITreasureSetData mData;
 
-        public TreasureSetPM( ITreasureSetData i_data ) {
+        private List<ITreasurePM> mTreasurePMs;
+        public List<ITreasurePM> TreasurePMs { get { return mTreasurePMs; } set { mTreasurePMs = value; } }
+
+        public TreasureSetPM( ITreasureSetData i_data, ITreasurePM_Spawner i_spawner ) {
+            TreasurePM_Spawner = i_spawner;
             mData = i_data;
 
             SetNameProperty();
+            CreateTreasurePMs();
         }
 
         private void SetNameProperty() {
             string text = StringTableManager.Instance.Get( mData.GetId() + "_Name" );
             ViewModel.SetProperty( NAME_PROPERTY, text );
         }
+
+        private void CreateTreasurePMs() {
+            TreasurePMs = new List<ITreasurePM>();
+
+            if ( mData.GetTreasuresInSet() != null ) {
+                foreach ( string treasureId in mData.GetTreasuresInSet() ) {
+                    TreasurePMs.Add( TreasurePM_Spawner.Create( treasureId ) );
+                }
+            }
+        }
+
+        public class Factory : Factory<ITreasureSetData, TreasureSetPM> { }
     }
 }

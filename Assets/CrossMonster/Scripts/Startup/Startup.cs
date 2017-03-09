@@ -7,11 +7,11 @@ namespace CrossMonsters {
     public class Startup : MonoBehaviour {
 
         void Start() {
-            List<TreasureData> all = new List<TreasureData>();
-            all.Add( new TreasureData() { Id = "hi", LootType = LootTypes.Treasure } );
-            all.Add( new TreasureData() { Id = "bye", LootType = LootTypes.Treasure } );
+            List<string> test = new List<string>();
+            test.Add( "a" );
+            test.Add( "b" );
 
-            string json = JsonConvert.SerializeObject( all );
+            string json = JsonConvert.SerializeObject( test );
             UnityEngine.Debug.LogError( json );
 
 #if UNITY_STANDALONE
