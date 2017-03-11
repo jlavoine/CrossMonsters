@@ -11,6 +11,8 @@ namespace CrossMonsters {
         public long AttackRate;
         public List<int> AttackCombo;
 
+        public List<string> Categories;
+
         public string GetId() { return Id; }
         public int GetMaxHP() { return MaxHP; }
         public int GetDefense() { return Defense; }
