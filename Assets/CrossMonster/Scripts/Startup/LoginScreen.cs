@@ -32,6 +32,9 @@ namespace CrossMonsters {
         [Inject]
         ITreasureDataManager TreasureDataManager;
 
+        [Inject]
+        IMonsterDataManager MonsterDataManager;
+
         void Start() {
             mBackend = new CrossBackend();
             BackendManager.Instance.Init( mBackend );
@@ -89,6 +92,7 @@ namespace CrossMonsters {
            
             StringTableManager.Instance.Init( "English", mBackend );
             TreasureDataManager.Init( mBackend );
+            MonsterDataManager.Init( mBackend );
             //PlayerManager.Instance.Init( new PlayerData() );
 
             //Constants.Init( mBackend );
