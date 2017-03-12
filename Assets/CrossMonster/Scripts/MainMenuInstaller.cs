@@ -1,5 +1,6 @@
 ﻿using Zenject;
 using System.Collections.Generic;
+using MyLibrary;
 
 namespace CrossMonsters {
     public class MainMenuInstaller : MonoInstaller {
@@ -12,6 +13,9 @@ namespace CrossMonsters {
 
             Container.BindFactory<ITreasureSetData, TreasureSetPM, TreasureSetPM.Factory>();
             Container.BindFactory<string, TreasurePM, TreasurePM.Factory>();
+            Container.BindFactory<DungeonLoader, DungeonLoader.Factory>();
+
+            Container.Bind<ILoadingScreenPM>().To<LoadingScreenPM>().AsSingle();
         }
     }
 }
