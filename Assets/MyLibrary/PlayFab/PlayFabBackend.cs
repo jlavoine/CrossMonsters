@@ -137,9 +137,12 @@ namespace MyLibrary {
         }
 
         private void OutputResultLogs( List<LogStatement> i_logs ) {
+            string output = string.Empty;
             foreach ( LogStatement log in i_logs ) {
-                MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Info, "Log type: " + log.Level + "\n" + log.Message, PLAYFAB );
+                output += log.Level + ": " + log.Message + "\n";
             }
+
+            MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Info, output, PLAYFAB );
         }
 
         public IEnumerator WaitForCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> i_requestSuccessCallback ) {
