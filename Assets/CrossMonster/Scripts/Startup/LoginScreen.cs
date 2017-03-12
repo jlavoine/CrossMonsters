@@ -35,9 +35,12 @@ namespace CrossMonsters {
         [Inject]
         IMonsterDataManager MonsterDataManager;
 
+        [Inject]
+        IBackendManager BackendManager;
+
         void Start() {
             mBackend = new CrossBackend();
-            BackendManager.Instance.Init( mBackend );
+            BackendManager.Init( mBackend );
 
             MyMessenger.Instance.AddListener( BackendMessages.LOGIN_SUCCESS, OnLoginSuccess );
             MyMessenger.Instance.AddListener<IBackendFailure>( BackendMessages.BACKEND_REQUEST_FAIL, OnBackendFailure );

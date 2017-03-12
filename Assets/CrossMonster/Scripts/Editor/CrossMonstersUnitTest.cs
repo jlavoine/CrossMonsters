@@ -7,15 +7,13 @@ namespace CrossMonsters {
     public abstract class CrossMonstersUnitTest {
 
         [SetUp]
-        public virtual void BeforeTest() {
-            BackendManager.Instance = Substitute.For<IBackendManager>();
+        public virtual void BeforeTest() {            
             MyMessenger.Instance = Substitute.For<IMessageService>();
             StringTableManager.Instance = Substitute.For<IStringTableManager>();
         }
 
         [TearDown]
-        public virtual void AfterTest() {
-            BackendManager.Instance = null;
+        public virtual void AfterTest() {            
             MyMessenger.Instance = null;
             StringTableManager.Instance = null;
         }
