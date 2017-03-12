@@ -11,5 +11,6 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<ICurrentDungeonGameManager>().To<CurrentDungeonGameManager>().AsSingle();
         Container.Bind<IBackendManager>().To<BackendManager>().AsSingle();
         Container.Bind<ISceneManager>().To<MySceneManager>().AsSingle();
+        Container.Bind<IStringTableManager>().To<StringTableManager>().AsSingle();
     }
 }
