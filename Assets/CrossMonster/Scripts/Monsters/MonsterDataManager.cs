@@ -18,14 +18,21 @@ namespace CrossMonsters {
             DownloadMonsterData();
         }
 
+        public IMonsterData GetData( string i_id ) {
+            foreach ( MonsterData data in AllMonsterData ) {
+                if ( data.Id == i_id ) {
+                    return data;
+                }
+            }
+
+            return null;
+        }
+
         private void DownloadMonsterData() {
             AllMonsterData = new List<MonsterData>();
 
             mBackend.GetTitleData( MONSTER_DATA_TITLE_KEY, ( result ) => {
                 AllMonsterData = JsonConvert.DeserializeObject<List<MonsterData>>( result );
-                foreach ( MonsterData md in AllMonsterData ) {
-                    UnityEngine.Debug.LogError( md.Id );
-                }
             } );
         }
     }
