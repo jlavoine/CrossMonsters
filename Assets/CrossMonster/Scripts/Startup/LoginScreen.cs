@@ -21,6 +21,7 @@ namespace CrossMonsters {
         private ICrossBackend mBackend;
 
         private bool mBackendFailure = false;
+        private bool mLoginProcessCanceled = false;
 
         private Login mLogin;   // is this the best way...?
 
@@ -34,6 +35,12 @@ namespace CrossMonsters {
 
         [Inject]
         IMonsterDataManager MonsterDataManager;
+
+        [Inject]
+        IAppUpgradeRequiredManager AppUpgradeManager;
+
+        [Inject]
+        IStringTableManager StringTableManager;
 
         [Inject]
         IBackendManager BackendManager;
@@ -86,14 +93,34 @@ namespace CrossMonsters {
             }
         }
 
-        private void OnLoginSuccess() {
-            StartCoroutine( LoadDataFromBackend() );
+        private void OnLoginSuccess() {            
+            StartCoroutine( ContinueLoginProcess() );
+        }
+
+        private IEnumerator ContinueLoginProcess() {
+            yield return CheckToStopLoginProcess();
+
+            if ( !mLoginProcessCanceled ) {
+                yield return LoadDataFromBackend();
+            }
+        }
+
+        private IEnumerator CheckToStopLoginProcess() {
+            StringTableManager.Init( "English", mBackend );
+            AppUpgradeManager.Init( mBackend );
+            while ( mBackend.IsBusy() ) {
+                yield return 0;
+            }
+
+            if ( AppUpgradeManager.IsUpgradeRequired() ) {
+                AppUpgradeManager.TriggerUpgradeViewIfRequired();
+                mLoginProcessCanceled = true;
+            }
         }
 
         private IEnumerator LoadDataFromBackend() {
-            LoginStatusText.text = STATUS_DOWNLOADING_GAME;
-           
-            StringTableManager.Instance.Init( "English", mBackend );
+            LoginStatusText.text = STATUS_DOWNLOADING_GAME;                      
+
             TreasureDataManager.Init( mBackend );
             MonsterDataManager.Init( mBackend );
             //PlayerManager.Instance.Init( new PlayerData() );
