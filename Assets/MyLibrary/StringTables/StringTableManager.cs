@@ -3,24 +3,10 @@ using System.Collections;
 
 namespace MyLibrary {
     public class StringTableManager : IStringTableManager {
-        private static IStringTableManager mInstance;
-        public static IStringTableManager Instance {
-            get {
-                if ( mInstance == null ) {
-                    mInstance = new StringTableManager();
-                }
-
-                return mInstance;
-            } 
-            set {
-                // testing only!
-                mInstance = value;
-            }
-        }
-
         private IStringTable mTable;
 
         public void Init( string i_langauge, IBasicBackend i_backend ) {
+            UnityEngine.Debug.LogError( "Initing string table for " + i_langauge );
             MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Info, "Initing string table for " + i_langauge, "" );
 
             string tableKey = "SimpleStringTable_" + i_langauge;
