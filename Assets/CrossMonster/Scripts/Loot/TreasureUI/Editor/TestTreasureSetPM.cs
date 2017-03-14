@@ -16,9 +16,10 @@ namespace CrossMonsters {
             ITreasurePM_Spawner mockSpawner = Substitute.For<ITreasurePM_Spawner>();
             ITreasureSetData mockData = Substitute.For<ITreasureSetData>();
             mockData.GetId().Returns( "Test" );
-            StringTableManager.Instance.Get( "Test_Name" ).Returns( "FakeName" );
+            IStringTableManager mockStringTable = Substitute.For<IStringTableManager>();
+            mockStringTable.Get( "Test_Name" ).Returns( "FakeName" );
 
-            TreasureSetPM systemUnderTest = new TreasureSetPM( mockData, mockSpawner );
+            TreasureSetPM systemUnderTest = new TreasureSetPM( mockData, mockSpawner, mockStringTable );
 
             Assert.AreEqual( "FakeName", systemUnderTest.ViewModel.GetPropertyValue<string>( TreasureSetPM.NAME_PROPERTY ) );
         }
@@ -29,7 +30,7 @@ namespace CrossMonsters {
             ITreasureSetData mockData = Substitute.For<ITreasureSetData>();
             mockData.GetTreasuresInSet().Returns( new List<string>() { "1", "2", "3" } );
 
-            TreasureSetPM systemUnderTest = new TreasureSetPM( mockData, mockSpawner );
+            TreasureSetPM systemUnderTest = new TreasureSetPM( mockData, mockSpawner, Substitute.For<IStringTableManager>() );
 
             Assert.AreEqual( 3, systemUnderTest.TreasurePMs.Count );
         }

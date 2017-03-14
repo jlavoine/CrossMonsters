@@ -1,25 +1,24 @@
 ﻿
 namespace MyLibrary {
-    public class AppUpgradeRequiredPM : PresentationModel, IAppUpgradeRequiredPM {
+    public class AppUpdateRequiredPM : PresentationModel, IAppUpdateRequiredPM {
         public const string VISIBLE_PROPERTY = "IsVisible";
         public const string BODY_TEXT_PROPERTY = "Body";
         public const string TITLE_TEXT_PROPERTY = "Title";
 
-        public const string TITLE_KEY = "AppUpgradeRequired_Title";
-        public const string BODY_KEY = "AppUpgradeRequired_Body";
+        public const string TITLE_KEY = "AppUpdateRequired_Title";
+        public const string BODY_KEY = "AppUpdateRequired_Body";
 
         readonly IStringTableManager mStringTableManager;
 
-        public AppUpgradeRequiredPM( IStringTableManager i_stringTableManager ) {
-            UnityEngine.Debug.LogError( "When is this happening: " + i_stringTableManager );
+        public AppUpdateRequiredPM( IStringTableManager i_stringTableManager ) {
             mStringTableManager = i_stringTableManager;
 
             SetVisibleProperty( false );
-            SetBodyTextProperty();
-            SetTitleTextProperty();
         }
 
         public void Show() {
+            SetBodyTextProperty();
+            SetTitleTextProperty();
             SetVisibleProperty( true );
         }
 

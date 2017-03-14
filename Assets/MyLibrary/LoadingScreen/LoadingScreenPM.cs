@@ -6,7 +6,11 @@ namespace MyLibrary {
 
         public const string LOADING_TEXT_KEY = "LOADING_TEXT";
 
-        public LoadingScreenPM() {
+        readonly IStringTableManager mStringTableManager;
+
+        public LoadingScreenPM( IStringTableManager i_stringTableManager ) {
+            mStringTableManager = i_stringTableManager;
+
             SetVisibleProperty( false );
             SetTextProperty();
         }
@@ -23,7 +27,7 @@ namespace MyLibrary {
         }
 
         private void SetTextProperty() {
-            string text = StringTableManager.Instance.Get( LOADING_TEXT_KEY );
+            string text = mStringTableManager.Get( LOADING_TEXT_KEY );
             ViewModel.SetProperty( TEXT_PROPERTY, text );
         }
     }

@@ -1,18 +1,18 @@
 ﻿
 namespace MyLibrary {
-    public class AppUpgradeRequiredManager : IAppUpgradeRequiredManager {
+    public class AppUpdateRequirdManager : IAppUpdateRequiredManager {
         public const string LATEST_VERSION_TITLE_KEY = "AppVersion";
 
         public const float CURRENT_VERSION = 0.10f; // TODO update manually with each release
 
-        readonly IAppUpgradeRequiredPM mAppUpgradeRequiredPM;
+        readonly IAppUpdateRequiredPM mAppUpgradeRequiredPM;
 
         private IBasicBackend mBackend;
         private float mLatestVersion;
 
         public float LatestAppVersion { get { return mLatestVersion; } set { mLatestVersion = value; }  }
 
-        public AppUpgradeRequiredManager( IAppUpgradeRequiredPM i_pm ) {
+        public AppUpdateRequirdManager( IAppUpdateRequiredPM i_pm ) {
             mAppUpgradeRequiredPM = i_pm;
         }
 

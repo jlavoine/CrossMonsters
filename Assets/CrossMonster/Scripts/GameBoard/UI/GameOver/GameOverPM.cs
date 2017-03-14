@@ -1,4 +1,5 @@
 ﻿using MyLibrary;
+using Zenject;
 
 namespace CrossMonsters {
     public class GameOverPM : PresentationModel {
@@ -8,7 +9,11 @@ namespace CrossMonsters {
         public const string LOST_GAME_KEY = "GameOver_Lost";
         public const string WON_GAME_KEY = "GameOver_Won";
 
-        public GameOverPM() {
+        readonly IStringTableManager mStringTableManager;
+        
+        public GameOverPM( IStringTableManager i_stringTableManager ) {
+            mStringTableManager = i_stringTableManager;
+
             SetVisibleProperty( false );
             ListenForMessages( true );
         }
@@ -32,7 +37,7 @@ namespace CrossMonsters {
         }
 
         private void SetBodyTextProperty( bool i_won ) {
-            string text = StringTableManager.Instance.Get( i_won ? WON_GAME_KEY : LOST_GAME_KEY );
+            string text = mStringTableManager.Get( i_won ? WON_GAME_KEY : LOST_GAME_KEY );
             ViewModel.SetProperty( BODY_TEXT_PROPERTY, text );
         }
 

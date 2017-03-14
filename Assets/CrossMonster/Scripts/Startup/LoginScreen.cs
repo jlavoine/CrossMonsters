@@ -37,7 +37,7 @@ namespace CrossMonsters {
         IMonsterDataManager MonsterDataManager;
 
         [Inject]
-        IAppUpgradeRequiredManager AppUpgradeManager;
+        IAppUpdateRequiredManager AppUpgradeManager;
 
         [Inject]
         IStringTableManager StringTableManager;

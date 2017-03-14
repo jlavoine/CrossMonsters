@@ -1,6 +1,6 @@
 ﻿
 namespace MyLibrary {
-    public interface IAppUpgradeRequiredManager {
+    public interface IAppUpdateRequiredManager {
         void Init( IBasicBackend i_backend );
         void TriggerUpgradeViewIfRequired();
 

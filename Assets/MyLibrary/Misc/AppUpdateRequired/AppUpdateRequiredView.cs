@@ -1,9 +1,9 @@
 ﻿using Zenject;
 
 namespace MyLibrary {
-    public class AppUpgradeRequiredView : GroupView {
+    public class AppUpdateRequiredView : GroupView {
         [Inject]
-        IAppUpgradeRequiredPM PM;
+        IAppUpdateRequiredPM PM;
 
         void Start() {
             SetModel( PM.ViewModel );

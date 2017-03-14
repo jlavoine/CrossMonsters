@@ -7,13 +7,15 @@ namespace CrossMonsters {
         public const string NAME_PROPERTY = "TreasureSetName";
 
         readonly ITreasurePM_Spawner TreasurePM_Spawner;
+        readonly IStringTableManager StringTableManager;
 
         private ITreasureSetData mData;
 
         private List<ITreasurePM> mTreasurePMs;
         public List<ITreasurePM> TreasurePMs { get { return mTreasurePMs; } set { mTreasurePMs = value; } }
 
-        public TreasureSetPM( ITreasureSetData i_data, ITreasurePM_Spawner i_spawner ) {
+        public TreasureSetPM( ITreasureSetData i_data, ITreasurePM_Spawner i_spawner, IStringTableManager i_stringTableManager ) {
+            StringTableManager = i_stringTableManager;
             TreasurePM_Spawner = i_spawner;
             mData = i_data;
 
@@ -22,7 +24,7 @@ namespace CrossMonsters {
         }
 
         private void SetNameProperty() {
-            string text = StringTableManager.Instance.Get( mData.GetId() + "_Name" );
+            string text = StringTableManager.Get( mData.GetId() + "_Name" );
             ViewModel.SetProperty( NAME_PROPERTY, text );
         }
 

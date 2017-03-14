@@ -9,13 +9,11 @@ namespace CrossMonsters {
         [SetUp]
         public virtual void BeforeTest() {            
             MyMessenger.Instance = Substitute.For<IMessageService>();
-            StringTableManager.Instance = Substitute.For<IStringTableManager>();
         }
 
         [TearDown]
         public virtual void AfterTest() {            
             MyMessenger.Instance = null;
-            StringTableManager.Instance = null;
         }
     }
 }

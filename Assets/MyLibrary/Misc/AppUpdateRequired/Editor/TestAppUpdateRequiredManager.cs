@@ -8,17 +8,17 @@ using Zenject;
 
 namespace MyLibrary {
     [TestFixture]
-    public class TestAppUpgradeRequiredManager : ZenjectUnitTestFixture {
+    public class TestAppUpdateRequiredManager : ZenjectUnitTestFixture {
         [Inject]
-        IAppUpgradeRequiredPM MockUpgradePM;
+        IAppUpdateRequiredPM MockUpgradePM;
 
         [Inject]
-        AppUpgradeRequiredManager systemUnderTest;
+        AppUpdateRequirdManager systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
-            Container.Bind<IAppUpgradeRequiredPM>().FromInstance( Substitute.For<IAppUpgradeRequiredPM>() );
-            Container.Bind<AppUpgradeRequiredManager>().AsSingle();
+            Container.Bind<IAppUpdateRequiredPM>().FromInstance( Substitute.For<IAppUpdateRequiredPM>() );
+            Container.Bind<AppUpdateRequirdManager>().AsSingle();
             Container.Inject( this );
         }
 
@@ -27,12 +27,12 @@ namespace MyLibrary {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             systemUnderTest.Init( mockBackend );
 
-            mockBackend.Received().GetTitleData( AppUpgradeRequiredManager.LATEST_VERSION_TITLE_KEY, Arg.Any<Callback<string>>() );
+            mockBackend.Received().GetTitleData( AppUpdateRequirdManager.LATEST_VERSION_TITLE_KEY, Arg.Any<Callback<string>>() );
         }
 
         [Test]
         public void WhenCheckingToTriggerPopup_IfCurrentVersionLessThanAppVersion_PopupIsTriggered() {
-            systemUnderTest.LatestAppVersion = AppUpgradeRequiredManager.CURRENT_VERSION + 1;
+            systemUnderTest.LatestAppVersion = AppUpdateRequirdManager.CURRENT_VERSION + 1;
             systemUnderTest.TriggerUpgradeViewIfRequired();
 
             MockUpgradePM.Received().Show();
@@ -40,7 +40,7 @@ namespace MyLibrary {
 
         [Test]
         public void WhenCheckingToTriggerPopup_IfCurrentVersionGreaterThanAppVersion_PopupIsTriggered() {
-            systemUnderTest.LatestAppVersion = AppUpgradeRequiredManager.CURRENT_VERSION - 1;
+            systemUnderTest.LatestAppVersion = AppUpdateRequirdManager.CURRENT_VERSION - 1;
             systemUnderTest.TriggerUpgradeViewIfRequired();
 
             MockUpgradePM.DidNotReceive().Show();
@@ -48,7 +48,7 @@ namespace MyLibrary {
 
         [Test]
         public void WhenCheckingToTriggerPopup_IfCurrentVersionEqualsAppVersion_PopupIsTriggered() {
-            systemUnderTest.LatestAppVersion = AppUpgradeRequiredManager.CURRENT_VERSION;
+            systemUnderTest.LatestAppVersion = AppUpdateRequirdManager.CURRENT_VERSION;
             systemUnderTest.TriggerUpgradeViewIfRequired();
 
             MockUpgradePM.DidNotReceive().Show();
