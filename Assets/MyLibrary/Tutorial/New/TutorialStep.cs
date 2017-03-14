@@ -40,10 +40,10 @@ namespace MyLibrary {
         }
 
         private void InitAndSetModel() {
-            ViewModel model = new ViewModel();
-            model.SetProperty( TEXT_PROPERTY, StringTableManager.Instance.Get( StepTextKey ) );
+            //ViewModel model = new ViewModel();
+            //model.SetProperty( TEXT_PROPERTY, StringTableManager.Instance.Get( StepTextKey ) );
 
-            SetModel( model );
+            //SetModel( model );
         }
     }
 }

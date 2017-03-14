@@ -30,7 +30,7 @@ public class DrsStringUtils {
 	}
 	
 	public static string Replace( string i_str, string i_strKey, int i_nVal ) {
-		string strVal = FormatNumber( i_nVal );
+		string strVal = FormatNumber( i_nVal, "," );
 		return DrsStringUtils.Replace( i_str, i_strKey, strVal );
 	}
 
@@ -38,11 +38,10 @@ public class DrsStringUtils {
 	// Replace()
 	// Replaces a tag in a string with a value.
 	///////////////////////////////////////////	
-	public static string FormatNumber( int i_nVal ) {
-		string strDelim = StringTableManager.Instance.Get( "NUMBER_DELIMETER" );
+	public static string FormatNumber( int i_nVal, string i_delim ) {
 		string strVal = i_nVal.ToString("n0");
 		
-		strVal = strVal.Replace(",", strDelim);
+		strVal = strVal.Replace(",", i_delim);
 		
 		return strVal;
 	}
