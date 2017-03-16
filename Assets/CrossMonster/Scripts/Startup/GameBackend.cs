@@ -7,9 +7,21 @@ namespace CrossMonsters {
     public class CrossBackend : PlayFabBackend, ICrossBackend {
         public CrossBackend() : base() { }
 
-        private DateTime mLoggedInTime;
-        public void SetLoggedInTime() {
-            mLoggedInTime = DateTime.UtcNow;
+        private DateTime mServerLoginTime;
+        private DateTime mClientLoginTime;  
+
+        public void SetLoggedInTime( double i_serverTimeFromEpoch ) {
+            mClientLoginTime = DateTime.UtcNow;
+
+            mServerLoginTime = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
+            mServerLoginTime = mServerLoginTime.AddMilliseconds( i_serverTimeFromEpoch );
+        }
+
+        public DateTime GetDateTime() {
+            TimeSpan timeFromClientLoginToNow = DateTime.UtcNow - mClientLoginTime;
+            DateTime now = mServerLoginTime + timeFromClientLoginToNow;
+
+            return now;
         }
 
         #region Game cloud calls
@@ -19,9 +31,9 @@ namespace CrossMonsters {
         // from 1->2 and the second from 2->3
         #endregion
 
-        private double GetClientTimestamp() {
+        /*private double GetClientTimestamp() {
             return ( DateTime.UtcNow - mLoggedInTime ).TotalMilliseconds;
-        }
+        }*/
 
         #region Wait-for-game calls
         // these are calls that are important and rely on all previous game calls to be complete.
