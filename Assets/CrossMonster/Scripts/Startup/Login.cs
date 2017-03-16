@@ -23,7 +23,8 @@ namespace CrossMonsters {
 
             mLoginTimer.Start();
 
-            mBackend.Authenticate( SystemInfo.deviceUniqueIdentifier );
+            mBackend.Authenticate( "2e4618f28257f978e1ef40d2e6603ee4a89622ed" ); // temporary, use just one user          
+            //mBackend.Authenticate( SystemInfo.deviceUniqueIdentifier );
         }
 
         public void OnDestroy() {
@@ -42,7 +43,7 @@ namespace CrossMonsters {
         private void OnLogin( Dictionary<string, string> i_result ) {
             mLoginTimer.StepComplete( LibraryAnalyticEvents.ON_LOGIN_TIME );
             CrossBackend backend = (CrossBackend) mBackend;
-            backend.SetLoggedInTime();
+            backend.SetLoggedInTime( double.Parse( i_result["data"] ) );            
 
             MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Info, "Login success", "" );
 

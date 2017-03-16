@@ -12,5 +12,6 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<IBackendManager>().To<BackendManager>().AsSingle();
         Container.Bind<ISceneManager>().To<MySceneManager>().AsSingle();
         Container.Bind<IStringTableManager>().To<StringTableManager>().AsSingle();
+        Container.Bind<IUpcomingMaintenanceManager>().To<UpcomingMaintenanceManager>().AsSingle();
     }
 }

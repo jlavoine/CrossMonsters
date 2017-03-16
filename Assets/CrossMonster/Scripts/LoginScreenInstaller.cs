@@ -7,6 +7,7 @@ namespace CrossMonsters {
         public override void InstallBindings() {
             Container.Bind<IAppUpdateRequiredManager>().To<AppUpdateRequirdManager>().AsSingle();
             Container.Bind<IAppUpdateRequiredPM>().To<AppUpdateRequiredPM>().AsSingle();
+            Container.Bind<IUpcomingMaintenancePM>().To<UpcomingMaintenancePM>().AsSingle();
         }
     }
 }

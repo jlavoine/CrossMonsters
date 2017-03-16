@@ -37,7 +37,10 @@ namespace CrossMonsters {
         IMonsterDataManager MonsterDataManager;
 
         [Inject]
-        IAppUpdateRequiredManager AppUpgradeManager;
+        IAppUpdateRequiredManager AppUpdateManager;
+
+        [Inject]
+        IUpcomingMaintenanceManager UpcomingMaintenanceManager;
 
         [Inject]
         IStringTableManager StringTableManager;
@@ -107,15 +110,25 @@ namespace CrossMonsters {
 
         private IEnumerator CheckToStopLoginProcess() {
             StringTableManager.Init( "English", mBackend );
-            AppUpgradeManager.Init( mBackend );
+            AppUpdateManager.Init( mBackend );
             while ( mBackend.IsBusy() ) {
                 yield return 0;
             }
 
-            if ( AppUpgradeManager.IsUpgradeRequired() ) {
-                AppUpgradeManager.TriggerUpgradeViewIfRequired();
+            if ( AppUpdateManager.IsUpgradeRequired() ) {
+                AppUpdateManager.TriggerUpgradeViewIfRequired();
                 mLoginProcessCanceled = true;
             }
+
+            UpcomingMaintenanceManager.Init( mBackend );
+            while ( mBackend.IsBusy() ) {
+                yield return 0;
+            }
+
+            if ( UpcomingMaintenanceManager.IsAnyUpcomingMaintenance() && UpcomingMaintenanceManager.IsDuringMaintenance( mBackend.GetDateTime() ) ) {
+                UpcomingMaintenanceManager.TriggerUpcomingMaintenanceView( false );
+                mLoginProcessCanceled = true;
+            }           
         }
 
         private IEnumerator LoadDataFromBackend() {
