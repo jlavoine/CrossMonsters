@@ -65,7 +65,7 @@ namespace CrossMonsters {
             IDungeonGameSessionData mockData = Substitute.For<IDungeonGameSessionData>();
             systemUnderTest.OnDungeonGameSessionResponse( mockData );
 
-            MockSceneManager.Received().LoadScene( "Playground" );
+            MockSceneManager.Received().LoadScene( "Combat" );
         }
     }
 }

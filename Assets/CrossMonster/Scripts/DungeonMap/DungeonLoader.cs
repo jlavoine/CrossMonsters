@@ -35,7 +35,7 @@ namespace CrossMonsters {
 
         public void OnDungeonGameSessionResponse( IDungeonGameSessionData i_data ) {            
             mCurrentDungeonData.SetData( i_data );
-            mSceneManager.LoadScene( "Playground" );
+            mSceneManager.LoadScene( "Combat" );
         }
 
         public class Factory : Factory<DungeonLoader> { }
