@@ -125,8 +125,8 @@ namespace CrossMonsters {
                 yield return 0;
             }
 
-            if ( UpcomingMaintenanceManager.IsAnyUpcomingMaintenance() && UpcomingMaintenanceManager.IsDuringMaintenance( mBackend.GetDateTime() ) ) {
-                UpcomingMaintenanceManager.TriggerUpcomingMaintenanceView( false );
+            if ( UpcomingMaintenanceManager.ShouldTriggerUpcomingMaintenanceView( MaintenanceConcernLevels.During ) ) {
+                UpcomingMaintenanceManager.TriggerUpcomingMaintenanceView();
                 mLoginProcessCanceled = true;
             }           
         }

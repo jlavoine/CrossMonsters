@@ -64,10 +64,13 @@ namespace MyLibrary {
             mockData.GetStartSecondsFromEpoch().Returns( i_maintenanceTimeFromEpoch / 1000 );
             systemUnderTest.Data = mockData;
 
+            IBasicBackend mockBackend = Substitute.For<IBasicBackend>();            
             DateTime curTime = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
             curTime = curTime.AddMilliseconds( i_curTimeFromEpoch );
+            mockBackend.GetDateTime().Returns( curTime );
+            systemUnderTest.Init( mockBackend );
 
-            Assert.AreEqual( i_expected, systemUnderTest.IsWithinWarningTime( curTime ) );
+            Assert.AreEqual( i_expected, systemUnderTest.IsWithinWarningTime() );
         }
 
         static object[] DuringMaintenanceTests = {
@@ -83,17 +86,44 @@ namespace MyLibrary {
             mockData.GetStartSecondsFromEpoch().Returns( i_maintenanceTimeFromEpoch / 1000 );
             systemUnderTest.Data = mockData;
 
+            IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             DateTime curTime = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
             curTime = curTime.AddMilliseconds( i_curTimeFromEpoch );
+            mockBackend.GetDateTime().Returns( curTime );
+            systemUnderTest.Init( mockBackend );
 
-            Assert.AreEqual( i_expected, systemUnderTest.IsDuringMaintenance( curTime ) );
+            Assert.AreEqual( i_expected, systemUnderTest.IsDuringMaintenance() );
         }
 
         [Test]
         public void WhenTriggeringUpcomingMaintenanceView_TriggerMessageIsSent() {
-            systemUnderTest.TriggerUpcomingMaintenanceView( true );
+            // this is a mess...teaches me the need to even further break stuff out I think
+            IUpcomingMaintenanceData mockData = Substitute.For<IUpcomingMaintenanceData>();
+            mockData.GetStartSecondsFromEpoch().Returns( 1000 );
+            systemUnderTest.Data = mockData;
 
-            MockMessenger.Received().Send<bool>( UpcomingMaintenanceManager.TRIGGER_MAINTENANCE_POPUP, true );
+            IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
+            mockBackend.GetDateTime().Returns( DateTime.Now );
+            systemUnderTest.Init( mockBackend );
+            systemUnderTest.TriggerUpcomingMaintenanceView();
+
+            MockMessenger.Received().Send<bool>( UpcomingMaintenanceManager.TRIGGER_MAINTENANCE_POPUP, Arg.Any<bool>() );
+        }
+
+        [Test]
+        public void WhenTriggeringUpcomingMaintenanceView_HasUserBeenWarned_IsTrue() {
+            // this is a mess...teaches me the need to even further break stuff out I think
+            IUpcomingMaintenanceData mockData = Substitute.For<IUpcomingMaintenanceData>();
+            mockData.GetStartSecondsFromEpoch().Returns( 1000 );
+            systemUnderTest.Data = mockData;
+
+            IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
+            mockBackend.GetDateTime().Returns( DateTime.Now );
+            systemUnderTest.Init( mockBackend );
+            systemUnderTest.HasUserBeenWarned = false;
+            systemUnderTest.TriggerUpcomingMaintenanceView();
+
+            Assert.IsTrue( systemUnderTest.HasUserBeenWarned );
         }
     }
 }

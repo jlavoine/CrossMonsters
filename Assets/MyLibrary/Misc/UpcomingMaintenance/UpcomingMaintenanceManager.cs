@@ -2,6 +2,11 @@
 using System;
 
 namespace MyLibrary {
+    public enum MaintenanceConcernLevels {
+        Close,
+        During
+    }
+
     public class UpcomingMaintenanceManager : IUpcomingMaintenanceManager {
         public const string UPCOMING_MAINTENANCE_TITLE_KEY = "UpcomingMaintenance";
         public const string TRIGGER_MAINTENANCE_POPUP = "TriggerUpcomingMaintenancePopup";
@@ -32,22 +37,35 @@ namespace MyLibrary {
             return mData.IsAnyUpcomingMaintenance();
         }
 
-        public bool IsWithinWarningTime( DateTime i_time ) {
+        public bool IsWithinWarningTime() {
             DateTime beginMaintenanceTime = GetMaintenanceStartTime();
-            TimeSpan timeDifference = beginMaintenanceTime - i_time;
+            TimeSpan timeDifference = beginMaintenanceTime - mBackend.GetDateTime();
 
             return timeDifference.TotalMinutes <= Data.GetWarningTimeInMinutes();
         }
 
-        public bool IsDuringMaintenance( DateTime i_time ) {
+        public bool IsDuringMaintenance() {
             DateTime beginMaintenanceTime = GetMaintenanceStartTime();
-            TimeSpan timeDifference = beginMaintenanceTime - i_time;
+            TimeSpan timeDifference = beginMaintenanceTime - mBackend.GetDateTime();
 
             return timeDifference.TotalMilliseconds <= 0;
         }        
 
-        public void TriggerUpcomingMaintenanceView( bool i_canDismissPopup ) {
-            Messenger.Send<bool>( TRIGGER_MAINTENANCE_POPUP, i_canDismissPopup );
+        public bool ShouldTriggerUpcomingMaintenanceView( MaintenanceConcernLevels i_concern ) {
+            if ( i_concern == MaintenanceConcernLevels.Close ) {
+                if ( IsWithinWarningTime() && !HasUserBeenWarned ) {
+                    return true;
+                }
+            }
+
+            bool shouldTrigger = IsDuringMaintenance();
+            return shouldTrigger;
+        }
+
+        public void TriggerUpcomingMaintenanceView() {
+            HasUserBeenWarned = true;
+            bool canDismiss = !IsDuringMaintenance();
+            Messenger.Send<bool>( TRIGGER_MAINTENANCE_POPUP, canDismiss );
         }
 
         public DateTime GetMaintenanceStartTime() {
