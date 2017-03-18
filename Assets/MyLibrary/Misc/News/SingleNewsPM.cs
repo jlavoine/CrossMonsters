@@ -1,16 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Zenject;
 
-public class SingleNewsPM : MonoBehaviour {
+namespace MyLibrary {
+    public class SingleNewsPM : PresentationModel, ISingleNewsPM {
+        public const string TITLE_PROPERTY = "Title";
+        public const string BODY_PROPERTY = "Body";
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        readonly IStringTableManager mStringTable;
+
+        private IBasicNewsData mNewsData;
+
+        public SingleNewsPM( IStringTableManager i_stringTable, IBasicNewsData i_newsData ) {
+            UnityEngine.Debug.LogError( "Creating news pm for: " + i_newsData.GetTitleKey() );
+            mStringTable = i_stringTable;
+            mNewsData = i_newsData;
+
+            SetTitleText();
+            SetBodyText();
+        }
+
+        private void SetTitleText() {
+            string text = mStringTable.Get( mNewsData.GetTitleKey() );
+            ViewModel.SetProperty( TITLE_PROPERTY, text );
+        }
+
+        private void SetBodyText() {
+            string text = mStringTable.Get( mNewsData.GetBodyKey() );
+            ViewModel.SetProperty( BODY_PROPERTY, text );
+        }
+
+        public class Factory : Factory<IBasicNewsData, SingleNewsPM> { }
+    }
 }

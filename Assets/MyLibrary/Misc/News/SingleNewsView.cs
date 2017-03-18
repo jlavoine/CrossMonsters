@@ -1,16 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Zenject;
 
-public class SingleNewsView : MonoBehaviour {
+namespace MyLibrary {
+    public class SingleNewsView : GroupView {
+        private ISingleNewsPM mPM;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        [Inject]
+        SingleNewsPM.Factory NewsFactory;
+
+        public void Init( IBasicNewsData i_news ) {
+            mPM = NewsFactory.Create( i_news );
+            SetModel( mPM.ViewModel );
+        }
+
+        protected override void OnDestroy() {
+            base.OnDestroy();
+
+            mPM.Dispose();
+        }
+    }
 }

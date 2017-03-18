@@ -21,6 +21,7 @@ namespace CrossMonsters {
             Container.Bind<IUpcomingMaintenancePM>().To<UpcomingMaintenancePM>().AsSingle();
 
             Container.Bind<IAllNewsPM>().To<AllNewsPM>().AsSingle();
+            Container.BindFactory<IBasicNewsData, SingleNewsPM, SingleNewsPM.Factory>();
         }
     }
 }
