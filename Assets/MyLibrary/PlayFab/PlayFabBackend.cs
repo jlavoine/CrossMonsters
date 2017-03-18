@@ -194,7 +194,10 @@ namespace MyLibrary {
                 foreach ( TitleNewsItem newsItem in result.News ) {
                     BasicNewsData news = JsonConvert.DeserializeObject<BasicNewsData>( newsItem.Body );
                     news.Timestamp = newsItem.Timestamp;
+
+                    newsList.Add( news );
                 }
+                successCallback( newsList );
             },
             ( error ) => { HandleError( error, BackendMessages.GET_NEWS_FAIL ); } );
         }
