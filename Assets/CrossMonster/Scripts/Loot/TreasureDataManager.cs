@@ -14,6 +14,7 @@ namespace CrossMonsters {
         private List<ITreasureSetData> mAllTreasureSets;
         private List<string> mPlayerTreasure;
 
+        public List<TreasureData> AllTreasure { get { return mAllTreasure; } set { mAllTreasure = value; } }
         public List<ITreasureSetData> TreasureSetData { get { return mAllTreasureSets; } set { mAllTreasureSets = value; } }
         public List<string> PlayerTreasure { get { return mPlayerTreasure; } set { mPlayerTreasure = value; } }
 
