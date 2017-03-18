@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
+using System;
 
 namespace MyLibrary {
     public interface IBasicBackend  {
@@ -20,6 +21,8 @@ namespace MyLibrary {
 
         bool IsClientOutOfSync();
         void ResetSyncState();
+
+        DateTime GetDateTime();
 
         bool IsBusy();
         IEnumerator WaitUntilNotBusy();

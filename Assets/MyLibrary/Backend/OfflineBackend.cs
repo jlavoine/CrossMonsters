@@ -95,5 +95,9 @@ namespace MyLibrary {
         public void RestartClient() {
             throw new NotImplementedException();
         }
+
+        public DateTime GetDateTime() {
+            throw new NotImplementedException();
+        }
     }
 }

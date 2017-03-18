@@ -17,7 +17,7 @@ namespace CrossMonsters {
             mServerLoginTime = mServerLoginTime.AddMilliseconds( i_serverTimeFromEpoch );
         }
 
-        public DateTime GetDateTime() {
+        public override DateTime GetDateTime() {
             TimeSpan timeFromClientLoginToNow = DateTime.UtcNow - mClientLoginTime;
             DateTime now = mServerLoginTime + timeFromClientLoginToNow;
 

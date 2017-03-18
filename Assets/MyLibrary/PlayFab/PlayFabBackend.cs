@@ -4,9 +4,12 @@ using PlayFab.ClientModels;
 using MyLibrary.PlayFab;
 using Newtonsoft.Json;
 using System.Collections;
+using System;
 
 namespace MyLibrary {
     public abstract class PlayFabBackend : IBasicBackend {
+        public abstract DateTime GetDateTime();
+
         public const Dictionary<string, string> NULL_CLOUD_PARAMS = null;
         public const Callback<Dictionary<string, string>> NULL_CLOUD_CALLBACK = null;
 
