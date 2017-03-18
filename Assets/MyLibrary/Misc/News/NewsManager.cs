@@ -7,7 +7,7 @@ namespace MyLibrary {
 
         private IBasicBackend mBackend;
 
-        private List<IBasicNewsData> mNewsList;
+        private List<IBasicNewsData> mNewsList = new List<IBasicNewsData>();
         public List<IBasicNewsData> NewsList { get { return mNewsList; } set { mNewsList = value; } }
 
         private DateTime mLastSeenNewsTime = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
