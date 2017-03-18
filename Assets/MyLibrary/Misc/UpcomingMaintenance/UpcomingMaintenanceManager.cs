@@ -52,6 +52,10 @@ namespace MyLibrary {
         }        
 
         public bool ShouldTriggerUpcomingMaintenanceView( MaintenanceConcernLevels i_concern ) {
+            if ( !IsAnyUpcomingMaintenance() ) {
+                return false;
+            }
+
             if ( i_concern == MaintenanceConcernLevels.Close ) {
                 if ( IsWithinWarningTime() && !HasUserBeenWarned ) {
                     return true;
