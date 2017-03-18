@@ -99,5 +99,13 @@ namespace MyLibrary {
         public DateTime GetDateTime() {
             throw new NotImplementedException();
         }
+
+        public void GetNews() {
+            throw new NotImplementedException();
+        }
+
+        public void GetNews( Callback<List<IBasicNewsData>> successCallback ) {
+            throw new NotImplementedException();
+        }
     }
 }

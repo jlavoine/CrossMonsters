@@ -182,6 +182,23 @@ namespace MyLibrary {
             ( error ) => { HandleError( error, BackendMessages.TITLE_DATA_FAIL ); } );
         }
 
+        public void GetNews( Callback<List<IBasicNewsData>> successCallback ) {
+            StartRequest( "Getting news" );
+
+            GetTitleNewsRequest request = new GetTitleNewsRequest();
+
+            PlayFabClientAPI.GetTitleNews( request, ( result ) => {
+                RequestComplete( "GetNews complete", LogTypes.Info );
+
+                List<IBasicNewsData> newsList = new List<IBasicNewsData>();
+                foreach ( TitleNewsItem newsItem in result.News ) {
+                    BasicNewsData news = JsonConvert.DeserializeObject<BasicNewsData>( newsItem.Body );
+                    news.Timestamp = newsItem.Timestamp;
+                }
+            },
+            ( error ) => { HandleError( error, BackendMessages.GET_NEWS_FAIL ); } );
+        }
+
         public void GetPlayerData( string i_key, Callback<string> requestSuccessCallback ) {
             StartRequest( "Request player data " + i_key );
 

@@ -7,6 +7,8 @@ namespace MyLibrary {
         public const string TITLE_DATA_SUCCESS = "TitleDataSuccess";
         public const string TITLE_DATA_FAIL = "TitleDataFailure";
 
+        public const string GET_NEWS_FAIL = "GetNewsFail";
+
         public const string CLOUD_SETUP_SUCCESS = "CloudSetupSuccess";
         public const string CLOUD_SETUP_FAIL = "CloudSetupFail";
 

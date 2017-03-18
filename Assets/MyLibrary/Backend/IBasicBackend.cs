@@ -14,6 +14,7 @@ namespace MyLibrary {
         IEnumerator WaitForCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> requestSuccessCallback );
 
         void GetTitleData( string i_key, Callback<string> requestSuccessCallback );
+        void GetNews( Callback<List<IBasicNewsData>> successCallback );
         //void GetAllTitleDataForClass( string i_className, Callback<string> requestSuccessCallback );
         void GetPlayerData( string i_key, Callback<string> requestSuccessCallback );
         void GetPlayerDataDeserialized<T>( string i_key, Callback<T> requestSuccessCallback );

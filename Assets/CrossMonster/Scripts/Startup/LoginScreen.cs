@@ -46,6 +46,9 @@ namespace CrossMonsters {
         IStringTableManager StringTableManager;
 
         [Inject]
+        INewsManager NewsManager;
+
+        [Inject]
         IBackendManager BackendManager;
 
         void Start() {
@@ -132,8 +135,9 @@ namespace CrossMonsters {
         }
 
         private IEnumerator LoadDataFromBackend() {
-            LoginStatusText.text = STATUS_DOWNLOADING_GAME;                      
+            LoginStatusText.text = STATUS_DOWNLOADING_GAME;
 
+            NewsManager.Init( mBackend );
             TreasureDataManager.Init( mBackend );
             MonsterDataManager.Init( mBackend );
             //PlayerManager.Instance.Init( new PlayerData() );
