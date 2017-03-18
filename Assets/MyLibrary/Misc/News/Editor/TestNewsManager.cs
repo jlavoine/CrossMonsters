@@ -28,5 +28,13 @@ namespace MyLibrary {
 
             mockBackend.Received().GetNews( Arg.Any<Callback<List<IBasicNewsData>>>() );
         }
+
+        [Test]
+        public void WhenIniting_GetLastSeenNewsTime_FromPlayerData() {
+            IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
+            systemUnderTest.Init( mockBackend );
+
+            mockBackend.Received().GetReadOnlyPlayerData( NewsManager.LAST_SEEN_NEWS_KEY, Arg.Any<Callback<string>>() );
+        }
     }
 }

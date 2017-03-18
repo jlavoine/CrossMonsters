@@ -10,7 +10,6 @@ namespace MyLibrary {
         private IBasicNewsData mNewsData;
 
         public SingleNewsPM( IStringTableManager i_stringTable, IBasicNewsData i_newsData ) {
-            UnityEngine.Debug.LogError( "Creating news pm for: " + i_newsData.GetTitleKey() );
             mStringTable = i_stringTable;
             mNewsData = i_newsData;
 
