@@ -33,7 +33,6 @@ namespace MyLibrary {
         }
 
         public bool IsAnyUpcomingMaintenance() {
-            UnityEngine.Debug.LogError( GetMaintenanceStartTime().ToString() );
             return mData.IsAnyUpcomingMaintenance();
         }
 
