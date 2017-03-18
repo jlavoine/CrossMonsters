@@ -16,6 +16,9 @@ namespace CrossMonsters {
             Container.BindFactory<DungeonLoader, DungeonLoader.Factory>();
 
             Container.Bind<ILoadingScreenPM>().To<LoadingScreenPM>().AsSingle();
+
+            Container.Bind<MainMenuFlow>().AsSingle();
+            Container.Bind<IUpcomingMaintenancePM>().To<UpcomingMaintenancePM>().AsSingle();
         }
     }
 }
