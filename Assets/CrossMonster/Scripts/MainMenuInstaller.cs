@@ -19,6 +19,8 @@ namespace CrossMonsters {
 
             Container.Bind<MainMenuFlow>().AsSingle();
             Container.Bind<IUpcomingMaintenancePM>().To<UpcomingMaintenancePM>().AsSingle();
+
+            Container.Bind<IAllNewsPM>().To<AllNewsPM>().AsSingle();
         }
     }
 }
