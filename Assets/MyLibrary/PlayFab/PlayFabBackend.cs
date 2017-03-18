@@ -164,6 +164,19 @@ namespace MyLibrary {
             }
         }
 
+        public void UpdatePlayerData( string i_key, string i_data ) {
+            Dictionary<string, string> dataToSend = new Dictionary<string, string>() { { i_key, i_data } };
+
+            UpdateUserDataRequest request = new UpdateUserDataRequest() {
+                Data = dataToSend
+            };
+
+            PlayFabClientAPI.UpdateUserData( request, ( result ) => {
+                UnityEngine.Debug.LogError( "Updated " + i_key + " to " + i_data );
+            }, 
+            ( error ) => { HandleError( error, BackendMessages.UPDATE_USER_DATA_FAIL ); } );
+        }
+
         public void GetTitleData( string i_key, Callback<string> requestSuccessCallback ) {
             StartRequest( "Requesting title data for " + i_key );
 
@@ -202,8 +215,31 @@ namespace MyLibrary {
             ( error ) => { HandleError( error, BackendMessages.GET_NEWS_FAIL ); } );
         }
 
-        public void GetPlayerData( string i_key, Callback<string> requestSuccessCallback ) {
-            StartRequest( "Request player data " + i_key );
+        public void GetPublicPlayerData( string i_key, Callback<string> requestSuccessCallback ) {
+            StartRequest( "Request public player data " + i_key );
+
+            GetUserDataRequest request = new GetUserDataRequest() {
+                PlayFabId = PlayerId,
+                Keys = new List<string>() { i_key }
+            };
+
+            PlayFabClientAPI.GetUserData( request, ( result ) => {
+                RequestComplete( "Public player data request complete: " + i_key, LogTypes.Info );
+
+                if ( ( result.Data == null ) || ( result.Data.Count == 0 ) ) {
+                    MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Error, "No public user data for " + i_key, PLAYFAB );
+                }
+                else {
+                    // should only call the callback ONCE because there is only one key
+                    foreach ( var item in result.Data ) {
+                        requestSuccessCallback( item.Value.Value );
+                    }
+                }
+            }, ( error ) => { HandleError( error, BackendMessages.PLAYER_DATA_REQUEST_FAIL ); } );
+        }
+
+        public void GetReadOnlyPlayerData( string i_key, Callback<string> requestSuccessCallback ) {
+            StartRequest( "Request read only player data " + i_key );
 
             GetUserDataRequest request = new GetUserDataRequest() {
                 PlayFabId = PlayerId,
@@ -211,10 +247,10 @@ namespace MyLibrary {
             };
 
             PlayFabClientAPI.GetUserReadOnlyData( request, ( result ) => {
-                RequestComplete( "Player data request complete: " + i_key, LogTypes.Info );
+                RequestComplete( "Read only player data request complete: " + i_key, LogTypes.Info );
 
                 if ( ( result.Data == null ) || ( result.Data.Count == 0 ) ) {
-                    MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Error, "No user data for " + i_key, PLAYFAB );
+                    MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Error, "No read only user data for " + i_key, PLAYFAB );
                 }
                 else {
                     // should only call the callback ONCE because there is only one key

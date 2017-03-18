@@ -29,7 +29,7 @@ namespace MyLibrary {
             requestSuccessCallback( data );
         }
 
-        public void GetPlayerData( string i_key, Callback<string> requestSuccessCallback ) {
+        public void GetReadOnlyPlayerData( string i_key, Callback<string> requestSuccessCallback ) {
             string filePath = Application.streamingAssetsPath + "/OfflineData/PlayerData/" + i_key + ".json";
             string data = GetCleanTextAtPath( filePath );
             requestSuccessCallback( data );
@@ -105,6 +105,14 @@ namespace MyLibrary {
         }
 
         public void GetNews( Callback<List<IBasicNewsData>> successCallback ) {
+            throw new NotImplementedException();
+        }
+
+        public void UpdatePlayerData( string i_key, string i_data ) {
+            throw new NotImplementedException();
+        }
+
+        public void GetPublicPlayerData( string i_key, Callback<string> requestSuccessCallback ) {
             throw new NotImplementedException();
         }
     }

@@ -53,7 +53,7 @@ namespace CrossMonsters {
         private void DownloadPlayerTreasure() {
             mPlayerTreasure = new List<string>();
 
-            mBackend.GetPlayerData( TREASURE_PROGRESS_KEY, ( result ) => {
+            mBackend.GetReadOnlyPlayerData( TREASURE_PROGRESS_KEY, ( result ) => {
                 mPlayerTreasure = JsonConvert.DeserializeObject<List<string>>( result );
             } );
         }

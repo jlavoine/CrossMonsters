@@ -16,7 +16,9 @@ namespace MyLibrary {
         void GetTitleData( string i_key, Callback<string> requestSuccessCallback );
         void GetNews( Callback<List<IBasicNewsData>> successCallback );
         //void GetAllTitleDataForClass( string i_className, Callback<string> requestSuccessCallback );
-        void GetPlayerData( string i_key, Callback<string> requestSuccessCallback );
+        void GetPublicPlayerData( string i_key, Callback<string> requestSuccessCallback );
+        void GetReadOnlyPlayerData( string i_key, Callback<string> requestSuccessCallback );
+        void UpdatePlayerData( string i_key, string i_data );
         void GetPlayerDataDeserialized<T>( string i_key, Callback<T> requestSuccessCallback );
         void GetVirtualCurrency( string i_key, Callback<int> requetSuccessCallback );
 
