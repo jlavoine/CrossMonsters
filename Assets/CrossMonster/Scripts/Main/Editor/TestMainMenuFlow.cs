@@ -14,29 +14,25 @@ namespace CrossMonsters {
         MainMenuFlow systemUnderTest;
 
         [Inject]
-        IUpcomingMaintenanceManager MockMaintenanceManager;
+        IUpcomingMaintenanceFlowStepSpawner MockMaintenanceStepSpawner;
+
+        [Inject]
+        IShowNewsStepSpawner MockNewsStepSpawner;
 
         [SetUp]
         public void CommonInstall() {
-            Container.Bind<IUpcomingMaintenanceManager>().FromInstance( Substitute.For<IUpcomingMaintenanceManager>() );
+            Container.Bind<IUpcomingMaintenanceFlowStepSpawner>().FromInstance( Substitute.For<IUpcomingMaintenanceFlowStepSpawner>() );
+            Container.Bind<IShowNewsStepSpawner>().FromInstance( Substitute.For<IShowNewsStepSpawner>() );
             Container.Bind<MainMenuFlow>().AsSingle();
             Container.Inject( this );
         }
 
         [Test]
-        public void WhenStarting_IfUpcomingMaintenance_ViewIsTriggered() {
-            MockMaintenanceManager.ShouldTriggerUpcomingMaintenanceView( MaintenanceConcernLevels.Close ).Returns( true );
+        public void WhenStarting_ExpectedStepsAreCreated() {            
             systemUnderTest.Start();
 
-            MockMaintenanceManager.Received().TriggerUpcomingMaintenanceView();
-        }
-
-        [Test]
-        public void WhenStarting_IfNoUpcomingMaintenance_ViewIsNotTriggered() {
-            MockMaintenanceManager.ShouldTriggerUpcomingMaintenanceView( MaintenanceConcernLevels.Close ).Returns( false );
-            systemUnderTest.Start();
-
-            MockMaintenanceManager.DidNotReceive().TriggerUpcomingMaintenanceView();
+            MockMaintenanceStepSpawner.Received().Create( systemUnderTest );
+            MockNewsStepSpawner.Received().Create( systemUnderTest );
         }
     }
 }

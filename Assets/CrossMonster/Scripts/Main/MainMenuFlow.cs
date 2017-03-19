@@ -1,32 +1,38 @@
 ﻿using MyLibrary;
+using System.Collections.Generic;
 
 namespace CrossMonsters {
-    public class MainMenuFlow {
-        readonly IUpcomingMaintenanceManager mUpcomingMaintenance;
-        readonly INewsManager mNewsManager;
-        readonly IAllNewsPM mNewsPM;
+    public class MainMenuFlow : ISceneStartFlowManager {
+        readonly IUpcomingMaintenanceFlowStepSpawner mMaintenanceStepSpawner;
+        readonly IShowNewsStepSpawner mNewStepSpawner;
 
-        public MainMenuFlow( IUpcomingMaintenanceManager i_upcomingMaintenance, INewsManager i_newsManager, IAllNewsPM i_newsPM ) {
-            mUpcomingMaintenance = i_upcomingMaintenance;
-            mNewsManager = i_newsManager;
-            mNewsPM = i_newsPM;
+        private Queue<ISceneStartFlowStep> mSteps = new Queue<ISceneStartFlowStep>();
+
+        public MainMenuFlow( IUpcomingMaintenanceFlowStepSpawner i_maintenanceStepSpawner, IShowNewsStepSpawner i_newsStepSpawner ) {
+            mMaintenanceStepSpawner = i_maintenanceStepSpawner;
+            mNewStepSpawner = i_newsStepSpawner;
+        }
+
+        public void StepFinished() {            
+            ProcessNextStep();
         }
 
         public void Start() {
-            CheckForUpcomingMaintenance();
-            CheckForUnseenNews();
+            AddStepsToQueue();            
+            ProcessNextStep();
         }
 
-        private void CheckForUpcomingMaintenance() {
-            if ( mUpcomingMaintenance.ShouldTriggerUpcomingMaintenanceView( MaintenanceConcernLevels.Close ) ) {
-                mUpcomingMaintenance.TriggerUpcomingMaintenanceView();
-            }
+        private void AddStepsToQueue() {
+            mSteps.Enqueue( mMaintenanceStepSpawner.Create( this ) );
+            mSteps.Enqueue( mNewStepSpawner.Create( this ) );
         }
 
-        private void CheckForUnseenNews() {
-            if ( mNewsManager.ShouldShowNews() ) {
-                mNewsPM.Show();
-                mNewsManager.UpdateLastSeenNewsTime();
+        private void ProcessNextStep() {
+            if ( mSteps.Count > 0 ) {
+                ISceneStartFlowStep step = mSteps.Dequeue();
+                step.Start();
+            } else {
+                UnityEngine.Debug.LogError( "Done with main menu flow steps" );
             }
         }
     }

@@ -18,10 +18,15 @@ namespace CrossMonsters {
             Container.Bind<ILoadingScreenPM>().To<LoadingScreenPM>().AsSingle();
 
             Container.Bind<MainMenuFlow>().AsSingle();
+
             Container.Bind<IUpcomingMaintenancePM>().To<UpcomingMaintenancePM>().AsSingle();
+            Container.BindFactory<ISceneStartFlowManager, UpcomingMaintenanceFlowStep, UpcomingMaintenanceFlowStep.Factory>();
+            Container.Bind<IUpcomingMaintenanceFlowStepSpawner>().To<UpcomingMaintenanceFlowStepSpawner>().AsSingle();
 
             Container.Bind<IAllNewsPM>().To<AllNewsPM>().AsSingle();
             Container.BindFactory<IBasicNewsData, SingleNewsPM, SingleNewsPM.Factory>();
+            Container.BindFactory<ISceneStartFlowManager, ShowNewsFlowStep, ShowNewsFlowStep.Factory>();
+            Container.Bind<IShowNewsStepSpawner>().To<ShowNewsStepSpawner>().AsSingle();
         }
     }
 }
