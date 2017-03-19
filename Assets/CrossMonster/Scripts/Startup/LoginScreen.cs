@@ -37,6 +37,9 @@ namespace CrossMonsters {
         IMonsterDataManager MonsterDataManager;
 
         [Inject]
+        IPlayerDataManager PlayerDataManager;
+
+        [Inject]
         IAppUpdateRequiredManager AppUpdateManager;
 
         [Inject]
@@ -140,7 +143,7 @@ namespace CrossMonsters {
             NewsManager.Init( mBackend );
             TreasureDataManager.Init( mBackend );
             MonsterDataManager.Init( mBackend );
-            //PlayerManager.Instance.Init( new PlayerData() );
+            PlayerDataManager.Init( mBackend );
 
             //Constants.Init( mBackend );
             //GenericDataLoader.Init( mBackend );
