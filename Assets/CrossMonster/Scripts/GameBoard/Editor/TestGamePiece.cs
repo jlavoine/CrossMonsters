@@ -30,15 +30,5 @@ namespace CrossMonsters {
 
             Assert.AreEqual( 5, systemUnderTest.PieceType );
         }
-
-        [Test]
-        public void WhenUsingPiece_PieceTypeRotatesAccordingToGameRules() {
-            GameRules.GetGamePieceRotation( 0 ).Returns( 3 );
-            GamePiece systemUnderTest = SystemFactory.Create( 0 );
-
-            systemUnderTest.UsePiece();
-
-            Assert.AreEqual( 3, systemUnderTest.PieceType );
-        }
     }
 }

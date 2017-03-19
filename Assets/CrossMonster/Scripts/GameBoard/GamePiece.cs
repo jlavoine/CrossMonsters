@@ -23,8 +23,7 @@ namespace CrossMonsters {
         }
 
         private void RotatePiece() {
-            int nextPieceType = GameRules.GetGamePieceRotation( PieceType );
-            SetPieceType( nextPieceType );
+            Randomize();
         }
 
         private void SetPieceType( int i_pieceType ) {
