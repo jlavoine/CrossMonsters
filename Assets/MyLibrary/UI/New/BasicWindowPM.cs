@@ -9,10 +9,13 @@ namespace MyLibrary {
 
         public void Hide() {
             SetVisibleProperty( false );
+            OnHidden();
         }
 
         protected void SetVisibleProperty( bool i_visible ) {
             ViewModel.SetProperty( VISIBLE_PROPERTY, i_visible );
         }
+
+        protected virtual void OnHidden() { }
     }
 }
