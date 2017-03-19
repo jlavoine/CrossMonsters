@@ -6,6 +6,9 @@ namespace CrossMonsters {
         [Inject]
         IGameRules GameRules;
 
+        [Inject]
+        ICurrentDungeonGameManager DungeonManager;
+
         private int mPieceType;
         public int PieceType { get { return mPieceType; } set { mPieceType = value; } }
 
@@ -14,7 +17,9 @@ namespace CrossMonsters {
         }
 
         public void UsePiece() {
-            RotatePiece();            
+            if ( DungeonManager.Data.ShouldRotatePieces() ) {
+                RotatePiece();
+            }
         }
 
         public void Randomize() {

@@ -2,6 +2,10 @@
 
 namespace CrossMonsters {
     public interface IDungeonGameSessionData {
-        List<string> GetMonsters(); 
+        List<string> GetMonsters();
+
+        bool AllowDiagonals();
+        bool StraightMovesOnly();
+        bool ShouldRotatePieces();
     }
 }

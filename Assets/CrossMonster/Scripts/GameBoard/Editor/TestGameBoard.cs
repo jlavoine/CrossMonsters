@@ -15,6 +15,9 @@ namespace CrossMonsters {
         IGameRules GameRules;
 
         [Inject]
+        ICurrentDungeonGameManager DungeonManager;
+
+        [Inject]
         IValidBoardChecker ValidBoardChecker;
 
         [Inject]
@@ -23,6 +26,7 @@ namespace CrossMonsters {
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
+            Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
             Container.Bind<IValidBoardChecker>().FromInstance( Substitute.For<IValidBoardChecker>() );
             Container.BindFactory<int, GamePiece, GamePiece.Factory>();
             Container.Bind<GameBoard>().AsSingle();

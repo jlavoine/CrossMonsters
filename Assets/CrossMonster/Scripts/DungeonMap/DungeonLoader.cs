@@ -33,7 +33,7 @@ namespace CrossMonsters {
             } );
         }
 
-        public void OnDungeonGameSessionResponse( IDungeonGameSessionData i_data ) {            
+        public void OnDungeonGameSessionResponse( IDungeonGameSessionData i_data ) {           
             mCurrentDungeonData.SetData( i_data );
             mSceneManager.LoadScene( "Combat" );
         }
