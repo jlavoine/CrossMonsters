@@ -1,6 +1,11 @@
 ﻿
 namespace CrossMonsters {
     public interface IDungeonRewardData {
-        int GetCount();
+        string GetId();
+        string GetNameKey();
+
+        LootTypes GetLootType();
+
+        int GetCount();        
     }
 }
