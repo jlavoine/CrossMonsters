@@ -16,5 +16,15 @@ namespace CrossMonsters {
 
             Assert.IsTrue( systemUnderTest.ViewModel.GetPropertyValue<bool>( SingleRewardPM.COVER_VISIBLE_PROPERTY ) );
         }
+
+        [Test]
+        public void WhenUncovered_CoverVisibility_IsFalse() {
+            SingleRewardPM systemUnderTest = new SingleRewardPM();
+            systemUnderTest.ViewModel.SetProperty( SingleRewardPM.COVER_VISIBLE_PROPERTY, true );
+
+            systemUnderTest.UncoverReward();
+
+            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( SingleRewardPM.COVER_VISIBLE_PROPERTY ) );
+        }
     }
 }

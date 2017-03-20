@@ -2,6 +2,6 @@
 
 namespace CrossMonsters {
     public interface ISingleRewardPM : IPresentationModel {
-
+        void UncoverReward();
     }
 }

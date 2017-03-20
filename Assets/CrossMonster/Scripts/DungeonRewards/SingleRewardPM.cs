@@ -8,6 +8,10 @@ namespace CrossMonsters {
             SetCoverVisibleProperty( true );
         }
 
+        public void UncoverReward() {
+            SetCoverVisibleProperty( false );
+        }
+
         private void SetCoverVisibleProperty( bool i_visible ) {
             ViewModel.SetProperty( COVER_VISIBLE_PROPERTY, i_visible );
         }
