@@ -14,11 +14,15 @@ namespace CrossMonsters {
         IStringTableManager MockStringTable;
 
         [Inject]
+        IAllRewardsPM MockRewardsPM;
+
+        [Inject]
         SingleRewardPM.Factory systemFactory;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IStringTableManager>().FromInstance( Substitute.For<IStringTableManager>() );
+            Container.Bind<IAllRewardsPM>().FromInstance( Substitute.For<IAllRewardsPM>() );
             Container.BindFactory<IDungeonRewardData, SingleRewardPM, SingleRewardPM.Factory>();            
             Container.Inject( this );
         }
@@ -38,6 +42,15 @@ namespace CrossMonsters {
             systemUnderTest.UncoverReward();
 
             Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( SingleRewardPM.COVER_VISIBLE_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenUncovered_AllRewardsPM_IsNotified() {
+            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>() );
+
+            systemUnderTest.UncoverReward();
+
+            MockRewardsPM.Received().RewardUncovered();
         }
 
         [Test]

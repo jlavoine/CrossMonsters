@@ -8,12 +8,14 @@ namespace CrossMonsters {
         public const string NAME_PROPERTY = "Name";
 
         readonly IStringTableManager mStringTable;
+        readonly IAllRewardsPM mAllRewardsPM;
 
         private IDungeonRewardData mData;
 
-        public SingleRewardPM( IStringTableManager i_stringTable, IDungeonRewardData i_data ) {
+        public SingleRewardPM( IStringTableManager i_stringTable, IAllRewardsPM i_allRewardsPM, IDungeonRewardData i_data ) {
             mData = i_data;
             mStringTable = i_stringTable;
+            mAllRewardsPM = i_allRewardsPM;
 
             SetCoverVisibleProperty( true );
             SetCountProperty();
@@ -22,6 +24,7 @@ namespace CrossMonsters {
 
         public void UncoverReward() {
             SetCoverVisibleProperty( false );
+            mAllRewardsPM.RewardUncovered();
         }
 
         private void SetCoverVisibleProperty( bool i_visible ) {
