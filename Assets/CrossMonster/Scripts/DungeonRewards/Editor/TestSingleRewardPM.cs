@@ -23,20 +23,20 @@ namespace CrossMonsters {
         public void CommonInstall() {
             Container.Bind<IStringTableManager>().FromInstance( Substitute.For<IStringTableManager>() );
             Container.Bind<IAllRewardsPM>().FromInstance( Substitute.For<IAllRewardsPM>() );
-            Container.BindFactory<IDungeonRewardData, SingleRewardPM, SingleRewardPM.Factory>();            
+            Container.BindFactory<IDungeonRewardData, IAllRewardsPM, SingleRewardPM, SingleRewardPM.Factory>();            
             Container.Inject( this );
         }
 
         [Test]
         public void WhenCreating_CoverIsVisibleByDefault() {
-            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>() );
+            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>(), MockRewardsPM );
 
             Assert.IsTrue( systemUnderTest.ViewModel.GetPropertyValue<bool>( SingleRewardPM.COVER_VISIBLE_PROPERTY ) );
         }
 
         [Test]
         public void WhenUncovered_CoverVisibility_IsFalse() {
-            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>() );
+            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>(), MockRewardsPM );
             systemUnderTest.ViewModel.SetProperty( SingleRewardPM.COVER_VISIBLE_PROPERTY, true );
 
             systemUnderTest.UncoverReward();
@@ -46,7 +46,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenUncovered_AllRewardsPM_IsNotified() {
-            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>() );
+            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>(), MockRewardsPM );
 
             systemUnderTest.UncoverReward();
 
@@ -58,7 +58,7 @@ namespace CrossMonsters {
             IDungeonRewardData mockData = Substitute.For<IDungeonRewardData>();
             mockData.GetCount().Returns( 101 );
 
-            SingleRewardPM systemUnderTest = systemFactory.Create( mockData );
+            SingleRewardPM systemUnderTest = systemFactory.Create( mockData, MockRewardsPM );
 
             Assert.AreEqual( "101", systemUnderTest.ViewModel.GetPropertyValue<string>( SingleRewardPM.COUNT_PROPERTY ) );
         }
@@ -69,7 +69,7 @@ namespace CrossMonsters {
             mockData.GetNameKey().Returns( "Test" );
             MockStringTable.Get( "Test" ).Returns( "MyTestItem" );
 
-            SingleRewardPM systemUnderTest = systemFactory.Create( mockData );
+            SingleRewardPM systemUnderTest = systemFactory.Create( mockData, MockRewardsPM );
 
             Assert.AreEqual( "MyTestItem", systemUnderTest.ViewModel.GetPropertyValue<string>( SingleRewardPM.NAME_PROPERTY ) );
         }

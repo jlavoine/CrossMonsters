@@ -32,8 +32,10 @@ namespace CrossMonsters {
         }
 
         public void OnGameOver( bool i_win ) {
-            SetVisibleProperty( true );
-            SetBodyTextProperty( i_win );
+            if ( !i_win ) {
+                SetVisibleProperty( true );
+                SetBodyTextProperty( i_win );
+            }
         }
 
         private void SetBodyTextProperty( bool i_won ) {

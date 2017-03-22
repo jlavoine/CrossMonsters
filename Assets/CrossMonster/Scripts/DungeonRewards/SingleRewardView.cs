@@ -4,7 +4,7 @@ namespace CrossMonsters {
     public class SingleRewardView : GroupView {
         private ISingleRewardPM mPM;
 
-        void Init( ISingleRewardPM i_pm ) {
+        public void Init( ISingleRewardPM i_pm ) {
             mPM = i_pm;
 
             SetModel( i_pm.ViewModel );

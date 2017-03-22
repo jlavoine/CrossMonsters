@@ -34,18 +34,27 @@ namespace CrossMonsters {
         }
 
         [Test]
-        public void AfterGameOverMessage_IsVisibleTrue() {
+        public void AfterGameOverMessage_IfLoss_IsVisibleTrue() {
             GameOverPM systemUnderTest = new GameOverPM( Substitute.For<IStringTableManager>() );
 
-            systemUnderTest.OnGameOver( true );
+            systemUnderTest.OnGameOver( false );
 
             bool isVisible = systemUnderTest.ViewModel.GetPropertyValue<bool>( GameOverPM.VISIBLE_PROPERTY );
             Assert.IsTrue( isVisible );
         }
 
+        [Test]
+        public void AfterGameOverMessage_IfWin_IsVisibleFalse() {
+            GameOverPM systemUnderTest = new GameOverPM( Substitute.For<IStringTableManager>() );
+
+            systemUnderTest.OnGameOver( true );
+
+            bool isVisible = systemUnderTest.ViewModel.GetPropertyValue<bool>( GameOverPM.VISIBLE_PROPERTY );
+            Assert.IsFalse( isVisible );
+        }
+
         static object[] BodyTextTests = {
-            new object[] { "You lose", GameOverPM.LOST_GAME_KEY, false },
-            new object[] { "You win", GameOverPM.WON_GAME_KEY, true }
+            new object[] { "You lose", GameOverPM.LOST_GAME_KEY, false }
         };
 
         [Test, TestCaseSource("BodyTextTests")]

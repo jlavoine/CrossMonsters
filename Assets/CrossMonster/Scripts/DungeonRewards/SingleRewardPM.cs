@@ -12,7 +12,7 @@ namespace CrossMonsters {
 
         private IDungeonRewardData mData;
 
-        public SingleRewardPM( IStringTableManager i_stringTable, IAllRewardsPM i_allRewardsPM, IDungeonRewardData i_data ) {
+        public SingleRewardPM( IStringTableManager i_stringTable, IDungeonRewardData i_data, IAllRewardsPM i_allRewardsPM ) {
             mData = i_data;
             mStringTable = i_stringTable;
             mAllRewardsPM = i_allRewardsPM;
@@ -40,6 +40,6 @@ namespace CrossMonsters {
             ViewModel.SetProperty( NAME_PROPERTY, text );
         }
 
-        public class Factory : Factory<IDungeonRewardData, SingleRewardPM> { }
+        public class Factory : Factory<IDungeonRewardData, IAllRewardsPM, SingleRewardPM> { }
     }
 }

@@ -1,6 +1,7 @@
-﻿
+﻿using MyLibrary;
+
 namespace CrossMonsters {
-    public interface IAllRewardsPM  {
+    public interface IAllRewardsPM : IPresentationModel  {
         void RewardUncovered();
     }
 }
