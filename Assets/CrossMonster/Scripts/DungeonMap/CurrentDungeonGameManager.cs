@@ -45,14 +45,10 @@ namespace CrossMonsters {
         private void SetRewards() {
             Rewards = new List<IDungeonReward>();
             if ( Data.GetRewards() != null ) {
-                /*foreach ( DungeonRewardData data in Data.GetRewards() ) {
+                foreach ( IDungeonRewardData data in Data.GetRewards() ) {
                     Rewards.Add( mRewardSpawner.Create( data ) );
-                }*/
-                
+                }                
             }
-
-            Rewards.Add( mRewardSpawner.Create( new DungeonRewardData() { Id = "Gold", Count = 100, LootType = LootTypes.Gold } ) );
-            Rewards.Add( mRewardSpawner.Create( new DungeonRewardData() { Id = "Gold", Count = 50, LootType = LootTypes.Gold } ) );
         }
     }
 }
