@@ -28,7 +28,7 @@ namespace CrossMonsters {
             cloudParams.Add( "AreaId", "0" );
             cloudParams.Add( "DungeonId", "0" );
 
-            mBackendManager.GetBackend<IBasicBackend>().MakeCloudCall( "getDungeonGameSession", cloudParams, ( result ) => {
+            mBackendManager.GetBackend<IBasicBackend>().MakeCloudCall( BackendMethods.GET_DUNGEON_SESSION, cloudParams, ( result ) => {
                 OnDungeonGameSessionResponse( JsonConvert.DeserializeObject<DungeonGameSessionData>( result["data"] ) );
             } );
         }

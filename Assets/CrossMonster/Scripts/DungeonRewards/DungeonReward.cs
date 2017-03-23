@@ -17,7 +17,6 @@ namespace CrossMonsters {
             switch ( GetLootType() ) {
                 case LootTypes.Gold:
                     mPlayerData.Gold += GetCount();
-                    UnityEngine.Debug.LogError( "Awarding " + GetCount() + " gold " );
                     break;
             }
         }

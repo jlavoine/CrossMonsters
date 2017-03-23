@@ -7,6 +7,9 @@ namespace CrossMonsters {
         IMessageService MyMessenger;
 
         [Inject]
+        IBackendManager BackendManager;
+
+        [Inject]
         ICurrentDungeonGameManager CurrentDungeonManager;
 
         private GameStates mState;
@@ -57,6 +60,7 @@ namespace CrossMonsters {
 
         private void AwardDungeonRewards() {
             CurrentDungeonManager.AwardRewards();
+            BackendManager.MakeCloudCall( BackendMethods.COMPLETE_DUNGEON_SESSION, null, null );
         }
     }
 }

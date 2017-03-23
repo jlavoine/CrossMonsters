@@ -49,7 +49,7 @@ namespace CrossMonsters {
             MockBackendManager.GetBackend<IBasicBackend>().Returns( mockBackend );
             systemUnderTest.OnClick();
 
-            mockBackend.Received().MakeCloudCall( "getDungeonGameSession", Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
+            mockBackend.Received().MakeCloudCall( BackendMethods.GET_DUNGEON_SESSION, Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
         }
 
         [Test]

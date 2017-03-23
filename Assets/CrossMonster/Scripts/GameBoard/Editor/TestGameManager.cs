@@ -18,11 +18,15 @@ namespace CrossMonsters {
         ICurrentDungeonGameManager MockCurrentDungeon;
 
         [Inject]
+        IBackendManager MockBackend;
+
+        [Inject]
         GameManager systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
+            Container.Bind<IBackendManager>().FromInstance( Substitute.For<IBackendManager>() );
             Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
             Container.Bind<GameManager>().AsSingle();
             Container.Inject( this );
@@ -66,6 +70,20 @@ namespace CrossMonsters {
             systemUnderTest.OnAllMonstersDead();
 
             MockCurrentDungeon.Received().AwardRewards();
+        }
+
+        [Test]
+        public void WhenAllMonstersDead_BackendVictoryMethodCalled() {
+            systemUnderTest.OnAllMonstersDead();
+
+            MockBackend.Received().MakeCloudCall( BackendMethods.COMPLETE_DUNGEON_SESSION, Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
+        }
+
+        [Test]
+        public void WhenPlayerDies_NoBackendVictoryMethodCalled() {
+            systemUnderTest.OnPlayerDied();
+
+            MockBackend.DidNotReceive().MakeCloudCall( BackendMethods.COMPLETE_DUNGEON_SESSION, Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
         }
 
         [Test]
