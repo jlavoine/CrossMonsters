@@ -1,17 +1,23 @@
-﻿
+﻿using Zenject;
+
 namespace MyLibrary {
     public class MyLogger {
         public const string LOG_EVENT = "Log";
 
-        public MyLogger() {
-            MyMessenger.Instance.AddListener<LogTypes, string, string>( LOG_EVENT, LogWithCategory );
+        readonly IMessageService mMessenger;
+
+        public MyLogger(IMessageService i_messenger) {
+            UnityEngine.Debug.LogError( "Initing logger" );
+            mMessenger = i_messenger;
+
+            mMessenger.AddListener<LogTypes, string, string>( LOG_EVENT, LogWithCategory );
         }
 
         public void Dispose() {
-            MyMessenger.Instance.RemoveListener<LogTypes, string, string>( LOG_EVENT, LogWithCategory );
+            mMessenger.RemoveListener<LogTypes, string, string>( LOG_EVENT, LogWithCategory );
         }
 
-        public void LogWithCategory( LogTypes i_type, string i_message, string i_category ) {
+        public void LogWithCategory( LogTypes i_type, string i_message, string i_category ) {            
             i_message = string.IsNullOrEmpty( i_category ) ? i_message : i_category + ": " + i_message;
 
             // TODO: make this better

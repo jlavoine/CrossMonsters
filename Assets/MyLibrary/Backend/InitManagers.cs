@@ -9,7 +9,7 @@ namespace IdleFantasy {
         void Awake() {
             DontDestroyOnLoad( this );
 
-            MyLogger logger = new MyLogger();
+            //MyLogger logger = new MyLogger();
             UnityAnalyticsManager analytics = new UnityAnalyticsManager( new MyUnityAnalytics() );
             InfoPopupManager popupManager = new InfoPopupManager();
             OutOfSyncManager outOfSyncManager = new OutOfSyncManager();

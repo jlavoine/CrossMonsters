@@ -15,6 +15,11 @@ namespace MyLibrary {
                 mInstance = value;
             }
         }
+
+        public MyMessenger() {
+            mInstance = this;
+        }
+
         public void AddListener( string i_event, Callback i_handler ) {
             Messenger.AddListener( i_event, i_handler );
         }
