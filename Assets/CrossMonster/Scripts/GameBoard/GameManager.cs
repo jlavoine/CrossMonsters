@@ -6,6 +6,9 @@ namespace CrossMonsters {
         [Inject]
         IMessageService MyMessenger;
 
+        [Inject]
+        ICurrentDungeonGameManager CurrentDungeonManager;
+
         private GameStates mState;
         public GameStates State { get { return mState; } set { mState = value; } }
 
@@ -37,6 +40,7 @@ namespace CrossMonsters {
         public void OnAllMonstersDead() {
             SetState( GameStates.Ended );
             SendGameOverMessage( true );
+            AwardDungeonRewards();
         }
 
         public bool IsGamePlaying() {
@@ -49,6 +53,10 @@ namespace CrossMonsters {
 
         private void SendGameOverMessage( bool i_won ) {
             MyMessenger.Send<bool>( GameMessages.GAME_OVER, i_won );
+        }
+
+        private void AwardDungeonRewards() {
+            CurrentDungeonManager.AwardRewards();
         }
     }
 }

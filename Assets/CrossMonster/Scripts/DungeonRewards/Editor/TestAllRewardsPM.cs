@@ -14,14 +14,14 @@ namespace CrossMonsters {
         [Test]
         public void WhenCreating_ExpectedMessagesSubscribed() {
             IMessageService mockMessenger = Substitute.For<IMessageService>();
-            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), mockMessenger, new List<IDungeonRewardData>() );
+            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), mockMessenger, new List<IDungeonReward>() );
 
             mockMessenger.Received().AddListener( GameMessages.GAME_OVER, Arg.Any<Callback<bool>>() );
         }
 
         public void WhenDisposing_ExpectedMessagesUnsubsribed() {
             IMessageService mockMessenger = Substitute.For<IMessageService>();
-            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), mockMessenger, new List<IDungeonRewardData>() );
+            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), mockMessenger, new List<IDungeonReward>() );
 
             systemUnderTest.Dispose();
 
@@ -30,21 +30,21 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenCreating_Visibility_IsFalse() {
-            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonRewardData>() );
+            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonReward>() );
 
             Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( AllRewardsPM.VISIBLE_PROPERTY ) );
         }
 
         [Test]
         public void WhenCreating_CanContinue_IsFalse() {
-            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonRewardData>() );
+            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonReward>() );
 
             Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( AllRewardsPM.CAN_CONTINUE_PROPERTY ) );
         }
 
         [Test]
         public void WhenCreating_SingleRewardPMs_AreCreatedFromIncomingData() {
-            List<IDungeonRewardData> mockRewards = GetMockRewards( 3 );
+            List<IDungeonReward> mockRewards = GetMockRewards( 3 );
             AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), mockRewards );
 
             Assert.AreEqual( 3, systemUnderTest.SingleRewardPMs.Count );
@@ -52,7 +52,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenCreating_CoveredRewardCount_EqualsIncomingRewardCount() {
-            List<IDungeonRewardData> mockRewards = GetMockRewards( 3 );
+            List<IDungeonReward> mockRewards = GetMockRewards( 3 );
             AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), mockRewards );
 
             Assert.AreEqual( mockRewards.Count, systemUnderTest.CoveredRewardCount );
@@ -60,7 +60,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenUncoveringReward_CoveredCountDecreases() {
-            List<IDungeonRewardData> mockRewards = GetMockRewards( 3 );
+            List<IDungeonReward> mockRewards = GetMockRewards( 3 );
             AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), mockRewards );
 
             systemUnderTest.RewardUncovered();
@@ -70,7 +70,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenUncoveringReward_IfCoveredCountIsAboveZero_CanContinueIsFalse() {
-            List<IDungeonRewardData> mockRewards = GetMockRewards( 3 );
+            List<IDungeonReward> mockRewards = GetMockRewards( 3 );
             AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), mockRewards );
 
             systemUnderTest.RewardUncovered();
@@ -80,7 +80,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenUncoveringReward_IfCoveredCountIsZero_CanContinueIsTrue() {
-            List<IDungeonRewardData> mockRewards = GetMockRewards( 1 );
+            List<IDungeonReward> mockRewards = GetMockRewards( 1 );
             AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), mockRewards );
 
             systemUnderTest.RewardUncovered();
@@ -90,7 +90,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenPlayerWins_IsVisible_IsTrue() {
-            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonRewardData>() );
+            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonReward>() );
             systemUnderTest.ViewModel.SetProperty( AllRewardsPM.VISIBLE_PROPERTY, false );
 
             systemUnderTest.OnGameOver( true );
@@ -100,7 +100,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenPlayerLoses_IsVisible_IsFalse() {
-            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonRewardData>() );
+            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonReward>() );
             systemUnderTest.ViewModel.SetProperty( AllRewardsPM.VISIBLE_PROPERTY, false );
 
             systemUnderTest.OnGameOver( false );
@@ -108,10 +108,10 @@ namespace CrossMonsters {
             Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( AllRewardsPM.VISIBLE_PROPERTY ) );
         }
 
-        private List<IDungeonRewardData> GetMockRewards( int i_count ) {
-            List<IDungeonRewardData> mockRewards = new List<IDungeonRewardData>();
+        private List<IDungeonReward> GetMockRewards( int i_count ) {
+            List<IDungeonReward> mockRewards = new List<IDungeonReward>();
             for ( int i = 0; i < i_count; ++i ) {
-                mockRewards.Add( Substitute.For<IDungeonRewardData>() );
+                mockRewards.Add( Substitute.For<IDungeonReward>() );
             }
             
             return mockRewards;

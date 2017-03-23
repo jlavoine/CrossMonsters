@@ -31,7 +31,7 @@ namespace CrossMonsters {
 
             Container.Bind<IDamageCalculator>().To<DamageCalculator>().AsSingle();
 
-            Container.BindFactory<IDungeonRewardData, IAllRewardsPM, SingleRewardPM, SingleRewardPM.Factory>();
+            Container.BindFactory<IDungeonReward, IAllRewardsPM, SingleRewardPM, SingleRewardPM.Factory>();
             Container.Bind<ISingleRewardPM_Spawner>().To<SingleRewardPM_Spawner>().AsSingle();
         }
 

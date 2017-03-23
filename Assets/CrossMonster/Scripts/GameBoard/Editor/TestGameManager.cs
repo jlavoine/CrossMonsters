@@ -15,11 +15,15 @@ namespace CrossMonsters {
         IMessageService MyMessenger;
 
         [Inject]
+        ICurrentDungeonGameManager MockCurrentDungeon;
+
+        [Inject]
         GameManager systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
+            Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
             Container.Bind<GameManager>().AsSingle();
             Container.Inject( this );
         }
@@ -55,6 +59,20 @@ namespace CrossMonsters {
             systemUnderTest.OnAllMonstersDead();
 
             Assert.AreEqual( GameStates.Ended, systemUnderTest.State );
+        }
+
+        [Test]
+        public void WhenAllMonstersDead_DungeonRewardsAreAwarded() {
+            systemUnderTest.OnAllMonstersDead();
+
+            MockCurrentDungeon.Received().AwardRewards();
+        }
+
+        [Test]
+        public void WhenPlayerDies_NoDungeonRewardsAwarded() {
+            systemUnderTest.OnPlayerDied();
+
+            MockCurrentDungeon.DidNotReceive().AwardRewards();
         }
 
         [Test]

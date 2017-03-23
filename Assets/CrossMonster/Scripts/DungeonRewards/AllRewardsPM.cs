@@ -15,7 +15,7 @@ namespace CrossMonsters {
         private List<ISingleRewardPM> mSingleRewardPMs;
         public List<ISingleRewardPM> SingleRewardPMs { get { return mSingleRewardPMs; } set { mSingleRewardPMs = value; } }
 
-        public AllRewardsPM( ISingleRewardPM_Spawner i_spawner, IMessageService i_messenger, List<IDungeonRewardData> i_rewards ) {
+        public AllRewardsPM( ISingleRewardPM_Spawner i_spawner, IMessageService i_messenger, List<IDungeonReward> i_rewards ) {
             mSpawner = i_spawner;
             mMessenger = i_messenger;
             mCoveredRewardCount = i_rewards.Count;
@@ -50,10 +50,10 @@ namespace CrossMonsters {
             AllowContinueIfAllRewardsUncovered();
         }
 
-        private void CreateSingleRewardPMs( List<IDungeonRewardData> i_rewards ) {
+        private void CreateSingleRewardPMs( List<IDungeonReward> i_rewards ) {
             SingleRewardPMs = new List<ISingleRewardPM>();
-            foreach ( IDungeonRewardData rewardData in i_rewards ) {
-                SingleRewardPMs.Add( mSpawner.Create( rewardData, this ) );
+            foreach ( IDungeonReward reward in i_rewards ) {
+                SingleRewardPMs.Add( mSpawner.Create( reward, this ) );
             }
         }
 

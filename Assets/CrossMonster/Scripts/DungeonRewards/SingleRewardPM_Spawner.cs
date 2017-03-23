@@ -1,7 +1,7 @@
 ﻿
 namespace CrossMonsters {
     public interface ISingleRewardPM_Spawner {
-        ISingleRewardPM Create( IDungeonRewardData i_data, IAllRewardsPM i_pm );
+        ISingleRewardPM Create( IDungeonReward i_reward, IAllRewardsPM i_pm );
     }
 
     public class SingleRewardPM_Spawner : ISingleRewardPM_Spawner {
@@ -11,8 +11,8 @@ namespace CrossMonsters {
             this.factory = i_factory;
         }
 
-        public ISingleRewardPM Create( IDungeonRewardData i_data, IAllRewardsPM i_pm ) {
-            return factory.Create( i_data, i_pm );
+        public ISingleRewardPM Create( IDungeonReward i_reward, IAllRewardsPM i_pm ) {
+            return factory.Create( i_reward, i_pm );
         }
     }
 }

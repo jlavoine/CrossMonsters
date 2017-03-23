@@ -10,10 +10,10 @@ namespace CrossMonsters {
         readonly IStringTableManager mStringTable;
         readonly IAllRewardsPM mAllRewardsPM;
 
-        private IDungeonRewardData mData;
+        private IDungeonReward mReward;
 
-        public SingleRewardPM( IStringTableManager i_stringTable, IDungeonRewardData i_data, IAllRewardsPM i_allRewardsPM ) {
-            mData = i_data;
+        public SingleRewardPM( IStringTableManager i_stringTable, IDungeonReward i_reward, IAllRewardsPM i_allRewardsPM ) {
+            mReward = i_reward;
             mStringTable = i_stringTable;
             mAllRewardsPM = i_allRewardsPM;
 
@@ -32,14 +32,14 @@ namespace CrossMonsters {
         }
 
         private void SetCountProperty() {
-            ViewModel.SetProperty( COUNT_PROPERTY, mData.GetCount().ToString() );
+            ViewModel.SetProperty( COUNT_PROPERTY, mReward.GetCount().ToString() );
         }
 
         private void SetNameProperty() {
-            string text = mStringTable.Get( mData.GetNameKey() );
+            string text = mStringTable.Get( mReward.GetNameKey() );
             ViewModel.SetProperty( NAME_PROPERTY, text );
         }
 
-        public class Factory : Factory<IDungeonRewardData, IAllRewardsPM, SingleRewardPM> { }
+        public class Factory : Factory<IDungeonReward, IAllRewardsPM, SingleRewardPM> { }
     }
 }

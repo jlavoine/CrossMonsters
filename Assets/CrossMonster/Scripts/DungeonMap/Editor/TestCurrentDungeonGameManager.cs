@@ -15,11 +15,15 @@ namespace CrossMonsters {
         IMonsterDataManager MockMonsterData;
 
         [Inject]
+        IDungeonRewardSpawner MockRewardSpawner;
+
+        [Inject]
         CurrentDungeonGameManager systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
-            Container.Bind<IMonsterDataManager>().FromInstance( Substitute.For<IMonsterDataManager>() );            
+            Container.Bind<IMonsterDataManager>().FromInstance( Substitute.For<IMonsterDataManager>() );
+            Container.Bind<IDungeonRewardSpawner>().FromInstance( Substitute.For<IDungeonRewardSpawner>() );
             Container.Bind<CurrentDungeonGameManager>().AsSingle();
             Container.Inject( this );
         }
@@ -43,6 +47,31 @@ namespace CrossMonsters {
             systemUnderTest.SetData( mockData );
 
             Assert.AreEqual( 3, systemUnderTest.Monsters.Count );
+        }
+
+        [Test]
+        public void WhenSettingData_RewardsAreGenerated() {
+            IDungeonGameSessionData mockData = Substitute.For<IDungeonGameSessionData>();
+            mockData.GetRewards().Returns( new List<IDungeonRewardData>() { Substitute.For<IDungeonRewardData>() } );
+
+            systemUnderTest.SetData( mockData );
+
+            Assert.AreEqual( 1, systemUnderTest.Rewards.Count );
+        }
+
+        [Test]
+        public void WhenAwarding_AllDungeonRewardsAreAwarded() {
+            List<IDungeonReward> mockRewards = new List<IDungeonReward>();
+            mockRewards.Add( Substitute.For<IDungeonReward>() );
+            mockRewards.Add( Substitute.For<IDungeonReward>() );
+            mockRewards.Add( Substitute.For<IDungeonReward>() );
+
+            systemUnderTest.Rewards = mockRewards;
+            systemUnderTest.AwardRewards();
+
+            foreach ( IDungeonReward reward in mockRewards ) {
+                reward.Received().Award();
+            }
         }
     }
 }

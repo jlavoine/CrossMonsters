@@ -23,20 +23,20 @@ namespace CrossMonsters {
         public void CommonInstall() {
             Container.Bind<IStringTableManager>().FromInstance( Substitute.For<IStringTableManager>() );
             Container.Bind<IAllRewardsPM>().FromInstance( Substitute.For<IAllRewardsPM>() );
-            Container.BindFactory<IDungeonRewardData, IAllRewardsPM, SingleRewardPM, SingleRewardPM.Factory>();            
+            Container.BindFactory<IDungeonReward, IAllRewardsPM, SingleRewardPM, SingleRewardPM.Factory>();            
             Container.Inject( this );
         }
 
         [Test]
         public void WhenCreating_CoverIsVisibleByDefault() {
-            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>(), MockRewardsPM );
+            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonReward>(), MockRewardsPM );
 
             Assert.IsTrue( systemUnderTest.ViewModel.GetPropertyValue<bool>( SingleRewardPM.COVER_VISIBLE_PROPERTY ) );
         }
 
         [Test]
         public void WhenUncovered_CoverVisibility_IsFalse() {
-            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>(), MockRewardsPM );
+            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonReward>(), MockRewardsPM );
             systemUnderTest.ViewModel.SetProperty( SingleRewardPM.COVER_VISIBLE_PROPERTY, true );
 
             systemUnderTest.UncoverReward();
@@ -46,7 +46,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenUncovered_AllRewardsPM_IsNotified() {
-            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonRewardData>(), MockRewardsPM );
+            SingleRewardPM systemUnderTest = systemFactory.Create( Substitute.For<IDungeonReward>(), MockRewardsPM );
 
             systemUnderTest.UncoverReward();
 
@@ -55,7 +55,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenCreating_CountProperty_EqualsDungeonRewardCount() {
-            IDungeonRewardData mockData = Substitute.For<IDungeonRewardData>();
+            IDungeonReward mockData = Substitute.For<IDungeonReward>();
             mockData.GetCount().Returns( 101 );
 
             SingleRewardPM systemUnderTest = systemFactory.Create( mockData, MockRewardsPM );
@@ -65,7 +65,7 @@ namespace CrossMonsters {
 
         [Test]
         public void WhenCreating_NameProperty_AsExpected() {
-            IDungeonRewardData mockData = Substitute.For<IDungeonRewardData>();
+            IDungeonReward mockData = Substitute.For<IDungeonReward>();
             mockData.GetNameKey().Returns( "Test" );
             MockStringTable.Get( "Test" ).Returns( "MyTestItem" );
 

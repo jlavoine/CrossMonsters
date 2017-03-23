@@ -19,7 +19,7 @@ namespace CrossMonsters {
         private AllRewardsPM mPM;
 
         void Start() {
-            mPM = new AllRewardsPM( SingleRewardsSpawner, Messenger, DungeonManager.Data.GetRewards() );
+            mPM = new AllRewardsPM( SingleRewardsSpawner, Messenger, DungeonManager.Rewards );
 
             SetModel( mPM.ViewModel );
             CreateSingleRewardViews();
