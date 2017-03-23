@@ -19,11 +19,15 @@ namespace CrossMonsters {
         IChainProcessor ChainProcessor;
 
         [Inject]
+        IChainValidator ChainValidator;
+
+        [Inject]
         IMessageService MyMessenger;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IChainProcessor>().FromInstance( Substitute.For<IChainProcessor>() );
+            Container.Bind<IChainValidator>().FromInstance( Substitute.For<IChainValidator>() );
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
             Container.Bind<ChainBuilder>().AsSingle();
             Container.Inject( this );
@@ -101,8 +105,9 @@ namespace CrossMonsters {
         }
 
         [Test]
-        public void WhenActiveChain_ContinuingChain_AddPieceToChain() {
+        public void WhenActiveChain_ContinuingChain_IfChainIsValid_AddPieceToChain() {
             CreateChainManager_WithEmptyActiveChain();
+            ChainValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
 
             IGamePiece mockPiece = Substitute.For<IGamePiece>();
             systemUnderTest.ContinueChain( mockPiece );
@@ -111,8 +116,9 @@ namespace CrossMonsters {
         }
 
         [Test]
-        public void WhenActiveChain_ContinuingChain_SendsPieceAddedEvent() {
+        public void WhenActiveChain_ContinuingChain_IfChainIsValid_SendsPieceAddedEvent() {
             CreateChainManager_WithEmptyActiveChain();
+            ChainValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
 
             IGamePiece mockPiece = Substitute.For<IGamePiece>();
             systemUnderTest.ContinueChain( mockPiece );
@@ -121,13 +127,13 @@ namespace CrossMonsters {
         }
 
         [Test]
-        public void WhenContinuingChain_DuplicatePiecesNotAdded() {
-            IGamePiece mockPiece = Substitute.For<IGamePiece>();
-            systemUnderTest.Chain = new List<IGamePiece>() { mockPiece };
+        public void WhenContinuingChain_IfChainIsNotValid_ChainIsCanceled() {
+            CreateChainManager_WithEmptyActiveChain();
+            ChainValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
 
-            systemUnderTest.ContinueChain( mockPiece );
+            systemUnderTest.ContinueChain( Substitute.For<IGamePiece>() );
 
-            Assert.AreEqual( 1, systemUnderTest.Chain.Count );
+            MyMessenger.Received().Send( GameMessages.CHAIN_RESET );
         }
 
         [Test]

@@ -27,10 +27,10 @@ namespace CrossMonsters {
 
         [Test]
         public void IfSearchIsEmpty_BoardIsValid() {
-            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0), new GamePiece( 0 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 1 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 2 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 3 ), new GamePiece( 0 ), new GamePiece( 0 ) }};
+            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece( 1,0 ), new GamePiece( 0,0 ), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(2,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(3,0), new GamePiece(0,0), new GamePiece(0,0) }};
 
             MonsterManager.GetCurrentMonsterCombos().Returns( new List<List<int>>() );
 
@@ -40,10 +40,10 @@ namespace CrossMonsters {
 
         [Test]
         public void TestSearch_1() {
-            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0), new GamePiece( 0 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 1 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 2 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 3 ), new GamePiece( 0 ), new GamePiece( 0 ) }};
+            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(1,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(2,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(3,0), new GamePiece(0,0), new GamePiece(0,0) }};
 
             MonsterManager.GetCurrentMonsterCombos().Returns( new List<List<int>>() { new List<int>() { 0, 0, 0 } } );
 
@@ -53,10 +53,10 @@ namespace CrossMonsters {
 
         [Test]
         public void TestSearch_2() {
-            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0), new GamePiece( 0 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 1 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 2 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 3 ), new GamePiece( 0 ), new GamePiece( 0 ) }};
+            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(1,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(2,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(3,0), new GamePiece(0,0), new GamePiece(0,0) }};
 
             MonsterManager.GetCurrentMonsterCombos().Returns( new List<List<int>>() { new List<int>() { 1, 2, 3 } } );
 
@@ -66,10 +66,10 @@ namespace CrossMonsters {
 
         [Test]
         public void TestSearch_3() {
-            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0), new GamePiece( 0 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 1 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(1), new GamePiece( 2 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 3 ), new GamePiece( 0 ), new GamePiece( 0 ) }};
+            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(1,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(1,0), new GamePiece(2,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(3,0), new GamePiece(0,0), new GamePiece(0,0) }};
 
             MonsterManager.GetCurrentMonsterCombos().Returns( new List<List<int>>() { new List<int>() { 0, 0, 2, 1 } } );
 
@@ -79,10 +79,10 @@ namespace CrossMonsters {
 
         [Test]
         public void TestSearch_4() {
-            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0), new GamePiece( 0 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 1 ), new GamePiece( 1 ), new GamePiece( 1 ) },
-            { new GamePiece(0), new GamePiece( 2 ), new GamePiece( 0 ), new GamePiece( 2 ) },
-            { new GamePiece(0), new GamePiece( 3 ), new GamePiece( 0 ), new GamePiece( 1 ) }};
+            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(1,0), new GamePiece(1,0), new GamePiece(1,0) },
+            { new GamePiece(0,0), new GamePiece(2,0), new GamePiece(0,0), new GamePiece(2,0) },
+            { new GamePiece(0,0), new GamePiece(3,0), new GamePiece(0,0), new GamePiece(1,0) }};
 
             MonsterManager.GetCurrentMonsterCombos().Returns( new List<List<int>>() { new List<int>() { 3, 0, 1, 2, 1 } } );
 
@@ -92,10 +92,10 @@ namespace CrossMonsters {
 
         [Test]
         public void TestSearch_5() {
-            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0), new GamePiece( 0 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 1 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 2 ), new GamePiece( 0 ), new GamePiece( 0 ) },
-            { new GamePiece(0), new GamePiece( 3 ), new GamePiece( 0 ), new GamePiece( 0 ) }};
+            IGamePiece[,] mockBoard = new IGamePiece[,] { { new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(1,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(2,0), new GamePiece(0,0), new GamePiece(0,0) },
+            { new GamePiece(0,0), new GamePiece(3,0), new GamePiece(0,0), new GamePiece(0,0) }};
 
             MonsterManager.GetCurrentMonsterCombos().Returns( new List<List<int>>() { new List<int>() { 3, 3, 3 } } );
 

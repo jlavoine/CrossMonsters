@@ -24,21 +24,22 @@ namespace CrossMonsters {
         public void CommonInstall() {
             Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
             Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
-            Container.BindFactory<int, GamePiece, GamePiece.Factory>();
+            Container.BindFactory<int, int, GamePiece, GamePiece.Factory>();
             Container.Inject( this );
         }
 
         [Test]
-        public void WhenCreatingPiece_PieceTypeMatchesConstructor() {
-            GamePiece systemUnderTest = SystemFactory.Create( 5 );
+        public void WhenCreatingPiece_PropertiesMatchConstructor() {
+            GamePiece systemUnderTest = SystemFactory.Create( 5, 11 );
 
             Assert.AreEqual( 5, systemUnderTest.PieceType );
+            Assert.AreEqual( 11, systemUnderTest.Index );
         }
 
         [Test]
         public void WhenUsingPiece_IfShouldNotRotate_PieceDoesNotRotate() {
             DungeonManager.Data.ShouldRotatePieces().Returns( false );
-            GamePiece systemUnderTest = SystemFactory.Create( 5 );
+            GamePiece systemUnderTest = SystemFactory.Create( 5, 0 );
 
             systemUnderTest.UsePiece();
 

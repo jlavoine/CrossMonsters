@@ -12,7 +12,11 @@ namespace CrossMonsters {
         private int mPieceType;
         public int PieceType { get { return mPieceType; } set { mPieceType = value; } }
 
-        public GamePiece( int i_pieceType ) {
+        private int mIndex;
+        public int Index { get { return mIndex; } set { mIndex = value; } }
+
+        public GamePiece( int i_pieceType, int i_pieceIndex ) {
+            Index = i_pieceIndex;
             PieceType = i_pieceType;
         }
 
@@ -36,6 +40,6 @@ namespace CrossMonsters {
             SendModelChangedEvent();
         }
 
-        public class Factory : Factory<int, GamePiece> {}
+        public class Factory : Factory<int, int, GamePiece> {}
     }
 }

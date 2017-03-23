@@ -28,7 +28,7 @@ namespace CrossMonsters {
             Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
             Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
             Container.Bind<IValidBoardChecker>().FromInstance( Substitute.For<IValidBoardChecker>() );
-            Container.BindFactory<int, GamePiece, GamePiece.Factory>();
+            Container.BindFactory<int, int, GamePiece, GamePiece.Factory>();
             Container.Bind<GameBoard>().AsSingle();
             Container.Inject( this );            
         }

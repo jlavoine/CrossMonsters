@@ -8,6 +8,9 @@ namespace CrossMonsters {
         IChainProcessor ChainProcessor;
 
         [Inject]
+        IChainValidator ChainValidator;
+
+        [Inject]
         IMessageService MyMessenger;
 
         private List<IGamePiece> mChain = null;
@@ -36,9 +39,11 @@ namespace CrossMonsters {
         }
 
         public void ContinueChain( IGamePiece i_piece ) {
-            if ( IsActiveChain() && !IsPieceInChain( i_piece ) ) {
+            if ( IsActiveChain() && ChainValidator.IsValidPieceInChain( i_piece, mChain ) ) {
                 AddPieceToChain( i_piece );
                 SendPieceAddedEvent( i_piece );
+            } else {
+                CancelChain();
             }
         }
 
