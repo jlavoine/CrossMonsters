@@ -10,6 +10,7 @@ using Zenject;
 
 namespace CrossMonsters {
     public class TestDungeonLoader : ZenjectUnitTestFixture {
+        public const string TEST_GAME_MODE = "Test";
 
         [Inject]
         ILoadingScreenPM MockLoadingPM;
@@ -38,7 +39,7 @@ namespace CrossMonsters {
 
         [Test]
         public void OnClick_LoadingScreenShowIsCalled() {
-            systemUnderTest.OnClick();
+            systemUnderTest.OnClick( TEST_GAME_MODE );
 
             MockLoadingPM.Received().Show();
         }
@@ -47,7 +48,7 @@ namespace CrossMonsters {
         public void OnClick_BackendCloudCallMade_ToGetGameSession() {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             MockBackendManager.GetBackend<IBasicBackend>().Returns( mockBackend );
-            systemUnderTest.OnClick();
+            systemUnderTest.OnClick( TEST_GAME_MODE );
 
             mockBackend.Received().MakeCloudCall( BackendMethods.GET_DUNGEON_SESSION, Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
         }

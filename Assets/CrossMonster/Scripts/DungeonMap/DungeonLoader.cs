@@ -18,15 +18,16 @@ namespace CrossMonsters {
             mSceneManager = i_sceneManager;
         }
 
-        public void OnClick() {
+        public void OnClick( string i_gameType ) {
             mLoadingPM.Show();
-            GetGameSessionFromServer();
+            GetGameSessionFromServer( i_gameType );
         }
 
-        private void GetGameSessionFromServer() {
+        private void GetGameSessionFromServer( string i_gameType ) {
             Dictionary<string, string> cloudParams = new Dictionary<string, string>();
             cloudParams.Add( "AreaId", "0" );
             cloudParams.Add( "DungeonId", "0" );
+            cloudParams.Add( "GameType", i_gameType );
 
             mBackendManager.GetBackend<IBasicBackend>().MakeCloudCall( BackendMethods.GET_DUNGEON_SESSION, cloudParams, ( result ) => {
                 OnDungeonGameSessionResponse( JsonConvert.DeserializeObject<DungeonGameSessionData>( result["data"] ) );

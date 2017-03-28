@@ -3,6 +3,8 @@ using Zenject;
 
 namespace CrossMonsters {
     public class DungeonLoaderButton : MonoBehaviour {
+        public string GameType;
+
         [Inject]
         DungeonLoader.Factory DungeonLoaderFactory;
 
@@ -13,7 +15,7 @@ namespace CrossMonsters {
         }
 
         public void OnClick() {
-            mLoader.OnClick();
+            mLoader.OnClick( GameType );
         }
     }
 }
