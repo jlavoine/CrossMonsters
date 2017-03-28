@@ -14,7 +14,7 @@ namespace CrossMonsters {
         public List<string> Categories;
 
         public string GetId() { return Id; }
-        public int GetMaxHP() { return MaxHP; }
+        public int GetMaxHP() { return 5; }
         public int GetDefense() { return Defense; }
         public int GetDefenseType() { return DefenseType; }
         public int GetDamage() { return Damage; }
