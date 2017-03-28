@@ -8,6 +8,7 @@ namespace CrossMonsters {
             Container.Bind<IChainValidator>().To<ChainValidator>().AsSingle();
             Container.Bind<IChainProcessor>().To<ChainProcessor>().AsSingle();
             Container.Bind<IChainValidator_DuplicatePieces>().To<ChainValidator_DuplicatePieces>().AsSingle();
+            Container.Bind<IChainValidator_DiagonalPieces>().To<ChainValidator_DiagonalPieces>().AsSingle();
 
             Container.Bind<IInitializable>().To<GameManager>().AsSingle();
             Container.Bind<IGameManager>().To<GameManager>().AsSingle();
