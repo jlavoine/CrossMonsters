@@ -88,10 +88,6 @@ namespace CrossMonsters {
 
         private void SendChainResetEvent() {
             MyMessenger.Send( GameMessages.CHAIN_RESET );
-        }
-
-        private bool IsPieceInChain( IGamePiece i_piece ) {
-            return Chain.Contains( i_piece );
-        }
+        }       
     }
 }
