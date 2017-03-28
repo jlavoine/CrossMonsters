@@ -40,6 +40,8 @@ namespace CrossMonsters {
         public void IfIncomingChainIsEmpty_Validates() {
             SetCurrentDungeonToAllowDiagonals( false );
             bool isValid = systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() );
+
+            Assert.IsTrue( isValid );
         }
 
         static object[] LeftEdgeTests = {

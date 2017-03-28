@@ -15,39 +15,55 @@ namespace CrossMonsters {
         ChainValidator systemUnderTest;
 
         [Inject]
-        IChainValidator_DuplicatePieces MockDuplicatePieceValidation;
+        IChainValidator_DuplicatePieces MockDuplicatePieceValidator;
 
         [Inject]
-        IChainValidator_DiagonalPieces MockDiagonalPieceValidation;
+        IChainValidator_DiagonalPieces MockDiagonalPieceValidator;
+
+        [Inject]
+        IChainValidator_StraightLinesOnly MockStraightLinesOnlyValidator;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IChainValidator_DuplicatePieces>().FromInstance( Substitute.For<IChainValidator_DuplicatePieces>() );
             Container.Bind<IChainValidator_DiagonalPieces>().FromInstance( Substitute.For<IChainValidator_DiagonalPieces>() );
+            Container.Bind<IChainValidator_StraightLinesOnly>().FromInstance( Substitute.For<IChainValidator_StraightLinesOnly>() );
             Container.Bind<ChainValidator>().AsSingle();
             Container.Inject( this );
         }
 
         [Test]
         public void IfJustDuplicatePieceValidationFails_ValidationFails() {
-            MockDuplicatePieceValidation.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
-            MockDiagonalPieceValidation.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockDuplicatePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
+            MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
 
             Assert.IsFalse( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
         }
 
         [Test]
         public void IfJustDiagonalPieceValidationFails_ValidationFails() {
-            MockDuplicatePieceValidation.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
-            MockDiagonalPieceValidation.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
+            MockDuplicatePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
+            MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+
+            Assert.IsFalse( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
+        }
+
+        [Test]
+        public void IfJustStraightLinesOnlyValidationFails_ValidationFails() {
+            MockDuplicatePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
 
             Assert.IsFalse( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
         }
 
         [Test]
         public void IfAllValidationPasses_Validation_Passes() {
-            MockDuplicatePieceValidation.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
-            MockDiagonalPieceValidation.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockDuplicatePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
 
             Assert.IsTrue( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
         }
