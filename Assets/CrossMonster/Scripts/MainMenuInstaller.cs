@@ -29,6 +29,8 @@ namespace CrossMonsters {
             Container.BindFactory<IBasicNewsData, SingleNewsPM, SingleNewsPM.Factory>();
             Container.BindFactory<ISceneStartFlowManager, ShowNewsFlowStep, ShowNewsFlowStep.Factory>();
             Container.Bind<IShowNewsStepSpawner>().To<ShowNewsStepSpawner>().AsSingle();
+
+            Container.Bind<ILinkAccountPM>().To<LinkAccountPM>().AsSingle();
         }
     }
 }
