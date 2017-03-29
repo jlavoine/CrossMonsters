@@ -115,5 +115,13 @@ namespace MyLibrary {
         public void GetPublicPlayerData( string i_key, Callback<string> requestSuccessCallback ) {
             throw new NotImplementedException();
         }
+
+        public void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> requestCallback ) {
+            throw new NotImplementedException();
+        }
+
+        public void LinkAccountToGameCenter( string i_id, Callback<bool> requestCallback ) {
+            throw new NotImplementedException();
+        }
     }
 }

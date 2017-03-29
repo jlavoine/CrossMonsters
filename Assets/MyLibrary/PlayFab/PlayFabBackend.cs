@@ -5,6 +5,8 @@ using MyLibrary.PlayFab;
 using Newtonsoft.Json;
 using System.Collections;
 using System;
+using UnityEngine;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 namespace MyLibrary {
     public abstract class PlayFabBackend : IBasicBackend {
@@ -51,6 +53,40 @@ namespace MyLibrary {
 
         public bool IsBusy() {
             return CloudRequestCount > 0;
+        }
+
+        public void AuthenticateWithGameCenter() {
+            LoginWithGameCenterRequest request = new LoginWithGameCenterRequest() {
+                TitleId = TITLE_ID,
+                PlayerId = ""
+            };
+
+            PlayFabClientAPI.LoginWithGameCenter( request, ( result ) => {
+                mPlayFabId = result.PlayFabId;
+                mSessionTicket = result.SessionTicket;
+
+                IAuthenticationSuccess successResult = null;
+                MyMessenger.Instance.Send<IAuthenticationSuccess>( BackendMessages.AUTH_SUCCESS, successResult );
+            },
+            ( error ) => { HandleError( error, BackendMessages.AUTH_FAIL ); } );
+            
+        }
+
+        public void AuthenticateWithDevice() {
+            LoginWithIOSDeviceIDRequest request = new LoginWithIOSDeviceIDRequest() {
+                TitleId = TITLE_ID,
+                CreateAccount = true,
+                DeviceId = SystemInfo.deviceUniqueIdentifier
+            };
+
+            PlayFabClientAPI.LoginWithIOSDeviceID( request, ( result ) => {
+                mPlayFabId = result.PlayFabId;
+                mSessionTicket = result.SessionTicket;
+
+                IAuthenticationSuccess successResult = null;
+                MyMessenger.Instance.Send<IAuthenticationSuccess>( BackendMessages.AUTH_SUCCESS, successResult );
+            },
+            ( error ) => { HandleError( error, BackendMessages.AUTH_FAIL ); } );
         }
 
         public void Authenticate( string i_id ) {
@@ -110,6 +146,31 @@ namespace MyLibrary {
                     SendNextQueuedCloudCall();
                 } );
             }
+        }
+
+        public void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> i_requestCallback ) {
+            List<string> ids = new List<string>() { i_id };
+            GetPlayFabIDsFromGameCenterIDsRequest request = new GetPlayFabIDsFromGameCenterIDsRequest() {
+                GameCenterIDs = ids
+            };
+
+            PlayFabClientAPI.GetPlayFabIDsFromGameCenterIDs( request, 
+                ( result ) => {
+                    i_requestCallback( result.Data.Count > 0 );
+                }, 
+                ( error ) => { } );
+        } 
+
+        public void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback ) {
+            LinkGameCenterAccountRequest request = new LinkGameCenterAccountRequest() {
+                GameCenterId = i_id
+            };
+
+            PlayFabClientAPI.LinkGameCenterAccount( request, 
+                ( result ) => {
+                    i_requestCallback( true );
+                }, 
+                ( error ) => { } );
         }
 
         public void MakeCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> i_requestSuccessCallback ) {
