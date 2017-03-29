@@ -26,7 +26,7 @@ namespace MyLibrary {
 
         public void OnAlreadyLinkedCheck( bool i_alreadyLinked ) {
             if ( i_alreadyLinked ) {
-
+                AccountAlreadyLinkedPM.Show();
             } else {
                 LinkAccount();
             }

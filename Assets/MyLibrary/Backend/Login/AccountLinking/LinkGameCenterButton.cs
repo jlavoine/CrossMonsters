@@ -8,8 +8,8 @@ namespace MyLibrary {
 
         protected override void Authorize() {
 #if UNITY_EDITOR
-            //OnIsLinkedCallback( true );
-            OnLinkAttemptResult( false );
+            OnAlreadyLinkedCheck( true );
+            //OnLinkAttemptResult( false );
 #else
             if ( !Social.localUser.authenticated ) {
                 Social.localUser.Authenticate( OnAuthorizeAttempt );
