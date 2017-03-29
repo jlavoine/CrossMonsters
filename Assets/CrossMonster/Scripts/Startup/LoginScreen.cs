@@ -140,6 +140,8 @@ namespace CrossMonsters {
         private IEnumerator LoadDataFromBackend() {
             LoginStatusText.text = STATUS_DOWNLOADING_GAME;
 
+            yield return InitPlayer();
+
             NewsManager.Init( mBackend );
             TreasureDataManager.Init( mBackend );
             MonsterDataManager.Init( mBackend );
@@ -159,6 +161,14 @@ namespace CrossMonsters {
             //yield return SetUpPlayerData();
             
             DoneLoadingData();
+        }
+
+        private IEnumerator InitPlayer() {
+            mBackend.MakeCloudCall( "initPlayer", null, null );
+
+            while ( mBackend.IsBusy() ) {
+                yield return 0;
+            }
         }
 
         private IEnumerator SetUpPlayerData() {
