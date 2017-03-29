@@ -8,10 +8,12 @@ namespace CrossMonsters {
         private string mLoginID;
         private IBasicBackend mBackend;  
         private IAnalyticsTimer mLoginTimer;
+        private ILoginMethodManager mLoginManager;
 
-        public Login( IBasicBackend i_backend, IAnalyticsTimer i_loginTimer, string i_loginID ) {
+        public Login( IBasicBackend i_backend, IAnalyticsTimer i_loginTimer, string i_loginID, ILoginMethodManager i_loginManager ) {
             mBackend = i_backend;
             mLoginID = i_loginID;   // might use this later
+            mLoginManager = i_loginManager;
 
             mLoginTimer = i_loginTimer;
             mLoginTimer.Start();
@@ -23,8 +25,9 @@ namespace CrossMonsters {
 
             mLoginTimer.Start();
 
-            mBackend.Authenticate( "2e4618f28257f978e1ef40d2e6603ee4a89622ed" ); // temporary, use just one user          
-            //mBackend.Authenticate( SystemInfo.deviceUniqueIdentifier );
+            mLoginManager.Authenticate();   // still under development
+
+            //mBackend.Authenticate( "2e4618f28257f978e1ef40d2e6603ee4a89622ed" ); // temporary, use just one user ; keeping for reference         
         }
 
         public void OnDestroy() {

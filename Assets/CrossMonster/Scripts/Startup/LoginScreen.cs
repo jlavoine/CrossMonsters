@@ -54,6 +54,9 @@ namespace CrossMonsters {
         [Inject]
         IBackendManager BackendManager;
 
+        [Inject]
+        ILoginMethodManager LoginMethodManager;
+
         void Start() {
             mBackend = new CrossBackend();
             BackendManager.Init( mBackend );
@@ -68,7 +71,7 @@ namespace CrossMonsters {
             Destroy( PlayerSelectionArea );
             LoginStatusText.text = STATUS_CONNECTING;
 
-            mLogin = new Login( mBackend, mLoginTimer, string.Empty );
+            mLogin = new Login( mBackend, mLoginTimer, string.Empty, LoginMethodManager );
             mLogin.Start();
         }
 
