@@ -4,6 +4,7 @@ using UnityEngine;
 using MyLibrary;
 using System.Collections.Generic;
 using Zenject;
+using System;
 
 #pragma warning disable 0219
 #pragma warning disable 0414
@@ -13,6 +14,7 @@ namespace MyLibrary {
     public class TestAccountLinkButton : ZenjectUnitTestFixture {
         public class StubAccountLinkButton : LinkAccountButton, ILinkAccountButton {
             public override void ForceLinkAccount() {}
+            public void SetPreferredLoginMethod() { }
             protected override void Authorize() {}
             protected override void LinkAccount() {}
             protected override void OnSuccessfulAuth() {}

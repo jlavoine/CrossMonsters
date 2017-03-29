@@ -1,6 +1,10 @@
-﻿
+﻿using Zenject;
+
 namespace MyLibrary {
     public class AccountAlreadyLinkedPM : BasicWindowPM, IAccountAlreadyLinkedPM {
+        [Inject]
+        ISceneManager SceneManager;
+
         readonly IStringTableManager mStringTable;
 
         public const string TEXT_KEY = "AccountLink_AlreadyLinked";
@@ -17,9 +21,14 @@ namespace MyLibrary {
             SetVisibleProperty( false );
         }
 
-        public void ForceLink() {
+        public void UseCurrentSave() {
             LinkMethod.ForceLinkAccount();
             Hide();
+        }
+
+        public void UseExistingSave() {
+            LinkMethod.SetPreferredLoginMethod();
+            SceneManager.LoadScene( "Login" );
         }
 
         private void SetTextProperty() {

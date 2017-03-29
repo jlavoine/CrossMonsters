@@ -24,8 +24,12 @@ namespace MyLibrary {
             PM.Hide();
         }
 
-        public void ForceLinkAccount() {
-            PM.ForceLink();
+        public void UseCurrentSave() {
+            PM.UseCurrentSave();
+        }
+
+        public void UseExistingSave() {
+            PM.UseExistingSave();
         }
     }
 }

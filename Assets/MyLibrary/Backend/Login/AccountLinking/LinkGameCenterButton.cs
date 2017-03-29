@@ -7,6 +7,9 @@ namespace MyLibrary {
         [Inject]
         IBackendManager BackendManager;
 
+        [Inject]
+        IPreferredLoginMethod PreferredLoginMethod;
+
         protected override void Authorize() {
 #if UNITY_EDITOR
             OnAlreadyLinkedCheck( true );
@@ -37,6 +40,10 @@ namespace MyLibrary {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
             backend.LinkAccountToGameCenter( Social.localUser.id, OnLinkAttemptResult, true );
 #endif
+        }
+
+        public void SetPreferredLoginMethod() {
+            PreferredLoginMethod.LoginMethod = LoginMethods.GameCenter;
         }
     }
 }
