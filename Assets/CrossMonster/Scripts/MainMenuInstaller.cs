@@ -33,7 +33,7 @@ namespace CrossMonsters {
             Container.Bind<ILinkAccountPM>().To<LinkAccountPM>().AsSingle();
             Container.Bind<IAccountAlreadyLinkedPM>().To<AccountAlreadyLinkedPM>().AsSingle();
             Container.Bind<IAccountLinkDonePM>().To<AccountLinkDonePM>().AsSingle();
-            Container.Bind<LinkGameCenterButton>().AsSingle();
+            Container.Bind<ILinkGameCenterButton>().To<LinkGameCenterButton>().AsSingle();
         }
     }
 }

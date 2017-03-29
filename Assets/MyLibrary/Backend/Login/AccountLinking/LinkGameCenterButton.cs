@@ -1,58 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
-using MyLibrary;
-using UnityEngine.SceneManagement;
 
-/// <summary>
-/// TEMPORARY.
-/// </summary>
+namespace MyLibrary {
+    public class LinkGameCenterButton : LinkAccountButton, ILinkGameCenterButton {
+        [Inject]
+        IBackendManager BackendManager;
 
-public class LinkGameCenterButton {
-    [Inject]
-    IBackendManager BackendManager;
-
-    [Inject]
-    IAccountAlreadyLinkedPM AccountAlreadyLinkedPM;
-
-    [Inject]
-    IAccountLinkDonePM AccountLinkDonePM;
-
-	public void OnClick() {
-        if ( !Social.localUser.authenticated ) {
+        protected override void Authorize() {
 #if UNITY_EDITOR
             //OnIsLinkedCallback( true );
-            OnLinkAttemptCallback( true );
+            OnLinkAttemptResult( true );
 #else
-            Social.localUser.Authenticate( OnAuthed );
+            if ( !Social.localUser.authenticated ) {
+                Social.localUser.Authenticate( OnAuthorizeAttempt );
+            } else {
+                OnAuthorizeAttempt( true );
+            }
 #endif
-        } else {
-            OnAuthed( true );
         }
-    }
 
-    private void OnAuthed( bool i_success ) {
-        if ( i_success ) {
+        protected override void OnSuccessfulAuth() {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
-            backend.IsAccountLinkedWithGameCenter( Social.localUser.id, OnIsLinkedCallback );
+            backend.IsAccountLinkedWithGameCenter( Social.localUser.id, OnAlreadyLinkedCheck );
         }
-    }
 
-    private void OnIsLinkedCallback( bool i_isLinked ) {
-        if ( i_isLinked ) {
-            AccountAlreadyLinkedPM.Show();
-        } else {
+        protected override void LinkAccount() {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
-            backend.LinkAccountToGameCenter( Social.localUser.id, OnLinkAttemptCallback );
-        }
-    }
-
-    private void OnLinkAttemptCallback( bool i_success ) {
-        if ( i_success ) {
-            AccountLinkDonePM.Show();
-        } else {
-
+            backend.LinkAccountToGameCenter( Social.localUser.id, OnLinkAttemptResult );
         }
     }
 }
