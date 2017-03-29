@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace MyLibrary {
-    public class LoginMethod_GameCenter : ILoginMethod_DeviceId {
+    public class LoginMethod_GameCenter : ILoginMethod_GameCenter {
         [Inject]
         IBackendManager Backend;
 

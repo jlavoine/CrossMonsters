@@ -12,7 +12,12 @@ namespace MyLibrary {
         [Inject]
         ILoginMethod_DeviceId DeviceIdLogin;
 
+        [Inject]
+        ILoginMethod_GameCenter GameCenterLogin;
+
         public void Authenticate() {
+            UnityEngine.Debug.LogError( "About to authenticate with: " + PreferredLoginMethod.LoginMethod );
+
             EnsureValidLoginMethod();
             LogInWithMethod();
         }
@@ -25,6 +30,9 @@ namespace MyLibrary {
 
         private void LogInWithMethod() {
             switch ( PreferredLoginMethod.LoginMethod ) {
+                case LoginMethods.GameCenter:
+                    GameCenterLogin.Authenticate();
+                    break;
                 default: // device
                     DeviceIdLogin.Authenticate();
                     break;
