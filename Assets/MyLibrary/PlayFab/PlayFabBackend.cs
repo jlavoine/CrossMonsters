@@ -149,6 +149,8 @@ namespace MyLibrary {
         }
 
         public void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback ) {
+            StartRequest( "Checking if account is linked with GameCenter" );
+
             List<string> ids = new List<string>() { i_id };
             GetPlayFabIDsFromGameCenterIDsRequest request = new GetPlayFabIDsFromGameCenterIDsRequest() {
                 GameCenterIDs = ids
@@ -156,14 +158,18 @@ namespace MyLibrary {
 
             PlayFabClientAPI.GetPlayFabIDsFromGameCenterIDs( request, 
                 ( result ) => {
+                    RequestComplete( "IsAccountLinkedWithGameCenter() compete, success", LogTypes.Info );
                     i_requestCallback( result.Data.Count > 0 );
                 }, 
                 ( error ) => {
+                    RequestComplete( "IsAccountLinkedWithGameCenter() compete, error", LogTypes.Info );
                     i_errorCallback();
                 } );
         } 
 
         public void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
+            StartRequest( "Linking account with GameCenter" );
+
             LinkGameCenterAccountRequest request = new LinkGameCenterAccountRequest() {
                 GameCenterId = i_id,
                 ForceLink = i_forceLink
@@ -171,9 +177,29 @@ namespace MyLibrary {
 
             PlayFabClientAPI.LinkGameCenterAccount( request, 
                 ( result ) => {
+                    RequestComplete( "LinkAccountToGameCenter() compete, success", LogTypes.Info );
                     i_requestCallback( true );
                 }, 
                 ( error ) => {
+                    RequestComplete( "LinkAccountToGameCenter() compete, error", LogTypes.Info );
+                    i_requestCallback( false );
+                } );
+        }
+
+        public void LinkDeviceToAccount( Callback<bool> i_requestCallback ) {
+            StartRequest( "Linking device to account" );
+
+            LinkIOSDeviceIDRequest request = new LinkIOSDeviceIDRequest() {
+                DeviceId = SystemInfo.deviceUniqueIdentifier
+            };
+
+            PlayFabClientAPI.LinkIOSDeviceID( request, 
+                ( result ) => {
+                    RequestComplete( "LinkDeviceToAccount() compete, success", LogTypes.Info );
+                    i_requestCallback( true );
+                }, 
+                ( error ) => {
+                    RequestComplete( "LinkDeviceToAccount() compete, error", LogTypes.Info );
                     i_requestCallback( false );
                 } );
         }

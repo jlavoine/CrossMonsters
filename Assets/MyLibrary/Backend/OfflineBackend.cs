@@ -131,5 +131,9 @@ namespace MyLibrary {
         public void LinkAccountToGameCenter( string i_id, Callback<bool> requestCallback, bool i_forceLink = false ) {
             throw new NotImplementedException();
         }
+
+        public void LinkDeviceToAccount( Callback<bool> i_requestCallback ) {
+            throw new NotImplementedException();
+        }
     }
 }

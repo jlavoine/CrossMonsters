@@ -15,11 +15,21 @@ namespace MyLibrary {
         [Inject]
         ILoginMethod_GameCenter GameCenterLogin;
 
+        [Inject]
+        IBackendManager BackendManager;
+
         public void Authenticate() {
             UnityEngine.Debug.LogError( "About to authenticate with: " + PreferredLoginMethod.LoginMethod );
 
             EnsureValidLoginMethod();
             LogInWithMethod();
+        }
+
+        public void OnLogin() {
+            if ( PreferredLoginMethod.LoginMethod != LoginMethods.DeviceId ) {
+                IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
+                backend.LinkDeviceToAccount( (result) => { } );
+            }
         }
 
         private void EnsureValidLoginMethod() {
