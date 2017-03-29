@@ -5,6 +5,7 @@ namespace MyLibrary {
         protected abstract void Authorize();
         protected abstract void OnSuccessfulAuth();
         protected abstract void LinkAccount();
+        public abstract void ForceLinkAccount();
 
         [Inject]
         IAccountAlreadyLinkedPM AccountAlreadyLinkedPM;
@@ -26,7 +27,7 @@ namespace MyLibrary {
 
         public void OnAlreadyLinkedCheck( bool i_alreadyLinked ) {
             if ( i_alreadyLinked ) {
-                AccountAlreadyLinkedPM.Show();
+                ShowAlreadyLinkedPopupWithLinkMethod();                
             } else {
                 LinkAccount();
             }
@@ -47,6 +48,11 @@ namespace MyLibrary {
         private void ShowPopupWithSuccessResult( bool i_result ) {
             AccountLinkDonePM.SetLinkSuccess( i_result );
             AccountLinkDonePM.Show();
+        }
+
+        private void ShowAlreadyLinkedPopupWithLinkMethod() {
+            AccountAlreadyLinkedPM.LinkMethod = (ILinkAccountButton)this;
+            AccountAlreadyLinkedPM.Show();
         }
     }
 }

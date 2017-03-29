@@ -7,11 +7,19 @@ namespace MyLibrary {
 
         public const string TEXT_PROPERTY = "Text";
 
+        private ILinkAccountButton mLinkMethod;
+        public ILinkAccountButton LinkMethod { get { return mLinkMethod; } set { mLinkMethod = value; } }
+
         public AccountAlreadyLinkedPM( IStringTableManager i_stringTable ) {
             mStringTable = i_stringTable;
 
             SetTextProperty();
             SetVisibleProperty( false );
+        }
+
+        public void ForceLink() {
+            LinkMethod.ForceLinkAccount();
+            Hide();
         }
 
         private void SetTextProperty() {

@@ -23,5 +23,9 @@ namespace MyLibrary {
         public void HideView() {
             PM.Hide();
         }
+
+        public void ForceLinkAccount() {
+            PM.ForceLink();
+        }
     }
 }

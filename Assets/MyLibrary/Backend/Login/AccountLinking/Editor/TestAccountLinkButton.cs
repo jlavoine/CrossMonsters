@@ -11,7 +11,8 @@ using Zenject;
 namespace MyLibrary {
     [TestFixture]
     public class TestAccountLinkButton : ZenjectUnitTestFixture {
-        public class StubAccountLinkButton : LinkAccountButton {
+        public class StubAccountLinkButton : LinkAccountButton, ILinkAccountButton {
+            public override void ForceLinkAccount() {}
             protected override void Authorize() {}
             protected override void LinkAccount() {}
             protected override void OnSuccessfulAuth() {}
@@ -60,6 +61,14 @@ namespace MyLibrary {
             systemUnderTest.OnLinkCheckError();
 
             CheckForDonePM_WithSuccess( false );
+        }
+
+        [Test]
+        public void WhenAccountAlreadyLinked_ProperPM_IsShown() {
+            systemUnderTest.OnAlreadyLinkedCheck( true );
+
+            Assert.AreEqual( systemUnderTest, MockAlreadyLinkedPM.LinkMethod );
+            MockAlreadyLinkedPM.Received().Show();
         }
 
         private void CheckForDonePM_WithSuccess( bool i_success ) {

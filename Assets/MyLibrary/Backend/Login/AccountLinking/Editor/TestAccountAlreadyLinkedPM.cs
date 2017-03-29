@@ -30,5 +30,23 @@ namespace MyLibrary {
 
             Assert.AreEqual( "SomeText", systemUnderTest.ViewModel.GetPropertyValue<string>( AccountAlreadyLinkedPM.TEXT_PROPERTY ) );
         }
+
+        [Test]
+        public void WhenForceLinkingAccount_LinkMethodIsCalled() {
+            ILinkAccountButton mockLinkMethod = Substitute.For<ILinkAccountButton>();
+            systemUnderTest.LinkMethod = mockLinkMethod;
+            systemUnderTest.ForceLink();
+
+            mockLinkMethod.Received().ForceLinkAccount();
+        }
+
+        [Test]
+        public void WhenForceLinkingAccount_PM_IsHidden() {
+            ILinkAccountButton mockLinkMethod = Substitute.For<ILinkAccountButton>();
+            systemUnderTest.LinkMethod = mockLinkMethod;
+            systemUnderTest.ForceLink();
+
+            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( AccountAlreadyLinkedPM.VISIBLE_PROPERTY ) );
+        }
     }
 }

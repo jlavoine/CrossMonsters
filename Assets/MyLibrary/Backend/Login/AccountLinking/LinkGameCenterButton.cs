@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 namespace MyLibrary {
@@ -27,6 +28,15 @@ namespace MyLibrary {
         protected override void LinkAccount() {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
             backend.LinkAccountToGameCenter( Social.localUser.id, OnLinkAttemptResult );
+        }
+
+        public override void ForceLinkAccount() {
+#if UNITY_EDITOR
+            OnLinkAttemptResult( true );
+#else
+            IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
+            backend.LinkAccountToGameCenter( Social.localUser.id, OnLinkAttemptResult, true );
+#endif
         }
     }
 }

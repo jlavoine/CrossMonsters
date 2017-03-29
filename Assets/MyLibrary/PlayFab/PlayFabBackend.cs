@@ -163,9 +163,10 @@ namespace MyLibrary {
                 } );
         } 
 
-        public void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback ) {
+        public void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
             LinkGameCenterAccountRequest request = new LinkGameCenterAccountRequest() {
-                GameCenterId = i_id
+                GameCenterId = i_id,
+                ForceLink = i_forceLink
             };
 
             PlayFabClientAPI.LinkGameCenterAccount( request, 
