@@ -31,6 +31,8 @@ namespace CrossMonsters {
             Container.Bind<IShowNewsStepSpawner>().To<ShowNewsStepSpawner>().AsSingle();
 
             Container.Bind<ILinkAccountPM>().To<LinkAccountPM>().AsSingle();
+            Container.Bind<IAccountAlreadyLinkedPM>().To<AccountAlreadyLinkedPM>().AsSingle();
+            Container.Bind<IAccountLinkDonePM>().To<AccountLinkDonePM>().AsSingle();
             Container.Bind<LinkGameCenterButton>().AsSingle();
         }
     }

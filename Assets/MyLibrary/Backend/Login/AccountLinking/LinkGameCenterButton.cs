@@ -13,10 +13,20 @@ public class LinkGameCenterButton {
     [Inject]
     IBackendManager BackendManager;
 
+    [Inject]
+    IAccountAlreadyLinkedPM AccountAlreadyLinkedPM;
+
+    [Inject]
+    IAccountLinkDonePM AccountLinkDonePM;
+
 	public void OnClick() {
-        UnityEngine.Debug.LogError( "-----------------Trying: " + BackendManager );
         if ( !Social.localUser.authenticated ) {
+#if UNITY_EDITOR
+            //OnIsLinkedCallback( true );
+            OnLinkAttemptCallback( true );
+#else
             Social.localUser.Authenticate( OnAuthed );
+#endif
         } else {
             OnAuthed( true );
         }
@@ -31,7 +41,7 @@ public class LinkGameCenterButton {
 
     private void OnIsLinkedCallback( bool i_isLinked ) {
         if ( i_isLinked ) {
-
+            AccountAlreadyLinkedPM.Show();
         } else {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
             backend.LinkAccountToGameCenter( Social.localUser.id, OnLinkAttemptCallback );
@@ -39,6 +49,10 @@ public class LinkGameCenterButton {
     }
 
     private void OnLinkAttemptCallback( bool i_success ) {
-        SceneManager.LoadScene( "Login" );
+        if ( i_success ) {
+            AccountLinkDonePM.Show();
+        } else {
+
+        }
     }
 }
