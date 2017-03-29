@@ -123,5 +123,9 @@ namespace MyLibrary {
         public void LinkAccountToGameCenter( string i_id, Callback<bool> requestCallback ) {
             throw new NotImplementedException();
         }
+
+        public void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> requestCallback, Callback i_errorCallback ) {
+            throw new NotImplementedException();
+        }
     }
 }

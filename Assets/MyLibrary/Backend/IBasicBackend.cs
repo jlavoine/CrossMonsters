@@ -22,7 +22,7 @@ namespace MyLibrary {
         void GetPlayerDataDeserialized<T>( string i_key, Callback<T> requestSuccessCallback );
         void GetVirtualCurrency( string i_key, Callback<int> requetSuccessCallback );
 
-        void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> requestCallback );
+        void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> requestCallback, Callback i_errorCallback );
         void LinkAccountToGameCenter( string i_id, Callback<bool> requestCallback );
 
         bool IsClientOutOfSync();

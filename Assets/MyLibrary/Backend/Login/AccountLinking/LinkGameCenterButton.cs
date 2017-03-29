@@ -9,7 +9,7 @@ namespace MyLibrary {
         protected override void Authorize() {
 #if UNITY_EDITOR
             //OnIsLinkedCallback( true );
-            OnLinkAttemptResult( true );
+            OnLinkAttemptResult( false );
 #else
             if ( !Social.localUser.authenticated ) {
                 Social.localUser.Authenticate( OnAuthorizeAttempt );
@@ -21,7 +21,7 @@ namespace MyLibrary {
 
         protected override void OnSuccessfulAuth() {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
-            backend.IsAccountLinkedWithGameCenter( Social.localUser.id, OnAlreadyLinkedCheck );
+            backend.IsAccountLinkedWithGameCenter( Social.localUser.id, OnAlreadyLinkedCheck, OnLinkCheckError );
         }
 
         protected override void LinkAccount() {

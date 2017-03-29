@@ -148,7 +148,7 @@ namespace MyLibrary {
             }
         }
 
-        public void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> i_requestCallback ) {
+        public void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback ) {
             List<string> ids = new List<string>() { i_id };
             GetPlayFabIDsFromGameCenterIDsRequest request = new GetPlayFabIDsFromGameCenterIDsRequest() {
                 GameCenterIDs = ids
@@ -158,7 +158,9 @@ namespace MyLibrary {
                 ( result ) => {
                     i_requestCallback( result.Data.Count > 0 );
                 }, 
-                ( error ) => { } );
+                ( error ) => {
+                    i_errorCallback();
+                } );
         } 
 
         public void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback ) {
@@ -170,7 +172,9 @@ namespace MyLibrary {
                 ( result ) => {
                     i_requestCallback( true );
                 }, 
-                ( error ) => { } );
+                ( error ) => {
+                    i_requestCallback( false );
+                } );
         }
 
         public void MakeCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> i_requestSuccessCallback ) {
