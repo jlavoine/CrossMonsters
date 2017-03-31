@@ -15,6 +15,7 @@ namespace MyLibrary {
         public class StubAccountLinkButton : LinkAccountButton, ILinkAccountButton {
             public override void ForceLinkAccount() {}
             public void SetPreferredLoginMethod() { }
+            public override void UnlinkAccount() {}
             protected override void Authorize() {}
             protected override void LinkAccount() {}
             protected override void OnSuccessfulAuth() {}

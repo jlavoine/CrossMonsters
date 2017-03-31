@@ -6,6 +6,7 @@ namespace MyLibrary {
         protected abstract void OnSuccessfulAuth();
         protected abstract void LinkAccount();
         public abstract void ForceLinkAccount();
+        public abstract void UnlinkAccount();
 
         [Inject]
         IAccountAlreadyLinkedPM AccountAlreadyLinkedPM;

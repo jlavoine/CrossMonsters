@@ -186,6 +186,20 @@ namespace MyLibrary {
                 } );
         }
 
+        public void UnlinkGameCenterFromAccount() {
+            StartRequest( "Unlinking account from GameCenter" );
+
+            UnlinkGameCenterAccountRequest request = new UnlinkGameCenterAccountRequest();
+
+            PlayFabClientAPI.UnlinkGameCenterAccount( request, 
+                ( result ) => {
+                    RequestComplete( "UnlinkGameCenterFromAccount() compete, success", LogTypes.Info );
+                }, 
+                ( error ) => {
+                    RequestComplete( "UnlinkGameCenterFromAccount() compete, error", LogTypes.Info );
+                } );
+        }
+
         public void LinkDeviceToAccount( Callback<bool> i_requestCallback ) {
             StartRequest( "Linking device to account" );
 

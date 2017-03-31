@@ -42,8 +42,13 @@ namespace MyLibrary {
 #endif
         }
 
+        public override void UnlinkAccount() {
+            IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
+            backend.UnlinkGameCenterFromAccount();
+        }
+
         public void SetPreferredLoginMethod() {
             PreferredLoginMethod.LoginMethod = LoginMethods.GameCenter;
-        }
+        }        
     }
 }

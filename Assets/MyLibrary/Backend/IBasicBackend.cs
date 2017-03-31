@@ -25,6 +25,7 @@ namespace MyLibrary {
         void LinkDeviceToAccount( Callback<bool> i_requestCallback );
         void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> requestCallback, Callback i_errorCallback );
         void LinkAccountToGameCenter( string i_id, Callback<bool> requestCallback, bool i_forceLink = false );
+        void UnlinkGameCenterFromAccount();
 
         bool IsClientOutOfSync();
         void ResetSyncState();

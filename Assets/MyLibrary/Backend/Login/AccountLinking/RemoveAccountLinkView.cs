@@ -1,10 +1,10 @@
 ﻿using Zenject;
 
 namespace MyLibrary {
-    public class AccountAlreadyLinkedView : GroupView {
+    public class RemoveAccountLinkView : GroupView {
 
         [Inject]
-        IAccountAlreadyLinkedPM PM;
+        IRemoveAccountLinkPM PM;
 
         void Start() {
             SetModel( PM.ViewModel );
@@ -24,16 +24,8 @@ namespace MyLibrary {
             PM.Hide();
         }
 
-        public void UseCurrentSave() {
-            PM.UseCurrentSave();
-        }
-
-        public void UseExistingSave() {
-            PM.UseExistingSave();
-        }
-
-        public void RemoveLinkClicked() {
-            PM.InitiateRemoveLink();
+        public void ConfirmClicked() {
+            PM.AttemptToUnlinkAccount();
         }
     }
 }
