@@ -200,6 +200,22 @@ namespace MyLibrary {
                 } );
         }
 
+        public void UnlinkDeviceFromAccount( Callback<bool> i_requestCallback ) {
+            StartRequest( "Unlinking device from account" );
+
+            UnlinkIOSDeviceIDRequest request = new UnlinkIOSDeviceIDRequest() {
+                DeviceId = SystemInfo.deviceUniqueIdentifier
+            };
+
+            PlayFabClientAPI.UnlinkIOSDeviceID( request, 
+                ( result ) => {
+                    RequestComplete( "UnlinkDeviceFromAccount() compete, success", LogTypes.Info );
+                }, 
+                ( error ) => {
+                    RequestComplete( "UnlinkDeviceFromAccount() compete, error", LogTypes.Info );
+                } );
+        }
+
         public void LinkDeviceToAccount( Callback<bool> i_requestCallback ) {
             StartRequest( "Linking device to account" );
 

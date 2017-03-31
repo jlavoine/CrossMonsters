@@ -1,10 +1,9 @@
 ﻿using Zenject;
 
 namespace MyLibrary {
-    public class LinkAccountView : GroupView {
-
+    public class RemoveDeviceLinkView : GroupView {
         [Inject]
-        ILinkAccountPM PM;
+        IRemoveDeviceLinkPM PM;
 
         void Start() {
             SetModel( PM.ViewModel );
@@ -24,8 +23,8 @@ namespace MyLibrary {
             PM.Hide();
         }
 
-        public void OnResetAccountClicked() {
-            PM.ShowRemoveDeviceFromAccountPopup();
+        public void OnConfirmClicked() {
+            PM.RemoveDeviceFromAccount();
         }
     }
 }

@@ -139,5 +139,9 @@ namespace MyLibrary {
         public void UnlinkGameCenterFromAccount() {
             throw new NotImplementedException();
         }
+
+        public void UnlinkDeviceFromAccount( Callback<bool> i_requestCallback ) {
+            throw new NotImplementedException();
+        }
     }
 }
