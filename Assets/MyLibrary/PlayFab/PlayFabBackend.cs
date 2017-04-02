@@ -240,7 +240,9 @@ namespace MyLibrary {
 
             ExecuteCloudScriptRequest request = new ExecuteCloudScriptRequest() {
                 FunctionName = i_methodName,
-                FunctionParameter = new { data = i_params }
+                FunctionParameter = new { data = i_params },
+                //RevisionSelection = CloudScriptRevisionOption.Specific,
+                //SpecificRevision = YOUR REV # HERE
             };
 
             PlayFabClientAPI.ExecuteCloudScript( request, ( result ) => {
