@@ -10,6 +10,8 @@
 /// cloud script.
 /////////////////////////////////////////////////
 
+// Testing GitHub Hookup with PlayFab --
+
 /// Title data
 const MONSTER_DATA_TITLE_KEY = "MonsterData";
 const DUNGEON_DATA_TITLE_KEY = "DungeonData";
