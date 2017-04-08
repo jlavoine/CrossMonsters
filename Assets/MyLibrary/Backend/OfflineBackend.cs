@@ -143,5 +143,17 @@ namespace MyLibrary {
         public void UnlinkDeviceFromAccount( Callback<bool> i_requestCallback ) {
             throw new NotImplementedException();
         }
+
+        public void IsAccountLinkedWithGoogle( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback ) {
+            throw new NotImplementedException();
+        }
+
+        public void LinkAccountToGoogle( string i_accessToken, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
+            throw new NotImplementedException();
+        }
+
+        public void UnlinkGoogleFromAccount() {
+            throw new NotImplementedException();
+        }
     }
 }

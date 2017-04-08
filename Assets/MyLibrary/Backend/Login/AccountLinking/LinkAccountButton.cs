@@ -19,6 +19,7 @@ namespace MyLibrary {
         }
 
         public void OnAuthorizeAttempt( bool i_success ) {
+            UnityEngine.Debug.LogError( "auth attempt cb: " + i_success );
             if ( i_success ) {
                 OnSuccessfulAuth();
             } else {

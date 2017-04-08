@@ -24,8 +24,11 @@ namespace MyLibrary {
 
         void LinkDeviceToAccount( Callback<bool> i_requestCallback );
         void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback );
+        void IsAccountLinkedWithGoogle( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback );
         void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback, bool i_forceLink = false );
+        void LinkAccountToGoogle( string i_accessToken, Callback<bool> i_requestCallback, bool i_forceLink = false );
         void UnlinkGameCenterFromAccount();
+        void UnlinkGoogleFromAccount();
         void UnlinkDeviceFromAccount( Callback<bool> i_requestCallback );
 
         bool IsClientOutOfSync();

@@ -165,7 +165,45 @@ namespace MyLibrary {
                     RequestComplete( "IsAccountLinkedWithGameCenter() compete, error", LogTypes.Info );
                     i_errorCallback();
                 } );
-        } 
+        }
+
+        public void IsAccountLinkedWithGoogle( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback ) {
+            StartRequest( "Checking if account is linked with Google" );
+
+            List<string> ids = new List<string>() { i_id };
+            GetPlayFabIDsFromGoogleIDsRequest request = new GetPlayFabIDsFromGoogleIDsRequest() {
+                GoogleIDs = ids
+            };
+
+            PlayFabClientAPI.GetPlayFabIDsFromGoogleIDs( request,
+                ( result ) => {
+                    RequestComplete( "IsAccountLinkedWithGoogle() compete, success", LogTypes.Info );
+                    i_requestCallback( result.Data.Count > 0 );
+                },
+                ( error ) => {
+                    RequestComplete( "IsAccountLinkedWithGoogle() compete, error", LogTypes.Info );
+                    i_errorCallback();
+                } );
+        }
+
+        public void LinkAccountToGoogle( string i_accessToken, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
+            StartRequest( "Linking account with Google" );
+
+            LinkGoogleAccountRequest request = new LinkGoogleAccountRequest() {
+                AccessToken = i_accessToken,
+                ForceLink = i_forceLink
+            };
+
+            PlayFabClientAPI.LinkGoogleAccount( request,
+                ( result ) => {
+                    RequestComplete( "LinkAccountToGoogle() compete, success", LogTypes.Info );
+                    i_requestCallback( true );
+                },
+                ( error ) => {
+                    RequestComplete( "LinkAccountToGoogle() compete, error", LogTypes.Info );
+                    i_requestCallback( false );
+                } );
+        }
 
         public void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
             StartRequest( "Linking account with GameCenter" );
@@ -197,6 +235,20 @@ namespace MyLibrary {
                 }, 
                 ( error ) => {
                     RequestComplete( "UnlinkGameCenterFromAccount() compete, error", LogTypes.Info );
+                } );
+        }
+
+        public void UnlinkGoogleFromAccount() {
+            StartRequest( "Unlinking account from Google" );
+
+            UnlinkGoogleAccountRequest request = new UnlinkGoogleAccountRequest();
+
+            PlayFabClientAPI.UnlinkGoogleAccount( request,
+                ( result ) => {
+                    RequestComplete( "UnlinkGoogleFromAccount() compete, success", LogTypes.Info );
+                },
+                ( error ) => {
+                    RequestComplete( "UnlinkGoogleFromAccount() compete, error", LogTypes.Info );
                 } );
         }
 

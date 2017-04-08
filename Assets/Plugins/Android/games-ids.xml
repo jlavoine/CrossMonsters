@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+  <string name="app_id">909180190702</string>
+  <string name="package_name">com.drs.monstermatch</string>
+  <string name="leaderboard_total_treasure_score">CgkI7v_y-roaEAIQAg</string>
+</resources>
