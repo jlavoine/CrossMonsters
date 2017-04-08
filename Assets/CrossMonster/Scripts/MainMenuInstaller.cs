@@ -36,6 +36,7 @@ namespace CrossMonsters {
             Container.Bind<IAccountLinkDonePM>().To<AccountLinkDonePM>().AsSingle();
             Container.Bind<IRemoveDeviceLinkPM>().To<RemoveDeviceLinkPM>().AsSingle();
             Container.Bind<ILinkGameCenterButton>().To<LinkGameCenterButton>().AsSingle();
+            Container.Bind<ILinkGoogleButton>().To<LinkGoogleButton>().AsSingle();
         }
     }
 }
