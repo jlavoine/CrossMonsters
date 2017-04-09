@@ -8,6 +8,7 @@ namespace MyLibrary {
         string SessionTicket { get; }
 
         void Authenticate( string i_id );
+        void AuthenticateWithGoogle( string i_accessToken );
         //void SetUpCloudServices( bool i_testing );
 
         void MakeCloudCall( string i_methodName, Dictionary<string,string> i_params, Callback<Dictionary<string, string>> requestSuccessCallback );

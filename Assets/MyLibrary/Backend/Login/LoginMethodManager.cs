@@ -16,6 +16,9 @@ namespace MyLibrary {
         ILoginMethod_GameCenter GameCenterLogin;
 
         [Inject]
+        ILoginMethod_Google GoogleLogin;
+
+        [Inject]
         IBackendManager BackendManager;
 
         public void Authenticate() {
@@ -42,6 +45,9 @@ namespace MyLibrary {
             switch ( PreferredLoginMethod.LoginMethod ) {
                 case LoginMethods.GameCenter:
                     GameCenterLogin.Authenticate();
+                    break;
+                case LoginMethods.Google:
+
                     break;
                 default: // device
                     DeviceIdLogin.Authenticate();

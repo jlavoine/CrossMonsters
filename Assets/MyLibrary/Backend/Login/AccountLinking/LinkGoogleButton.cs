@@ -34,7 +34,9 @@ namespace MyLibrary {
 
         protected override void LinkAccount() {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
-            backend.LinkAccountToGoogle( PlayGamesPlatform.Instance.GetAccessToken(), OnLinkAttemptResult );
+            PlayGamesPlatform.Instance.GetServerAuthCode( ( code, authToken ) => {
+                backend.LinkAccountToGoogle( authToken, OnLinkAttemptResult );
+            } );            
         }
 
         public override void ForceLinkAccount() {

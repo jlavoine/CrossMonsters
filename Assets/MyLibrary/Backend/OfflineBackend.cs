@@ -155,5 +155,9 @@ namespace MyLibrary {
         public void UnlinkGoogleFromAccount() {
             throw new NotImplementedException();
         }
+
+        public void AuthenticateWithGoogle( string i_accessToken ) {
+            throw new NotImplementedException();
+        }
     }
 }

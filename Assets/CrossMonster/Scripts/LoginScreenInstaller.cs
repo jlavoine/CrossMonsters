@@ -13,6 +13,7 @@ namespace CrossMonsters {
             Container.Bind<ILoginMethodValidator>().To<LoginMethodValidator>().AsSingle();
             Container.Bind<ILoginMethod_DeviceId>().To<LoginMethod_DeviceId>().AsSingle();
             Container.Bind<ILoginMethod_GameCenter>().To<LoginMethod_GameCenter>().AsSingle();
+            Container.Bind<ILoginMethod_Google>().To<LoginMethod_Google>().AsSingle();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace MyLibrary {
         IBackendManager Backend;
 
         public void Authenticate() {
+            UnityEngine.Debug.LogError( "Authing with " + SystemInfo.deviceUniqueIdentifier );
             Backend.GetBackend<IBasicBackend>().Authenticate( SystemInfo.deviceUniqueIdentifier );
         }
     }

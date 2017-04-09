@@ -72,6 +72,23 @@ namespace MyLibrary {
             
         }
 
+        public void AuthenticateWithGoogle( string i_accessToken ) {
+
+            LoginWithGoogleAccountRequest request = new LoginWithGoogleAccountRequest() {
+                TitleId = TITLE_ID,
+                AccessToken = i_accessToken
+            };
+
+            PlayFabClientAPI.LoginWithGoogleAccount( request, ( result ) => {
+                mPlayFabId = result.PlayFabId;
+                mSessionTicket = result.SessionTicket;
+
+                IAuthenticationSuccess successResult = null;
+                MyMessenger.Instance.Send<IAuthenticationSuccess>( BackendMessages.AUTH_SUCCESS, successResult );
+            },
+            ( error ) => { HandleError( error, BackendMessages.AUTH_FAIL ); } );
+        }
+
         public void AuthenticateWithDevice() {
             LoginWithIOSDeviceIDRequest request = new LoginWithIOSDeviceIDRequest() {
                 TitleId = TITLE_ID,
@@ -162,7 +179,7 @@ namespace MyLibrary {
                     i_requestCallback( result.Data.Count > 0 );
                 }, 
                 ( error ) => {
-                    RequestComplete( "IsAccountLinkedWithGameCenter() compete, error", LogTypes.Info );
+                    HandleError( error, "IsAccountLinkedWithGameCenter() complete, error" );
                     i_errorCallback();
                 } );
         }
@@ -178,16 +195,19 @@ namespace MyLibrary {
             PlayFabClientAPI.GetPlayFabIDsFromGoogleIDs( request,
                 ( result ) => {
                     RequestComplete( "IsAccountLinkedWithGoogle() compete, success", LogTypes.Info );
+                    if ( result.Data.Count > 0 ) {
+                        UnityEngine.Debug.LogError( "Found an accout: " + result.Data[0].GoogleId + " --- " + result.Data[0].PlayFabId );
+                    }
                     i_requestCallback( result.Data.Count > 0 );
                 },
                 ( error ) => {
-                    RequestComplete( "IsAccountLinkedWithGoogle() compete, error", LogTypes.Info );
+                    HandleError( error, "IsAccountLinkedWithGoogle() complete" );
                     i_errorCallback();
                 } );
         }
 
         public void LinkAccountToGoogle( string i_accessToken, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
-            StartRequest( "Linking account with Google" );
+            StartRequest( "Linking account with Google with " + i_accessToken );
 
             LinkGoogleAccountRequest request = new LinkGoogleAccountRequest() {
                 AccessToken = i_accessToken,
@@ -200,7 +220,7 @@ namespace MyLibrary {
                     i_requestCallback( true );
                 },
                 ( error ) => {
-                    RequestComplete( "LinkAccountToGoogle() compete, error", LogTypes.Info );
+                    HandleError( error, "LinkAccountToGoogle() compete, error" );
                     i_requestCallback( false );
                 } );
         }
@@ -219,7 +239,7 @@ namespace MyLibrary {
                     i_requestCallback( true );
                 }, 
                 ( error ) => {
-                    RequestComplete( "LinkAccountToGameCenter() compete, error", LogTypes.Info );
+                    HandleError( error, "LinkAccountToGameCenter() complete, error" );
                     i_requestCallback( false );
                 } );
         }
@@ -234,7 +254,7 @@ namespace MyLibrary {
                     RequestComplete( "UnlinkGameCenterFromAccount() compete, success", LogTypes.Info );
                 }, 
                 ( error ) => {
-                    RequestComplete( "UnlinkGameCenterFromAccount() compete, error", LogTypes.Info );
+                    HandleError( error, "UnlinkGameCenterFromAccount() complete, error" );
                 } );
         }
 
@@ -248,23 +268,23 @@ namespace MyLibrary {
                     RequestComplete( "UnlinkGoogleFromAccount() compete, success", LogTypes.Info );
                 },
                 ( error ) => {
-                    RequestComplete( "UnlinkGoogleFromAccount() compete, error", LogTypes.Info );
+                    HandleError( error, "UnlinkGoogleFromAccount() compete, error" );
                 } );
         }
 
         public void UnlinkDeviceFromAccount( Callback<bool> i_requestCallback ) {
             StartRequest( "Unlinking device from account" );
 
-            UnlinkIOSDeviceIDRequest request = new UnlinkIOSDeviceIDRequest() {
-                DeviceId = SystemInfo.deviceUniqueIdentifier
+            UnlinkCustomIDRequest request = new UnlinkCustomIDRequest() {
+                  CustomId = SystemInfo.deviceUniqueIdentifier
             };
-
-            PlayFabClientAPI.UnlinkIOSDeviceID( request, 
+            UnityEngine.Debug.LogError( "Unlinking " + SystemInfo.deviceUniqueIdentifier );
+            PlayFabClientAPI.UnlinkCustomID( request,
                 ( result ) => {
                     RequestComplete( "UnlinkDeviceFromAccount() compete, success", LogTypes.Info );
-                }, 
+                },
                 ( error ) => {
-                    RequestComplete( "UnlinkDeviceFromAccount() compete, error", LogTypes.Info );
+                    HandleError( error, "UnlinkDeviceFromAccount() complete" );
                 } );
         }
 
@@ -281,10 +301,17 @@ namespace MyLibrary {
                     i_requestCallback( true );
                 }, 
                 ( error ) => {
-                    RequestComplete( "LinkDeviceToAccount() compete, error", LogTypes.Info );
+                    HandleError( error, "LinkDeviceToAccount() complete, error" );
                     i_requestCallback( false );
                 } );
         }
+
+        /*private string GetDeviceUniqueIdentifier() {
+#if UNITY_ANDROID && !UNITY_EDITOR
+#else
+            return SystemInfo.deviceUniqueIdentifier;
+#endif
+        }*/
 
         public void MakeCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> i_requestSuccessCallback ) {
             StartRequest( "Request for cloud call " + i_methodName );
@@ -504,7 +531,7 @@ namespace MyLibrary {
         }*/
 
         protected void HandleError( PlayFabError i_error, string i_messageType ) {
-            ClientOutOfSync = true;
+            //ClientOutOfSync = true;   // should redo another method that does or doesn't do this...not using it for MonsterMatch
 
             RequestComplete( "Backend failure(" + i_messageType + "): " + i_error.ErrorMessage, LogTypes.Error );
 
