@@ -24,9 +24,14 @@ namespace CrossMonsters {
             Application.runInBackground = true;
 #elif UNITY_ANDROID
             UnityEngine.Debug.LogError( "about to init gpgs" );
-            PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
+            PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
+                .AddOauthScope("email")
+                .AddOauthScope("profile")
+                .RequireGooglePlus()
+                .Build();
 
             PlayGamesPlatform.InitializeInstance( config );
+            
             // recommended for debugging:
             PlayGamesPlatform.DebugLogEnabled = true;
             // Activate the Google Play Games platform
