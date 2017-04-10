@@ -6,10 +6,9 @@ namespace MyLibrary {
         public bool IsValid( LoginMethods i_method ) {
             if ( i_method == LoginMethods.DeviceId ) {
                 return true;
-            } else if ( i_method == LoginMethods.GameCenter ) {
+            }  else {
+                UnityEngine.Debug.LogError( "Checking is authed: " + Social.localUser.authenticated );
                 return Social.localUser.authenticated;
-            } else {
-                return false;
             }
         }
     }

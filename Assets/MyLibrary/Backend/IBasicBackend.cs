@@ -9,6 +9,7 @@ namespace MyLibrary {
 
         void Authenticate( string i_id );
         void AuthenticateWithGoogle( string i_accessToken );
+        void GetAccountInfo();
         //void SetUpCloudServices( bool i_testing );
 
         void MakeCloudCall( string i_methodName, Dictionary<string,string> i_params, Callback<Dictionary<string, string>> requestSuccessCallback );

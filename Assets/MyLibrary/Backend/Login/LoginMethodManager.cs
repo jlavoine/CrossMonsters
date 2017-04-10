@@ -29,10 +29,14 @@ namespace MyLibrary {
         }
 
         public void OnLogin() {
-            if ( PreferredLoginMethod.LoginMethod != LoginMethods.DeviceId ) {
-                IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
+            IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
+            UnityEngine.Debug.LogError( "ONLOGIN with " + PreferredLoginMethod.LoginMethod );
+            if ( PreferredLoginMethod.LoginMethod != LoginMethods.DeviceId ) {                
+                UnityEngine.Debug.LogError( "Logged in with something other than device, so force linking device" );
                 backend.LinkDeviceToAccount( (result) => { } );
             }
+
+            backend.GetAccountInfo();
         }
 
         private void EnsureValidLoginMethod() {
@@ -42,12 +46,14 @@ namespace MyLibrary {
         }
 
         private void LogInWithMethod() {
+            UnityEngine.Debug.LogError( "Logging in with " + PreferredLoginMethod.LoginMethod );
+
             switch ( PreferredLoginMethod.LoginMethod ) {
                 case LoginMethods.GameCenter:
                     GameCenterLogin.Authenticate();
                     break;
-                case LoginMethods.Google:
-
+                case LoginMethods.Google:                    
+                    GoogleLogin.Authenticate();
                     break;
                 default: // device
                     DeviceIdLogin.Authenticate();

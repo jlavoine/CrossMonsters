@@ -29,22 +29,35 @@ namespace MyLibrary {
         protected override void OnSuccessfulAuth() {
             UnityEngine.Debug.LogError( "succesfully authed" );
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
+            UnityEngine.Debug.LogError( "-----------" );
+            UnityEngine.Debug.LogError(Social.localUser.id);
+            UnityEngine.Debug.LogError( PlayGamesPlatform.Instance.GetUserId() );
+            UnityEngine.Debug.LogError( PlayGamesPlatform.Instance.localUser.id );
+
             backend.IsAccountLinkedWithGoogle( Social.localUser.id, OnAlreadyLinkedCheck, OnLinkCheckError );
+
         }
 
         protected override void LinkAccount() {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
             PlayGamesPlatform.Instance.GetServerAuthCode( ( code, authToken ) => {
                 backend.LinkAccountToGoogle( authToken, OnLinkAttemptResult );
-            } );            
+            } );
+
+            backend.GetAccountInfo();
         }
 
         public override void ForceLinkAccount() {
 #if UNITY_EDITOR
             OnLinkAttemptResult( true );
+
 #else
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
-            backend.LinkAccountToGoogle( Social.localUser.id, OnLinkAttemptResult, true );
+            PlayGamesPlatform.Instance.GetServerAuthCode( ( code, authToken ) => {
+                backend.LinkAccountToGoogle( authToken, OnLinkAttemptResult, true );
+            } );
+
+            backend.GetAccountInfo();
 #endif
         }
 

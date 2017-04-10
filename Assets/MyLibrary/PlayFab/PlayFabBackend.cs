@@ -72,14 +72,15 @@ namespace MyLibrary {
             
         }
 
-        public void AuthenticateWithGoogle( string i_accessToken ) {
+        public void AuthenticateWithGoogle( string i_authCode ) {
 
             LoginWithGoogleAccountRequest request = new LoginWithGoogleAccountRequest() {
                 TitleId = TITLE_ID,
-                AccessToken = i_accessToken
+                ServerAuthCode = i_authCode
             };
 
             PlayFabClientAPI.LoginWithGoogleAccount( request, ( result ) => {
+                UnityEngine.Debug.LogError( "Logged in with playfab id " + result.PlayFabId );
                 mPlayFabId = result.PlayFabId;
                 mSessionTicket = result.SessionTicket;
 
@@ -97,6 +98,7 @@ namespace MyLibrary {
             };
 
             PlayFabClientAPI.LoginWithIOSDeviceID( request, ( result ) => {
+                UnityEngine.Debug.LogError( "Logged in with playfab id " + result.PlayFabId );
                 mPlayFabId = result.PlayFabId;
                 mSessionTicket = result.SessionTicket;
 
@@ -118,6 +120,7 @@ namespace MyLibrary {
             };
 
             PlayFabClientAPI.LoginWithCustomID( request, ( result ) => {
+                UnityEngine.Debug.LogError( "Logged in with playfab id " + result.PlayFabId );
                 mPlayFabId = result.PlayFabId;
                 mSessionTicket = result.SessionTicket;
                 
@@ -196,7 +199,9 @@ namespace MyLibrary {
                 ( result ) => {
                     RequestComplete( "IsAccountLinkedWithGoogle() compete, success", LogTypes.Info );
                     if ( result.Data.Count > 0 ) {
-                        UnityEngine.Debug.LogError( "Found an accout: " + result.Data[0].GoogleId + " --- " + result.Data[0].PlayFabId );
+                        for ( int i = 0; i < result.Data.Count; ++i ) {
+                            UnityEngine.Debug.LogError( "Found an account: " + result.Data[i].GoogleId + " --- " + result.Data[i].PlayFabId );
+                        }
                     }
                     i_requestCallback( result.Data.Count > 0 );
                 },
@@ -206,11 +211,11 @@ namespace MyLibrary {
                 } );
         }
 
-        public void LinkAccountToGoogle( string i_accessToken, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
-            StartRequest( "Linking account with Google with " + i_accessToken );
+        public void LinkAccountToGoogle( string i_authCode, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
+            StartRequest( "Linking account with Google with " + i_authCode );
 
             LinkGoogleAccountRequest request = new LinkGoogleAccountRequest() {
-                AccessToken = i_accessToken,
+                ServerAuthCode = i_authCode,
                 ForceLink = i_forceLink
             };
 
@@ -222,6 +227,28 @@ namespace MyLibrary {
                 ( error ) => {
                     HandleError( error, "LinkAccountToGoogle() compete, error" );
                     i_requestCallback( false );
+                } );
+        }
+
+        public void GetAccountInfo() {
+            StartRequest( "Getting account info" );
+
+            GetAccountInfoRequest request = new GetAccountInfoRequest() {
+                PlayFabId = mPlayFabId
+            };
+
+            PlayFabClientAPI.GetAccountInfo( request,
+                ( result ) => {
+                    RequestComplete( "GetAccountInfo() compete, success", LogTypes.Info );
+                    UserAccountInfo info = result.AccountInfo;
+                    UnityEngine.Debug.LogError( "++++ " + info.PlayFabId);
+
+                    if ( info.GoogleInfo != null ) {
+                        UnityEngine.Debug.LogError( "++++ " + info.GoogleInfo.GoogleId );
+                    }
+                },
+                ( error ) => {
+                    HandleError( error, "GetAccountInfo() compete, error" );
                 } );
         }
 
@@ -291,11 +318,12 @@ namespace MyLibrary {
         public void LinkDeviceToAccount( Callback<bool> i_requestCallback ) {
             StartRequest( "Linking device to account" );
 
-            LinkIOSDeviceIDRequest request = new LinkIOSDeviceIDRequest() {
-                DeviceId = SystemInfo.deviceUniqueIdentifier
+            LinkCustomIDRequest request = new LinkCustomIDRequest() {
+                 CustomId = SystemInfo.deviceUniqueIdentifier,
+                 ForceLink = true
             };
 
-            PlayFabClientAPI.LinkIOSDeviceID( request, 
+            PlayFabClientAPI.LinkCustomID( request, 
                 ( result ) => {
                     RequestComplete( "LinkDeviceToAccount() compete, success", LogTypes.Info );
                     i_requestCallback( true );

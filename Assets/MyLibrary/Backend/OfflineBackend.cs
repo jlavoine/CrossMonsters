@@ -159,5 +159,9 @@ namespace MyLibrary {
         public void AuthenticateWithGoogle( string i_accessToken ) {
             throw new NotImplementedException();
         }
+
+        public void GetAccountInfo() {
+            throw new NotImplementedException();
+        }
     }
 }
