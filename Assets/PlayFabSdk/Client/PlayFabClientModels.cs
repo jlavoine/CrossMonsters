@@ -32,6 +32,23 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class AdCampaignAttributionModel
+    {
+        /// <summary>
+        /// Attribution network name
+        /// </summary>
+        public string Platform;
+        /// <summary>
+        /// Attribution campaign identifier
+        /// </summary>
+        public string CampaignId;
+        /// <summary>
+        /// UTC time stamp of attribution
+        /// </summary>
+        public DateTime AttributedAt;
+    }
+
+    [Serializable]
     public class AddFriendRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -161,11 +178,6 @@ namespace PlayFab.ClientModels
         /// The IdentifierForAdvertisers for iOS Devices.
         /// </summary>
         public string Idfa;
-        /// <summary>
-        /// The android advertising id. This field is deprecated in favor of Adid for clarity.
-        /// </summary>
-        [Obsolete("Use 'Adid' instead", false)]
-        public string Android_Id;
         /// <summary>
         /// The adid for this device.
         /// </summary>
@@ -522,6 +534,270 @@ namespace PlayFab.ClientModels
         /// Content of data
         /// </summary>
         public Dictionary<string,string> Data;
+    }
+
+    public enum ContinentCode
+    {
+        AF,
+        AN,
+        AS,
+        EU,
+        NA,
+        OC,
+        SA
+    }
+
+    public enum CountryCode
+    {
+        AF,
+        AX,
+        AL,
+        DZ,
+        AS,
+        AD,
+        AO,
+        AI,
+        AQ,
+        AG,
+        AR,
+        AM,
+        AW,
+        AU,
+        AT,
+        AZ,
+        BS,
+        BH,
+        BD,
+        BB,
+        BY,
+        BE,
+        BZ,
+        BJ,
+        BM,
+        BT,
+        BO,
+        BQ,
+        BA,
+        BW,
+        BV,
+        BR,
+        IO,
+        BN,
+        BG,
+        BF,
+        BI,
+        KH,
+        CM,
+        CA,
+        CV,
+        KY,
+        CF,
+        TD,
+        CL,
+        CN,
+        CX,
+        CC,
+        CO,
+        KM,
+        CG,
+        CD,
+        CK,
+        CR,
+        CI,
+        HR,
+        CU,
+        CW,
+        CY,
+        CZ,
+        DK,
+        DJ,
+        DM,
+        DO,
+        EC,
+        EG,
+        SV,
+        GQ,
+        ER,
+        EE,
+        ET,
+        FK,
+        FO,
+        FJ,
+        FI,
+        FR,
+        GF,
+        PF,
+        TF,
+        GA,
+        GM,
+        GE,
+        DE,
+        GH,
+        GI,
+        GR,
+        GL,
+        GD,
+        GP,
+        GU,
+        GT,
+        GG,
+        GN,
+        GW,
+        GY,
+        HT,
+        HM,
+        VA,
+        HN,
+        HK,
+        HU,
+        IS,
+        IN,
+        ID,
+        IR,
+        IQ,
+        IE,
+        IM,
+        IL,
+        IT,
+        JM,
+        JP,
+        JE,
+        JO,
+        KZ,
+        KE,
+        KI,
+        KP,
+        KR,
+        KW,
+        KG,
+        LA,
+        LV,
+        LB,
+        LS,
+        LR,
+        LY,
+        LI,
+        LT,
+        LU,
+        MO,
+        MK,
+        MG,
+        MW,
+        MY,
+        MV,
+        ML,
+        MT,
+        MH,
+        MQ,
+        MR,
+        MU,
+        YT,
+        MX,
+        FM,
+        MD,
+        MC,
+        MN,
+        ME,
+        MS,
+        MA,
+        MZ,
+        MM,
+        NA,
+        NR,
+        NP,
+        NL,
+        NC,
+        NZ,
+        NI,
+        NE,
+        NG,
+        NU,
+        NF,
+        MP,
+        NO,
+        OM,
+        PK,
+        PW,
+        PS,
+        PA,
+        PG,
+        PY,
+        PE,
+        PH,
+        PN,
+        PL,
+        PT,
+        PR,
+        QA,
+        RE,
+        RO,
+        RU,
+        RW,
+        BL,
+        SH,
+        KN,
+        LC,
+        MF,
+        PM,
+        VC,
+        WS,
+        SM,
+        ST,
+        SA,
+        SN,
+        RS,
+        SC,
+        SL,
+        SG,
+        SX,
+        SK,
+        SI,
+        SB,
+        SO,
+        ZA,
+        GS,
+        SS,
+        ES,
+        LK,
+        SD,
+        SR,
+        SJ,
+        SZ,
+        SE,
+        CH,
+        SY,
+        TW,
+        TJ,
+        TZ,
+        TH,
+        TL,
+        TG,
+        TK,
+        TO,
+        TT,
+        TN,
+        TR,
+        TM,
+        TC,
+        TV,
+        UG,
+        UA,
+        AE,
+        GB,
+        US,
+        UM,
+        UY,
+        UZ,
+        VU,
+        VE,
+        VN,
+        VG,
+        VI,
+        WF,
+        EH,
+        YE,
+        ZM,
+        ZW
     }
 
     [Serializable]
@@ -1214,6 +1490,18 @@ namespace PlayFab.ClientModels
         /// Indicates whether Facebook friends should be included in the response. Default is true.
         /// </summary>
         public bool? IncludeFacebookFriends;
+        /// <summary>
+        /// The version of the leaderboard to get, when UseSpecificVersion is true.
+        /// </summary>
+        public int? Version;
+        /// <summary>
+        /// If true, uses the specified version. If false, gets the most recent version.
+        /// </summary>
+        public bool? UseSpecificVersion;
+        /// <summary>
+        /// If non-null, this determines which properties of the profile to return. If null, playfab will only include display names. On client, only ShowDisplayName, ShowStatistics, ShowAvatarUrl are allowed.
+        /// </summary>
+        public PlayerProfileViewConstraints ProfileConstraints;
     }
 
     [Serializable]
@@ -1223,6 +1511,14 @@ namespace PlayFab.ClientModels
         /// Ordered listing of users and their positions in the requested leaderboard.
         /// </summary>
         public List<PlayerLeaderboardEntry> Leaderboard;
+        /// <summary>
+        /// The version of the leaderboard returned.
+        /// </summary>
+        public int Version;
+        /// <summary>
+        /// The time the next scheduled reset will occur. Null if the leaderboard does not reset on a schedule.
+        /// </summary>
+        public DateTime? NextReset;
     }
 
     [Serializable]
@@ -1248,6 +1544,18 @@ namespace PlayFab.ClientModels
         /// Indicates whether Facebook friends should be included in the response. Default is true.
         /// </summary>
         public bool? IncludeFacebookFriends;
+        /// <summary>
+        /// The version of the leaderboard to get, when UseSpecificVersion is true.
+        /// </summary>
+        public int? Version;
+        /// <summary>
+        /// If true, uses the specified version. If false, gets the most recent version.
+        /// </summary>
+        public bool? UseSpecificVersion;
+        /// <summary>
+        /// If non-null, this determines which properties of the profile to return. If null, playfab will only include display names. On client, only ShowDisplayName, ShowStatistics, ShowAvatarUrl are allowed.
+        /// </summary>
+        public PlayerProfileViewConstraints ProfileConstraints;
     }
 
     [Serializable]
@@ -1317,6 +1625,18 @@ namespace PlayFab.ClientModels
         /// Maximum number of entries to retrieve. Default 10, maximum 100.
         /// </summary>
         public int? MaxResultsCount;
+        /// <summary>
+        /// The version of the leaderboard to get, when UseSpecificVersion is true.
+        /// </summary>
+        public int? Version;
+        /// <summary>
+        /// If true, uses the specified version. If false, gets the most recent version.
+        /// </summary>
+        public bool? UseSpecificVersion;
+        /// <summary>
+        /// If non-null, this determines which properties of the profile to return. If null, playfab will only include display names. On client, only ShowDisplayName, ShowStatistics, ShowAvatarUrl are allowed.
+        /// </summary>
+        public PlayerProfileViewConstraints ProfileConstraints;
     }
 
     [Serializable]
@@ -1326,6 +1646,14 @@ namespace PlayFab.ClientModels
         /// Ordered listing of users and their positions in the requested leaderboard.
         /// </summary>
         public List<PlayerLeaderboardEntry> Leaderboard;
+        /// <summary>
+        /// The version of the leaderboard returned.
+        /// </summary>
+        public int Version;
+        /// <summary>
+        /// The time the next scheduled reset will occur. Null if the leaderboard does not reset on a schedule.
+        /// </summary>
+        public DateTime? NextReset;
     }
 
     [Serializable]
@@ -1365,6 +1693,18 @@ namespace PlayFab.ClientModels
         /// Maximum number of entries to retrieve. Default 10, maximum 100.
         /// </summary>
         public int? MaxResultsCount;
+        /// <summary>
+        /// The version of the leaderboard to get, when UseSpecificVersion is true.
+        /// </summary>
+        public int? Version;
+        /// <summary>
+        /// If true, uses the specified version. If false, gets the most recent version.
+        /// </summary>
+        public bool? UseSpecificVersion;
+        /// <summary>
+        /// If non-null, this determines which properties of the profile to return. If null, playfab will only include display names. On client, only ShowDisplayName, ShowStatistics, ShowAvatarUrl are allowed.
+        /// </summary>
+        public PlayerProfileViewConstraints ProfileConstraints;
     }
 
     [Serializable]
@@ -1374,6 +1714,14 @@ namespace PlayFab.ClientModels
         /// Ordered listing of users and their positions in the requested leaderboard.
         /// </summary>
         public List<PlayerLeaderboardEntry> Leaderboard;
+        /// <summary>
+        /// The version of the leaderboard returned.
+        /// </summary>
+        public int Version;
+        /// <summary>
+        /// The time the next scheduled reset will occur. Null if the leaderboard does not reset on a schedule.
+        /// </summary>
+        public DateTime? NextReset;
     }
 
     [Serializable]
@@ -1811,6 +2159,7 @@ namespace PlayFab.ClientModels
         /// <summary>
         /// Array of items purchased.
         /// </summary>
+        [Obsolete("Use '' instead", false)]
         public List<ItemInstance> Items;
     }
 
@@ -2024,6 +2373,28 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class GetWindowsHelloChallengeRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a title has been selected.
+        /// </summary>
+        public string TitleId;
+        /// <summary>
+        /// SHA256 hash of the PublicKey generated by Windows Hello.
+        /// </summary>
+        public string PublicKeyHint;
+    }
+
+    [Serializable]
+    public class GetWindowsHelloChallengeResponse : PlayFabResultCommon
+    {
+        /// <summary>
+        /// Server generated challenge to be signed by the user.
+        /// </summary>
+        public string Challenge;
+    }
+
+    [Serializable]
     public class GooglePlayFabIdPair
     {
         /// <summary>
@@ -2217,6 +2588,27 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class LinkedPlatformAccountModel
+    {
+        /// <summary>
+        /// Authentication platform
+        /// </summary>
+        public LoginIdentityProvider? Platform;
+        /// <summary>
+        /// Unique account identifier of the user on the platform
+        /// </summary>
+        public string PlatformUserId;
+        /// <summary>
+        /// Linked account username of the user on the platform, if available
+        /// </summary>
+        public string Username;
+        /// <summary>
+        /// Linked account email of the user on the platform, if available
+        /// </summary>
+        public string Email;
+    }
+
+    [Serializable]
     public class LinkFacebookAccountRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -2256,9 +2648,9 @@ namespace PlayFab.ClientModels
     public class LinkGoogleAccountRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Unique token (https://developers.google.com/android/reference/com/google/android/gms/auth/GoogleAuthUtil#public-methods) from Google Play for the user.
+        /// Server authentication code obtained on the client by calling getServerAuthCode() (https://developers.google.com/identity/sign-in/android/offline-access) from Google Play for the user.
         /// </summary>
-        public string AccessToken;
+        public string ServerAuthCode;
         /// <summary>
         /// If another user is already linked to the account, unlink the other user and re-link.
         /// </summary>
@@ -2355,6 +2747,32 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class LinkWindowsHelloAccountRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Player's user named used by Windows Hello.
+        /// </summary>
+        public string UserName;
+        /// <summary>
+        /// PublicKey generated by Windows Hello.
+        /// </summary>
+        public string PublicKey;
+        /// <summary>
+        /// Device name.
+        /// </summary>
+        public string DeviceName;
+        /// <summary>
+        /// If another user is already linked to the account, unlink the other user and re-link.
+        /// </summary>
+        public bool? ForceLink;
+    }
+
+    [Serializable]
+    public class LinkWindowsHelloAccountResponse : PlayFabResultCommon
+    {
+    }
+
+    [Serializable]
     public class ListUsersCharactersRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -2370,6 +2788,49 @@ namespace PlayFab.ClientModels
         /// The requested list of characters.
         /// </summary>
         public List<CharacterResult> Characters;
+    }
+
+    [Serializable]
+    public class LocationModel
+    {
+        /// <summary>
+        /// The two-character continent code for this location
+        /// </summary>
+        public ContinentCode? ContinentCode;
+        /// <summary>
+        /// The two-character ISO 3166-1 country code for the country associated with the location
+        /// </summary>
+        public CountryCode? CountryCode;
+        /// <summary>
+        /// City name.
+        /// </summary>
+        public string City;
+        /// <summary>
+        /// Latitude coordinate of the geographic location.
+        /// </summary>
+        public double? Latitude;
+        /// <summary>
+        /// Longitude coordinate of the geographic location.
+        /// </summary>
+        public double? Longitude;
+    }
+
+    public enum LoginIdentityProvider
+    {
+        Unknown,
+        PlayFab,
+        Custom,
+        GameCenter,
+        GooglePlay,
+        Steam,
+        XBoxLive,
+        PSN,
+        Kongregate,
+        Facebook,
+        IOSDevice,
+        AndroidDevice,
+        Twitch,
+        WindowsHello
     }
 
     [Serializable]
@@ -2445,6 +2906,14 @@ namespace PlayFab.ClientModels
         /// Automatically create a PlayFab account if one is not currently linked to this Custom ID.
         /// </summary>
         public bool? CreateAccount;
+        /// <summary>
+        /// Player secret that is used to verify API request signatures
+        /// </summary>
+        public string PlayerSecret;
+        /// <summary>
+        /// Base64 encoded body that is encrypted with the Title's public RSA key
+        /// </summary>
+        public string EncryptedRequest;
         /// <summary>
         /// Flags for which pieces of info to return for the user.
         /// </summary>
@@ -2522,9 +2991,9 @@ namespace PlayFab.ClientModels
         /// </summary>
         public string TitleId;
         /// <summary>
-        /// Unique token (https://developers.google.com/android/reference/com/google/android/gms/auth/GoogleAuthUtil#public-methods) from Google Play for the user.
+        /// OAuth 2.0 server authentication code obtained on the client by calling the getServerAuthCode() (https://developers.google.com/identity/sign-in/android/offline-access) Google client API.
         /// </summary>
-        public string AccessToken;
+        public string ServerAuthCode;
         /// <summary>
         /// Automatically create a PlayFab account if one is not currently linked to this Google account.
         /// </summary>
@@ -2653,6 +3122,27 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class LoginWithWindowsHelloRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a title has been selected.
+        /// </summary>
+        public string TitleId;
+        /// <summary>
+        /// The signed response from the user for the Challenge.
+        /// </summary>
+        public string ChallengeSignature;
+        /// <summary>
+        /// SHA256 hash of the PublicKey generated by Windows Hello.
+        /// </summary>
+        public string PublicKeyHint;
+        /// <summary>
+        /// Flags for which pieces of info to return for the user.
+        /// </summary>
+        public GetPlayerCombinedInfoRequestParams InfoRequestParameters;
+    }
+
+    [Serializable]
     public class LogStatement
     {
         /// <summary>
@@ -2764,6 +3254,16 @@ namespace PlayFab.ClientModels
         /// Balance of the virtual currency after modification.
         /// </summary>
         public int Balance;
+    }
+
+    /// <summary>
+    /// Identifier by either name or ID. Note that a name may change due to renaming, or reused after being deleted. ID is immutable and unique.
+    /// </summary>
+    [Serializable]
+    public class NameIdentifier
+    {
+        public string Name;
+        public string Id;
     }
 
     [Serializable]
@@ -2898,6 +3398,148 @@ namespace PlayFab.ClientModels
         /// User's overall position in the leaderboard.
         /// </summary>
         public int Position;
+        /// <summary>
+        /// The profile of the user, if requested.
+        /// </summary>
+        public PlayerProfileModel Profile;
+    }
+
+    [Serializable]
+    public class PlayerProfileModel
+    {
+        /// <summary>
+        /// Publisher this player belongs to
+        /// </summary>
+        public string PublisherId;
+        /// <summary>
+        /// Title ID this profile applies to
+        /// </summary>
+        public string TitleId;
+        /// <summary>
+        /// PlayFab Player ID
+        /// </summary>
+        public string PlayerId;
+        /// <summary>
+        /// Player record created
+        /// </summary>
+        public DateTime? Created;
+        /// <summary>
+        /// Player account origination
+        /// </summary>
+        public LoginIdentityProvider? Origination;
+        /// <summary>
+        /// Last login
+        /// </summary>
+        public DateTime? LastLogin;
+        /// <summary>
+        /// If the player is currently banned, the UTC Date when the ban expires
+        /// </summary>
+        public DateTime? BannedUntil;
+        /// <summary>
+        /// List of geographic locations where the player has logged-in
+        /// </summary>
+        public List<LocationModel> Locations;
+        /// <summary>
+        /// Player Display Name
+        /// </summary>
+        public string DisplayName;
+        /// <summary>
+        /// Image URL of the player's avatar
+        /// </summary>
+        public string AvatarUrl;
+        /// <summary>
+        /// List of player's tags for segmentation
+        /// </summary>
+        public List<TagModel> Tags;
+        /// <summary>
+        /// List of configured end points registered for sending the player push notifications
+        /// </summary>
+        public List<PushNotificationRegistrationModel> PushNotificationRegistrations;
+        /// <summary>
+        /// List of third party accounts linked to this player
+        /// </summary>
+        public List<LinkedPlatformAccountModel> LinkedAccounts;
+        /// <summary>
+        /// List of advertising campaigns the player has been attributed to
+        /// </summary>
+        public List<AdCampaignAttributionModel> AdCampaignAttributions;
+        /// <summary>
+        /// A sum of player's total purchases across all real-money currencies, converted to US Dollars equivalent
+        /// </summary>
+        public uint? TotalValueToDateInUSD;
+        /// <summary>
+        /// List of player's total lifetime real-money purchases by currency
+        /// </summary>
+        public List<ValueToDateModel> ValuesToDate;
+        /// <summary>
+        /// List of player's virtual currency balances
+        /// </summary>
+        public List<VirtualCurrencyBalanceModel> VirtualCurrencyBalances;
+        /// <summary>
+        /// List of leaderboard statistic values for the player
+        /// </summary>
+        public List<StatisticModel> Statistics;
+    }
+
+    [Serializable]
+    public class PlayerProfileViewConstraints
+    {
+        /// <summary>
+        /// Whether to show the display name. Defaults to false
+        /// </summary>
+        public bool ShowDisplayName;
+        /// <summary>
+        /// Whether to show the created date. Defaults to false
+        /// </summary>
+        public bool ShowCreated;
+        /// <summary>
+        /// Whether to show origination. Defaults to false
+        /// </summary>
+        public bool ShowOrigination;
+        /// <summary>
+        /// Whether to show the last login time. Defaults to false
+        /// </summary>
+        public bool ShowLastLogin;
+        /// <summary>
+        /// Whether to show the banned until time. Defaults to false
+        /// </summary>
+        public bool ShowBannedUntil;
+        /// <summary>
+        /// Whether to show statistics, the most recent version of each stat. Defaults to false
+        /// </summary>
+        public bool ShowStatistics;
+        /// <summary>
+        /// Whether to show campaign attributions. Defaults to false
+        /// </summary>
+        public bool ShowCampaignAttributions;
+        /// <summary>
+        /// Whether to show push notification registrations. Defaults to false
+        /// </summary>
+        public bool ShowPushNotificationRegistrations;
+        /// <summary>
+        /// Whether to show the linked accounts. Defaults to false
+        /// </summary>
+        public bool ShowLinkedAccounts;
+        /// <summary>
+        /// Whether to show the total value to date in usd. Defaults to false
+        /// </summary>
+        public bool ShowTotalValueToDateInUsd;
+        /// <summary>
+        /// Whether to show the values to date. Defaults to false
+        /// </summary>
+        public bool ShowValuesToDate;
+        /// <summary>
+        /// Whether to show tags. Defaults to false
+        /// </summary>
+        public bool ShowTags;
+        /// <summary>
+        /// Whether to show player's locations. Defaults to false
+        /// </summary>
+        public bool ShowLocations;
+        /// <summary>
+        /// Whether to show player's avatar URL. Defaults to false
+        /// </summary>
+        public bool ShowAvatarUrl;
     }
 
     [Serializable]
@@ -2965,6 +3607,25 @@ namespace PlayFab.ClientModels
         /// Details for the items purchased.
         /// </summary>
         public List<ItemInstance> Items;
+    }
+
+    public enum PushNotificationPlatform
+    {
+        ApplePushNotificationService,
+        GoogleCloudMessaging
+    }
+
+    [Serializable]
+    public class PushNotificationRegistrationModel
+    {
+        /// <summary>
+        /// Push notification platform
+        /// </summary>
+        public PushNotificationPlatform? Platform;
+        /// <summary>
+        /// Notification configured endpoint
+        /// </summary>
+        public string NotificationEndpointARN;
     }
 
     [Serializable]
@@ -3095,6 +3756,31 @@ namespace PlayFab.ClientModels
         /// Settings specific to this user.
         /// </summary>
         public UserSettings SettingsForUser;
+    }
+
+    [Serializable]
+    public class RegisterWithWindowsHelloRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a title has been selected.
+        /// </summary>
+        public string TitleId;
+        /// <summary>
+        /// Player's user named used by Windows Hello.
+        /// </summary>
+        public string UserName;
+        /// <summary>
+        /// PublicKey generated by Windows Hello.
+        /// </summary>
+        public string PublicKey;
+        /// <summary>
+        /// Device name.
+        /// </summary>
+        public string DeviceName;
+        /// <summary>
+        /// Flags for which pieces of info to return for the user.
+        /// </summary>
+        public GetPlayerCombinedInfoRequestParams InfoRequestParameters;
     }
 
     [Serializable]
@@ -3363,6 +4049,23 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class StatisticModel
+    {
+        /// <summary>
+        /// Statistic name
+        /// </summary>
+        public string Name;
+        /// <summary>
+        /// Statistic version (0 if not a versioned statistic)
+        /// </summary>
+        public int Version;
+        /// <summary>
+        /// Statistic value
+        /// </summary>
+        public int Value;
+    }
+
+    [Serializable]
     public class StatisticNameVersion
     {
         /// <summary>
@@ -3481,6 +4184,15 @@ namespace PlayFab.ClientModels
         /// Amount to be subtracted from the user balance of the specified virtual currency.
         /// </summary>
         public int Amount;
+    }
+
+    [Serializable]
+    public class TagModel
+    {
+        /// <summary>
+        /// Full value of the tag, including namespace
+        /// </summary>
+        public string TagValue;
     }
 
     public enum TitleActivationStatus
@@ -3721,6 +4433,20 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class UnlinkWindowsHelloAccountRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// SHA256 hash of the PublicKey generated by Windows Hello.
+        /// </summary>
+        public string PublicKeyHint;
+    }
+
+    [Serializable]
+    public class UnlinkWindowsHelloAccountResponse : PlayFabResultCommon
+    {
+    }
+
+    [Serializable]
     public class UnlockContainerInstanceRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -3777,6 +4503,15 @@ namespace PlayFab.ClientModels
         /// Virtual currency granted to the player as a result of unlocking the container.
         /// </summary>
         public Dictionary<string,uint> VirtualCurrency;
+    }
+
+    [Serializable]
+    public class UpdateAvatarUrlRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// URL of the avatar image. If empty, it removes the existing avatar URL.
+        /// </summary>
+        public string ImageUrl;
     }
 
     [Serializable]
@@ -4107,7 +4842,8 @@ namespace PlayFab.ClientModels
         CustomId,
         XboxLive,
         Parse,
-        Twitch
+        Twitch,
+        WindowsHello
     }
 
     [Serializable]
@@ -4189,6 +4925,10 @@ namespace PlayFab.ClientModels
         /// boolean indicating whether or not the user is currently banned for a title
         /// </summary>
         public bool? isBanned;
+        /// <summary>
+        /// URL to the player's avatar.
+        /// </summary>
+        public string AvatarUrl;
     }
 
     [Serializable]
@@ -4289,6 +5029,62 @@ namespace PlayFab.ClientModels
     [Serializable]
     public class ValidateIOSReceiptResult : PlayFabResultCommon
     {
+    }
+
+    [Serializable]
+    public class ValidateWindowsReceiptRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// XML Receipt returned by the Windows App Store in-app purchase API
+        /// </summary>
+        public string Receipt;
+        /// <summary>
+        /// Catalog version to use when granting receipt item. If null, defaults to primary catalog.
+        /// </summary>
+        public string CatalogVersion;
+        /// <summary>
+        /// Currency used for the purchase.
+        /// </summary>
+        public string CurrencyCode;
+        /// <summary>
+        /// Amount of the stated currency paid for the object.
+        /// </summary>
+        public uint PurchasePrice;
+    }
+
+    [Serializable]
+    public class ValidateWindowsReceiptResult : PlayFabResultCommon
+    {
+    }
+
+    [Serializable]
+    public class ValueToDateModel
+    {
+        /// <summary>
+        /// ISO 4217 code of the currency used in the purchases
+        /// </summary>
+        public string Currency;
+        /// <summary>
+        /// Total value of the purchases in a whole number of 1/100 monetary units. For example 999 indicates nine dollars and ninety-nine cents when Currency is 'USD')
+        /// </summary>
+        public uint TotalValue;
+        /// <summary>
+        /// Total value of the purchases in a string representation of decimal monetary units (e.g. '9.99' indicates nine dollars and ninety-nine cents when Currency is 'USD'))
+        /// </summary>
+        public string TotalValueAsDecimal;
+    }
+
+    [Serializable]
+    public class VirtualCurrencyBalanceModel
+    {
+        /// <summary>
+        /// Name of the virtual currency
+        /// </summary>
+        public string Currency;
+        /// <summary>
+        /// Balance of the virtual currency
+        /// </summary>
+        public int TotalValue;
     }
 
     [Serializable]
