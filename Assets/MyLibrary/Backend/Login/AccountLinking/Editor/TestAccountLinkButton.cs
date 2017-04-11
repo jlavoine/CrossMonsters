@@ -12,7 +12,7 @@ using System;
 namespace MyLibrary {
     [TestFixture]
     public class TestAccountLinkButton : ZenjectUnitTestFixture {
-        public class StubAccountLinkButton : LinkAccountButton, ILinkAccountButton {
+        /*public class StubAccountLinkButton : LinkAccountButton, ILinkAccountButton {
             public override void ForceLinkAccount() {}
             public void SetPreferredLoginMethod() { }
             public override void UnlinkAccount() {}
@@ -78,5 +78,6 @@ namespace MyLibrary {
             MockLinkDonePM.Received().SetLinkSuccess( i_success );
             MockLinkDonePM.Received().Show();
         }
+        */
     }
 }

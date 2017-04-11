@@ -45,6 +45,7 @@ namespace CrossMonsters {
 
         private void OnLogin( Dictionary<string, string> i_result ) {
             mLoginTimer.StepComplete( LibraryAnalyticEvents.ON_LOGIN_TIME );
+            mLoginManager.OnLogin();
             CrossBackend backend = (CrossBackend) mBackend;
             backend.SetLoggedInTime( double.Parse( i_result["data"] ) );            
 

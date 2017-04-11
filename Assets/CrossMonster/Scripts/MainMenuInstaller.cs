@@ -30,13 +30,14 @@ namespace CrossMonsters {
             Container.BindFactory<ISceneStartFlowManager, ShowNewsFlowStep, ShowNewsFlowStep.Factory>();
             Container.Bind<IShowNewsStepSpawner>().To<ShowNewsStepSpawner>().AsSingle();
 
+            Container.Bind<ILinkAccountButton>().To<LinkAccountButton>().AsTransient();
+            Container.Bind<IAccountLinker>().To<AccountLinker>().AsSingle();
+            Container.Bind<IGoogleLinker>().To<GoogleLinker>().AsSingle();
             Container.Bind<ILinkAccountPM>().To<LinkAccountPM>().AsSingle();
             Container.Bind<IAccountAlreadyLinkedPM>().To<AccountAlreadyLinkedPM>().AsSingle();
             Container.Bind<IRemoveAccountLinkPM>().To<RemoveAccountLinkPM>().AsSingle();
             Container.Bind<IAccountLinkDonePM>().To<AccountLinkDonePM>().AsSingle();
             Container.Bind<IRemoveDeviceLinkPM>().To<RemoveDeviceLinkPM>().AsSingle();
-            Container.Bind<ILinkGameCenterButton>().To<LinkGameCenterButton>().AsSingle();
-            Container.Bind<ILinkGoogleButton>().To<LinkGoogleButton>().AsSingle();
         }
     }
 }

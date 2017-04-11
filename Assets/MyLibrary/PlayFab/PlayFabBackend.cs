@@ -90,7 +90,44 @@ namespace MyLibrary {
             ( error ) => { HandleError( error, BackendMessages.AUTH_FAIL ); } );
         }
 
-        public void AuthenticateWithDevice() {
+        public void Authenticate( string i_id ) {
+            MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Info, "Authentication attempt for title " + TITLE_ID, PLAYFAB );
+
+            PlayFabSettings.TitleId = TITLE_ID;
+
+#if UNITY_EDITOR
+             LoginWithCustomIDRequest request = new LoginWithCustomIDRequest() {
+                 TitleId = TITLE_ID,
+                 CreateAccount = true,
+                 CustomId = i_id
+             };
+
+             PlayFabClientAPI.LoginWithCustomID( request, ( result ) => {
+                 UnityEngine.Debug.LogError( "Logged in with playfab id " + result.PlayFabId );
+                 mPlayFabId = result.PlayFabId;
+                 mSessionTicket = result.SessionTicket;
+
+                 IAuthenticationSuccess successResult = null;
+                 MyMessenger.Instance.Send<IAuthenticationSuccess>( BackendMessages.AUTH_SUCCESS, successResult );
+             },
+             ( error ) => { HandleError( error, BackendMessages.AUTH_FAIL ); } );           
+#elif UNITY_ANDROID
+            LoginWithAndroidDeviceIDRequest request = new LoginWithAndroidDeviceIDRequest() {
+                TitleId = TITLE_ID,
+                CreateAccount = true,
+                AndroidDeviceId = SystemInfo.deviceUniqueIdentifier,
+            };
+
+            PlayFabClientAPI.LoginWithAndroidDeviceID( request, ( result ) => {
+                UnityEngine.Debug.LogError( "Logged in with playfab id " + result.PlayFabId );
+                mPlayFabId = result.PlayFabId;
+                mSessionTicket = result.SessionTicket;
+
+                IAuthenticationSuccess successResult = null;
+                MyMessenger.Instance.Send<IAuthenticationSuccess>( BackendMessages.AUTH_SUCCESS, successResult );
+            },
+            ( error ) => { HandleError( error, BackendMessages.AUTH_FAIL ); } );
+#elif UNITY_IOS
             LoginWithIOSDeviceIDRequest request = new LoginWithIOSDeviceIDRequest() {
                 TitleId = TITLE_ID,
                 CreateAccount = true,
@@ -106,43 +143,8 @@ namespace MyLibrary {
                 MyMessenger.Instance.Send<IAuthenticationSuccess>( BackendMessages.AUTH_SUCCESS, successResult );
             },
             ( error ) => { HandleError( error, BackendMessages.AUTH_FAIL ); } );
+#endif
         }
-
-        public void Authenticate( string i_id ) {
-            MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Info, "Authentication attempt for title " + TITLE_ID, PLAYFAB );
-
-            PlayFabSettings.TitleId = TITLE_ID;
-
-            LoginWithCustomIDRequest request = new LoginWithCustomIDRequest() {
-                TitleId = TITLE_ID,
-                CreateAccount = true,
-                CustomId = i_id
-            };
-
-            PlayFabClientAPI.LoginWithCustomID( request, ( result ) => {
-                UnityEngine.Debug.LogError( "Logged in with playfab id " + result.PlayFabId );
-                mPlayFabId = result.PlayFabId;
-                mSessionTicket = result.SessionTicket;
-                
-                IAuthenticationSuccess successResult = null;
-                MyMessenger.Instance.Send<IAuthenticationSuccess>( BackendMessages.AUTH_SUCCESS, successResult );
-            },
-            ( error ) => { HandleError( error, BackendMessages.AUTH_FAIL ); } );
-        }
-
-        /*public void SetUpCloudServices( bool i_testing ) {
-            MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Info, "Starting cloud service setup call", PLAYFAB );
-
-            GetCloudScriptUrlRequest request = new GetCloudScriptUrlRequest() {
-                Testing = i_testing
-            };
-
-            PlayFabClientAPI.GetCloudScriptUrl( request, ( result ) => {
-                mCloudServicesSetUp = true;
-                MyMessenger.Instance.Send( BackendMessages.CLOUD_SETUP_SUCCESS );
-            },
-            ( error ) => { HandleError( error, BackendMessages.CLOUD_SETUP_FAIL ); } );
-        }*/
 
         public void QueueCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> i_requestSuccessCallback ) {
             mCloudCallQueue.Enqueue( new QueuedCloudCall( i_methodName, i_params, i_requestSuccessCallback ) );
@@ -166,69 +168,7 @@ namespace MyLibrary {
                     SendNextQueuedCloudCall();
                 } );
             }
-        }
-
-        public void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback ) {
-            StartRequest( "Checking if account is linked with GameCenter" );
-
-            List<string> ids = new List<string>() { i_id };
-            GetPlayFabIDsFromGameCenterIDsRequest request = new GetPlayFabIDsFromGameCenterIDsRequest() {
-                GameCenterIDs = ids
-            };
-
-            PlayFabClientAPI.GetPlayFabIDsFromGameCenterIDs( request, 
-                ( result ) => {
-                    RequestComplete( "IsAccountLinkedWithGameCenter() compete, success", LogTypes.Info );
-                    i_requestCallback( result.Data.Count > 0 );
-                }, 
-                ( error ) => {
-                    HandleError( error, "IsAccountLinkedWithGameCenter() complete, error" );
-                    i_errorCallback();
-                } );
-        }
-
-        public void IsAccountLinkedWithGoogle( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback ) {
-            StartRequest( "Checking if account is linked with Google" );
-
-            List<string> ids = new List<string>() { i_id };
-            GetPlayFabIDsFromGoogleIDsRequest request = new GetPlayFabIDsFromGoogleIDsRequest() {
-                GoogleIDs = ids
-            };
-
-            PlayFabClientAPI.GetPlayFabIDsFromGoogleIDs( request,
-                ( result ) => {
-                    RequestComplete( "IsAccountLinkedWithGoogle() compete, success", LogTypes.Info );
-                    if ( result.Data.Count > 0 ) {
-                        for ( int i = 0; i < result.Data.Count; ++i ) {
-                            UnityEngine.Debug.LogError( "Found an account: " + result.Data[i].GoogleId + " --- " + result.Data[i].PlayFabId );
-                        }
-                    }
-                    i_requestCallback( result.Data.Count > 0 );
-                },
-                ( error ) => {
-                    HandleError( error, "IsAccountLinkedWithGoogle() complete" );
-                    i_errorCallback();
-                } );
-        }
-
-        public void LinkAccountToGoogle( string i_authCode, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
-            StartRequest( "Linking account with Google with " + i_authCode );
-
-            LinkGoogleAccountRequest request = new LinkGoogleAccountRequest() {
-                ServerAuthCode = i_authCode,
-                ForceLink = i_forceLink
-            };
-
-            PlayFabClientAPI.LinkGoogleAccount( request,
-                ( result ) => {
-                    RequestComplete( "LinkAccountToGoogle() compete, success", LogTypes.Info );
-                    i_requestCallback( true );
-                },
-                ( error ) => {
-                    HandleError( error, "LinkAccountToGoogle() compete, error" );
-                    i_requestCallback( false );
-                } );
-        }
+        }     
 
         public void GetAccountInfo() {
             StartRequest( "Getting account info" );
@@ -252,56 +192,10 @@ namespace MyLibrary {
                 } );
         }
 
-        public void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback, bool i_forceLink = false ) {
-            StartRequest( "Linking account with GameCenter" );
-
-            LinkGameCenterAccountRequest request = new LinkGameCenterAccountRequest() {
-                GameCenterId = i_id,
-                ForceLink = i_forceLink
-            };
-
-            PlayFabClientAPI.LinkGameCenterAccount( request, 
-                ( result ) => {
-                    RequestComplete( "LinkAccountToGameCenter() compete, success", LogTypes.Info );
-                    i_requestCallback( true );
-                }, 
-                ( error ) => {
-                    HandleError( error, "LinkAccountToGameCenter() complete, error" );
-                    i_requestCallback( false );
-                } );
-        }
-
-        public void UnlinkGameCenterFromAccount() {
-            StartRequest( "Unlinking account from GameCenter" );
-
-            UnlinkGameCenterAccountRequest request = new UnlinkGameCenterAccountRequest();
-
-            PlayFabClientAPI.UnlinkGameCenterAccount( request, 
-                ( result ) => {
-                    RequestComplete( "UnlinkGameCenterFromAccount() compete, success", LogTypes.Info );
-                }, 
-                ( error ) => {
-                    HandleError( error, "UnlinkGameCenterFromAccount() complete, error" );
-                } );
-        }
-
-        public void UnlinkGoogleFromAccount() {
-            StartRequest( "Unlinking account from Google" );
-
-            UnlinkGoogleAccountRequest request = new UnlinkGoogleAccountRequest();
-
-            PlayFabClientAPI.UnlinkGoogleAccount( request,
-                ( result ) => {
-                    RequestComplete( "UnlinkGoogleFromAccount() compete, success", LogTypes.Info );
-                },
-                ( error ) => {
-                    HandleError( error, "UnlinkGoogleFromAccount() compete, error" );
-                } );
-        }
-
         public void UnlinkDeviceFromAccount( Callback<bool> i_requestCallback ) {
             StartRequest( "Unlinking device from account" );
 
+#if UNITY_EDITOR
             UnlinkCustomIDRequest request = new UnlinkCustomIDRequest() {
                   CustomId = SystemInfo.deviceUniqueIdentifier
             };
@@ -313,14 +207,40 @@ namespace MyLibrary {
                 ( error ) => {
                     HandleError( error, "UnlinkDeviceFromAccount() complete" );
                 } );
+#elif UNITY_ANDROID
+            UnlinkAndroidDeviceIDRequest request = new UnlinkAndroidDeviceIDRequest() {
+                AndroidDeviceId = SystemInfo.deviceUniqueIdentifier
+            };
+            UnityEngine.Debug.LogError( "Unlinking " + SystemInfo.deviceUniqueIdentifier );
+            PlayFabClientAPI.UnlinkAndroidDeviceID( request,
+                ( result ) => {
+                    RequestComplete( "UnlinkDeviceFromAccount() compete, success", LogTypes.Info );
+                },
+                ( error ) => {
+                    HandleError( error, "UnlinkDeviceFromAccount() complete" );
+                } );
+#elif UNITY_IOS
+            UnlinkIOSDeviceIDRequest request = new UnlinkIOSDeviceIDRequest() {
+                DeviceId = SystemInfo.deviceUniqueIdentifier
+            };
+            UnityEngine.Debug.LogError( "Unlinking " + SystemInfo.deviceUniqueIdentifier );
+            PlayFabClientAPI.UnlinkIOSDeviceID( request,
+                ( result ) => {
+                    RequestComplete( "UnlinkDeviceFromAccount() compete, success", LogTypes.Info );
+                },
+                ( error ) => {
+                    HandleError( error, "UnlinkDeviceFromAccount() complete" );
+                } );
+#endif
         }
 
         public void LinkDeviceToAccount( Callback<bool> i_requestCallback ) {
             StartRequest( "Linking device to account" );
 
+#if UNITY_EDITOR
             LinkCustomIDRequest request = new LinkCustomIDRequest() {
-                 CustomId = SystemInfo.deviceUniqueIdentifier,
-                 ForceLink = true
+                CustomId = SystemInfo.deviceUniqueIdentifier,
+                ForceLink = true
             };
 
             PlayFabClientAPI.LinkCustomID( request, 
@@ -331,15 +251,39 @@ namespace MyLibrary {
                 ( error ) => {
                     HandleError( error, "LinkDeviceToAccount() complete, error" );
                     i_requestCallback( false );
-                } );
-        }
+                } );                           
+#elif UNITY_ANDROID
+            LinkAndroidDeviceIDRequest request = new LinkAndroidDeviceIDRequest() {
+                AndroidDeviceId = SystemInfo.deviceUniqueIdentifier,
+                ForceLink = true
+            };
 
-        /*private string GetDeviceUniqueIdentifier() {
-#if UNITY_ANDROID && !UNITY_EDITOR
-#else
-            return SystemInfo.deviceUniqueIdentifier;
+            PlayFabClientAPI.LinkAndroidDeviceID( request,
+                ( result ) => {
+                    RequestComplete( "LinkDeviceToAccount() compete, success", LogTypes.Info );
+                    i_requestCallback( true );
+                },
+                ( error ) => {
+                    HandleError( error, "LinkDeviceToAccount() complete, error" );
+                    i_requestCallback( false );
+                } );
+#elif UNITY_IOS
+            LinkIOSDeviceIDRequest request = new LinkIOSDeviceIDRequest() {
+                DeviceId = SystemInfo.deviceUniqueIdentifier,
+                ForceLink = true
+            };
+
+            PlayFabClientAPI.LinkIOSDeviceID( request,
+                ( result ) => {
+                    RequestComplete( "LinkDeviceToAccount() compete, success", LogTypes.Info );
+                    i_requestCallback( true );
+                },
+                ( error ) => {
+                    HandleError( error, "LinkDeviceToAccount() complete, error" );
+                    i_requestCallback( false );
+                } );
 #endif
-        }*/
+        }
 
         public void MakeCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> i_requestSuccessCallback ) {
             StartRequest( "Request for cloud call " + i_methodName );
@@ -558,7 +502,7 @@ namespace MyLibrary {
             }, ( error ) => { HandleError( error, BackendMessages.TITLE_DATA_FAIL ); } );
         }*/
 
-        protected void HandleError( PlayFabError i_error, string i_messageType ) {
+        public void HandleError( PlayFabError i_error, string i_messageType ) {
             //ClientOutOfSync = true;   // should redo another method that does or doesn't do this...not using it for MonsterMatch
 
             RequestComplete( "Backend failure(" + i_messageType + "): " + i_error.ErrorMessage, LogTypes.Error );
@@ -568,12 +512,12 @@ namespace MyLibrary {
             MyMessenger.Instance.Send<IBackendFailure>( i_messageType, failure );
         }
 
-        protected void StartRequest( string i_message ) {
+        public void StartRequest( string i_message ) {
             MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Info, "START REQUEST: " + i_message, PLAYFAB );
             CloudRequestCount++;
         }
 
-        protected void RequestComplete( string i_message, LogTypes i_messageType ) {
+        public void RequestComplete( string i_message, LogTypes i_messageType ) {
             MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, i_messageType, "REQUEST COMPLETE: " + i_message, PLAYFAB );
             CloudRequestCount--;
         }

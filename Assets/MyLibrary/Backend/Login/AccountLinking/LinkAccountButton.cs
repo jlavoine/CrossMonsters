@@ -1,49 +1,39 @@
 ﻿using Zenject;
 
 namespace MyLibrary {
-    public abstract class LinkAccountButton {
-        protected abstract void Authorize();
-        protected abstract void OnSuccessfulAuth();
-        protected abstract void LinkAccount();
-        public abstract void ForceLinkAccount();
-        public abstract void UnlinkAccount();
-
+    public class LinkAccountButton : ILinkAccountButton {
         [Inject]
         IAccountAlreadyLinkedPM AccountAlreadyLinkedPM;
 
         [Inject]
         IAccountLinkDonePM AccountLinkDonePM;
 
-        public void OnClick() {
-            Authorize();
+        [Inject]
+        IAccountLinker AccountLinker;
+
+        [Inject]
+        IPreferredLoginMethod PreferredLoginMethod;
+
+        private LoginMethods mMethod;
+
+        public void OnClick( LoginMethods i_loginMethod ) {
+            UnityEngine.Debug.LogError( "Clicking: " + i_loginMethod );
+            mMethod = i_loginMethod;
+            AccountLinker.AttemptToLink( i_loginMethod, OnLinkResult );
         }
 
-        public void OnAuthorizeAttempt( bool i_success ) {
-            UnityEngine.Debug.LogError( "auth attempt cb: " + i_success );
-            if ( i_success ) {
-                OnSuccessfulAuth();
-            } else {
-                ShowPopupWithSuccessResult( false );                
-            }
-        }
-
-        public void OnAlreadyLinkedCheck( bool i_alreadyLinked ) {
-            if ( i_alreadyLinked ) {
-                ShowAlreadyLinkedPopupWithLinkMethod();                
-            } else {
-                LinkAccount();
-            }
-        }
-
-        public void OnLinkCheckError() {
-            ShowPopupWithSuccessResult( false );
-        }
-
-        public void OnLinkAttemptResult( bool i_success ) {
-            if ( i_success ) {
-                ShowPopupWithSuccessResult( true );
-            } else {
-                ShowPopupWithSuccessResult( false );
+        private void OnLinkResult( AccountLinkResultTypes i_result ) {
+            switch ( i_result ) {
+                case AccountLinkResultTypes.Error:
+                    ShowPopupWithSuccessResult( false );
+                    break;
+                case AccountLinkResultTypes.LinkAlreadyClaimed:
+                    ShowAlreadyLinkedPopupWithLinkMethod();
+                    break;
+                case AccountLinkResultTypes.SuccessfulLink:
+                case AccountLinkResultTypes.AlreadyLinked:
+                    ShowPopupWithSuccessResult( true );
+                    break;
             }
         }
 
@@ -53,8 +43,24 @@ namespace MyLibrary {
         }
 
         private void ShowAlreadyLinkedPopupWithLinkMethod() {
-            AccountAlreadyLinkedPM.LinkMethod = (ILinkAccountButton)this;
+            AccountAlreadyLinkedPM.LinkMethod = this;
             AccountAlreadyLinkedPM.Show();
+        }
+
+        public void UnlinkAccount() {
+            AccountLinker.Unlink( mMethod, ( result ) => {
+
+            } );
+        }
+
+        public void SetPreferredLoginMethod() {
+            PreferredLoginMethod.LoginMethod = mMethod;
+        }
+
+        public void ForceLinkAccount() {
+            AccountLinker.AttemptForceLink( mMethod, ( result ) => {
+                ShowPopupWithSuccessResult( result );
+            } );
         }
     }
 }

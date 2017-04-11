@@ -16,8 +16,7 @@ namespace MyLibrary {
         IEnumerator WaitForCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> requestSuccessCallback );
 
         void GetTitleData( string i_key, Callback<string> requestSuccessCallback );
-        void GetNews( Callback<List<IBasicNewsData>> successCallback );
-        //void GetAllTitleDataForClass( string i_className, Callback<string> requestSuccessCallback );
+        void GetNews( Callback<List<IBasicNewsData>> successCallback );        
         void GetPublicPlayerData( string i_key, Callback<string> requestSuccessCallback );
         void GetReadOnlyPlayerData( string i_key, Callback<string> requestSuccessCallback );
         void UpdatePlayerData( string i_key, string i_data );
@@ -25,12 +24,6 @@ namespace MyLibrary {
         void GetVirtualCurrency( string i_key, Callback<int> requetSuccessCallback );
 
         void LinkDeviceToAccount( Callback<bool> i_requestCallback );
-        void IsAccountLinkedWithGameCenter( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback );
-        void IsAccountLinkedWithGoogle( string i_id, Callback<bool> i_requestCallback, Callback i_errorCallback );
-        void LinkAccountToGameCenter( string i_id, Callback<bool> i_requestCallback, bool i_forceLink = false );
-        void LinkAccountToGoogle( string i_accessToken, Callback<bool> i_requestCallback, bool i_forceLink = false );
-        void UnlinkGameCenterFromAccount();
-        void UnlinkGoogleFromAccount();
         void UnlinkDeviceFromAccount( Callback<bool> i_requestCallback );
 
         bool IsClientOutOfSync();
