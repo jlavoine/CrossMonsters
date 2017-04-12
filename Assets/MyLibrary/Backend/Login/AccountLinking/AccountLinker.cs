@@ -25,13 +25,5 @@ namespace MyLibrary {
                     break;
             }
         }
-
-        public void Unlink( LoginMethods i_linkType, Callback<bool> i_callback ) {
-            switch ( i_linkType ) {
-                case LoginMethods.Google:
-                    GoogleLinker.Unlink( i_callback );
-                    break;
-            }
-        }
     }
 }

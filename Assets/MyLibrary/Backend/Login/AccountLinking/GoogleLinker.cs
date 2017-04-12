@@ -59,22 +59,5 @@ namespace MyLibrary {
                     } );
             } );
         }
-
-        public void Unlink( Callback<bool> i_callback ) {
-            PlayFabBackend backend = BackendManager.GetBackend<PlayFabBackend>();
-            backend.StartRequest( "Unlinking account from Google" );
-
-            UnlinkGoogleAccountRequest request = new UnlinkGoogleAccountRequest();
-
-            PlayFabClientAPI.UnlinkGoogleAccount( request,
-                ( result ) => {
-                    backend.RequestComplete( "UnlinkGoogleFromAccount() complete, success", LogTypes.Info );
-                    i_callback( true );
-                },
-                ( error ) => {
-                    backend.HandleError( error, "UnlinkGoogleFromAccount() complete, error" );
-                    i_callback( false );
-                } );
-        }
     }
 }

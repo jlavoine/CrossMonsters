@@ -24,6 +24,9 @@ namespace MyLibrary {
         ILoginMethod_GameCenter MockGameCenterLogin;
 
         [Inject]
+        ILoginMethod_Google MockGoogleLogin;
+
+        [Inject]
         IBackendManager MockBackendManager;
 
         [Inject]
@@ -35,6 +38,7 @@ namespace MyLibrary {
             Container.Bind<ILoginMethodValidator>().FromInstance( Substitute.For<ILoginMethodValidator>() );
             Container.Bind<ILoginMethod_DeviceId>().FromInstance( Substitute.For<ILoginMethod_DeviceId>() );
             Container.Bind<ILoginMethod_GameCenter>().FromInstance( Substitute.For<ILoginMethod_GameCenter>() );
+            Container.Bind<ILoginMethod_Google>().FromInstance( Substitute.For<ILoginMethod_Google>() );
             Container.Bind<IBackendManager>().FromInstance( Substitute.For<IBackendManager>() );
             Container.Bind<LoginMethodManager>().AsSingle();
             Container.Inject( this );

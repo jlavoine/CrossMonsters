@@ -12,7 +12,6 @@ namespace CrossMonsters {
         public List<MonsterData> AllMonsterData { get { return mAllMonsterData; } set { mAllMonsterData = value; } }
 
         public void Init( IBasicBackend i_backend ) {
-            UnityEngine.Debug.LogError( "Initing monster data manager" );
             mBackend = i_backend;
 
             DownloadMonsterData();

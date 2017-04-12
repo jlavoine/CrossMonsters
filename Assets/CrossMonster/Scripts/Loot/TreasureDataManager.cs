@@ -19,7 +19,6 @@ namespace CrossMonsters {
         public List<string> PlayerTreasure { get { return mPlayerTreasure; } set { mPlayerTreasure = value; } }
 
         public void Init( IBasicBackend i_backend ) {
-            UnityEngine.Debug.LogError( "Initing treasure data manager" );
             mBackend = i_backend;
 
             DownloadTreasureData();

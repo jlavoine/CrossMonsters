@@ -9,8 +9,7 @@ namespace CrossMonsters {
         private int mGold;
         public int Gold { get { return mGold; } set { mGold = value; } }
 
-        public void Init( IBasicBackend i_backend ) {
-            UnityEngine.Debug.LogError( "Initing player data manager" );
+        public void Init( IBasicBackend i_backend ) {            
             mBackend = i_backend;
 
             DownloadPlayerGold();

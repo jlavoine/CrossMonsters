@@ -16,8 +16,7 @@ namespace MyLibrary {
 
         private LoginMethods mMethod;
 
-        public void OnClick( LoginMethods i_loginMethod ) {
-            UnityEngine.Debug.LogError( "Clicking: " + i_loginMethod );
+        public void OnClick( LoginMethods i_loginMethod ) {            
             mMethod = i_loginMethod;
             AccountLinker.AttemptToLink( i_loginMethod, OnLinkResult );
         }

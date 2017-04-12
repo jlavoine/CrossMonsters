@@ -23,7 +23,6 @@ namespace CrossMonsters {
             Screen.SetResolution( 768, 1024, false );
             Application.runInBackground = true;
 #elif UNITY_ANDROID
-            UnityEngine.Debug.LogError( "about to init gpgs" );
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
                 .AddOauthScope("email")
                 .AddOauthScope("profile")
@@ -36,8 +35,6 @@ namespace CrossMonsters {
             PlayGamesPlatform.DebugLogEnabled = true;
             // Activate the Google Play Games platform
             PlayGamesPlatform.Activate();
-            UnityEngine.Debug.LogError( "----done" );
-
 #endif
             SceneManager.LoadScene( "Login" );
         }
