@@ -5,6 +5,5 @@ namespace MyLibrary {
 
         void UseCurrentSave();
         void UseExistingSave();
-        void InitiateRemoveLink();
     }
 }

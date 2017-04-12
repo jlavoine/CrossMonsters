@@ -14,17 +14,13 @@ namespace MyLibrary {
 
         [Inject]
         ISceneManager MockSceneManager;
-
-        [Inject]
-        IRemoveAccountLinkPM MockRemoveLinkPM;
-
+        
         [Inject]
         AccountAlreadyLinkedPM systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IStringTableManager>().FromInstance( Substitute.For<IStringTableManager>() );
-            Container.Bind<IRemoveAccountLinkPM>().FromInstance( Substitute.For<IRemoveAccountLinkPM>() );
             Container.Bind<ISceneManager>().FromInstance( Substitute.For<ISceneManager>() );
             Container.Bind<AccountAlreadyLinkedPM>().AsSingle();
             Container.Inject( this );
@@ -73,34 +69,6 @@ namespace MyLibrary {
             systemUnderTest.UseExistingSave();
 
             mockLinkMethod.Received().SetPreferredLoginMethod();
-        }
-
-
-        [Test]
-        public void WhenInitiatingRemoveLink_RemoveLinkPM_IsShown() {
-            ILinkAccountButton mockLinkMethod = Substitute.For<ILinkAccountButton>();
-            systemUnderTest.LinkMethod = mockLinkMethod;
-            systemUnderTest.InitiateRemoveLink();
-
-            MockRemoveLinkPM.Received().Show();
-        }
-
-        [Test]
-        public void WhenInitiatingRemoveLink_LinkMethodSetOnRemoveLinkPM() {
-            ILinkAccountButton mockLinkMethod = Substitute.For<ILinkAccountButton>();
-            systemUnderTest.LinkMethod = mockLinkMethod;
-            systemUnderTest.InitiateRemoveLink();
-
-            Assert.AreEqual( mockLinkMethod, MockRemoveLinkPM.LinkMethod );
-        }
-
-        [Test]
-        public void WhenInitiatingRemoveLink_ThisPM_IsHidden() {
-            ILinkAccountButton mockLinkMethod = Substitute.For<ILinkAccountButton>();
-            systemUnderTest.LinkMethod = mockLinkMethod;
-            systemUnderTest.InitiateRemoveLink();
-
-            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( AccountAlreadyLinkedPM.VISIBLE_PROPERTY ) );
         }
     }
 }

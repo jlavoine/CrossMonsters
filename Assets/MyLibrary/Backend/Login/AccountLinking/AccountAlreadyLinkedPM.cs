@@ -5,9 +5,6 @@ namespace MyLibrary {
         [Inject]
         ISceneManager SceneManager;
 
-        [Inject]
-        IRemoveAccountLinkPM RemoveLinkPM;
-
         readonly IStringTableManager mStringTable;
 
         public const string TEXT_KEY = "AccountLink_AlreadyLinked";
@@ -32,12 +29,6 @@ namespace MyLibrary {
         public void UseExistingSave() {
             LinkMethod.SetPreferredLoginMethod();
             SceneManager.LoadScene( "Login" );
-        }
-
-        public void InitiateRemoveLink() {
-            RemoveLinkPM.LinkMethod = LinkMethod;
-            RemoveLinkPM.Show();
-            Hide();
         }
 
         private void SetTextProperty() {

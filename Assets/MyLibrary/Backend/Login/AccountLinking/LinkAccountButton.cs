@@ -24,13 +24,13 @@ namespace MyLibrary {
         private void OnLinkResult( AccountLinkResultTypes i_result ) {
             switch ( i_result ) {
                 case AccountLinkResultTypes.Error:
+                case AccountLinkResultTypes.AlreadyLinked:
                     ShowPopupWithSuccessResult( false );
                     break;
                 case AccountLinkResultTypes.LinkAlreadyClaimed:
                     ShowAlreadyLinkedPopupWithLinkMethod();
                     break;
-                case AccountLinkResultTypes.SuccessfulLink:
-                case AccountLinkResultTypes.AlreadyLinked:
+                case AccountLinkResultTypes.SuccessfulLink:                
                     ShowPopupWithSuccessResult( true );
                     break;
             }
@@ -44,12 +44,6 @@ namespace MyLibrary {
         private void ShowAlreadyLinkedPopupWithLinkMethod() {
             AccountAlreadyLinkedPM.LinkMethod = this;
             AccountAlreadyLinkedPM.Show();
-        }
-
-        public void UnlinkAccount() {
-            AccountLinker.Unlink( mMethod, ( result ) => {
-
-            } );
         }
 
         public void SetPreferredLoginMethod() {

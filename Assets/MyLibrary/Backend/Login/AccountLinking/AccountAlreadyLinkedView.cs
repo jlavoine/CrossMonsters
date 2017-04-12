@@ -31,9 +31,5 @@ namespace MyLibrary {
         public void UseExistingSave() {
             PM.UseExistingSave();
         }
-
-        public void RemoveLinkClicked() {
-            PM.InitiateRemoveLink();
-        }
     }
 }

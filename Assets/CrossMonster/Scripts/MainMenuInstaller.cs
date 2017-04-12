@@ -35,7 +35,6 @@ namespace CrossMonsters {
             Container.Bind<IGoogleLinker>().To<GoogleLinker>().AsSingle();
             Container.Bind<ILinkAccountPM>().To<LinkAccountPM>().AsSingle();
             Container.Bind<IAccountAlreadyLinkedPM>().To<AccountAlreadyLinkedPM>().AsSingle();
-            Container.Bind<IRemoveAccountLinkPM>().To<RemoveAccountLinkPM>().AsSingle();
             Container.Bind<IAccountLinkDonePM>().To<AccountLinkDonePM>().AsSingle();
             Container.Bind<IRemoveDeviceLinkPM>().To<RemoveDeviceLinkPM>().AsSingle();
         }
