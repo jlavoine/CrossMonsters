@@ -37,6 +37,8 @@ namespace CrossMonsters {
 
             Container.BindFactory<IDungeonReward, IAllRewardsPM, SingleRewardPM, SingleRewardPM.Factory>();
             Container.Bind<ISingleRewardPM_Spawner>().To<SingleRewardPM_Spawner>().AsSingle();
+
+            Container.Bind<IDungeonWavePM>().To<DungeonWavePM>().AsSingle();
         }
 
         // TODO this is just temp testing

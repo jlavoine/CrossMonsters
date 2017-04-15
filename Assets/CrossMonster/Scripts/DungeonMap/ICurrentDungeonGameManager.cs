@@ -7,7 +7,7 @@ namespace CrossMonsters {
         void AwardRewards();
 
         IDungeonGameSessionData Data { get; }
-        List<IGameMonster> Monsters { get; }
+        List<IMonsterWaveData> Monsters { get; }
         List<IDungeonReward> Rewards { get; }
     }
 }

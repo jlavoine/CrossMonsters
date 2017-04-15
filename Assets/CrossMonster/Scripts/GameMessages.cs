@@ -11,5 +11,7 @@ namespace CrossMonsters {
         public const string CHAIN_RESET = "ChainReset";
 
         public const string GAME_OVER = "GameOver";
+
+        public const string NEW_MONSTER_WAVE_EVENT = "NewMonsterWave";
     }
 }

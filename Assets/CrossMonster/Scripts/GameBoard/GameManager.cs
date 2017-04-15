@@ -12,19 +12,31 @@ namespace CrossMonsters {
         [Inject]
         ICurrentDungeonGameManager CurrentDungeonManager;
 
-        private GameStates mState;
+        [Inject]
+        IDungeonWavePM DungeonWavePM;
+
+        private GameStates mState = GameStates.Paused;
         public GameStates State { get { return mState; } set { mState = value; } }
 
-        public GameManager() {
-            SetState( GameStates.Playing );
+        public GameManager() {                        
         }
 
         public void Initialize() {
             ListenForMessages( true );
+            PrepareForNextWave();
         }
 
         public void Dispose() {
             ListenForMessages( false );
+        }
+
+        public void PrepareForNextWave() {
+            SetState( GameStates.Paused );
+            DungeonWavePM.Show();
+        }
+
+        public void BeginWaveGameplay() {
+            SetState( GameStates.Playing );
         }
 
         private void ListenForMessages( bool i_listen ) {

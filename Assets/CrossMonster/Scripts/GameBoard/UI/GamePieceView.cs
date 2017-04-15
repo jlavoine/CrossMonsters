@@ -6,6 +6,9 @@ namespace CrossMonsters {
         [Inject]
         IChainBuilder ChainManager;
 
+        [Inject]
+        IGameManager GameManager;
+
         private IGamePiecePM mPM;
 
         public void Init( IGamePiecePM i_pm ) {
@@ -21,19 +24,19 @@ namespace CrossMonsters {
         }
 
         public void OnPointerDown() {
-            if ( ChainManager.IsNoChain() ) {
+            if ( ChainManager.IsNoChain() && GameManager.IsGamePlaying() ) {
                 ChainManager.StartChain( mPM.GamePiece );
             }
         }
 
         public void OnPointerEnter() {
-            if ( ChainManager.IsActiveChain() ) {
+            if ( ChainManager.IsActiveChain() && GameManager.IsGamePlaying() ) {
                 ChainManager.ContinueChain( mPM.GamePiece );
             }
         }
 
         public void OnPointerUp() {
-            if ( ChainManager.IsActiveChain() ) {
+            if ( ChainManager.IsActiveChain() && GameManager.IsGamePlaying() ) {
                 ChainManager.EndChain();
             }
         }

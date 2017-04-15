@@ -5,5 +5,7 @@ namespace CrossMonsters {
 
         void Dispose();
         void OnAllMonstersDead();
+        void PrepareForNextWave();
+        void BeginWaveGameplay();
     }
 }

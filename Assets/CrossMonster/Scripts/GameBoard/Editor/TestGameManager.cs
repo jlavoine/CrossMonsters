@@ -21,11 +21,15 @@ namespace CrossMonsters {
         IBackendManager MockBackend;
 
         [Inject]
+        IDungeonWavePM MockWavePM;
+
+        [Inject]
         GameManager systemUnderTest;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
+            Container.Bind<IDungeonWavePM>().FromInstance( Substitute.For<IDungeonWavePM>() );
             Container.Bind<IBackendManager>().FromInstance( Substitute.For<IBackendManager>() );
             Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
             Container.Bind<GameManager>().AsSingle();
@@ -47,8 +51,8 @@ namespace CrossMonsters {
         }
 
         [Test]
-        public void WhenCreated_StateIsPlaying() {
-            Assert.AreEqual( GameStates.Playing, systemUnderTest.State );
+        public void WhenCreated_StateIsPaused() {
+            Assert.AreEqual( GameStates.Paused, systemUnderTest.State );
         }
 
         [Test]
@@ -105,6 +109,20 @@ namespace CrossMonsters {
             systemUnderTest.OnAllMonstersDead();
 
             MyMessenger.Received().Send<bool>( GameMessages.GAME_OVER, true );
+        }
+
+        [Test]
+        public void WhenPreparingForNextWave_GameIsPaused() {
+            systemUnderTest.PrepareForNextWave();
+
+            Assert.AreEqual( GameStates.Paused, systemUnderTest.State );
+        }
+
+        [Test]
+        public void WhenPreparingForNextWave_WavePM_IsShown() {
+            systemUnderTest.PrepareForNextWave();
+
+            MockWavePM.Received().Show();
         }
     }
 }

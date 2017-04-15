@@ -8,6 +8,9 @@ namespace CrossMonsters {
         public GameObject MonsterViewPrefab;
 
         [Inject]
+        IMessageService MessageService;
+
+        [Inject]
         IMonsterManager MonsterManager;
 
         [Inject]
@@ -17,10 +20,16 @@ namespace CrossMonsters {
         ICurrentDungeonGameManager CurrentDungeonData;
 
         void Start() {
-            List<IGameMonster> monsters = GetMonsters();
+            ListenForMessages( true );
+
+            List<IMonsterWaveData> monsters = GetMonsters();
             MonsterManager.SetMonsters( monsters );
 
             CreateMonsterViews();
+        }
+
+        void OnDetroy() {
+            ListenForMessages( false );
         }
 
         void Update() {
@@ -29,16 +38,24 @@ namespace CrossMonsters {
             }           
         }
 
+        private void ListenForMessages( bool i_shouldListen ) {
+            if ( i_shouldListen ) {
+                MessageService.AddListener( GameMessages.NEW_MONSTER_WAVE_EVENT, CreateMonsterViews );
+            } else {
+                MessageService.RemoveListener( GameMessages.NEW_MONSTER_WAVE_EVENT, CreateMonsterViews );
+            }
+        }
+
         private void TickCurrentMonsters( long i_tick ) {
             MonsterManager.Tick( i_tick );
         }
 
         private void CreateMonsterViews() {
-            foreach ( IGameMonster monster in MonsterManager.CurrentMonsters ) {
+            foreach ( IGameMonster monster in MonsterManager.CurrentWave.CurrentMonsters ) {
                 CreateMonsterView( monster );
             }
 
-            foreach ( IGameMonster monster in MonsterManager.RemainingMonsters ) {
+            foreach ( IGameMonster monster in MonsterManager.CurrentWave.RemainingMonsters ) {
                 CreateMonsterView( monster );
             }
         }
@@ -49,7 +66,7 @@ namespace CrossMonsters {
             monsterView.Init( new MonsterPM( i_monster ) );
         }
         
-        private List<IGameMonster> GetMonsters() {
+        private List<IMonsterWaveData> GetMonsters() {
             return CurrentDungeonData.Monsters;
         }      
     }
