@@ -11,10 +11,12 @@ namespace CrossMonsters {
     public class Startup : MonoBehaviour {
 
         void Start() {
-            /*UnityEngine.Debug.LogError( Social.localUser.authenticated );
-            UnityEngine.Debug.LogError( Social.localUser.id );
-            DungeonGameSessionData test = new DungeonGameSessionData();
-                                  
+            //UnityEngine.Debug.LogError( Social.localUser.authenticated );
+            //UnityEngine.Debug.LogError( Social.localUser.id );
+            /*PlayerData test = new PlayerData();
+            test.HP = 100;
+            test.Defenses = new Dictionary<int, int>() { { 0, 0 }, { 1, 10 } };
+            test.Attacks = new Dictionary<int, int>() { { 0, 0 }, { 1, 10 } };
 
             string json = JsonConvert.SerializeObject( test );
             UnityEngine.Debug.LogError( json );*/
