@@ -8,7 +8,8 @@ namespace CrossMonsters {
             Container.Bind<IInitializable>().To<AllTreasurePM>().AsSingle();
             Container.Bind<AllTreasurePM>().AsSingle();
 
-            Container.Bind<IPlayerInfoPM>().To<PlayerInfoPM>().AsSingle();
+            Container.Bind<IPlayerSummaryPM>().To<PlayerSummaryPM>().AsSingle();
+            Container.Bind<IPlayerStatInfoPM>().To<PlayerStatInfoPM>().AsSingle();
 
             Container.Bind<ITreasureSetPM_Spawner>().To<TreasureSetPM_Spawner>().AsSingle();
             Container.Bind<ITreasurePM_Spawner>().To<TreasurePM_Spawner>().AsSingle();

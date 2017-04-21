@@ -1,12 +1,12 @@
 ﻿using MyLibrary;
 
 namespace CrossMonsters {
-    public class PlayerInfoPM : PresentationModel, IPlayerInfoPM {
+    public class PlayerSummaryPM : PresentationModel, IPlayerSummaryPM {
         public const string GOLD_PROPERTY = "Gold";
 
         readonly IPlayerDataManager mManager;
 
-        public PlayerInfoPM( IPlayerDataManager i_manager ) {
+        public PlayerSummaryPM( IPlayerDataManager i_manager ) {
             mManager = i_manager;
 
             SetGoldProperty();

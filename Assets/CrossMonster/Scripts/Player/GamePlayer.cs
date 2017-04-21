@@ -9,17 +9,16 @@ namespace CrossMonsters {
         IMessageService Messenger;
 
         private IDamageCalculator mDamageCalculator;
+        private IPlayerDataManager mPlayerDataManager;
 
         private int mHP;
         public int HP { get { return mHP; } set { mHP = value; } }
 
-        private IPlayerData mData;
-
-        public GamePlayer( IPlayerData i_data, IDamageCalculator i_damageCalculator ) {
+        public GamePlayer( IDamageCalculator i_damageCalculator, IPlayerDataManager i_playerDataManager ) {
             mDamageCalculator = i_damageCalculator;
+            mPlayerDataManager = i_playerDataManager;
 
-            mData = i_data;
-            SetHP( i_data );            
+            SetHP();            
         }
 
         public void Initialize() {
@@ -45,11 +44,11 @@ namespace CrossMonsters {
         }
 
         public int GetAttackPowerForType( int i_type ) {
-            return 10;
+            return mPlayerDataManager.GetStat( PlayerStats.PHY_ATK );
         }
 
         public int GetDefenseForType( int i_type ) {
-            return mData.GetDefenseForType( i_type );
+            return mPlayerDataManager.GetStat( PlayerStats.PHY_DEF );
         }
 
         public void RemoveHP( int i_damage ) {
@@ -60,8 +59,8 @@ namespace CrossMonsters {
             }
         }
 
-        private void SetHP( IPlayerData i_data ) {
-            HP = i_data.GetHP();
+        private void SetHP() {
+            HP = mPlayerDataManager.GetStat( PlayerStats.HP );
         }
 
         private bool IsDead() {

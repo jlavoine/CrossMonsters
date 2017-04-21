@@ -15,7 +15,6 @@ namespace CrossMonsters {
             Container.Bind<IGameManager>().To<GameManager>().AsSingle();
             Container.Bind<IValidBoardChecker>().To<ValidBoardChecker>().AsSingle();
 
-            Container.Bind<IPlayerData>().To<PlayerData>().FromInstance( GetPlayerData() );
             Container.Bind<IInitializable>().To<GamePlayer>().AsSingle();
             Container.Bind<IGamePlayer>().To<GamePlayer>().AsSingle();
             Container.Bind<IGamePlayerPM>().To<GamePlayerPM>().AsTransient();
@@ -39,15 +38,6 @@ namespace CrossMonsters {
             Container.Bind<ISingleRewardPM_Spawner>().To<SingleRewardPM_Spawner>().AsSingle();
 
             Container.Bind<IDungeonWavePM>().To<DungeonWavePM>().AsSingle();
-        }
-
-        // TODO this is just temp testing
-        public PlayerData GetPlayerData() {
-            PlayerData data = new PlayerData();
-            data.HP = 100;
-            data.Defenses = new Dictionary<int, int>() { { 0, 5 }, { 1, 5 } };
-
-            return data;
         }
     }
 }

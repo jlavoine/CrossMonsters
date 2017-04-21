@@ -2,10 +2,10 @@
 using Zenject;
 
 namespace CrossMonsters {
-    public class PlayerInfoView : GroupView {
+    public class PlayerSummaryView : GroupView {
 
         [Inject]
-        IPlayerInfoPM PM;
+        IPlayerSummaryPM PM;
 
         void Start() {
             SetModel( PM.ViewModel );

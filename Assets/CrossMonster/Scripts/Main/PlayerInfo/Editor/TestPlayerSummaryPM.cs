@@ -17,9 +17,9 @@ namespace CrossMonsters {
             IPlayerDataManager mockManager = Substitute.For<IPlayerDataManager>();
             mockManager.Gold.Returns( 100 );
 
-            PlayerInfoPM systemUnderTest = new PlayerInfoPM( mockManager );
+            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( mockManager );
 
-            Assert.AreEqual( "100", systemUnderTest.ViewModel.GetPropertyValue<string>( PlayerInfoPM.GOLD_PROPERTY ) );
+            Assert.AreEqual( "100", systemUnderTest.ViewModel.GetPropertyValue<string>( PlayerSummaryPM.GOLD_PROPERTY ) );
         }
     }
 }

@@ -20,13 +20,13 @@ namespace CrossMonsters {
         GamePlayer systemUnderTest;
 
         [Inject]
-        IPlayerData PlayerData;
+        IPlayerDataManager PlayerDataManager;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
             Container.Bind<IDamageCalculator>().FromInstance( Substitute.For<IDamageCalculator>() );
-            Container.Bind<IPlayerData>().FromInstance( Substitute.For<IPlayerData>() );
+            Container.Bind<IPlayerDataManager>().FromInstance( Substitute.For<IPlayerDataManager>() );
             Container.Bind<GamePlayer>().AsSingle();
             Container.Inject( this );
         }
@@ -48,9 +48,16 @@ namespace CrossMonsters {
 
         [Test]
         public void GetDefenseForType_ReturnsExpected() {
-            PlayerData.GetDefenseForType( 0 ).Returns( 100 );
+            PlayerDataManager.GetStat( PlayerStats.PHY_DEF ).Returns( 100 );
             
             Assert.AreEqual( 100, systemUnderTest.GetDefenseForType( 0 ) );
+        }
+
+        [Test]
+        public void GetAttackPowerForType_ReturnsExpected() {
+            PlayerDataManager.GetStat( PlayerStats.PHY_ATK ).Returns( 100 );
+
+            Assert.AreEqual( 100, systemUnderTest.GetAttackPowerForType( 0 ) );
         }
 
         [Test]
