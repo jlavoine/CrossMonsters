@@ -7,43 +7,6 @@ using System.Linq;
 
 namespace Zenject.Asteroids
 {
-    public class A : IInitializable {
-        [Inject]
-        C myC;
-
-        public A() {
-            UnityEngine.Debug.LogError( "ctor A" );
-        }
-
-        public void Initialize() {
-            UnityEngine.Debug.LogError( "init A: " + myC.Test() );
-        }
-    }
-
-    public class B : IInitializable {
-        public B() {
-            UnityEngine.Debug.LogError( "ctor B" );
-        }
-
-        public void Initialize() {
-            UnityEngine.Debug.LogError( "init B" );
-        }
-    }
-
-    public class C : IInitializable {
-        public C() {
-            UnityEngine.Debug.LogError( "ctor C" );
-        }
-
-        public void Initialize() {
-            UnityEngine.Debug.LogError( "init C" );
-        }
-
-        public string Test() {
-            return "hi";
-        }
-    }
-
     public class GameInstaller : MonoInstaller
     {
         [Inject]
@@ -108,11 +71,6 @@ namespace Zenject.Asteroids
 
         void InstallMisc()
         {
-            UnityEngine.Debug.LogError( "Installing misc" );
-            Container.BindInterfacesAndSelfTo<C>().AsSingle();
-            Container.BindInterfacesAndSelfTo<A>().AsSingle();
-            Container.BindInterfacesAndSelfTo<B>().AsSingle();            
-
             Container.BindInterfacesAndSelfTo<GameController>().AsSingle();
             Container.Bind<LevelHelper>().AsSingle();
 
@@ -124,7 +82,7 @@ namespace Zenject.Asteroids
 
         void InstallShip()
         {
-            Container.Bind<GameEvents>().AsSingle();
+            Container.DeclareSignal<ShipCrashedSignal>();
 
             Container.Bind<ShipStateFactory>().AsSingle();
 

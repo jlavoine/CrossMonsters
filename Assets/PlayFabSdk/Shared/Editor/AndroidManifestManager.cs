@@ -9,7 +9,7 @@ public class AndroidManifestManager
     static AndroidManifestManager()
     {
 #if UNITY_ANDROID
-        if (PlayerSettings.bundleIdentifier != "com.playfab.sampleproj") {
+        if (PlayerSettings.applicationIdentifier != "com.playfab.sampleproj") {
             CustomizeManifest ();
         }
 #endif
@@ -17,7 +17,7 @@ public class AndroidManifestManager
 
     public static void CustomizeManifest()
     {
-        string appId = PlayerSettings.bundleIdentifier;
+        string appId = PlayerSettings.applicationIdentifier;
 
         if (String.IsNullOrEmpty(appId) || appId == "com.Company.ProductName")
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using ModestTree;
@@ -10,11 +11,6 @@ using Assert = ModestTree.Assert;
 
 namespace Zenject
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class ValidateOnlyAttribute : Attribute
-    {
-    }
-
     public abstract class ZenjectIntegrationTestFixture
     {
         SceneContext _sceneContext;
@@ -25,6 +21,11 @@ namespace Zenject
         protected DiContainer Container
         {
             get { return _sceneContext.Container; }
+        }
+
+        protected SceneContext SceneContext
+        {
+            get { return _sceneContext; }
         }
 
         [SetUp]
@@ -69,14 +70,9 @@ namespace Zenject
         [TearDown]
         public void TearDown()
         {
-            if (TestContext.CurrentContext.Result.Status == TestStatus.Passed)
+            if (TestContext.CurrentContext.Result.Outcome == ResultState.Success)
             {
-                // If we expected an exception then initialize would normally not be called
-                // Unless the initialize method itself is what caused the exception
-                if (!CurrentTestHasAttribute<ExpectedExceptionAttribute>())
-                {
-                    Assert.That(_hasStarted, "ZenjectIntegrationTestFixture.Initialize was not called by current test");
-                }
+                Assert.That(_hasStarted, "ZenjectIntegrationTestFixture.Initialize was not called by current test");
             }
 
             ClearScene();
@@ -85,8 +81,8 @@ namespace Zenject
         bool CurrentTestHasAttribute<T>()
             where T : Attribute
         {
-            var fullMethodName = TestContext.CurrentContext.Test.FullName;
-            var name = fullMethodName.Substring(fullMethodName.LastIndexOf(".")+1);
+            // tests with double parameters need to have their () removed first
+            var name = TestContext.CurrentContext.Test.FullName;
 
             // Remove all characters after the first open bracket if there is one
             int openBracketIndex = name.IndexOf("(");
@@ -95,6 +91,9 @@ namespace Zenject
             {
                 name = name.Substring(0, openBracketIndex);
             }
+
+            // Now we can get the substring starting at the last '.'
+            name = name.Substring(name.LastIndexOf(".") + 1);
 
             return this.GetType().GetMethod(name).GetCustomAttributes(true)
                 .Cast<Attribute>().OfType<T>().Any();
@@ -116,3 +115,4 @@ namespace Zenject
         }
     }
 }
+
