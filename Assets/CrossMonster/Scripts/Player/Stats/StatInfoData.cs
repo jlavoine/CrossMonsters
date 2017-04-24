@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class StatInfoData : IStatInfoData {
         public Dictionary<string, StatInfoEntry> Stats;
 

@@ -1,6 +1,6 @@
 ﻿using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IPlayerDataManager {
         IPlayerStatData PlayerStatData { get; set; }
         IStatInfoData StatInfoData { get; set; }

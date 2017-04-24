@@ -6,7 +6,7 @@ using MyLibrary;
 #pragma warning disable 0219
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     [TestFixture]
     public class TestMonsterData : CrossMonstersUnitTest {
         [Test]

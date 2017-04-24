@@ -1,6 +1,6 @@
 ﻿using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class AttackComboPiecePM : PresentationModel, IAttackComboPiecePM {
         public const string PIECE_TYPE_PROPERTY = "PieceType";
 

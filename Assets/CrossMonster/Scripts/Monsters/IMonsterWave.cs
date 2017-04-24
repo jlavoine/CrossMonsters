@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IMonsterWave {
         List<IGameMonster> CurrentMonsters { get; }
         List<IGameMonster> RemainingMonsters { get; }

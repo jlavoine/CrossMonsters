@@ -1,5 +1,5 @@
 ﻿
-namespace CrossMonsters {
+namespace MonsterMatch {
     public enum LootTypes {
         Treasure,
         Gold

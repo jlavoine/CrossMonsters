@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GameOverPM : PresentationModel {
         public const string VISIBLE_PROPERTY = "IsVisible";
         public const string BODY_TEXT_PROPERTY = "GameOverBody";

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class DungeonLoader {
         readonly ILoadingScreenPM mLoadingPM;
         readonly IBackendManager mBackendManager;

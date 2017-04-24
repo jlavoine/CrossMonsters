@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MainMenuInstaller : MonoInstaller {
         public override void InstallBindings() {
             Container.Bind<IInitializable>().To<AllTreasurePM>().AsSingle();

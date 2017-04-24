@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class ChainValidator_DiagonalPieces : IChainValidator_DiagonalPieces {
         [Inject]
         IGameRules GameRules;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IDungeonGameSessionData {
         List<string> GetMonsters();
         List<IDungeonRewardData> GetRewards();

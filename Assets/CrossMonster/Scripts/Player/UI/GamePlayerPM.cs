@@ -1,6 +1,6 @@
 ﻿using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GamePlayerPM : PresentationModel, IGamePlayerPM {
         public const string HP_PROPERTY = "RemainingHealth";
 

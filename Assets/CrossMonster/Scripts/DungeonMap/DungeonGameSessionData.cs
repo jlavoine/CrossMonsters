@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class DungeonGameSessionData : IDungeonGameSessionData {
         public List<string> Monsters;
         public List<DungeonRewardData> Rewards;

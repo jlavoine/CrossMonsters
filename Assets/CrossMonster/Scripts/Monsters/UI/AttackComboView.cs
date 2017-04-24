@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class AttackComboView : GroupView {
         public GameObject AttackComboPieceViewPrefab;
 

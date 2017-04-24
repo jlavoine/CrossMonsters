@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IChainProcessor {
         void Process( List<IGamePiece> i_chain );
     }

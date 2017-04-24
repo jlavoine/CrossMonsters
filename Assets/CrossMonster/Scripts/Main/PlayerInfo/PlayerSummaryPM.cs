@@ -1,6 +1,6 @@
 ﻿using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class PlayerSummaryPM : PresentationModel, IPlayerSummaryPM {
         public const string GOLD_PROPERTY = "Gold";
 

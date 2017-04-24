@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 using MyLibrary;
-using CrossMonsters;
+using MonsterMatch;
 
 public class ProjectInstaller : MonoInstaller {
     public override void InstallBindings() {

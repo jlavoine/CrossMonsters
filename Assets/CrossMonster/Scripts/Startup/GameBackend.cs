@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class CrossBackend : PlayFabBackend, ICrossBackend {
         public CrossBackend() : base() { }
 

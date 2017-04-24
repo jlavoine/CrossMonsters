@@ -2,7 +2,7 @@
 using Zenject;
 using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MonsterManager : IMonsterManager {       
         [Inject]
         IGameManager GameManager;

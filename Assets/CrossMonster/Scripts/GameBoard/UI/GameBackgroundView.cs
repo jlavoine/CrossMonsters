@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GameBackgroundView : GroupView {
         [Inject]
         IChainBuilder ChainManager;

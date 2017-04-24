@@ -5,7 +5,7 @@ using MyLibrary;
 
 #pragma warning disable 0219
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     [TestFixture]
     public class TestAttackComboPiecePM : CrossMonstersUnitTest {
 

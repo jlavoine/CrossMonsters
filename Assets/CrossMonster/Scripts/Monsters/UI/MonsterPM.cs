@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MonsterPM : PresentationModel, IMonsterPM {
         public const string ID_PROPERTY = "Id";
         public const string HP_PROPERTY = "HP";

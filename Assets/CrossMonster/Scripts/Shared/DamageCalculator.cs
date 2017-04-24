@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class DamageCalculator : IDamageCalculator {
         public int GetDamageFromMonster( IGameMonster i_monster, IGamePlayer i_player ) {
             int monsterAttack = i_monster.AttackPower;

@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class SingleRewardPM : PresentationModel, ISingleRewardPM {
         public const string COVER_VISIBLE_PROPERTY = "IsCoverVisible";
         public const string COUNT_PROPERTY = "Count";

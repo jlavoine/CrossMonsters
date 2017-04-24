@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class AllTreasurePM : PresentationModel, IInitializable {
         public const string VISIBLE_PROPERTY = "IsVisible";
 

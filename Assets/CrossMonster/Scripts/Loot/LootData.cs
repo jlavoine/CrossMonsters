@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class LootData : ILootData {
         public string Id;
         public LootTypes LootType;

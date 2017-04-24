@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class TreasurePM : PresentationModel, ITreasurePM {
         public const string VISIBLE_PROPERTY = "IsVisible";
 

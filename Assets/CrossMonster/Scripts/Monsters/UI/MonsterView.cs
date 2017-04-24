@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using UnityEngine;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MonsterView : GroupView {
         private IMonsterPM mPM;
 

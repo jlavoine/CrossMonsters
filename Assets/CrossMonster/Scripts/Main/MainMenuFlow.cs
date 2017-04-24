@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MainMenuFlow : ISceneStartFlowManager {
         readonly IUpcomingMaintenanceFlowStepSpawner mMaintenanceStepSpawner;
         readonly IShowNewsStepSpawner mNewStepSpawner;

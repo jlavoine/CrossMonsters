@@ -1,6 +1,6 @@
 ﻿using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IDungeonWavePM : IPresentationModel {
         void Show();
         void Hide();

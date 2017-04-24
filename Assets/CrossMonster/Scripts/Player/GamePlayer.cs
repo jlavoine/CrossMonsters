@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GamePlayer : IGamePlayer, IInitializable {
         [Inject]
         IMessageService Messenger;

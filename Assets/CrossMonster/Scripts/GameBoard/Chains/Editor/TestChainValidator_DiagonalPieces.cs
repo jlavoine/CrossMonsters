@@ -12,7 +12,7 @@ using Zenject;
 /// NOTE: All tests performed on a 6x3 board.
 /// </summary>
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     [TestFixture]
     public class TestChainValidator_DiagonalPieces : ZenjectUnitTestFixture {
         const int TEST_BOARD_SIZE = 6;

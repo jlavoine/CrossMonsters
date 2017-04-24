@@ -1,6 +1,6 @@
 ﻿using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IGamePiece : IBusinessModel {
         int PieceType { get; }
         int Index { get; }

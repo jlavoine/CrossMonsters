@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MainMenuFlowObject : MonoBehaviour {
 
         [Inject]

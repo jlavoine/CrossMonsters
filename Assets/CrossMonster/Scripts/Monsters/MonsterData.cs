@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MonsterData : IMonsterData {
         public string Id;
         public int MaxHP;

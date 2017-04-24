@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class Login {
 
         private string mLoginID;

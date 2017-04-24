@@ -2,7 +2,7 @@
 using Zenject;
 using UnityEngine;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class AllTreasureView : GroupView {
         [Inject]
         AllTreasurePM PM;

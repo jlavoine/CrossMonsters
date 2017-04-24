@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class LoginScreen : MonoBehaviour {
         public const string STATUS_WAITING_TO_CHOOSE = "Choose player to login";
         public const string STATUS_CONNECTING = "Connecting to server...";

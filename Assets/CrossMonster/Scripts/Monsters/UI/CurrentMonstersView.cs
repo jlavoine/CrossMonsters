@@ -3,7 +3,7 @@ using MyLibrary;
 using System.Collections.Generic;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class CurrentMonstersView : GroupView {
         public GameObject MonsterViewPrefab;
 

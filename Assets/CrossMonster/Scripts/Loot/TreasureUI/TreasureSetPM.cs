@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class TreasureSetPM : PresentationModel, ITreasureSetPM {
         public const string NAME_PROPERTY = "TreasureSetName";
 

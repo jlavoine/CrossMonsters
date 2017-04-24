@@ -1,5 +1,5 @@
 ﻿
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface ITreasureSetPM_Spawner {
         ITreasureSetPM Create( ITreasureSetData i_data );
     }

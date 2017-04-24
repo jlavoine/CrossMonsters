@@ -1,5 +1,5 @@
 ﻿
-namespace CrossMonsters {
+namespace MonsterMatch {
     public static class PlayerStats {
         public const string HP = "HP";
         public const string PHY_ATK = "PhyAtk";

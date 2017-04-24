@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GameManagerObject : MonoBehaviour {
         [Inject]
         IGameManager GameManager;

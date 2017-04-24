@@ -1,7 +1,7 @@
 ﻿using Zenject;
 using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GamePiece : BusinessModel, IGamePiece {
         [Inject]
         IGameRules GameRules;

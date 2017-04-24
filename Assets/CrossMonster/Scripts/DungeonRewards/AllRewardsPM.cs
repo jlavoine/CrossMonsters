@@ -2,7 +2,7 @@
 using MyLibrary;
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class AllRewardsPM : BasicWindowPM, IAllRewardsPM {
         public const string CAN_CONTINUE_PROPERTY = "CanContinue";
 

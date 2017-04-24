@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IGameRules {
         int GetGamePieceRotation( int i_pieceType );
         int GetActiveMonsterCount();

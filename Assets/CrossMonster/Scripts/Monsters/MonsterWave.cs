@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MonsterWave : IMonsterWave {
         readonly IGameRules mRules; // gah, sorry, it's late and I don't want to create a spawner...
 

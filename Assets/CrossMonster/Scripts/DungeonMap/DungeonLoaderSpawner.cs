@@ -1,5 +1,5 @@
 ﻿
-/*namespace CrossMonsters {
+/*namespace MonsterMatch {
     public interface IDungeonLoaderSpawner {
         IDungeonLoader Create( string i_id );
     }

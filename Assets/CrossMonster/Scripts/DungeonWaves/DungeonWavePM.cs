@@ -1,7 +1,7 @@
 ﻿using Zenject;
 using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class DungeonWavePM : PresentationModel, IDungeonWavePM {
         public const string WAVE_TEXT_PROPERTY = "WaveLabel";
         public const string TRIGGER_PROPERTY = "AnimationState";

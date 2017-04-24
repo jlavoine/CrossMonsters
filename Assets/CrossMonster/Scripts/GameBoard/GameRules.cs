@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GameRules : IGameRules {
         private Dictionary<int, int> mPieceRotations;
         public Dictionary<int, int> PieceRotations { get { return mPieceRotations; } set { mPieceRotations = value; } }

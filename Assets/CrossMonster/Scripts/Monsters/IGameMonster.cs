@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IGameMonster : IBusinessModel {
         string Id { get; }
         int RemainingHP { get; set; }

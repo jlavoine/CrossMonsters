@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class TreasureSetView : GroupView {
         [Inject]
         DiContainer container;

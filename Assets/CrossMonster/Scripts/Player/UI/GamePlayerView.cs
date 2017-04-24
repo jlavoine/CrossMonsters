@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GamePlayerView : GroupView {
         [Inject]
         IGamePlayerPM PM;

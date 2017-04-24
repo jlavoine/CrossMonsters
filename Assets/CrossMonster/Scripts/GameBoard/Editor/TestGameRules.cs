@@ -7,7 +7,7 @@ using System.Collections.Generic;
 #pragma warning disable 0219
 #pragma warning disable 0414
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     [TestFixture]
     public class TestGameRules : CrossMonstersUnitTest {
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MonsterWaveData : IMonsterWaveData {
         private List<IGameMonster> mMonsters = new List<IGameMonster>();
         public List<IGameMonster> Monsters { get { return mMonsters; } set { mMonsters = value; } }

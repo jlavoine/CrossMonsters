@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GameManager : IGameManager, IInitializable {
         [Inject]
         IMessageService MyMessenger;

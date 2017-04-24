@@ -2,7 +2,7 @@
 using NSubstitute;
 using MyLibrary;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     [TestFixture]
     public abstract class CrossMonstersUnitTest {
 

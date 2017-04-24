@@ -2,7 +2,7 @@
 using MyLibrary;
 using Newtonsoft.Json;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class MonsterDataManager : IMonsterDataManager {
         public const string MONSTER_DATA_TITLE_KEY = "MonsterData";
 

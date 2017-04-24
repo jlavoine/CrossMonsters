@@ -2,7 +2,7 @@
 using MyLibrary;
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GameMonster : BusinessModel, IGameMonster {
         private int mRemainingHP;
         private int mDefense;

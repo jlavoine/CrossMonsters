@@ -8,7 +8,7 @@ using Zenject;
 #pragma warning disable 0219
 #pragma warning disable 0414
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class TestDungeonLoader : ZenjectUnitTestFixture {
         public const string TEST_GAME_MODE = "Test";
 

@@ -1,7 +1,7 @@
 ﻿using MyLibrary;
 using UnityEngine;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GamePiecePM : PresentationModel, IGamePiecePM {
         public const string PIECE_TYPE_PROPERTY = "PieceType";
         public const string BG_COLOR_PROPERTY = "BackgroundColor";

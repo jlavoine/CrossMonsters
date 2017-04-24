@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class TreasureSetData : ITreasureSetData {
         public string Id;
         public List<string> TreasureInSet;

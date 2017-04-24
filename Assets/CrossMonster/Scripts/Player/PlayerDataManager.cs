@@ -2,7 +2,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class PlayerDataManager : IPlayerDataManager {
         public const string GOLD_KEY = "G1";
         public const string PLAYER_STATS_KEY = "StatsProgress";

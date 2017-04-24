@@ -1,5 +1,5 @@
 ﻿
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface ITreasurePM_Spawner {
         ITreasurePM Create( string i_id );
     }

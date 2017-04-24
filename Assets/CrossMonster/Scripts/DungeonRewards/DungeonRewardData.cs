@@ -1,5 +1,5 @@
 ﻿
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class DungeonRewardData : IDungeonRewardData {       
         public string Id;
         public LootTypes LootType;

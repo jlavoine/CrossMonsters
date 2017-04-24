@@ -1,7 +1,7 @@
 ﻿using Zenject;
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GameBoard : IGameBoard, IInitializable {
         [Inject]
         IGameRules GameRules;

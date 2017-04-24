@@ -2,7 +2,7 @@
 using Zenject;
 using UnityEngine;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class PlayerStatInfoView : GroupView {
         [Inject]
         IPlayerStatInfoPM PM;

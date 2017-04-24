@@ -2,7 +2,7 @@
 using MyLibrary;
 using Newtonsoft.Json;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class TreasureDataManager : ITreasureDataManager {
         public const string TREASURE_DATA_TITLE_KEY = "TreasureData";
         public const string TREASURE_SETS_TITLE_KEY = "TreasureSets";

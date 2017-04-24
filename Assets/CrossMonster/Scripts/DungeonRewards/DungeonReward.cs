@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class DungeonReward : IDungeonReward {
         public const string NAME_KEY = "_Name";
 

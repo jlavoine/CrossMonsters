@@ -1,5 +1,5 @@
 ﻿
-namespace CrossMonsters {
+namespace MonsterMatch {
     public static class GameMessages {
         public const string MONSTER_ATTACK = "MonsterAttack";
 

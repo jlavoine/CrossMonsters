@@ -1,7 +1,7 @@
 ﻿using Zenject;
 using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class GameInstaller : MonoInstaller {
         public override void InstallBindings() {
             Container.Bind<IChainBuilder>().To<ChainBuilder>().AsSingle();

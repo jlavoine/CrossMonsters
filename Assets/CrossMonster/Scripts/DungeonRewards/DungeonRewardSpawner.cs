@@ -1,5 +1,5 @@
 ﻿
-namespace CrossMonsters {
+namespace MonsterMatch {
     public interface IDungeonRewardSpawner {
         IDungeonReward Create( IDungeonRewardData i_data);
     }

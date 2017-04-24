@@ -4,7 +4,7 @@ using Zenject;
 
 #pragma warning disable 0219
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class InitManagers : MonoBehaviour {
 
         [Inject]

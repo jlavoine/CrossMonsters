@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class CurrentDungeonGameManager : ICurrentDungeonGameManager {
         private const int MONSTER_WAVE_COUNT = 3; // temp
         readonly IMonsterDataManager mMonsterDataManager;
