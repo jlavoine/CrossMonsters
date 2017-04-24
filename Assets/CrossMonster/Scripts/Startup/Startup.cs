@@ -7,19 +7,18 @@ using UnityEngine.SocialPlatforms.GameCenter;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 
-namespace CrossMonsters {
+namespace MonsterMatch {
     public class Startup : MonoBehaviour {
 
         void Start() {
             //UnityEngine.Debug.LogError( Social.localUser.authenticated );
             //UnityEngine.Debug.LogError( Social.localUser.id );
-            /*PlayerData test = new PlayerData();
-            test.HP = 100;
-            test.Defenses = new Dictionary<int, int>() { { 0, 0 }, { 1, 10 } };
-            test.Attacks = new Dictionary<int, int>() { { 0, 0 }, { 1, 10 } };
+            StatInfoData test = new StatInfoData();
+            test.Stats = new Dictionary<string, StatInfoEntry>();
+            test.Stats.Add( "hp", new StatInfoEntry() { Key = "hp", ValuePerLevel = 1 } );
+            test.Stats.Add( "PAtk", new StatInfoEntry() { Key = "Patk", ValuePerLevel = 1 } );
 
             string json = JsonConvert.SerializeObject( test );
-            UnityEngine.Debug.LogError( json );*/
 
 #if UNITY_STANDALONE
             Screen.SetResolution( 768, 1024, false );
