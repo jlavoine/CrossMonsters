@@ -38,6 +38,10 @@ namespace MonsterMatch {
             Container.Bind<IAccountAlreadyLinkedPM>().To<AccountAlreadyLinkedPM>().AsSingle();
             Container.Bind<IAccountLinkDonePM>().To<AccountLinkDonePM>().AsSingle();
             Container.Bind<IRemoveDeviceLinkPM>().To<RemoveDeviceLinkPM>().AsSingle();
+
+            Container.Bind<ITimedChestsMainPM>().To<TimedChestsMainPM>().AsSingle();
+            Container.BindFactory<ITimedChestData, TimedChestPM, TimedChestPM.Factory>();
+            Container.Bind<ITimedChestPM_Spawner>().To<TimedChestPM_Spawner>().AsSingle();            
         }
     }
 }

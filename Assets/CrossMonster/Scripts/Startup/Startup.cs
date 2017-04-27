@@ -13,12 +13,12 @@ namespace MonsterMatch {
         void Start() {
             //UnityEngine.Debug.LogError( Social.localUser.authenticated );
             //UnityEngine.Debug.LogError( Social.localUser.id );
-            StatInfoData test = new StatInfoData();
-            test.Stats = new Dictionary<string, StatInfoEntry>();
-            test.Stats.Add( "hp", new StatInfoEntry() { Key = "hp", ValuePerLevel = 1 } );
-            test.Stats.Add( "PAtk", new StatInfoEntry() { Key = "Patk", ValuePerLevel = 1 } );
+            List<TimedChestData> test = new List<TimedChestData>();
+            test.Add( new TimedChestData() { Id = "daily", KeyId = "Daily_Key", KeyDropRate = .1f, KeysRequired = 5, ResetType = "daily" } );
+            test.Add( new TimedChestData() { Id = "weekly", KeyId = "Weekly_Key", KeyDropRate = .1f, KeysRequired = 5, ResetType = "weekly" } );
 
             string json = JsonConvert.SerializeObject( test );
+            UnityEngine.Debug.LogError( json );
 
 #if UNITY_STANDALONE
             Screen.SetResolution( 768, 1024, false );

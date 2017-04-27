@@ -34,6 +34,9 @@ namespace MonsterMatch {
         ITreasureDataManager TreasureDataManager;
 
         [Inject]
+        ITimedChestDataManager TimedChestDataManager;
+
+        [Inject]
         IMonsterDataManager MonsterDataManager;
 
         [Inject]
@@ -147,6 +150,7 @@ namespace MonsterMatch {
 
             NewsManager.Init( mBackend );
             TreasureDataManager.Init( mBackend );
+            TimedChestDataManager.Init( mBackend );
             MonsterDataManager.Init( mBackend );
             PlayerDataManager.Init( mBackend );
 

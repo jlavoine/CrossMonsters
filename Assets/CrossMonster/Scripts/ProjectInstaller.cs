@@ -8,6 +8,7 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<IMessageService>().To<MyMessenger>().AsSingle();
         Container.Bind<MyLogger>().AsSingle();
         Container.Bind<ITreasureDataManager>().To<TreasureDataManager>().AsSingle();
+        Container.Bind<ITimedChestDataManager>().To<TimedChestDataManager>().AsSingle();
         Container.Bind<IMonsterDataManager>().To<MonsterDataManager>().AsSingle();
         Container.Bind<IPlayerDataManager>().To<PlayerDataManager>().AsSingle();        
         Container.Bind<IBackendManager>().To<BackendManager>().AsSingle();
