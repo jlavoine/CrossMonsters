@@ -17,7 +17,6 @@ namespace MyLibrary {
         }
 
         public void Init( IBasicBackend i_backend ) {
-            UnityEngine.Debug.LogError( "Initing app upgrade required manager" );
             mBackend = i_backend;
 
             DownloadLatestAppVersion();

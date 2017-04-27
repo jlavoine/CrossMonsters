@@ -26,7 +26,6 @@ namespace MyLibrary {
         }
 
         public void Init( IBasicBackend i_backend ) {
-            UnityEngine.Debug.LogError( "Initing upcoming maintenance manager" );
             mBackend = i_backend;
 
             DownloadUpcomingMaintenanceData();

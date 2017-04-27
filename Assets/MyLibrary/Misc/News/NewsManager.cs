@@ -14,7 +14,6 @@ namespace MyLibrary {
         public DateTime LastSeenNewsTime { get { return mLastSeenNewsTime; } set {mLastSeenNewsTime = value; } }
 
         public void Init( IBasicBackend i_backend ) {
-            UnityEngine.Debug.LogError( "Initing news manager" );
             mBackend = i_backend;
 
             DownloadNews();

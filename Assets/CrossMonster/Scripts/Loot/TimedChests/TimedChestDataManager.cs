@@ -13,7 +13,6 @@ namespace MonsterMatch {
         public List<ITimedChestData> TimedChestData { get { return mAllChestData; } set { mAllChestData = value; } }
 
         public void Init( IBasicBackend i_backend ) {
-            UnityEngine.Debug.LogError( "Initing timed chest data manager" );
             mBackend = i_backend;
 
             DownloadTimedChestData();

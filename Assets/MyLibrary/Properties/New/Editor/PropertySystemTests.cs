@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using UnityEngine.TestTools;
 
 #pragma warning disable 0414
 
@@ -7,6 +8,7 @@ namespace MyLibrary {
 
         [Test]
         public void UncreatedPropertyIsNull() {
+            LogAssert.Expect( UnityEngine.LogType.Error, "Trying to get a property that doesn't exist: None" );
             PropertySet propertySet = new PropertySet();
 
             Property property = propertySet.GetProperty( "None" );

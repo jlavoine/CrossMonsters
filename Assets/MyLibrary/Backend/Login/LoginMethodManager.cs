@@ -22,7 +22,7 @@ namespace MyLibrary {
         IBackendManager BackendManager;
 
         public void Authenticate() {
-            UnityEngine.Debug.LogError( "About to authenticate with: " + PreferredLoginMethod.LoginMethod );
+            //UnityEngine.Debug.LogError( "About to authenticate with: " + PreferredLoginMethod.LoginMethod );
 
             EnsureValidLoginMethod();
             LogInWithMethod();
@@ -30,9 +30,8 @@ namespace MyLibrary {
 
         public void OnLogin() {
             IBasicBackend backend = BackendManager.GetBackend<IBasicBackend>();
-            UnityEngine.Debug.LogError( "ONLOGIN with " + PreferredLoginMethod.LoginMethod );
-            if ( PreferredLoginMethod.LoginMethod != LoginMethods.DeviceId ) {                
-                UnityEngine.Debug.LogError( "Logged in with something other than device, so force linking device" );
+            //UnityEngine.Debug.LogError( "ONLOGIN with " + PreferredLoginMethod.LoginMethod );
+            if ( PreferredLoginMethod.LoginMethod != LoginMethods.DeviceId ) {                              
                 backend.LinkDeviceToAccount( (result) => { } );
             }
 
@@ -46,7 +45,7 @@ namespace MyLibrary {
         }
 
         private void LogInWithMethod() {
-            UnityEngine.Debug.LogError( "Logging in with " + PreferredLoginMethod.LoginMethod );
+            //UnityEngine.Debug.LogError( "Logging in with " + PreferredLoginMethod.LoginMethod );
 
             switch ( PreferredLoginMethod.LoginMethod ) {
                 case LoginMethods.GameCenter:
