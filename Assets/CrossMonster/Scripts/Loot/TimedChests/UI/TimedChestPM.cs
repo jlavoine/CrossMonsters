@@ -61,13 +61,9 @@ namespace MonsterMatch {
 
         private void CreateCountdownIfUnavailable() {
             if ( !IsAvailable() ) {
-                mCountdownUntilAvailable = mCountdownSpawner.Create( mSaveData.GetNextAvailableTime( mData.GetId() ), new CountdownCallback( OnAvailable ) );
+                mCountdownUntilAvailable = mCountdownSpawner.Create( mSaveData.GetNextAvailableTime( mData.GetId() ), new CountdownCallback( UpdateAvailability ) );
                 ViewModel.SetProperty( COUNTDOWN_PROPERTY, mCountdownUntilAvailable );
             }
-        }
-
-        private void OnAvailable() {
-
         }
 
         private bool IsAvailable() {
