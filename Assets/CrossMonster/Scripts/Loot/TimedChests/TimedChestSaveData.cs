@@ -26,7 +26,7 @@ namespace MonsterMatch {
             if ( SaveData.ContainsKey( i_id ) ) {
                 DateTime nextAvailable = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
                 nextAvailable = nextAvailable.AddMilliseconds( SaveData[i_id].GetNextAvailableTime() );
-                DateTime backendTime = mBackend.GetDateTime();
+                DateTime backendTime = mBackend.GetDateTime();                
                 return backendTime >= nextAvailable;
             } else {
                 return false;

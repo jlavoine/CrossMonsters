@@ -1,5 +1,6 @@
 ﻿using MyLibrary;
 using Zenject;
+using System;
 
 namespace MonsterMatch {
     public class TimedChestPM : PresentationModel, ITimedChestPM {
@@ -9,6 +10,7 @@ namespace MonsterMatch {
         public const string AVAILABLE_PROPERTY = "IsAvailable";
         public const string UNAVAILABLE_PROPERTY = "IsUnavailable";
         public const string COUNTDOWN_PROPERTY = "Countdown";
+        public const string COUNTDOWN_FORMAT_PROPERTY = "CountdownFormat";
 
         readonly IStringTableManager mStringTable;
         readonly ITimedChestSaveData mSaveData;
@@ -25,8 +27,20 @@ namespace MonsterMatch {
 
             SetName();
             SetKeyProgress();
+            SetCountdownFormatProperty();
             UpdateAvailability();
             CreateCountdownIfUnavailable();
+        }
+
+        public string GetCountdownTimeFormatted( long i_remainingTimeInMs ) {
+            TimeSpan ts = TimeSpan.FromMilliseconds( i_remainingTimeInMs );
+            if ( ts.TotalDays > 1 ) {
+                return (int)ts.TotalDays + " days, " + ts.Hours + " hours";
+            } else if ( ts.TotalHours > 1 ) {
+                return (int)ts.TotalHours + " hours, " + ts.Minutes + " minutes";
+            } else {
+                return (int)ts.TotalMinutes + " minutes," + ts.Seconds + " seconds";
+            }
         }
 
         private void SetName() {
@@ -58,6 +72,16 @@ namespace MonsterMatch {
 
         private bool IsAvailable() {
             return mSaveData.IsChestAvailable( mData.GetId() );
+        }
+
+        private void SetCountdownFormatProperty() {
+            Action<long, Action<string>> action = FormatCountdown;
+            ViewModel.SetProperty( COUNTDOWN_FORMAT_PROPERTY, action );
+        }
+
+        private void FormatCountdown( long i_remainingTimeMs, Action<string> i_callback ) {
+            string text = GetCountdownTimeFormatted( i_remainingTimeMs );
+            i_callback( text );
         }
 
         public class Factory : Factory<ITimedChestData, TimedChestPM> { }
