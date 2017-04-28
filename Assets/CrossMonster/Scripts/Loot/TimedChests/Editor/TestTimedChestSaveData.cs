@@ -85,6 +85,23 @@ namespace MonsterMatch {
             Assert.AreEqual( 1000, systemUnderTest.GetNextAvailableTime( "TestChest" ) );
         }
 
+        static object[] CanOpenTests = {
+            new object[] { 5, 5, true },
+            new object[] { 5, 10, false },
+            new object[] { 0, 5, false },
+        };
+
+        [Test, TestCaseSource( "CanOpenTests" )]
+        public void CanOpenChest_ReturnsAsExpected( int i_ownedKeys, int i_requiredKeys, bool i_expected ) {
+            MockInventory.GetItemCount( Arg.Any<string>() ).Returns( i_ownedKeys );
+            ITimedChestData mockData = Substitute.For<ITimedChestData>();
+            mockData.GetKeysRequired().Returns( i_requiredKeys );
+
+            bool canOpen = systemUnderTest.CanOpenChest( mockData );
+
+            Assert.AreEqual( i_expected, canOpen );
+        }
+
         private void InitSystemWithBackendTime( long i_time ) {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             mockBackend.GetDateTime().Returns( new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ).AddMilliseconds( i_time ) );

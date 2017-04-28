@@ -11,6 +11,7 @@ namespace MonsterMatch {
         public const string UNAVAILABLE_PROPERTY = "IsUnavailable";
         public const string COUNTDOWN_PROPERTY = "Countdown";
         public const string COUNTDOWN_FORMAT_PROPERTY = "CountdownFormat";
+        public const string CAN_OPEN_PROPERTY = "CanOpen";
 
         readonly IStringTableManager mStringTable;
         readonly ITimedChestSaveData mSaveData;
@@ -27,6 +28,7 @@ namespace MonsterMatch {
 
             SetName();
             SetKeyProgress();
+            SetCanOpenProperty();
             SetCountdownFormatProperty();
             UpdateAvailability();
             CreateCountdownIfUnavailable();
@@ -39,7 +41,7 @@ namespace MonsterMatch {
             } else if ( ts.TotalHours > 1 ) {
                 return (int)ts.TotalHours + " hours, " + ts.Minutes + " minutes";
             } else {
-                return (int)ts.TotalMinutes + " minutes," + ts.Seconds + " seconds";
+                return (int)ts.TotalMinutes + " minutes, " + ts.Seconds + " seconds";
             }
         }
 
@@ -51,6 +53,11 @@ namespace MonsterMatch {
         private void SetKeyProgress() {
             ViewModel.SetProperty( CURRENT_KEYS_PROPERTY, mSaveData.GetCurrentKeysForChest( mData.GetKeyId() ).ToString() );
             ViewModel.SetProperty( REQUIRED_KEYS_PROPERTY, mData.GetKeysRequired().ToString() );
+        }
+
+        private void SetCanOpenProperty() {
+            bool canOpen = mSaveData.CanOpenChest( mData );
+            ViewModel.SetProperty( CAN_OPEN_PROPERTY, canOpen );
         }
 
         private void UpdateAvailability() {

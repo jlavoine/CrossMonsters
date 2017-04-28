@@ -26,11 +26,18 @@ namespace MonsterMatch {
             if ( SaveData.ContainsKey( i_id ) ) {
                 DateTime nextAvailable = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
                 nextAvailable = nextAvailable.AddMilliseconds( SaveData[i_id].GetNextAvailableTime() );
-                DateTime backendTime = mBackend.GetDateTime();                
+                DateTime backendTime = mBackend.GetDateTime();
                 return backendTime >= nextAvailable;
             } else {
                 return false;
             }
+        }
+
+        public bool CanOpenChest( ITimedChestData i_data ) {
+            int keysRequired = i_data.GetKeysRequired();
+            int keysOwned = GetCurrentKeysForChest( i_data.GetKeyId() );
+
+            return keysOwned >= keysRequired;
         }
 
         public long GetNextAvailableTime( string i_id ) {

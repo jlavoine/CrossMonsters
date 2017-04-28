@@ -35,6 +35,24 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenCreated_CanOpenPropertyIsFalse_IfCannotOpen() {
+            MockSaveData.CanOpenChest( Arg.Any<ITimedChestData>() ).Returns( false );
+
+            TimedChestPM systemUnderTest = CreateSystem();
+
+            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( TimedChestPM.CAN_OPEN_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenCreated_CanOpenPropertyIsTrue_IfCanOpen() {
+            MockSaveData.CanOpenChest( Arg.Any<ITimedChestData>() ).Returns( true );
+
+            TimedChestPM systemUnderTest = CreateSystem();
+
+            Assert.IsTrue( systemUnderTest.ViewModel.GetPropertyValue<bool>( TimedChestPM.CAN_OPEN_PROPERTY ) );
+        }
+
+        [Test]
         public void WhenCreated_KeyProgress_IsExpected() {
             MockData.GetKeysRequired().Returns( 10 );
             MockSaveData.GetCurrentKeysForChest( Arg.Any<string>() ).Returns( 3 );

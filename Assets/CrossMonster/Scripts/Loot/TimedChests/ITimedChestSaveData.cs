@@ -5,6 +5,7 @@ namespace MonsterMatch {
         void Init( IBasicBackend i_backend );
         
         bool IsChestAvailable( string i_id );
+        bool CanOpenChest( ITimedChestData i_data );
 
         int GetCurrentKeysForChest( string i_keyId );
 
