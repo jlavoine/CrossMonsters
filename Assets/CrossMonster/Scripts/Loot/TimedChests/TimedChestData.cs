@@ -11,5 +11,13 @@ namespace MonsterMatch {
         public string GetNameKey() {
             return Id + "TimedChest_Name";
         }
+
+        public string GetKeyId() {
+            return KeyId;
+        }
+
+        public int GetKeysRequired() {
+            return KeysRequired;
+        }
     }
 }
