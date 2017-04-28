@@ -27,7 +27,8 @@ namespace MyLibrary {
 
         private void SetCanvasInteractables() {
             bool isInteractable = GetAlphaValue() > 0;
-            CanvasGroup.interactable = isInteractable;            
+            CanvasGroup.interactable = isInteractable;
+            CanvasGroup.blocksRaycasts = isInteractable;         
         }
 
         private float GetAlphaValue() {
