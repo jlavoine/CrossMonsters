@@ -24,7 +24,6 @@ namespace MonsterMatch {
             systemUnderTest.Init( mockBackend );
 
             mockBackend.Received().GetTitleData( TimedChestDataManager.TITLE_KEY, Arg.Any<Callback<string>>() );
-            mockBackend.Received().GetReadOnlyPlayerData( TimedChestDataManager.SAVE_DATA_KEY, Arg.Any<Callback<string>>() );
         }
     }
 }

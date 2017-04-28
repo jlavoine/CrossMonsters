@@ -6,7 +6,11 @@ namespace MonsterMatch {
         public string ResetType;
 
         public float KeyDropRate;
-        public int KeysRequired;       
+        public int KeysRequired;   
+        
+        public string GetId() {
+            return Id;
+        }    
 
         public string GetNameKey() {
             return Id + "TimedChest_Name";
