@@ -7,7 +7,8 @@ namespace MyLibrary {
 
         private Dictionary<string, IMyCatalogItem> mCatalog;
 
-        private List<IMyItemInstance> mInventory;
+        private Dictionary<string, IMyItemInstance> mInventory;
+        public Dictionary<string, IMyItemInstance> Inventory { get { return mInventory; } set { mInventory = value; } }
 
         public void Init( IBasicBackend i_backend ) {
             mBackend = i_backend;
@@ -15,13 +16,22 @@ namespace MyLibrary {
             DownloadItemCatalogAndPlayerInventory();           
         }
 
-        private void DownloadItemCatalogAndPlayerInventory() {
-            UnityEngine.Debug.LogError( "Downloading catalog and inv" );
+        public int GetItemCount( string i_itemId ) {
+            if ( Inventory.ContainsKey( i_itemId ) ) {
+                return Inventory[i_itemId].GetCount();
+            } else {
+                return 0;
+            }
+        }
 
+        private void DownloadItemCatalogAndPlayerInventory() {
             mBackend.GetItemCatalog( ( catalogResult ) => {
                 mCatalog = catalogResult;                
                 mBackend.GetInventory( ( inventoryResult ) => {
-                    mInventory = inventoryResult;
+                    Inventory = new Dictionary<string, IMyItemInstance>();
+                    foreach ( IMyItemInstance item in inventoryResult ) {
+                        Inventory.Add( item.GetId(), item );
+                    }                    
                 } );
             } );
         }
