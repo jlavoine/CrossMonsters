@@ -8,20 +8,25 @@ namespace MonsterMatch {
         public const string REQUIRED_KEYS_PROPERTY = "RequiredKeys";
         public const string AVAILABLE_PROPERTY = "IsAvailable";
         public const string UNAVAILABLE_PROPERTY = "IsUnavailable";
+        public const string COUNTDOWN_PROPERTY = "Countdown";
 
         readonly IStringTableManager mStringTable;
         readonly ITimedChestSaveData mSaveData;
+        readonly IMyCountdown_Spawner mCountdownSpawner;
 
         private ITimedChestData mData;
+        private IMyCountdown mCountdownUntilAvailable;
 
-        public TimedChestPM( IStringTableManager i_stringTable, ITimedChestSaveData i_saveData, ITimedChestData i_data ) {
+        public TimedChestPM( IStringTableManager i_stringTable, ITimedChestSaveData i_saveData, IMyCountdown_Spawner i_countdownSpawner, ITimedChestData i_data ) {
             mStringTable = i_stringTable;
+            mCountdownSpawner = i_countdownSpawner;
             mSaveData = i_saveData;
             mData = i_data;
 
             SetName();
             SetKeyProgress();
             UpdateAvailability();
+            CreateCountdownIfUnavailable();
         }
 
         private void SetName() {
@@ -35,9 +40,24 @@ namespace MonsterMatch {
         }
 
         private void UpdateAvailability() {
-            bool isAvailable = mSaveData.IsChestAvailable( mData.GetId() );
+            bool isAvailable = IsAvailable();
             ViewModel.SetProperty( AVAILABLE_PROPERTY, isAvailable );
             ViewModel.SetProperty( UNAVAILABLE_PROPERTY, !isAvailable );
+        }
+
+        private void CreateCountdownIfUnavailable() {
+            if ( !IsAvailable() ) {
+                mCountdownUntilAvailable = mCountdownSpawner.Create( mSaveData.GetNextAvailableTime( mData.GetId() ), new CountdownCallback( OnAvailable ) );
+                ViewModel.SetProperty( COUNTDOWN_PROPERTY, mCountdownUntilAvailable );
+            }
+        }
+
+        private void OnAvailable() {
+
+        }
+
+        private bool IsAvailable() {
+            return mSaveData.IsChestAvailable( mData.GetId() );
         }
 
         public class Factory : Factory<ITimedChestData, TimedChestPM> { }

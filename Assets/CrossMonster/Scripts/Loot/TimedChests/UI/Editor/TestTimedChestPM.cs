@@ -14,12 +14,14 @@ namespace MonsterMatch {
         private IStringTableManager MockStringTable;
         private ITimedChestSaveData MockSaveData;
         private ITimedChestData MockData;
+        private IMyCountdown_Spawner MockCountdownSpawner;
 
         [SetUp]
         public void CommonInstall() {
             MockStringTable = Substitute.For<IStringTableManager>();
             MockSaveData = Substitute.For<ITimedChestSaveData>();
-            MockData = Substitute.For<ITimedChestData>();   
+            MockData = Substitute.For<ITimedChestData>();
+            MockCountdownSpawner = Substitute.For<IMyCountdown_Spawner>();
         }
 
         [Test]
@@ -63,8 +65,26 @@ namespace MonsterMatch {
             Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( TimedChestPM.UNAVAILABLE_PROPERTY ) );
         }
 
+        [Test]
+        public void WhenChestIsAvailable_NoCountdownCreated() {
+            MockSaveData.IsChestAvailable( Arg.Any<string>() ).Returns( true );
+
+            TimedChestPM systemUnderTest = CreateSystem();
+
+            MockCountdownSpawner.DidNotReceive().Create( Arg.Any<long>(), Arg.Any<ICountdownCallback>() );
+        }
+
+        [Test]
+        public void WhenChestNoAvailable_CountdownIsCreated() {
+            MockSaveData.IsChestAvailable( Arg.Any<string>() ).Returns( false );
+
+            TimedChestPM systemUnderTest = CreateSystem();
+
+            MockCountdownSpawner.Received().Create( Arg.Any<long>(), Arg.Any<ICountdownCallback>() );
+        }
+
         private TimedChestPM CreateSystem() {
-            return new TimedChestPM( MockStringTable, MockSaveData, MockData );
+            return new TimedChestPM( MockStringTable, MockSaveData, MockCountdownSpawner, MockData );
         }
     }
 }

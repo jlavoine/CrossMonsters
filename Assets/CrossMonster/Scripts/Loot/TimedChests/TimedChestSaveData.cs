@@ -33,6 +33,15 @@ namespace MonsterMatch {
             }
         }
 
+        public long GetNextAvailableTime( string i_id ) {
+            if ( SaveData.ContainsKey( i_id ) ) {
+                return (long)SaveData[i_id].GetNextAvailableTime();
+            }
+            else {
+                return 0;
+            }
+        }
+
         public int GetCurrentKeysForChest( string i_keyId ) {
             return Inventory.GetItemCount( i_keyId );
         }

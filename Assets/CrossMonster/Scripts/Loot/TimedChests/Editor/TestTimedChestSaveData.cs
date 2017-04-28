@@ -70,6 +70,21 @@ namespace MonsterMatch {
             Assert.IsFalse( systemUnderTest.IsChestAvailable( "TestChest" ) );
         }
 
+        [Test]
+        public void GetNextAvailableTime_ReturnsZero_IfNoData() {
+            systemUnderTest.SaveData = new Dictionary<string, ITimedChestSaveDataEntry>();
+
+            Assert.AreEqual( 0, systemUnderTest.GetNextAvailableTime( "NotInDict" ) );
+        }
+
+        [Test]
+        public void GetNextAvailableTime_ReturnsNextAvailableFromData() {
+            systemUnderTest.SaveData = new Dictionary<string, ITimedChestSaveDataEntry>();
+            SetSaveDataWithMockEntryOfAvailableTime( "TestChest", 1000 );
+
+            Assert.AreEqual( 1000, systemUnderTest.GetNextAvailableTime( "TestChest" ) );
+        }
+
         private void InitSystemWithBackendTime( long i_time ) {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             mockBackend.GetDateTime().Returns( new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ).AddMilliseconds( i_time ) );

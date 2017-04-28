@@ -7,5 +7,7 @@ namespace MonsterMatch {
         bool IsChestAvailable( string i_id );
 
         int GetCurrentKeysForChest( string i_keyId );
+
+        long GetNextAvailableTime( string i_id );
     }
 }

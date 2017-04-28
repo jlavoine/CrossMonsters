@@ -22,6 +22,9 @@ public class ProjectInstaller : MonoInstaller {
 
         Container.Bind<ICurrentDungeonGameManager>().To<CurrentDungeonGameManager>().AsSingle();
         Container.BindFactory<IDungeonRewardData, DungeonReward, DungeonReward.Factory>();
-        Container.Bind<IDungeonRewardSpawner>().To<DungeonRewardSpawner>().AsSingle();        
+        Container.Bind<IDungeonRewardSpawner>().To<DungeonRewardSpawner>().AsSingle();
+
+        Container.BindFactory<long, ICountdownCallback, MyCountdown, MyCountdown.Factory>();
+        Container.Bind<IMyCountdown_Spawner>().To<MyCountdown_Spawner>().AsSingle();
     }
 }
