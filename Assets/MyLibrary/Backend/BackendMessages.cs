@@ -9,6 +9,9 @@ namespace MyLibrary {
 
         public const string GET_NEWS_FAIL = "GetNewsFail";
 
+        public const string GET_CATALOG_FAIL = "GetCatalogFail";
+        public const string GET_INVENTORY_FAIL = "GetInventoryFail";
+
         public const string CLOUD_SETUP_SUCCESS = "CloudSetupSuccess";
         public const string CLOUD_SETUP_FAIL = "CloudSetupFail";
 

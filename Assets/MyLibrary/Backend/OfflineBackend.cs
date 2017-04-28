@@ -163,5 +163,13 @@ namespace MyLibrary {
         public void GetAccountInfo() {
             throw new NotImplementedException();
         }
+
+        public void GetItemCatalog( Callback<Dictionary<string, IMyCatalogItem>> successCallback ) {
+            throw new NotImplementedException();
+        }
+
+        public void GetInventory( Callback<List<IMyItemInstance>> successCallback ) {
+            throw new NotImplementedException();
+        }
     }
 }

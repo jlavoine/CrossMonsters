@@ -31,6 +31,9 @@ namespace MonsterMatch {
         public TextMeshProUGUI LoginStatusText;
 
         [Inject]
+        IPlayerInventoryManager PlayerInventoryManager;
+
+        [Inject]
         ITreasureDataManager TreasureDataManager;
 
         [Inject]
@@ -153,6 +156,7 @@ namespace MonsterMatch {
             TimedChestDataManager.Init( mBackend );
             MonsterDataManager.Init( mBackend );
             PlayerDataManager.Init( mBackend );
+            PlayerInventoryManager.Init( mBackend );
 
             //Constants.Init( mBackend );
             //GenericDataLoader.Init( mBackend );

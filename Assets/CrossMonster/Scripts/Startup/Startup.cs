@@ -13,9 +13,7 @@ namespace MonsterMatch {
         void Start() {
             //UnityEngine.Debug.LogError( Social.localUser.authenticated );
             //UnityEngine.Debug.LogError( Social.localUser.id );
-            List<TimedChestData> test = new List<TimedChestData>();
-            test.Add( new TimedChestData() { Id = "daily", KeyId = "Daily_Key", KeyDropRate = .1f, KeysRequired = 5, ResetType = "daily" } );
-            test.Add( new TimedChestData() { Id = "weekly", KeyId = "Weekly_Key", KeyDropRate = .1f, KeysRequired = 5, ResetType = "weekly" } );
+            List<string> test = new List<string>() { "a", "b" };
 
             string json = JsonConvert.SerializeObject( test );
             UnityEngine.Debug.LogError( json );

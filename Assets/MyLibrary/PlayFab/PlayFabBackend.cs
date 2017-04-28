@@ -370,6 +370,37 @@ namespace MyLibrary {
             ( error ) => { HandleError( error, BackendMessages.TITLE_DATA_FAIL ); } );
         }
 
+        public void GetItemCatalog( Callback<Dictionary<string, IMyCatalogItem>> successCallback ) {
+            StartRequest( "Getting item catalog" );
+            GetCatalogItemsRequest request = new GetCatalogItemsRequest();
+
+            PlayFabClientAPI.GetCatalogItems( request, ( result ) => {
+                Dictionary<string, IMyCatalogItem> catalogItems = new Dictionary<string, IMyCatalogItem>();
+                foreach ( CatalogItem item in result.Catalog ) {
+                    RequestComplete( "GetItemCatalog() complete", LogTypes.Info );
+                    catalogItems.Add( item.ItemId, new MyCatalogItem() { Id = item.ItemId, Tags = item.Tags } );
+                }
+
+                successCallback( catalogItems );
+            },
+            ( error ) => { HandleError( error, BackendMessages.GET_CATALOG_FAIL ); } );
+        }
+
+        public void GetInventory( Callback<List<IMyItemInstance>> successCallback ) {
+            StartRequest( "Getting inventory" );
+            GetUserInventoryRequest request = new GetUserInventoryRequest();
+
+            PlayFabClientAPI.GetUserInventory( request, ( result ) => {
+                RequestComplete( "GetInventory() complete", LogTypes.Info );
+                List<IMyItemInstance> items = new List<IMyItemInstance>();
+                foreach( ItemInstance item in result.Inventory ) {
+                    items.Add( new MyItemInstance() { Id = item.ItemId, Count = (int)item.RemainingUses } );
+                }
+                successCallback( items );
+            },
+            (error) => { HandleError( error, BackendMessages.GET_INVENTORY_FAIL ); } );
+        }
+
         public void GetNews( Callback<List<IBasicNewsData>> successCallback ) {
             StartRequest( "Getting news" );
 

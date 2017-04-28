@@ -16,6 +16,7 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<IStringTableManager>().To<StringTableManager>().AsSingle();
         Container.Bind<IUpcomingMaintenanceManager>().To<UpcomingMaintenanceManager>().AsSingle();
         Container.Bind<INewsManager>().To<NewsManager>().AsSingle();
+        Container.Bind<IPlayerInventoryManager>().To<PlayerInventoryManager>().AsSingle();
         Container.Bind<IPreferredLoginMethod>().To<PreferredLoginMethod>().AsSingle();
 
         Container.Bind<ICurrentDungeonGameManager>().To<CurrentDungeonGameManager>().AsSingle();
