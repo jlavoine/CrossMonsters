@@ -14,7 +14,7 @@ namespace MyLibrary {
 
         [Test]
         public void WhenCreatingCountdown_TargetTime_AsExpected() {
-            MyCountdown systemUnderTest = new MyCountdown( Substitute.For<IBackendManager>(), 1000 );
+            MyCountdown systemUnderTest = new MyCountdown( Substitute.For<IBackendManager>(), 1000, Substitute.For<ICountdownCallback>() );
 
             Assert.AreEqual( 1000, systemUnderTest.TargetTimeMs );
         }
@@ -33,7 +33,7 @@ namespace MyLibrary {
             IBackendManager mockBackendManager = Substitute.For<IBackendManager>();
             mockBackendManager.GetBackend<IBasicBackend>().Returns( mockBackend );
 
-            MyCountdown systemUnderTest = new MyCountdown( mockBackendManager, i_targetTime );
+            MyCountdown systemUnderTest = new MyCountdown( mockBackendManager, i_targetTime, Substitute.For<ICountdownCallback>() );
 
             Assert.AreEqual( i_expectedRemainingTime, systemUnderTest.RemainingTimeMs );
         }
@@ -47,7 +47,7 @@ namespace MyLibrary {
 
         [Test, TestCaseSource( "TickTests" )]
         public void CountdownTicks_AsExpected( long i_remainingTimeMs, long i_tickTimeMs, long i_expectedRemainingTimeMs ) {
-            MyCountdown systemUnderTest = new MyCountdown( Substitute.For<IBackendManager>(), 0 );
+            MyCountdown systemUnderTest = new MyCountdown( Substitute.For<IBackendManager>(), 0, Substitute.For<ICountdownCallback>() );
             systemUnderTest.RemainingTimeMs = i_remainingTimeMs;
 
             systemUnderTest.Tick( i_tickTimeMs );
@@ -69,7 +69,7 @@ namespace MyLibrary {
 
         [Test]
         public void WhenCountdownIsTicked_AndNoRemainingTime_IfNullCallback_NoError() {
-            MyCountdown systemUnderTest = new MyCountdown( Substitute.For<IBackendManager>(), 0 );
+            MyCountdown systemUnderTest = new MyCountdown( Substitute.For<IBackendManager>(), 0, Substitute.For<ICountdownCallback>() );
             systemUnderTest.RemainingTimeMs = 0;
 
             systemUnderTest.Tick( 0 );

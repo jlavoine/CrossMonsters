@@ -1,4 +1,5 @@
 ﻿using System;
+using Zenject;
 
 namespace MyLibrary {
     public class MyCountdown : IMyCountdown {
@@ -13,7 +14,7 @@ namespace MyLibrary {
         private ICountdownCallback mCallback;
         public ICountdownCallback Callback { get { return mCallback; } set { mCallback = value; } }
 
-        public MyCountdown( IBackendManager i_backend, long i_targetTimeMs, ICountdownCallback i_callback = null ) {
+        public MyCountdown( IBackendManager i_backend, long i_targetTimeMs, ICountdownCallback i_callback ) {
             mBackend = i_backend;
             Callback = i_callback;
             TargetTimeMs = i_targetTimeMs;
@@ -46,6 +47,8 @@ namespace MyLibrary {
                 Callback = null;
             }
         }
+
+        public class Factory : Factory<long, ICountdownCallback, MyCountdown> { }
     }
 
     public interface ICountdownCallback {
