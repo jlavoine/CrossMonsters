@@ -376,12 +376,13 @@ namespace MyLibrary {
 
             PlayFabClientAPI.GetCatalogItems( request, ( result ) => {
                 Dictionary<string, IMyCatalogItem> catalogItems = new Dictionary<string, IMyCatalogItem>();
-                foreach ( CatalogItem item in result.Catalog ) {
-                    RequestComplete( "GetItemCatalog() complete", LogTypes.Info );
+                foreach ( CatalogItem item in result.Catalog ) {                    
                     catalogItems.Add( item.ItemId, new MyCatalogItem() { Id = item.ItemId, Tags = item.Tags } );
                 }
 
                 successCallback( catalogItems );
+
+                RequestComplete( "GetItemCatalog() complete", LogTypes.Info ); // do this AFTER so that the callback is processed
             },
             ( error ) => { HandleError( error, BackendMessages.GET_CATALOG_FAIL ); } );
         }

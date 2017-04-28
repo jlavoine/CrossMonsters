@@ -151,12 +151,12 @@ namespace MonsterMatch {
 
             yield return InitPlayer();
 
+            PlayerInventoryManager.Init( mBackend );
             NewsManager.Init( mBackend );
             TreasureDataManager.Init( mBackend );
             TimedChestDataManager.Init( mBackend );
             MonsterDataManager.Init( mBackend );
-            PlayerDataManager.Init( mBackend );
-            PlayerInventoryManager.Init( mBackend );
+            PlayerDataManager.Init( mBackend );            
 
             //Constants.Init( mBackend );
             //GenericDataLoader.Init( mBackend );
