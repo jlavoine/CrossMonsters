@@ -24,6 +24,12 @@ namespace MyLibrary {
             }
         }
 
+        public void RemoveUsesFromItem( string i_itemId, int i_count ) {
+            if ( Inventory.ContainsKey( i_itemId ) ) {
+                Inventory[i_itemId].RemoveUses( i_count );
+            }
+        }
+
         private void DownloadItemCatalogAndPlayerInventory() {
             mBackend.GetItemCatalog( ( catalogResult ) => {
                 mCatalog = catalogResult;                

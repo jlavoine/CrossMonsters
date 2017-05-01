@@ -43,5 +43,29 @@ namespace MyLibrary {
 
             Assert.AreEqual( 111, systemUnderTest.GetItemCount( "SomeItem" ) );
         }
+
+        [Test]
+        public void WhenRemovingUsesFromItem_IfItemIsInInventory_UsesAreRemoved() {
+            IMyItemInstance mockItem_1 = Substitute.For<IMyItemInstance>();
+            IMyItemInstance mockItem_2 = Substitute.For<IMyItemInstance>();
+
+            systemUnderTest.Inventory = new Dictionary<string, IMyItemInstance>() { { "Item_1", mockItem_1 }, { "Item_2", mockItem_2 } };
+            systemUnderTest.RemoveUsesFromItem( "Item_1", 1 );
+
+            mockItem_1.Received().RemoveUses( 1 );
+            mockItem_2.DidNotReceive().RemoveUses( 1 );
+        }
+
+        [Test]
+        public void WhenRemovingUsesFromItem_IfItemIsNotInInventory_NothingHappens() {
+            IMyItemInstance mockItem_1 = Substitute.For<IMyItemInstance>();
+            IMyItemInstance mockItem_2 = Substitute.For<IMyItemInstance>();
+
+            systemUnderTest.Inventory = new Dictionary<string, IMyItemInstance>() { { "Item_1", mockItem_1 }, { "Item_2", mockItem_2 } };
+            systemUnderTest.RemoveUsesFromItem( "Item_3", 1 );
+
+            mockItem_1.DidNotReceive().RemoveUses( 1 );
+            mockItem_2.DidNotReceive().RemoveUses( 1 );
+        }
     }
 }
