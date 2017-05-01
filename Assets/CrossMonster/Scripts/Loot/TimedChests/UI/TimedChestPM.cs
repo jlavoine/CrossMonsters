@@ -34,6 +34,10 @@ namespace MonsterMatch {
             CreateCountdownIfUnavailable();
         }
 
+        public void Open() {
+
+        }
+
         public string GetCountdownTimeFormatted( long i_remainingTimeInMs ) {
             TimeSpan ts = TimeSpan.FromMilliseconds( i_remainingTimeInMs );
             if ( ts.TotalDays > 1 ) {

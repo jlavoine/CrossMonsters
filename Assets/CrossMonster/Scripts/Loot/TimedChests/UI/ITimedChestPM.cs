@@ -2,6 +2,6 @@
 
 namespace MonsterMatch {
     public interface ITimedChestPM : IPresentationModel {
-
+        void Open();
     }
 }
