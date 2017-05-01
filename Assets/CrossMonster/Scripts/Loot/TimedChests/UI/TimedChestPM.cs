@@ -35,7 +35,7 @@ namespace MonsterMatch {
         }
 
         public void Open() {
-
+            mSaveData.OpenChest( mData );
         }
 
         public string GetCountdownTimeFormatted( long i_remainingTimeInMs ) {

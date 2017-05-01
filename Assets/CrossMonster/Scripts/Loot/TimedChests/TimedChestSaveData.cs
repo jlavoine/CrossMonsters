@@ -22,6 +22,12 @@ namespace MonsterMatch {
             DownloadTimedChestPlayerSaveData();
         }
 
+        public void OpenChest( ITimedChestData i_data ) {
+            RemoveKeysFromInventory( i_data );
+            // contact server to open
+            
+        }
+
         public bool IsChestAvailable( string i_id ) {
             if ( SaveData.ContainsKey( i_id ) ) {
                 DateTime nextAvailable = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
@@ -63,6 +69,10 @@ namespace MonsterMatch {
                     SaveData.Add( kvp.Key, kvp.Value );
                 }
             } );
+        }
+
+        private void RemoveKeysFromInventory( ITimedChestData i_data ) {
+            Inventory.RemoveUsesFromItem( i_data.GetKeyId(), i_data.GetKeysRequired() );
         }
     }
 }

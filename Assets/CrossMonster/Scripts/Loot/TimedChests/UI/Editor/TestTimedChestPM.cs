@@ -101,6 +101,15 @@ namespace MonsterMatch {
             MockCountdownSpawner.Received().Create( Arg.Any<long>(), Arg.Any<ICountdownCallback>() );
         }
 
+        [Test]
+        public void WhenOpening_SaveDatOpenIsCalled() {
+            TimedChestPM systemUnderTest = CreateSystem();
+
+            systemUnderTest.Open();
+
+            MockSaveData.Received().OpenChest( MockData );
+        }
+
         private TimedChestPM CreateSystem() {
             return new TimedChestPM( MockStringTable, MockSaveData, MockCountdownSpawner, MockData );
         }

@@ -102,6 +102,18 @@ namespace MonsterMatch {
             Assert.AreEqual( i_expected, canOpen );
         }
 
+        [Test]
+        public void WhenChestIsOpened_KeysAreRemovedFromInventory() {
+            ITimedChestData mockData = Substitute.For<ITimedChestData>();
+            mockData.GetKeysRequired().Returns( 5 );
+            mockData.GetKeyId().Returns( "KeyId" );
+
+            systemUnderTest.OpenChest( mockData );
+
+            MockInventory.Received().RemoveUsesFromItem( "KeyId", 5 );
+
+        }
+
         private void InitSystemWithBackendTime( long i_time ) {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             mockBackend.GetDateTime().Returns( new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ).AddMilliseconds( i_time ) );
