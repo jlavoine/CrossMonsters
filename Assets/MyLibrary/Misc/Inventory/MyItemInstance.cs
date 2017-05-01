@@ -1,4 +1,5 @@
-﻿
+﻿using UnityEngine;
+
 namespace MyLibrary {
     public class MyItemInstance : IMyItemInstance {
         public string Id;
@@ -10,6 +11,10 @@ namespace MyLibrary {
 
         public int GetCount() {
             return Count;
+        }
+
+        public void RemoveUses( int i_count ) {
+            Count = Mathf.Max( 0, Count - i_count );
         }
     }
 }
