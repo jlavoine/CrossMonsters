@@ -22,10 +22,13 @@ namespace MonsterMatch {
             DownloadTimedChestPlayerSaveData();
         }
 
-        public void OpenChest( ITimedChestData i_data ) {
+        public void OpenChest( ITimedChestData i_data, Callback<IDungeonRewardData> i_callback ) {
             RemoveKeysFromInventory( i_data );
-            // contact server to open
-            
+            SendOpenRequestToServer( i_data, i_callback );            
+        }
+
+        public void OnOpenResponseFromServer( IOpenTimedChestResponse i_response, Callback<IDungeonRewardData> i_uiCallback ) {
+            i_uiCallback( i_response.GetReward() );
         }
 
         public bool IsChestAvailable( string i_id ) {
@@ -49,8 +52,7 @@ namespace MonsterMatch {
         public long GetNextAvailableTime( string i_id ) {
             if ( SaveData.ContainsKey( i_id ) ) {
                 return (long)SaveData[i_id].GetNextAvailableTime();
-            }
-            else {
+            } else {
                 return 0;
             }
         }
@@ -73,6 +75,14 @@ namespace MonsterMatch {
 
         private void RemoveKeysFromInventory( ITimedChestData i_data ) {
             Inventory.RemoveUsesFromItem( i_data.GetKeyId(), i_data.GetKeysRequired() );
+        }
+
+        private void SendOpenRequestToServer( ITimedChestData i_data, Callback<IDungeonRewardData> i_callback ) {
+            Dictionary<string, string> cloudParams = new Dictionary<string, string>() { { "ChestId", i_data.GetId() } };
+
+            mBackend.MakeCloudCall( BackendMethods.OPEN_TIMED_CHEST, cloudParams, ( result ) => {
+                OnOpenResponseFromServer( JsonConvert.DeserializeObject<OpenTimedChestResponse>( result["data"] ), i_callback );
+            } );
         }
     }
 }

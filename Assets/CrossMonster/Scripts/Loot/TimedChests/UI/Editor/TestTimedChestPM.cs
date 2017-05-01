@@ -107,7 +107,7 @@ namespace MonsterMatch {
 
             systemUnderTest.Open();
 
-            MockSaveData.Received().OpenChest( MockData );
+            MockSaveData.Received().OpenChest( MockData, Arg.Any<Callback<IDungeonRewardData>>() );
         }
 
         private TimedChestPM CreateSystem() {

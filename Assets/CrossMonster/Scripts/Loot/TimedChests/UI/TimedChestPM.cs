@@ -35,7 +35,11 @@ namespace MonsterMatch {
         }
 
         public void Open() {
-            mSaveData.OpenChest( mData );
+            mSaveData.OpenChest( mData, OnOpenRewardReceived );
+        }
+
+        public void OnOpenRewardReceived( IDungeonRewardData i_reward ) {
+            UnityEngine.Debug.LogError( "The reward is: " + i_reward.GetCount() );
         }
 
         public string GetCountdownTimeFormatted( long i_remainingTimeInMs ) {
