@@ -15,6 +15,7 @@ namespace MonsterMatch {
         private ITimedChestSaveData MockSaveData;
         private ITimedChestData MockData;
         private IMyCountdown_Spawner MockCountdownSpawner;
+        private IAppBusyPM MockBusyIndicator;
 
         [SetUp]
         public void CommonInstall() {
@@ -22,6 +23,7 @@ namespace MonsterMatch {
             MockSaveData = Substitute.For<ITimedChestSaveData>();
             MockData = Substitute.For<ITimedChestData>();
             MockCountdownSpawner = Substitute.For<IMyCountdown_Spawner>();
+            MockBusyIndicator = Substitute.For<IAppBusyPM>();
         }
 
         [Test]
@@ -110,8 +112,26 @@ namespace MonsterMatch {
             MockSaveData.Received().OpenChest( MockData, Arg.Any<Callback<IDungeonRewardData>>() );
         }
 
+        [Test]
+        public void WhenOpening_BusyIndicatorIsShown() {
+            TimedChestPM systemUnderTest = CreateSystem();
+
+            systemUnderTest.Open();
+
+            MockBusyIndicator.Received().Show();
+        }
+
+        [Test]
+        public void WhenOpenResponseIsReceived_BusyIndicatorIsHidden() {
+            TimedChestPM systemUnderTest = CreateSystem();
+
+            systemUnderTest.OnOpenRewardReceived( Substitute.For<IDungeonRewardData>() );
+
+            MockBusyIndicator.Received().Hide();
+        }
+
         private TimedChestPM CreateSystem() {
-            return new TimedChestPM( MockStringTable, MockSaveData, MockCountdownSpawner, MockData );
+            return new TimedChestPM( MockStringTable, MockSaveData, MockCountdownSpawner, MockBusyIndicator, MockData );
         }
     }
 }

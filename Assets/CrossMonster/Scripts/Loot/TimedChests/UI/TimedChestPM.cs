@@ -16,14 +16,16 @@ namespace MonsterMatch {
         readonly IStringTableManager mStringTable;
         readonly ITimedChestSaveData mSaveData;
         readonly IMyCountdown_Spawner mCountdownSpawner;
+        readonly IAppBusyPM mBusyIndicator;
 
         private ITimedChestData mData;
         private IMyCountdown mCountdownUntilAvailable;
 
-        public TimedChestPM( IStringTableManager i_stringTable, ITimedChestSaveData i_saveData, IMyCountdown_Spawner i_countdownSpawner, ITimedChestData i_data ) {
+        public TimedChestPM( IStringTableManager i_stringTable, ITimedChestSaveData i_saveData, IMyCountdown_Spawner i_countdownSpawner, IAppBusyPM i_busyIndicator, ITimedChestData i_data ) {
             mStringTable = i_stringTable;
             mCountdownSpawner = i_countdownSpawner;
             mSaveData = i_saveData;
+            mBusyIndicator = i_busyIndicator;
             mData = i_data;
 
             SetName();
@@ -35,11 +37,12 @@ namespace MonsterMatch {
         }
 
         public void Open() {
+            mBusyIndicator.Show();
             mSaveData.OpenChest( mData, OnOpenRewardReceived );
         }
 
         public void OnOpenRewardReceived( IDungeonRewardData i_reward ) {
-            UnityEngine.Debug.LogError( "The reward is: " + i_reward.GetCount() );
+            mBusyIndicator.Hide();
         }
 
         public string GetCountdownTimeFormatted( long i_remainingTimeInMs ) {
