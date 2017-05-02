@@ -41,7 +41,7 @@ namespace MonsterMatch {
             mSaveData.OpenChest( mData, OnOpenRewardReceived );
         }
 
-        public void OnOpenRewardReceived( IDungeonRewardData i_reward ) {
+        public void OnOpenRewardReceived( IDungeonReward i_reward ) {
             mBusyIndicator.Hide();
         }
 

@@ -1,6 +1,7 @@
 ﻿using MyLibrary;
 using System;
 using Newtonsoft.Json;
+using Zenject;
 
 namespace MonsterMatch {
     public class PlayerDataManager : IPlayerDataManager {
@@ -10,8 +11,16 @@ namespace MonsterMatch {
 
         private IBasicBackend mBackend;
 
+        [Inject]
+        IMessageService Messenger;
+
         private int mGold;
-        public int Gold { get { return mGold; } set { mGold = value; } }
+        public int Gold { get { return mGold; }
+            set {
+                mGold = value;
+                Messenger.Send( GameMessages.PLAYER_GOLD_CHANGED );
+            }
+        }
 
         private IPlayerStatData mStatData;
         public IPlayerStatData PlayerStatData { get { return mStatData; } set { mStatData = value; } }
@@ -34,7 +43,7 @@ namespace MonsterMatch {
 
         private void DownloadPlayerGold() {
             mBackend.GetVirtualCurrency( GOLD_KEY, ( result ) => {
-                Gold = result;
+                mGold = result; // not use the property on purpose so it doesn't trigger a message
             } );
         }
 

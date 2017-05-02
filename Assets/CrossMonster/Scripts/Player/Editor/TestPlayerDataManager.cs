@@ -12,9 +12,13 @@ namespace MonsterMatch {
         [Inject]
         PlayerDataManager systemUnderTest;
 
+        [Inject]
+        IMessageService MockMessenger;
+
         [SetUp]
         public void CommonInstall() {
             Container.Bind<PlayerDataManager>().AsSingle();
+            Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
             Container.Inject( this );
         }
 
@@ -58,6 +62,13 @@ namespace MonsterMatch {
 
             int statValue = systemUnderTest.GetStat( "AnyStat" );
             Assert.AreEqual( i_expectedResult, statValue );
+        }
+
+        [Test]
+        public void WhenGoldIsSet_ViaProperty_MessageIsSent() {
+            systemUnderTest.Gold = 100;
+
+            MockMessenger.Received().Send( GameMessages.PLAYER_GOLD_CHANGED );
         }
     }
 }

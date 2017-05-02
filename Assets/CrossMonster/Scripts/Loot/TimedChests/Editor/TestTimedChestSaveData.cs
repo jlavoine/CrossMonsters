@@ -18,9 +18,13 @@ namespace MonsterMatch {
         [Inject]
         IPlayerInventoryManager MockInventory;
 
+        [Inject]
+        IDungeonRewardSpawner MockRewardSpawner;
+
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IPlayerInventoryManager>().FromInstance( Substitute.For<IPlayerInventoryManager>() );
+            Container.Bind<IDungeonRewardSpawner>().FromInstance( Substitute.For<IDungeonRewardSpawner>() );
             Container.Bind<TimedChestSaveData>().AsSingle();            
             Container.Inject( this );
         }
@@ -112,7 +116,7 @@ namespace MonsterMatch {
             mockData.GetKeysRequired().Returns( 5 );
             mockData.GetKeyId().Returns( "KeyId" );
    
-            systemUnderTest.OpenChest( mockData, Arg.Any<Callback<IDungeonRewardData>>() );
+            systemUnderTest.OpenChest( mockData, Arg.Any<Callback<IDungeonReward>>() );
 
             MockInventory.Received().RemoveUsesFromItem( "KeyId", 5 );           
         }
@@ -121,9 +125,22 @@ namespace MonsterMatch {
         public void WhenChestIsOpened_RequestIsSentToServer() {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             systemUnderTest.Init( mockBackend );
-            systemUnderTest.OpenChest( Substitute.For<ITimedChestData>(), Arg.Any<Callback<IDungeonRewardData>>() );
+            systemUnderTest.OpenChest( Substitute.For<ITimedChestData>(), Arg.Any<Callback<IDungeonReward>>() );
 
             mockBackend.Received().MakeCloudCall( BackendMethods.OPEN_TIMED_CHEST, Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
+        }
+
+        [Test]
+        public void WhenChestOpenResponseIsReceived_SpawnerCreatesAndAwardsReward() {
+            IOpenTimedChestResponse mockResponse = Substitute.For<IOpenTimedChestResponse>();
+            mockResponse.GetReward().Returns( Substitute.For<IDungeonRewardData>() );
+            IDungeonReward mockReward = Substitute.For<IDungeonReward>();
+            MockRewardSpawner.Create( Arg.Any<IDungeonRewardData>() ).Returns( mockReward );
+
+            systemUnderTest.OnOpenResponseFromServer( mockResponse, ( result ) => { } );
+
+            MockRewardSpawner.Received().Create( Arg.Any<IDungeonRewardData>() );
+            mockReward.Received().Award();
         }
 
         private void InitSystemWithBackendTime( long i_time ) {

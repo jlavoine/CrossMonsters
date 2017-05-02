@@ -13,6 +13,9 @@ namespace MonsterMatch {
         [Inject]
         IPlayerInventoryManager Inventory;
 
+        [Inject]
+        IDungeonRewardSpawner RewardSpawner;
+
         private Dictionary<string, ITimedChestSaveDataEntry> mSaveData;
         public Dictionary<string, ITimedChestSaveDataEntry> SaveData { get { return mSaveData; } set { mSaveData = value; } }
 
@@ -22,13 +25,20 @@ namespace MonsterMatch {
             DownloadTimedChestPlayerSaveData();
         }
 
-        public void OpenChest( ITimedChestData i_data, Callback<IDungeonRewardData> i_callback ) {
+        public void OpenChest( ITimedChestData i_data, Callback<IDungeonReward> i_callback ) {
             RemoveKeysFromInventory( i_data );
             SendOpenRequestToServer( i_data, i_callback );            
         }
 
-        public void OnOpenResponseFromServer( IOpenTimedChestResponse i_response, Callback<IDungeonRewardData> i_uiCallback ) {
-            i_uiCallback( i_response.GetReward() );
+        public void OnOpenResponseFromServer( IOpenTimedChestResponse i_response, Callback<IDungeonReward> i_uiCallback ) {
+            IDungeonRewardData rewardData = i_response.GetReward();
+            if ( rewardData != null ) {
+                IDungeonReward reward = RewardSpawner.Create( i_response.GetReward() );
+                reward.Award();
+                i_uiCallback( reward );
+            } else {
+                i_uiCallback( null );
+            }
         }
 
         public bool IsChestAvailable( string i_id ) {
@@ -77,8 +87,8 @@ namespace MonsterMatch {
             Inventory.RemoveUsesFromItem( i_data.GetKeyId(), i_data.GetKeysRequired() );
         }
 
-        private void SendOpenRequestToServer( ITimedChestData i_data, Callback<IDungeonRewardData> i_callback ) {
-            Dictionary<string, string> cloudParams = new Dictionary<string, string>() { { "ChestId", i_data.GetId() } };
+        private void SendOpenRequestToServer( ITimedChestData i_data, Callback<IDungeonReward> i_callback ) {
+            Dictionary<string, string> cloudParams = new Dictionary<string, string>() { { "Id", i_data.GetId() } };
 
             mBackend.MakeCloudCall( BackendMethods.OPEN_TIMED_CHEST, cloudParams, ( result ) => {
                 OnOpenResponseFromServer( JsonConvert.DeserializeObject<OpenTimedChestResponse>( result["data"] ), i_callback );

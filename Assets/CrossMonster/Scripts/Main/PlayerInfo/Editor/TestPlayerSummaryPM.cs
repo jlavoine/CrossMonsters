@@ -17,9 +17,28 @@ namespace MonsterMatch {
             IPlayerDataManager mockManager = Substitute.For<IPlayerDataManager>();
             mockManager.Gold.Returns( 100 );
 
-            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( mockManager );
+            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( mockManager, Substitute.For<IMessageService>() );
 
             Assert.AreEqual( "100", systemUnderTest.ViewModel.GetPropertyValue<string>( PlayerSummaryPM.GOLD_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenCreating_MessagesSubscribed_AsExpected() {
+            IMessageService mockMessenger = Substitute.For<IMessageService>();
+
+            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( Substitute.For<IPlayerDataManager>(), mockMessenger );
+
+            mockMessenger.Received().AddListener( GameMessages.PLAYER_GOLD_CHANGED, Arg.Any<Callback>() );
+        }
+
+        [Test]
+        public void WhenDisposing_MessagesUnsubscribed_AsExpected() {
+            IMessageService mockMessenger = Substitute.For<IMessageService>();
+
+            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( Substitute.For<IPlayerDataManager>(), mockMessenger );
+            systemUnderTest.Dispose();
+
+            mockMessenger.Received().RemoveListener( GameMessages.PLAYER_GOLD_CHANGED, Arg.Any<Callback>() );
         }
     }
 }
