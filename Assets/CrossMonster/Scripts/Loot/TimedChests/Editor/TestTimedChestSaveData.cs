@@ -116,7 +116,7 @@ namespace MonsterMatch {
             mockData.GetKeysRequired().Returns( 5 );
             mockData.GetKeyId().Returns( "KeyId" );
    
-            systemUnderTest.OpenChest( mockData, Arg.Any<Callback<IDungeonReward>>() );
+            systemUnderTest.OpenChest( mockData, Substitute.For<ITimedChestPM>() );
 
             MockInventory.Received().RemoveUsesFromItem( "KeyId", 5 );           
         }
@@ -125,7 +125,7 @@ namespace MonsterMatch {
         public void WhenChestIsOpened_RequestIsSentToServer() {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             systemUnderTest.Init( mockBackend );
-            systemUnderTest.OpenChest( Substitute.For<ITimedChestData>(), Arg.Any<Callback<IDungeonReward>>() );
+            systemUnderTest.OpenChest( Substitute.For<ITimedChestData>(), Substitute.For<ITimedChestPM>() );
 
             mockBackend.Received().MakeCloudCall( BackendMethods.OPEN_TIMED_CHEST, Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
         }
@@ -137,10 +137,38 @@ namespace MonsterMatch {
             IDungeonReward mockReward = Substitute.For<IDungeonReward>();
             MockRewardSpawner.Create( Arg.Any<IDungeonRewardData>() ).Returns( mockReward );
 
-            systemUnderTest.OnOpenResponseFromServer( mockResponse, ( result ) => { } );
+            systemUnderTest.OnOpenResponseFromServer( mockResponse, Substitute.For<ITimedChestPM>(), Substitute.For<ITimedChestData>() );
 
             MockRewardSpawner.Received().Create( Arg.Any<IDungeonRewardData>() );
             mockReward.Received().Award();
+        }
+
+        [Test]
+        public void WhenChestOpenResponseIsReceived_ChestPM_RewardGetsSet_And_UpdatePropertiesCalled() {
+            ITimedChestPM mockPM = Substitute.For<ITimedChestPM>();
+            IOpenTimedChestResponse mockResponse = Substitute.For<IOpenTimedChestResponse>();
+            mockResponse.IsOpeningVerified().Returns( true );
+
+            systemUnderTest.OnOpenResponseFromServer( mockResponse, mockPM, Substitute.For<ITimedChestData>() );
+
+            mockPM.Received().ShowOpenReward( Arg.Any<IDungeonReward>() );
+            mockPM.Received().UpdateProperties();
+        }
+
+        [Test]
+        public void WhenChestOpenResponseIsReceived_ChestsNextAvailableTime_IsUpdatedInSaveData() {
+            IOpenTimedChestResponse mockResponse = Substitute.For<IOpenTimedChestResponse>();
+            mockResponse.IsOpeningVerified().Returns( true );
+            mockResponse.GetNextAvailableTime().Returns( 1000 );
+
+            ITimedChestData mockData = Substitute.For<ITimedChestData>();
+            mockData.GetId().Returns( "TestId" );
+
+            systemUnderTest.SaveData = new Dictionary<string, ITimedChestSaveDataEntry>() { { "TestId", new TimedChestSaveDataEntry() { NextAvailableTime = 0 } } };
+
+            systemUnderTest.OnOpenResponseFromServer( mockResponse, Substitute.For<ITimedChestPM>(), mockData );
+
+            Assert.AreEqual( 1000, systemUnderTest.SaveData["TestId"].GetNextAvailableTime() );
         }
 
         private void InitSystemWithBackendTime( long i_time ) {

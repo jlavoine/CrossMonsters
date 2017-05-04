@@ -109,7 +109,7 @@ namespace MonsterMatch {
 
             systemUnderTest.Open();
 
-            MockSaveData.Received().OpenChest( MockData, Arg.Any<Callback<IDungeonReward>>() );
+            MockSaveData.Received().OpenChest( MockData, systemUnderTest );
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace MonsterMatch {
         public void WhenOpenResponseIsReceived_BusyIndicatorIsHidden() {
             TimedChestPM systemUnderTest = CreateSystem();
 
-            systemUnderTest.OnOpenRewardReceived( Substitute.For<IDungeonReward>() );
+            systemUnderTest.ShowOpenReward( Substitute.For<IDungeonReward>() );
 
             MockBusyIndicator.Received().Hide();
         }        

@@ -16,7 +16,7 @@ namespace MonsterMatch {
         [Inject]
         IDungeonRewardSpawner RewardSpawner;
 
-        private Dictionary<string, ITimedChestSaveDataEntry> mSaveData;
+        private Dictionary<string, ITimedChestSaveDataEntry> mSaveData = new Dictionary<string, ITimedChestSaveDataEntry>();
         public Dictionary<string, ITimedChestSaveDataEntry> SaveData { get { return mSaveData; } set { mSaveData = value; } }
 
         public void Init( IBasicBackend i_backend ) {
@@ -25,19 +25,20 @@ namespace MonsterMatch {
             DownloadTimedChestPlayerSaveData();
         }
 
-        public void OpenChest( ITimedChestData i_data, Callback<IDungeonReward> i_callback ) {
+        public void OpenChest( ITimedChestData i_data, ITimedChestPM i_chestPM) {
             RemoveKeysFromInventory( i_data );
-            SendOpenRequestToServer( i_data, i_callback );            
+            SendOpenRequestToServer( i_data, i_chestPM );            
         }
 
-        public void OnOpenResponseFromServer( IOpenTimedChestResponse i_response, Callback<IDungeonReward> i_uiCallback ) {
+        public void OnOpenResponseFromServer( IOpenTimedChestResponse i_response, ITimedChestPM i_chestPM, ITimedChestData i_data ) {
             IDungeonRewardData rewardData = i_response.GetReward();
-            if ( rewardData != null ) {
+            if ( i_response.IsOpeningVerified() ) {
                 IDungeonReward reward = RewardSpawner.Create( i_response.GetReward() );
                 reward.Award();
-                i_uiCallback( reward );
-            } else {
-                i_uiCallback( null );
+                UpdateNextAvailableTime( i_data.GetId(), i_response.GetNextAvailableTime() );
+
+                i_chestPM.ShowOpenReward( reward );
+                i_chestPM.UpdateProperties();
             }
         }
 
@@ -83,15 +84,22 @@ namespace MonsterMatch {
             } );
         }
 
+        private void UpdateNextAvailableTime( string i_chestId, long i_nextAvailableTime ) {
+            if ( SaveData.ContainsKey( i_chestId ) ) {
+                ITimedChestSaveDataEntry entry = SaveData[i_chestId];
+                entry.SetNextAvailableTime( i_nextAvailableTime );
+            }
+        }
+
         private void RemoveKeysFromInventory( ITimedChestData i_data ) {
             Inventory.RemoveUsesFromItem( i_data.GetKeyId(), i_data.GetKeysRequired() );
         }
 
-        private void SendOpenRequestToServer( ITimedChestData i_data, Callback<IDungeonReward> i_callback ) {
+        private void SendOpenRequestToServer( ITimedChestData i_data, ITimedChestPM i_chestPM ) {
             Dictionary<string, string> cloudParams = new Dictionary<string, string>() { { "Id", i_data.GetId() } };
 
             mBackend.MakeCloudCall( BackendMethods.OPEN_TIMED_CHEST, cloudParams, ( result ) => {
-                OnOpenResponseFromServer( JsonConvert.DeserializeObject<OpenTimedChestResponse>( result["data"] ), i_callback );
+                OnOpenResponseFromServer( JsonConvert.DeserializeObject<OpenTimedChestResponse>( result["data"] ), i_chestPM, i_data );
             } );
         }
     }

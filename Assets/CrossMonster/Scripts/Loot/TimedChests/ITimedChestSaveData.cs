@@ -7,7 +7,7 @@ namespace MonsterMatch {
         bool IsChestAvailable( string i_id );
         bool CanOpenChest( ITimedChestData i_data );
 
-        void OpenChest( ITimedChestData i_data, Callback<IDungeonReward> i_callback );
+        void OpenChest( ITimedChestData i_data, ITimedChestPM i_chestPM );
 
         int GetCurrentKeysForChest( string i_keyId );
 

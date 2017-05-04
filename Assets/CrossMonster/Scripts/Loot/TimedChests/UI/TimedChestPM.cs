@@ -28,6 +28,10 @@ namespace MonsterMatch {
             mBusyIndicator = i_busyIndicator;
             mData = i_data;
 
+            UpdateProperties();
+        }
+
+        public void UpdateProperties() {
             SetName();
             SetKeyProgress();
             SetCanOpenProperty();
@@ -38,10 +42,10 @@ namespace MonsterMatch {
 
         public void Open() {
             mBusyIndicator.Show();
-            mSaveData.OpenChest( mData, OnOpenRewardReceived );
+            mSaveData.OpenChest( mData, this );
         }
 
-        public void OnOpenRewardReceived( IDungeonReward i_reward ) {
+        public void ShowOpenReward( IDungeonReward i_reward ) {
             mBusyIndicator.Hide();
         }
 
