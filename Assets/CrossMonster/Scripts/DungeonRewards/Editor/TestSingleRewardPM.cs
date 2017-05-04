@@ -54,24 +54,39 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenCreating_CountProperty_EqualsDungeonRewardCount() {
-            IDungeonReward mockData = Substitute.For<IDungeonReward>();
-            mockData.GetCount().Returns( 101 );
+        public void WhenCreating_WithReward_PropertiesAsExpected() {
+            IDungeonReward mockReward = GetMockReward( 101, "Test" );
+            MockStringTable.Get( "Test" ).Returns( "MyTestItem" );
 
-            SingleRewardPM systemUnderTest = systemFactory.Create( mockData, MockRewardsPM );
+            SingleRewardPM systemUnderTest = systemFactory.Create( mockReward, MockRewardsPM );
 
             Assert.AreEqual( "101", systemUnderTest.ViewModel.GetPropertyValue<string>( SingleRewardPM.COUNT_PROPERTY ) );
+            Assert.AreEqual( "MyTestItem", systemUnderTest.ViewModel.GetPropertyValue<string>( SingleRewardPM.NAME_PROPERTY ) );
         }
 
         [Test]
-        public void WhenCreating_NameProperty_AsExpected() {
-            IDungeonReward mockData = Substitute.For<IDungeonReward>();
-            mockData.GetNameKey().Returns( "Test" );
+        public void WhenSettingReward_PropertiesAsExpected() {
+            IDungeonReward mockReward = GetMockReward( 101, "Test" );
             MockStringTable.Get( "Test" ).Returns( "MyTestItem" );
 
-            SingleRewardPM systemUnderTest = systemFactory.Create( mockData, MockRewardsPM );
+            SingleRewardPM systemUnderTest = systemFactory.Create( null, null );
+            systemUnderTest.SetReward( mockReward );
 
+            Assert.AreEqual( "101", systemUnderTest.ViewModel.GetPropertyValue<string>( SingleRewardPM.COUNT_PROPERTY ) );
             Assert.AreEqual( "MyTestItem", systemUnderTest.ViewModel.GetPropertyValue<string>( SingleRewardPM.NAME_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenCreating_WithNullParams_NoErrors() {
+            SingleRewardPM systemUnderTest = systemFactory.Create( null, null );
+        }
+
+        private IDungeonReward GetMockReward( int i_count, string i_name ) {
+            IDungeonReward mockReward = Substitute.For<IDungeonReward>();
+            mockReward.GetCount().Returns( i_count );
+            mockReward.GetNameKey().Returns( i_name );
+
+            return mockReward;
         }
     }
 }

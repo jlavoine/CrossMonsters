@@ -17,14 +17,30 @@ namespace MonsterMatch {
             mStringTable = i_stringTable;
             mAllRewardsPM = i_allRewardsPM;
 
-            SetCoverVisibleProperty( true );
-            SetCountProperty();
-            SetNameProperty();
+            SetCoverVisibleProperty( true ); 
+            UpdateRewardProperties();
+        }
+
+        public void SetReward( IDungeonReward i_reward ) {
+            mReward = i_reward;
+            UpdateRewardProperties();
         }
 
         public void UncoverReward() {
             SetCoverVisibleProperty( false );
-            mAllRewardsPM.RewardUncovered();
+
+            // To Future Engineer: This should probably be abstracted out to an event; not every single reward belongs to an AllRewardsPM
+            if ( mAllRewardsPM != null ) {
+                mAllRewardsPM.RewardUncovered();
+            }
+        }
+
+        private void UpdateRewardProperties() {
+            // rewards may be set at a later date (from an async call)
+            if ( mReward != null ) {
+                SetCountProperty();
+                SetNameProperty();
+            }
         }
 
         private void SetCoverVisibleProperty( bool i_visible ) {

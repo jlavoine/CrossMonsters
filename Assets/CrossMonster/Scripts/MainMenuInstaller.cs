@@ -43,6 +43,9 @@ namespace MonsterMatch {
             Container.BindFactory<ITimedChestData, TimedChestPM, TimedChestPM.Factory>();
             Container.Bind<ITimedChestPM_Spawner>().To<TimedChestPM_Spawner>().AsSingle();
 
+            Container.BindFactory<IDungeonReward, IAllRewardsPM, SingleRewardPM, SingleRewardPM.Factory>();
+            Container.Bind<ISingleRewardPM_Spawner>().To<SingleRewardPM_Spawner>().AsSingle();
+
             Container.Bind<IAppBusyPM>().To<AppBusyPM>().AsSingle();        
         }
     }

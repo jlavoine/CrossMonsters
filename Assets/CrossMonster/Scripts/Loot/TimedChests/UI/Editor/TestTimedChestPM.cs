@@ -15,6 +15,7 @@ namespace MonsterMatch {
         private ITimedChestSaveData MockSaveData;
         private ITimedChestData MockData;
         private IMyCountdown_Spawner MockCountdownSpawner;
+        private ISingleRewardPM_Spawner MockRewardSpawner;
         private IAppBusyPM MockBusyIndicator;
 
         [SetUp]
@@ -22,6 +23,7 @@ namespace MonsterMatch {
             MockStringTable = Substitute.For<IStringTableManager>();
             MockSaveData = Substitute.For<ITimedChestSaveData>();
             MockData = Substitute.For<ITimedChestData>();
+            MockRewardSpawner = Substitute.For<ISingleRewardPM_Spawner>();
             MockCountdownSpawner = Substitute.For<IMyCountdown_Spawner>();
             MockBusyIndicator = Substitute.For<IAppBusyPM>();
         }
@@ -122,16 +124,29 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenOpenResponseIsReceived_BusyIndicatorIsHidden() {
+        public void WhenShowingOpenReward_BusyIndicatorIsHidden() {
             TimedChestPM systemUnderTest = CreateSystem();
 
             systemUnderTest.ShowOpenReward( Substitute.For<IDungeonReward>() );
 
             MockBusyIndicator.Received().Hide();
-        }        
+        }    
+        
+        [Test]
+        public void WhenShowingOpenReward_RewardPM_IsSet_AndUncovered() {
+            IDungeonReward mockReward = Substitute.For<IDungeonReward>();
+            ISingleRewardPM mockRewardPM = Substitute.For<ISingleRewardPM>();
+            TimedChestPM systemUnderTest = CreateSystem();
+            systemUnderTest.RewardPM = mockRewardPM;
+
+            systemUnderTest.ShowOpenReward( mockReward );
+
+            mockRewardPM.Received().SetReward( mockReward );
+            mockRewardPM.Received().UncoverReward();
+        }    
 
         private TimedChestPM CreateSystem() {
-            return new TimedChestPM( MockStringTable, MockSaveData, MockCountdownSpawner, MockBusyIndicator, MockData );
+            return new TimedChestPM( MockStringTable, MockRewardSpawner, MockSaveData, MockCountdownSpawner, MockBusyIndicator, MockData );
         }
     }
 }

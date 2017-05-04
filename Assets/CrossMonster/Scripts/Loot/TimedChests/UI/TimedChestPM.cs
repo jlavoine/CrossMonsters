@@ -16,17 +16,24 @@ namespace MonsterMatch {
         readonly IStringTableManager mStringTable;
         readonly ITimedChestSaveData mSaveData;
         readonly IMyCountdown_Spawner mCountdownSpawner;
+        readonly ISingleRewardPM_Spawner mRewardSpawner;
         readonly IAppBusyPM mBusyIndicator;
 
         private ITimedChestData mData;
         private IMyCountdown mCountdownUntilAvailable;
 
-        public TimedChestPM( IStringTableManager i_stringTable, ITimedChestSaveData i_saveData, IMyCountdown_Spawner i_countdownSpawner, IAppBusyPM i_busyIndicator, ITimedChestData i_data ) {
+        private ISingleRewardPM mRewardPM;
+        public ISingleRewardPM RewardPM { get { return mRewardPM; } set { mRewardPM = value; } }
+
+        public TimedChestPM( IStringTableManager i_stringTable, ISingleRewardPM_Spawner i_rewardSpawner, ITimedChestSaveData i_saveData, IMyCountdown_Spawner i_countdownSpawner, IAppBusyPM i_busyIndicator, ITimedChestData i_data ) {
             mStringTable = i_stringTable;
             mCountdownSpawner = i_countdownSpawner;
+            mRewardSpawner = i_rewardSpawner;
             mSaveData = i_saveData;
             mBusyIndicator = i_busyIndicator;
             mData = i_data;
+
+            RewardPM = mRewardSpawner.CreateEmpty();
 
             UpdateProperties();
         }
@@ -47,6 +54,8 @@ namespace MonsterMatch {
 
         public void ShowOpenReward( IDungeonReward i_reward ) {
             mBusyIndicator.Hide();
+            RewardPM.SetReward( i_reward );
+            RewardPM.UncoverReward();
         }
 
         public string GetCountdownTimeFormatted( long i_remainingTimeInMs ) {
