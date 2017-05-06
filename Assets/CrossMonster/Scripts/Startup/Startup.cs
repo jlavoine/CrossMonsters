@@ -13,7 +13,9 @@ namespace MonsterMatch {
         void Start() {
             //UnityEngine.Debug.LogError( Social.localUser.authenticated );
             //UnityEngine.Debug.LogError( Social.localUser.id );
-            List<string> test = new List<string>() { "a", "b" };
+            List<LoginPromotionData> test = new List<LoginPromotionData>();
+            test.Add( new LoginPromotionData() { Id = "a", StartDateInMs = 1, EndDateInMs = 0 } );
+            test.Add( new LoginPromotionData() { Id = "a", StartDateInMs = 1, EndDateInMs = 0 } );
 
             string json = JsonConvert.SerializeObject( test );
             UnityEngine.Debug.LogError( json );

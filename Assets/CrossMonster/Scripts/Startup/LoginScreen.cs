@@ -61,6 +61,9 @@ namespace MonsterMatch {
         INewsManager NewsManager;
 
         [Inject]
+        ILoginPromotionManager LoginPromoManager;
+
+        [Inject]
         IBackendManager BackendManager;
 
         [Inject]
@@ -160,7 +163,8 @@ namespace MonsterMatch {
             TimedChestDataManager.Init( mBackend );
             TimedChestSaveData.Init( mBackend );
             MonsterDataManager.Init( mBackend );
-            PlayerDataManager.Init( mBackend );            
+            PlayerDataManager.Init( mBackend );
+            LoginPromoManager.Init( mBackend );
 
             //Constants.Init( mBackend );
             //GenericDataLoader.Init( mBackend );
