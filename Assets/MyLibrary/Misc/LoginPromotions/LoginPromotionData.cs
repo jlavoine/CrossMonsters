@@ -10,6 +10,10 @@ namespace MyLibrary {
             return Id;
         }
 
+        public string GetNameKey() {
+            return GetId() + "_Name";
+        }
+
         public DateTime GetStartTime() {
             return new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ).AddMilliseconds( StartDateInMs );
         }

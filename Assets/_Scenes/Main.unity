@@ -4813,11 +4813,6 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114454481658959962, guid: abe325f6f8f5e2044852f86c368c0ef4,
-        type: 2}
-      propertyPath: RewardView
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1513532389227040, guid: abe325f6f8f5e2044852f86c368c0ef4, type: 2}
       propertyPath: m_IsActive
       value: 0
