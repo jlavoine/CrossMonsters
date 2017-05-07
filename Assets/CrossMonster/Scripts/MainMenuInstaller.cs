@@ -46,7 +46,11 @@ namespace MonsterMatch {
             Container.BindFactory<IDungeonReward, IAllRewardsPM, SingleRewardPM, SingleRewardPM.Factory>();
             Container.Bind<ISingleRewardPM_Spawner>().To<SingleRewardPM_Spawner>().AsSingle();
 
-            Container.Bind<IAppBusyPM>().To<AppBusyPM>().AsSingle();        
+            Container.Bind<IAppBusyPM>().To<AppBusyPM>().AsSingle();
+
+            Container.Bind<IActiveLoginPromoPM>().To<ActiveLoginPromoPM>().AsSingle();
+            Container.BindFactory<ILoginPromotionData, ActiveLoginPromoButtonPM, ActiveLoginPromoButtonPM.Factory>();
+            Container.Bind<IActiveLoginPromoButtonPM_Spawner>().To<ActiveLoginPromoButtonPM_Spawner>().AsSingle();
         }
     }
 }
