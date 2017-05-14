@@ -21,10 +21,10 @@ namespace MonsterMatch {
 
         [Test]
         public void BasicValues_EqualDataValues() {
-            IDungeonRewardData mockData = Substitute.For<IDungeonRewardData>();
+            IGameRewardData mockData = Substitute.For<IGameRewardData>();
             mockData.GetCount().Returns( 100 );
             mockData.GetId().Returns( "FakeID" );
-            mockData.GetLootType().Returns( LootTypes.Gold );
+            mockData.GetLootType().Returns( "Gold" );
 
             DungeonReward systemUnderTest = new DungeonReward( MockPlayerData, mockData );
 
@@ -35,7 +35,7 @@ namespace MonsterMatch {
 
         [Test]
         public void GetNameKey_ReturnsAsExpected() {
-            IDungeonRewardData mockData = Substitute.For<IDungeonRewardData>();
+            IGameRewardData mockData = Substitute.For<IGameRewardData>();
             mockData.GetId().Returns( "FakeID" );
 
             DungeonReward systemUnderTest = new DungeonReward( MockPlayerData, mockData );
@@ -46,9 +46,9 @@ namespace MonsterMatch {
         [Test]
         public void WhenAwardingGold_CountIsAddedToPlayerGold() {
             MockPlayerData.Gold = 0;
-            IDungeonRewardData mockData = Substitute.For<IDungeonRewardData>();
+            IGameRewardData mockData = Substitute.For<IGameRewardData>();
             mockData.GetCount().Returns( 101 );
-            mockData.GetLootType().Returns( LootTypes.Gold );
+            mockData.GetLootType().Returns( "Gold" );
 
 
             DungeonReward systemUnderTest = new DungeonReward( MockPlayerData, mockData );

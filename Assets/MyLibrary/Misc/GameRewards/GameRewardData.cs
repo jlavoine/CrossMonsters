@@ -1,15 +1,15 @@
 ﻿
-namespace MonsterMatch {
-    public class DungeonRewardData : IDungeonRewardData {       
+namespace MyLibrary {
+    public class GameRewardData : IGameRewardData {
         public string Id;
-        public LootTypes LootType;
+        public string LootType;
         public int Count;
 
         public string GetId() {
             return Id;
         }
 
-        public LootTypes GetLootType() {
+        public string GetLootType() {
             return LootType;
         }
 

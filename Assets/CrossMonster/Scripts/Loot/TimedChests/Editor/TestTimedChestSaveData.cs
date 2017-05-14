@@ -133,13 +133,13 @@ namespace MonsterMatch {
         [Test]
         public void WhenChestOpenResponseIsReceived_SpawnerCreatesAndAwardsReward() {
             IOpenTimedChestResponse mockResponse = Substitute.For<IOpenTimedChestResponse>();
-            mockResponse.GetReward().Returns( Substitute.For<IDungeonRewardData>() );
+            mockResponse.GetReward().Returns( Substitute.For<IGameRewardData>() );
             IDungeonReward mockReward = Substitute.For<IDungeonReward>();
-            MockRewardSpawner.Create( Arg.Any<IDungeonRewardData>() ).Returns( mockReward );
+            MockRewardSpawner.Create( Arg.Any<IGameRewardData>() ).Returns( mockReward );
 
             systemUnderTest.OnOpenResponseFromServer( mockResponse, Substitute.For<ITimedChestPM>(), Substitute.For<ITimedChestData>() );
 
-            MockRewardSpawner.Received().Create( Arg.Any<IDungeonRewardData>() );
+            MockRewardSpawner.Received().Create( Arg.Any<IGameRewardData>() );
             mockReward.Received().Award();
         }
 

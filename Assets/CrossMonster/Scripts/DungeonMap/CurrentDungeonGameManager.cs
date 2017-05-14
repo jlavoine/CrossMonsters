@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MyLibrary;
 
 namespace MonsterMatch {
     public class CurrentDungeonGameManager : ICurrentDungeonGameManager {
@@ -50,7 +51,7 @@ namespace MonsterMatch {
         private void SetRewards() {
             Rewards = new List<IDungeonReward>();
             if ( Data.GetRewards() != null ) {
-                foreach ( IDungeonRewardData data in Data.GetRewards() ) {
+                foreach ( IGameRewardData data in Data.GetRewards() ) {
                     Rewards.Add( mRewardSpawner.Create( data ) );
                 }                
             }

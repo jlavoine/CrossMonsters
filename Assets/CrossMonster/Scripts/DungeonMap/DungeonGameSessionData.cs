@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using MyLibrary;
 
 namespace MonsterMatch {
     public class DungeonGameSessionData : IDungeonGameSessionData {
         public List<string> Monsters;
-        public List<DungeonRewardData> Rewards;
+        public List<GameRewardData> Rewards;
 
         public bool AllowDiagonalMoves;
         public bool StraightLinesOnly;
@@ -13,9 +14,9 @@ namespace MonsterMatch {
             return Monsters;
         }
 
-        public List<IDungeonRewardData> GetRewards() {
-            List<IDungeonRewardData> rewards = new List<IDungeonRewardData>();
-            foreach ( DungeonRewardData rewardData in Rewards ) {
+        public List<IGameRewardData> GetRewards() {
+            List<IGameRewardData> rewards = new List<IGameRewardData>();
+            foreach ( GameRewardData rewardData in Rewards ) {
                 rewards.Add( rewardData );
             }
 

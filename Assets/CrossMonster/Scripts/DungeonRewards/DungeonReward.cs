@@ -1,4 +1,5 @@
 ﻿using Zenject;
+using MyLibrary;
 
 namespace MonsterMatch {
     public class DungeonReward : IDungeonReward {
@@ -6,9 +7,9 @@ namespace MonsterMatch {
 
         readonly IPlayerDataManager mPlayerData;
 
-        private IDungeonRewardData mData;
+        private IGameRewardData mData;
 
-        public DungeonReward( IPlayerDataManager i_playerData, IDungeonRewardData i_data ) {
+        public DungeonReward( IPlayerDataManager i_playerData, IGameRewardData i_data ) {
             mPlayerData = i_playerData;
             mData = i_data;
         }
@@ -30,13 +31,20 @@ namespace MonsterMatch {
         }
 
         public LootTypes GetLootType() {
-            return mData.GetLootType();
+            switch ( mData.GetLootType() ) {
+                case "Gold":
+                    return LootTypes.Gold;
+                case "Treasure":
+                    return LootTypes.Treasure;
+                default:
+                    return LootTypes.Gold;                                              
+            }
         }
 
         public int GetCount() {
             return mData.GetCount();
         }
 
-        public class Factory : Factory<IDungeonRewardData, DungeonReward> { }
+        public class Factory : Factory<IGameRewardData, DungeonReward> { }
     }
 }

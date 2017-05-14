@@ -52,7 +52,7 @@ namespace MonsterMatch {
         [Test]
         public void WhenSettingData_RewardsAreGenerated() {
             IDungeonGameSessionData mockData = Substitute.For<IDungeonGameSessionData>();
-            mockData.GetRewards().Returns( new List<IDungeonRewardData>() { Substitute.For<IDungeonRewardData>() } );
+            mockData.GetRewards().Returns( new List<IGameRewardData>() { Substitute.For<IGameRewardData>() } );
 
             systemUnderTest.SetData( mockData );
 

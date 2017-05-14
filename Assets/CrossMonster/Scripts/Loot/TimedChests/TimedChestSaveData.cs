@@ -31,7 +31,7 @@ namespace MonsterMatch {
         }
 
         public void OnOpenResponseFromServer( IOpenTimedChestResponse i_response, ITimedChestPM i_chestPM, ITimedChestData i_data ) {
-            IDungeonRewardData rewardData = i_response.GetReward();
+            IGameRewardData rewardData = i_response.GetReward();
             if ( i_response.IsOpeningVerified() ) {
                 IDungeonReward reward = RewardSpawner.Create( i_response.GetReward() );
                 reward.Award();

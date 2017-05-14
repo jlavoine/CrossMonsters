@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MyLibrary {
     public class LoginPromotionData : ILoginPromotionData {
         public string Id;
+        public string PromoPrefab;
         public long StartDateInMs;
-        public long EndDateInMs;        
+        public long EndDateInMs;
+        public List<GameRewardData> RewardData;
 
         public string GetId() {
             return Id;
@@ -12,6 +15,19 @@ namespace MyLibrary {
 
         public string GetNameKey() {
             return GetId() + "_Name";
+        }
+
+        public string GetPromoPrefab() {
+            return PromoPrefab;
+        }
+
+        public List<IGameRewardData> GetRewardData() {
+            List<IGameRewardData> rewards = new List<IGameRewardData>();
+            foreach ( GameRewardData data in RewardData ) {
+                rewards.Add( data );
+            }
+
+            return rewards;
         }
 
         public DateTime GetStartTime() {

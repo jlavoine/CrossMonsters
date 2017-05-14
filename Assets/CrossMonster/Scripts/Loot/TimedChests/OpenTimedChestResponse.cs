@@ -1,16 +1,17 @@
-﻿
+﻿using MyLibrary;
+
 namespace MonsterMatch {
     public interface IOpenTimedChestResponse {
-        IDungeonRewardData GetReward();
+        IGameRewardData GetReward();
         long GetNextAvailableTime();
         bool IsOpeningVerified();
     }
 
     public class OpenTimedChestResponse : IOpenTimedChestResponse {
-        public DungeonRewardData Reward;
+        public GameRewardData Reward;
         public long NextAvailableTime;
 
-        public IDungeonRewardData GetReward() {
+        public IGameRewardData GetReward() {
             return Reward;
         }
 

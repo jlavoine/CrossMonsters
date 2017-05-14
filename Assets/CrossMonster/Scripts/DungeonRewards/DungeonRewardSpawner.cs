@@ -1,7 +1,8 @@
-﻿
+﻿using MyLibrary;
+
 namespace MonsterMatch {
     public interface IDungeonRewardSpawner {
-        IDungeonReward Create( IDungeonRewardData i_data);
+        IDungeonReward Create( IGameRewardData i_data);
     }
 
     public class DungeonRewardSpawner : IDungeonRewardSpawner {
@@ -11,7 +12,7 @@ namespace MonsterMatch {
             this.factory = i_factory;
         }
 
-        public IDungeonReward Create( IDungeonRewardData i_data ) {
+        public IDungeonReward Create( IGameRewardData i_data ) {
             return factory.Create( i_data );
         }
     }

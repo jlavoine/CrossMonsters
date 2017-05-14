@@ -22,7 +22,7 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<IPreferredLoginMethod>().To<PreferredLoginMethod>().AsSingle();
 
         Container.Bind<ICurrentDungeonGameManager>().To<CurrentDungeonGameManager>().AsSingle();
-        Container.BindFactory<IDungeonRewardData, DungeonReward, DungeonReward.Factory>();
+        Container.BindFactory<IGameRewardData, DungeonReward, DungeonReward.Factory>();
         Container.Bind<IDungeonRewardSpawner>().To<DungeonRewardSpawner>().AsSingle();
 
         Container.BindFactory<long, ICountdownCallback, MyCountdown, MyCountdown.Factory>();
