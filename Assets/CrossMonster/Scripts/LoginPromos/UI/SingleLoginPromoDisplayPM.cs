@@ -16,6 +16,11 @@ namespace MonsterMatch {
             SetTitle();
         }
 
+        public void UpdateVisibilityBasedOnCurrentlyDisplayedPromo( string i_id ) {
+            bool isVis = i_id == mData.GetId();
+            SetVisibleProperty( isVis );
+        }
+
         public string GetPrefab() {
             return mData.GetPromoPrefab();
         }

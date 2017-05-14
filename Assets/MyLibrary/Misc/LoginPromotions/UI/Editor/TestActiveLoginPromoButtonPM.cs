@@ -15,11 +15,13 @@ namespace MyLibrary {
 
         private IStringTableManager MockStringTable;
         private ILoginPromotionData MockData;
+        private ILoginPromoDisplaysPM MockDisplayPM;
 
         [SetUp]
         public void CommonInstall() {
             MockStringTable = Substitute.For<IStringTableManager>();
             MockData = Substitute.For<ILoginPromotionData>();
+            MockDisplayPM = Substitute.For<ILoginPromoDisplaysPM>();
         }
 
         [Test]
@@ -27,9 +29,25 @@ namespace MyLibrary {
             MockData.GetNameKey().Returns( "TestKey" );
             MockStringTable.Get( "TestKey" ).Returns( "TestName" );
 
-            ActiveLoginPromoButtonPM systemUnderTest = new ActiveLoginPromoButtonPM( MockStringTable, MockData );
+            ActiveLoginPromoButtonPM systemUnderTest = CreateSystem();
 
             Assert.AreEqual( "TestName", systemUnderTest.ViewModel.GetPropertyValue<string>( ActiveLoginPromoButtonPM.NAME_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenOpenDisplayClicked_MainPM_IsNotified() {
+            MockData.GetId().Returns( "TestId" );
+            ActiveLoginPromoButtonPM systemUnderTest = CreateSystem();
+
+            systemUnderTest.OpenDisplayClicked();
+
+            MockDisplayPM.Received().DisplayPromoAndHideOthers( "TestId" );
+        }
+
+        private ActiveLoginPromoButtonPM CreateSystem() {
+            ActiveLoginPromoButtonPM systemUnderTest = new ActiveLoginPromoButtonPM( MockDisplayPM, MockStringTable, MockData );
+
+            return systemUnderTest;
         }
     }
 }

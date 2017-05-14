@@ -17,12 +17,20 @@ namespace MonsterMatch {
             CreatePromoPMs();
         }
 
+        public void DisplayPromoAndHideOthers( string i_id ) {
+            foreach ( ISingleLoginPromoDisplayPM pm in DisplayPMs ) {
+                pm.UpdateVisibilityBasedOnCurrentlyDisplayedPromo( i_id );
+            }
+        }
+
         private void CreatePromoPMs() {
             DisplayPMs = new List<ISingleLoginPromoDisplayPM>();
 
-            foreach ( ILoginPromotionData promoData in mManager.ActivePromotionData ) {
-                ISingleLoginPromoDisplayPM pm = mSpawner.Create( promoData );
-                DisplayPMs.Add( pm );
+            if ( mManager.ActivePromotionData != null ) {
+                foreach ( ILoginPromotionData promoData in mManager.ActivePromotionData ) {
+                    ISingleLoginPromoDisplayPM pm = mSpawner.Create( promoData );
+                    DisplayPMs.Add( pm );
+                }
             }
         }
     }

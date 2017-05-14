@@ -9,5 +9,9 @@ namespace MyLibrary {
 
             SetModel( mPM.ViewModel );
         }
+
+        public void OnOpenDisplayClicked() {
+            mPM.OpenDisplayClicked();
+        }
     }
 }

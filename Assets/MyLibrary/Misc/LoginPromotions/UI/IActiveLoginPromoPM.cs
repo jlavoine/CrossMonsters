@@ -2,6 +2,6 @@
 
 namespace MyLibrary {
     public interface IActiveLoginPromoPM : IBasicWindowPM {
-        List<IActiveLoginPromoButtonPM> ButtonPMs { get; }
+        List<IActiveLoginPromoButtonPM> ButtonPMs { get; }        
     }
 }

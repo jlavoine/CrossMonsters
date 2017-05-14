@@ -5,15 +5,21 @@ namespace MyLibrary {
         public const string NAME_PROPERTY = "Name";
         public const string PROMO_VISIBLE_PROPERTY = "IsPromoVisible";
 
+        readonly ILoginPromoDisplaysPM mPromoDisplayPM;
         readonly IStringTableManager mStringTable;
         readonly ILoginPromotionData mData;
 
-        public ActiveLoginPromoButtonPM( IStringTableManager i_stringTable, ILoginPromotionData i_data ) {
+        public ActiveLoginPromoButtonPM( ILoginPromoDisplaysPM i_promoDisplayPM, IStringTableManager i_stringTable, ILoginPromotionData i_data ) {
+            mPromoDisplayPM = i_promoDisplayPM;
             mStringTable = i_stringTable;
             mData = i_data;
 
             SetNameProperty();
             SetPromoVisibility( false );
+        }
+
+        public void OpenDisplayClicked() {
+            mPromoDisplayPM.DisplayPromoAndHideOthers( mData.GetId() );
         }
 
         private void SetNameProperty() {

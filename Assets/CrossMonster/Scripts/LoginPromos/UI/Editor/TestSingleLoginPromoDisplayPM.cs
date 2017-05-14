@@ -26,9 +26,36 @@ namespace MonsterMatch {
             MockData.GetNameKey().Returns( "TestId" );
             MockStringTable.Get( "TestId" ).Returns( "TestTitle" );
 
-            SingleLoginPromoDisplayPM systemUnderTest = new SingleLoginPromoDisplayPM( MockStringTable, MockData );
+            SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
 
             Assert.AreEqual( "TestTitle", systemUnderTest.ViewModel.GetPropertyValue<string>( SingleLoginPromoDisplayPM.TITLE_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenUpdatingVisibility_IfIdMatches_PromoIsVisible() {
+            MockData.GetId().Returns( "TestId" );
+            SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
+            systemUnderTest.ViewModel.SetProperty( SingleLoginPromoDisplayPM.VISIBLE_PROPERTY, false );
+
+            systemUnderTest.UpdateVisibilityBasedOnCurrentlyDisplayedPromo( "TestId" );
+
+            Assert.IsTrue( systemUnderTest.ViewModel.GetPropertyValue<bool>( SingleLoginPromoDisplayPM.VISIBLE_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenUpdatingVisibility_IfIdDoesNotMatch_PromoIsNotVisible() {
+            MockData.GetId().Returns( "TestId" );
+            SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
+            systemUnderTest.ViewModel.SetProperty( SingleLoginPromoDisplayPM.VISIBLE_PROPERTY, true );
+
+            systemUnderTest.UpdateVisibilityBasedOnCurrentlyDisplayedPromo( "NonMatchingId" );
+
+            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( SingleLoginPromoDisplayPM.VISIBLE_PROPERTY ) );
+        }
+
+        private SingleLoginPromoDisplayPM CreateSystem() {
+            SingleLoginPromoDisplayPM systemUnderTest = new SingleLoginPromoDisplayPM( MockStringTable, MockData );
+            return systemUnderTest;
         }
     }
 }

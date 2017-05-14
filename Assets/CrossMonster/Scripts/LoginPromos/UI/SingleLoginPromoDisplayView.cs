@@ -9,5 +9,9 @@ namespace MonsterMatch {
 
             SetModel( mPM.ViewModel );
         }
+
+        public void ClosePromo() {
+            mPM.Hide();
+        }
     }
 }
