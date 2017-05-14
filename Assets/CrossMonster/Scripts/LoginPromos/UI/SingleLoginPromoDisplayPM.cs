@@ -1,9 +1,13 @@
 ﻿using MyLibrary;
 using Zenject;
+using System;
 
 namespace MonsterMatch {
     public class SingleLoginPromoDisplayPM : BasicWindowPM, ISingleLoginPromoDisplayPM {
         public const string TITLE_PROPERTY = "Title";
+        public const string DATE_AVAILABLE_PROPERTY = "DateRange";
+
+        public const string DATE_AVAILABLE_FORMAT = "{0} - {1}";
 
         readonly IStringTableManager mStringTable;
         readonly ILoginPromotionData mData;
@@ -13,7 +17,8 @@ namespace MonsterMatch {
             mData = i_data;
 
             SetVisibleProperty( false );
-            SetTitle();
+            SetTitleProperty();
+            SetActiveDateProperty();
         }
 
         public void UpdateVisibilityBasedOnCurrentlyDisplayedPromo( string i_id ) {
@@ -25,9 +30,16 @@ namespace MonsterMatch {
             return mData.GetPromoPrefab();
         }
 
-        private void SetTitle() {
+        private void SetTitleProperty() {
             string title = mStringTable.Get( mData.GetNameKey() );
             ViewModel.SetProperty( TITLE_PROPERTY, title );
+        }
+
+        private void SetActiveDateProperty() {
+            DateTime start = mData.GetStartTime();
+            DateTime end = mData.GetEndTime();
+            string display = string.Format( DATE_AVAILABLE_FORMAT, start.ToString(), end.ToString() );
+            ViewModel.SetProperty( DATE_AVAILABLE_PROPERTY, display );
         }
 
         public class Factory : Factory<ILoginPromotionData, SingleLoginPromoDisplayPM> { }

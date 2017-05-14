@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 224609879971563062}
   - component: {fileID: 222456140683109242}
   - component: {fileID: 114865591582895288}
+  - component: {fileID: 114425349801928852}
   m_Layer: 5
   m_Name: DateRange
   m_TagString: Untagged
@@ -729,6 +730,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114425349801928852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1617333297951266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4a0ac79b478914ebadca1fde73244a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: DateRange
 --- !u!114 &114499302320961522
 MonoBehaviour:
   m_ObjectHideFlags: 1

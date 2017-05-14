@@ -32,6 +32,17 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenCreating_DateAvailableString_SetAsExpected() {
+            MockData.GetStartTime().Returns( new DateTime( 0 ) );
+            MockData.GetEndTime().Returns( new DateTime( 1000 ) );
+            string expected = string.Format( SingleLoginPromoDisplayPM.DATE_AVAILABLE_FORMAT, MockData.GetStartTime().ToString(), MockData.GetEndTime().ToString() );
+
+            SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
+
+            Assert.AreEqual( expected, systemUnderTest.ViewModel.GetPropertyValue<string>( SingleLoginPromoDisplayPM.DATE_AVAILABLE_PROPERTY ) );
+        }
+
+        [Test]
         public void WhenUpdatingVisibility_IfIdMatches_PromoIsVisible() {
             MockData.GetId().Returns( "TestId" );
             SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
