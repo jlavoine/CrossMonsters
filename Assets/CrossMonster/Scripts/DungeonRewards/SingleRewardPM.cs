@@ -10,9 +10,9 @@ namespace MonsterMatch {
         readonly IStringTableManager mStringTable;
         readonly IAllRewardsPM mAllRewardsPM;
 
-        private IDungeonReward mReward;
+        private IGameReward mReward;
 
-        public SingleRewardPM( IStringTableManager i_stringTable, IDungeonReward i_reward, IAllRewardsPM i_allRewardsPM ) {
+        public SingleRewardPM( IStringTableManager i_stringTable, IGameReward i_reward, IAllRewardsPM i_allRewardsPM ) {
             mReward = i_reward;
             mStringTable = i_stringTable;
             mAllRewardsPM = i_allRewardsPM;
@@ -21,7 +21,7 @@ namespace MonsterMatch {
             UpdateRewardProperties();
         }
 
-        public void SetReward( IDungeonReward i_reward ) {
+        public void SetReward( IGameReward i_reward ) {
             mReward = i_reward;
             UpdateRewardProperties();
         }

@@ -1,8 +1,8 @@
 ﻿using MyLibrary;
 
-namespace MonsterMatch {
+namespace MyLibrary {
     public interface ISingleRewardPM : IPresentationModel {
         void UncoverReward();
-        void SetReward( IDungeonReward i_reward );
+        void SetReward( IGameReward i_reward );
     }
 }

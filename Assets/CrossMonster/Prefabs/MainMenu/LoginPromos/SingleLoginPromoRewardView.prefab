@@ -563,6 +563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50e878d5c75b704b8f65b74385a730a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RewardView: {fileID: 114159796183179238}
 --- !u!114 &114400153655730332
 MonoBehaviour:
   m_ObjectHideFlags: 1

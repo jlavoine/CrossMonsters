@@ -1,4 +1,5 @@
-﻿
+﻿using MyLibrary;
+
 namespace MonsterMatch {
     public interface ISingleRewardPM_Spawner {
         ISingleRewardPM Create( IDungeonReward i_reward, IAllRewardsPM i_pm );

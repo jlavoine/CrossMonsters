@@ -1,13 +1,7 @@
-﻿
+﻿using MyLibrary;
+
 namespace MonsterMatch {
-    public interface IDungeonReward {
-        string GetId();
-        string GetNameKey();
-
+    public interface IDungeonReward : IGameReward {
         LootTypes GetLootType();
-
-        int GetCount();
-
-        void Award();
     }
 }

@@ -134,6 +134,7 @@ namespace MonsterMatch {
         public void WhenChestOpenResponseIsReceived_SpawnerCreatesAndAwardsReward() {
             IOpenTimedChestResponse mockResponse = Substitute.For<IOpenTimedChestResponse>();
             mockResponse.GetReward().Returns( Substitute.For<IGameRewardData>() );
+            mockResponse.IsOpeningVerified().Returns( true );
             IDungeonReward mockReward = Substitute.For<IDungeonReward>();
             MockRewardSpawner.Create( Arg.Any<IGameRewardData>() ).Returns( mockReward );
 

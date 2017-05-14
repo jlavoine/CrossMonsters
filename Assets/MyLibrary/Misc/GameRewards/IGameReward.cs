@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿
+namespace MyLibrary {
+    public interface IGameReward {
+        string GetId();
+        string GetNameKey();
 
-public class IGameReward : MonoBehaviour {
+        int GetCount();
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        void Award();
+    }
 }
