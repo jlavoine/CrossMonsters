@@ -14,11 +14,13 @@ namespace MonsterMatch {
     public class TestSingleLoginPromoDisplayPM : ZenjectUnitTestFixture {
         private IStringTableManager MockStringTable;
         private ILoginPromotionData MockData;
+        private ISingleLoginPromoRewardPM_Spawner MockRewardSpawner;
 
         [SetUp]
         public void CommonInstall() {
             MockStringTable = Substitute.For<IStringTableManager>();
             MockData = Substitute.For<ILoginPromotionData>();
+            MockRewardSpawner = Substitute.For<ISingleLoginPromoRewardPM_Spawner>();
         }
 
         [Test]
@@ -40,6 +42,15 @@ namespace MonsterMatch {
             SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
 
             Assert.AreEqual( expected, systemUnderTest.ViewModel.GetPropertyValue<string>( SingleLoginPromoDisplayPM.DATE_AVAILABLE_PROPERTY ) );
+        }
+
+        [Test]
+        public void WhenCreating_RewardPMs_AreCreated() {
+            MockData.GetRewardData().Returns( new List<IGameRewardData>() { Substitute.For<IGameRewardData>(), Substitute.For<IGameRewardData>() } );
+
+            SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
+
+            Assert.AreEqual( 2, systemUnderTest.RewardPMs.Count );
         }
 
         [Test]
@@ -65,7 +76,7 @@ namespace MonsterMatch {
         }
 
         private SingleLoginPromoDisplayPM CreateSystem() {
-            SingleLoginPromoDisplayPM systemUnderTest = new SingleLoginPromoDisplayPM( MockStringTable, MockData );
+            SingleLoginPromoDisplayPM systemUnderTest = new SingleLoginPromoDisplayPM( MockRewardSpawner, MockStringTable, MockData );
             return systemUnderTest;
         }
     }
