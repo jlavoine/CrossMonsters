@@ -28,7 +28,9 @@ namespace MonsterMatch {
             CreateMonsterViews();
         }
 
-        void OnDetroy() {
+        protected override void OnDestroy() {
+            base.OnDestroy();
+
             ListenForMessages( false );
         }
 
@@ -50,7 +52,7 @@ namespace MonsterMatch {
             MonsterManager.Tick( i_tick );
         }
 
-        private void CreateMonsterViews() {
+        private void CreateMonsterViews() {            
             foreach ( IGameMonster monster in MonsterManager.CurrentWave.CurrentMonsters ) {
                 CreateMonsterView( monster );
             }
