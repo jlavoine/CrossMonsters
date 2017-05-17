@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityTest.IntegrationTests;
 using UnityEditor.SceneManagement;
 
+#pragma warning disable 0618
+
 namespace UnityTest
 {
     public static partial class Batch

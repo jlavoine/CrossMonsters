@@ -4,15 +4,12 @@ using System.Collections.Generic;
 
 namespace MonsterMatch {
     public class Login {
-
-        private string mLoginID;
         private IBasicBackend mBackend;  
         private IAnalyticsTimer mLoginTimer;
         private ILoginMethodManager mLoginManager;
 
         public Login( IBasicBackend i_backend, IAnalyticsTimer i_loginTimer, string i_loginID, ILoginMethodManager i_loginManager ) {
             mBackend = i_backend;
-            mLoginID = i_loginID;   // might use this later
             mLoginManager = i_loginManager;
 
             mLoginTimer = i_loginTimer;
