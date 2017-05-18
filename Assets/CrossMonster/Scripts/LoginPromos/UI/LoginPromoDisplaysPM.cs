@@ -23,6 +23,16 @@ namespace MonsterMatch {
             }
         }
 
+        public bool DoesHaveDisplayForPromo( string i_id ) {
+            foreach ( ISingleLoginPromoDisplayPM pm in DisplayPMs ) {
+                if ( pm.GetId() == i_id ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void CreatePromoPMs() {
             DisplayPMs = new List<ISingleLoginPromoDisplayPM>();
 

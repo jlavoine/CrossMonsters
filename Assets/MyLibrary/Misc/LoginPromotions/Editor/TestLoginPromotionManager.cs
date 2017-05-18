@@ -29,8 +29,45 @@ namespace MyLibrary {
             mockBackend.Received().GetTitleData( LoginPromotionManager.PROMOTIONS_TITLE_KEY, Arg.Any<Callback<string>>() );
         }
 
-       [Test]
-       public void PromotionAdded_ToActivePromos_WhenActive() {
+        [Test]
+        public void WhenIniting_GetPromoSaveDataCall_MadeToBackend() {
+            IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
+            systemUnderTest.Init( mockBackend );
+
+            mockBackend.Received().GetReadOnlyPlayerData( LoginPromotionManager.PROMO_PROGRESS_KEY, Arg.Any<Callback<string>>() );
+        }
+
+        [Test]
+        public void GettingListOfActivePromoSaveData_ReturnsAsExpected() {
+            // this test kind of sucks. I think I've learned my lesson. Nothing should have a List<T>, it should have a structure that 
+            // holds a List<T> I think, so I can easier mock its functionality
+            List<ILoginPromotionData> mockActiveDataList = new List<ILoginPromotionData>();
+            ILoginPromotionData mockData_1 = Substitute.For<ILoginPromotionData>();
+            mockData_1.GetId().Returns( "A" );
+            ILoginPromotionData mockData_2 = Substitute.For<ILoginPromotionData>();
+            mockData_2.GetId().Returns( "C" );
+            mockActiveDataList.Add( mockData_1 );
+            mockActiveDataList.Add( mockData_2 );
+            systemUnderTest.ActivePromotionData = mockActiveDataList;
+
+            Dictionary<string, ISingleLoginPromoProgressSaveData> mockSaveProgress = new Dictionary<string, ISingleLoginPromoProgressSaveData>();
+            ISingleLoginPromoProgressSaveData mockSave_1 = Substitute.For<ISingleLoginPromoProgressSaveData>();
+            ISingleLoginPromoProgressSaveData mockSave_2 = Substitute.For<ISingleLoginPromoProgressSaveData>();
+            ISingleLoginPromoProgressSaveData mockSave_3 = Substitute.For<ISingleLoginPromoProgressSaveData>();
+            mockSaveProgress.Add( "A", mockSave_1 );
+            mockSaveProgress.Add( "C", mockSave_2 );
+            mockSaveProgress.Add( "B", mockSave_3 );
+            systemUnderTest.PromoProgress = mockSaveProgress;
+
+            List<ISingleLoginPromoProgressSaveData> result = systemUnderTest.GetActivePromoSaveData();
+
+            Assert.Contains( mockSave_1, result );
+            Assert.Contains( mockSave_2, result );
+            Assert.AreEqual( 2, result.Count );
+        }
+
+        [Test]
+        public void PromotionAdded_ToActivePromos_WhenActive() {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             systemUnderTest.Init( mockBackend );
 

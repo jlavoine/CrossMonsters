@@ -15,12 +15,25 @@ namespace MonsterMatch {
         private IStringTableManager MockStringTable;
         private ILoginPromotionData MockData;
         private ISingleLoginPromoRewardPM_Spawner MockRewardSpawner;
+        private IMessageService MockMessenger;
 
         [SetUp]
         public void CommonInstall() {
             MockStringTable = Substitute.For<IStringTableManager>();
             MockData = Substitute.For<ILoginPromotionData>();
             MockRewardSpawner = Substitute.For<ISingleLoginPromoRewardPM_Spawner>();
+            MockMessenger = Substitute.For<IMessageService>();
+        }
+
+        [Test]
+        public void GetMethodsForData_ReturnAsExpected() {
+            MockData.GetPromoPrefab().Returns( "TestPrefab" );
+            MockData.GetId().Returns( "TestId" );
+
+            SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
+
+            Assert.AreEqual( "TestPrefab", systemUnderTest.GetPrefab() );
+            Assert.AreEqual( "TestId", systemUnderTest.GetId() );
         }
 
         [Test]
@@ -75,8 +88,17 @@ namespace MonsterMatch {
             Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( SingleLoginPromoDisplayPM.VISIBLE_PROPERTY ) );
         }
 
+        [Test]
+        public void WhenDismissed_EventIsSent() {
+            SingleLoginPromoDisplayPM systemUnderTest = CreateSystem();
+
+            systemUnderTest.Hide();
+
+            MockMessenger.Received().Send( SingleLoginPromoDisplayPM.PROMO_DISMISSED_EVENT );
+        }
+
         private SingleLoginPromoDisplayPM CreateSystem() {
-            SingleLoginPromoDisplayPM systemUnderTest = new SingleLoginPromoDisplayPM( MockRewardSpawner, MockStringTable, MockData );
+            SingleLoginPromoDisplayPM systemUnderTest = new SingleLoginPromoDisplayPM( MockMessenger, MockRewardSpawner, MockStringTable, MockData );
             return systemUnderTest;
         }
     }

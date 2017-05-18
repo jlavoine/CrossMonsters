@@ -42,6 +42,27 @@ namespace MonsterMatch {
             }
         }
 
+        [Test]
+        public void DoesHaveDisplayForPromo_ReturnsTrue_WhenDisplayInList() {
+            List<ISingleLoginPromoDisplayPM> mockDisplays = new List<ISingleLoginPromoDisplayPM>();
+            ISingleLoginPromoDisplayPM mockDisplay = Substitute.For<ISingleLoginPromoDisplayPM>();
+            mockDisplay.GetId().Returns( "Test" );
+            mockDisplays.Add( mockDisplay );
+
+            LoginPromoDisplaysPM systemUnderTest = CreateSystem();
+            systemUnderTest.DisplayPMs = mockDisplays;
+
+            Assert.IsTrue( systemUnderTest.DoesHaveDisplayForPromo( "Test" ) );
+        }
+
+        [Test]
+        public void DoesHaveDisplayForPromo_ReturnsFalse_WhenDisplayNotInList() {
+            LoginPromoDisplaysPM systemUnderTest = CreateSystem();
+            systemUnderTest.DisplayPMs = new List<ISingleLoginPromoDisplayPM>();
+
+            Assert.IsFalse( systemUnderTest.DoesHaveDisplayForPromo( "Test" ) );
+        }
+
         private List<ISingleLoginPromoDisplayPM> CreateMockDisplayPMs( int i_count ) {
             List<ISingleLoginPromoDisplayPM> list = new List<ISingleLoginPromoDisplayPM>();
             for ( int i = 0; i < i_count; ++i ) {

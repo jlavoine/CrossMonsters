@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 namespace MonsterMatch {
     public class SingleLoginPromoDisplayPM : BasicWindowPM, ISingleLoginPromoDisplayPM {
+        public const string PROMO_DISMISSED_EVENT = "PromoDismissed";
+
         public const string TITLE_PROPERTY = "Title";
         public const string DATE_AVAILABLE_PROPERTY = "DateRange";
 
@@ -12,12 +14,14 @@ namespace MonsterMatch {
 
         readonly IStringTableManager mStringTable;
         readonly ILoginPromotionData mData;
-        readonly ISingleLoginPromoRewardPM_Spawner mRewardSpawner;        
+        readonly ISingleLoginPromoRewardPM_Spawner mRewardSpawner;
+        readonly IMessageService mMessenger;  
 
         private List<ISingleLoginPromoRewardPM> mRewardPMs = new List<ISingleLoginPromoRewardPM>();
         public List<ISingleLoginPromoRewardPM> RewardPMs { get { return mRewardPMs; } set { mRewardPMs = value; } }
 
-        public SingleLoginPromoDisplayPM( ISingleLoginPromoRewardPM_Spawner i_rewardSpawner, IStringTableManager i_stringTable, ILoginPromotionData i_data ) {
+        public SingleLoginPromoDisplayPM( IMessageService i_messenger, ISingleLoginPromoRewardPM_Spawner i_rewardSpawner, IStringTableManager i_stringTable, ILoginPromotionData i_data ) {
+            mMessenger = i_messenger;
             mRewardSpawner = i_rewardSpawner;
             mStringTable = i_stringTable;
             mData = i_data;
@@ -35,6 +39,10 @@ namespace MonsterMatch {
 
         public string GetPrefab() {
             return mData.GetPromoPrefab();
+        }
+
+        public string GetId() {
+            return mData.GetId();
         }
 
         private void CreateLoginRewardPMs() {
@@ -58,6 +66,10 @@ namespace MonsterMatch {
             DateTime end = mData.GetEndTime();
             string display = string.Format( DATE_AVAILABLE_FORMAT, start.ToString(), end.ToString() );
             ViewModel.SetProperty( DATE_AVAILABLE_PROPERTY, display );
+        }
+
+        protected override void OnHidden() {
+            mMessenger.Send( PROMO_DISMISSED_EVENT );
         }
 
         public class Factory : Factory<ILoginPromotionData, SingleLoginPromoDisplayPM> { }

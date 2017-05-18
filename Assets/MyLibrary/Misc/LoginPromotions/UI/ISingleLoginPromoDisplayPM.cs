@@ -3,6 +3,7 @@
 namespace MyLibrary {
     public interface ISingleLoginPromoDisplayPM : IBasicWindowPM {
         string GetPrefab();
+        string GetId();
 
         void UpdateVisibilityBasedOnCurrentlyDisplayedPromo( string i_id );
 
