@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace MyLibrary {
     public class SingleLoginPromoProgressSaveData : ISingleLoginPromoProgressSaveData {
         public string Id;
@@ -22,7 +23,12 @@ namespace MyLibrary {
         }
 
         public bool HasRewardBeenClaimedToday( IBackendManager i_backend ) {
-            return false;
+            int curDay = i_backend.GetBackend<IBasicBackend>().GetDateTime().DayOfYear;
+            int curYear = i_backend.GetBackend<IBasicBackend>().GetDateTime().Year;
+            int lastCollectedDay = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ).AddMilliseconds( LastCollectedTime ).DayOfYear;
+            int lastCollectedYear = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ).AddMilliseconds( LastCollectedTime ).Year;
+
+            return lastCollectedYear == curYear && lastCollectedDay >= curDay;
         }
     }
 }
