@@ -58,6 +58,7 @@ namespace MonsterMatch {
             Container.Bind<IActiveLoginPromoButtonPM_Spawner>().To<ActiveLoginPromoButtonPM_Spawner>().AsSingle();
             Container.BindFactory<ISceneStartFlowManager, ShowLoginPromosStep, ShowLoginPromosStep.Factory>();
             Container.Bind<IShowLoginPromosStepSpawner>().To<ShowLoginPromosStepSpawner>().AsSingle();
+            Container.Bind<ILoginPromoPopupHelper>().To<LoginPromoPopupHelper>().AsSingle();
         }
     }
 }

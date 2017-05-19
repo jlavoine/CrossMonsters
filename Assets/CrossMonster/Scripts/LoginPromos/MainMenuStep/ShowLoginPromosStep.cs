@@ -7,14 +7,16 @@ namespace MonsterMatch {
         readonly IMessageService mMessenger;
         readonly ILoginPromotionManager mPromoManager;
         readonly ILoginPromoDisplaysPM mAllPromosPM;
+        readonly ILoginPromoPopupHelper mHelper;
 
         private List<ISingleLoginPromoProgressSaveData> mActiveSaveData = new List<ISingleLoginPromoProgressSaveData>();
         public List<ISingleLoginPromoProgressSaveData> ActivePromoSaveData { get { return mActiveSaveData; } set { mActiveSaveData = value; } }
 
-        public ShowLoginPromosStep( ILoginPromoDisplaysPM i_allPromosPM, ILoginPromotionManager i_manager, IMessageService i_messenger, ISceneStartFlowManager i_sceneManager ) : base (i_sceneManager ) {
+        public ShowLoginPromosStep( ILoginPromoPopupHelper i_popupHelper, ILoginPromoDisplaysPM i_allPromosPM, ILoginPromotionManager i_manager, IMessageService i_messenger, ISceneStartFlowManager i_sceneManager ) : base (i_sceneManager ) {
             mMessenger = i_messenger;
             mPromoManager = i_manager;
             mAllPromosPM = i_allPromosPM;
+            mHelper = i_popupHelper;
 
             ActivePromoSaveData = i_manager.GetActivePromoSaveData();            
         }
@@ -39,16 +41,21 @@ namespace MonsterMatch {
 
         public void ProcessNextPromotion() {
             if ( ActivePromoSaveData.Count > 0 ) {
-                PopAndShowNextPromo();                
+                TryToShowNextPromo();                
             } else {
                 Done();
             }
         }
 
-        private void PopAndShowNextPromo() {
+        private void TryToShowNextPromo() {
             ISingleLoginPromoProgressSaveData nextPromoToShow = ActivePromoSaveData[0];
             ActivePromoSaveData.RemoveAt( 0 );
-            mAllPromosPM.DisplayPromoAndHideOthers( nextPromoToShow.GetId() );
+
+            if ( mHelper.ShouldShowPromoAsPopup( nextPromoToShow ) ) {
+                mAllPromosPM.DisplayPromoAndHideOthers( nextPromoToShow.GetId() );
+            } else {
+                ProcessNextPromotion();
+            }
         }
 
         public class Factory : Factory<ISceneStartFlowManager, ShowLoginPromosStep> { }

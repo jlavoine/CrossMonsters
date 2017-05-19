@@ -5,5 +5,7 @@ namespace MyLibrary {
         List<ISingleLoginPromoDisplayPM> DisplayPMs { get; }
 
         void DisplayPromoAndHideOthers( string i_id );
+
+        bool DoesHaveDisplayForPromo( string i_id );
     }
 }

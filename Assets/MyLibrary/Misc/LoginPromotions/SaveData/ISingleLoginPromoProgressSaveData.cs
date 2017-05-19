@@ -4,5 +4,8 @@ namespace MyLibrary {
         string GetId();
         long GetLastCollectedTime();
         int GetCollectCount();
+
+        bool AreRewardsRemaining( ILoginPromotionManager i_manager );
+        bool HasRewardBeenClaimedToday( IBackendManager i_backend );
     }
 }

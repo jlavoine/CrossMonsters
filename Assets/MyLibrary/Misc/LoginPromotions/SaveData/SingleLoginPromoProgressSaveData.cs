@@ -16,5 +16,13 @@ namespace MyLibrary {
         public int GetCollectCount() {
             return CollectCount;
         }
+
+        public bool AreRewardsRemaining( ILoginPromotionManager i_manager ) {
+            return true;
+        }
+
+        public bool HasRewardBeenClaimedToday( IBackendManager i_backend ) {
+            return false;
+        }
     }
 }

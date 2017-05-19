@@ -15,6 +15,7 @@ namespace MonsterMatch {
         private ILoginPromotionManager MockPromoManager;
         private ILoginPromoDisplaysPM MockAllPromosPM;
         private ISceneStartFlowManager MockFlowManager;
+        private ILoginPromoPopupHelper MockHelper;
 
         [SetUp]
         public void CommonInstall() {
@@ -22,6 +23,7 @@ namespace MonsterMatch {
             MockPromoManager = Substitute.For<ILoginPromotionManager>();
             MockAllPromosPM = Substitute.For<ILoginPromoDisplaysPM>();
             MockFlowManager = Substitute.For<ISceneStartFlowManager>();
+            MockHelper = Substitute.For<ILoginPromoPopupHelper>();
 
             SetActiveProgressOnMockManagerWithIds( new List<string>() );
         }
@@ -64,13 +66,25 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenStarted_IfActivePromos_FirstPromoIsShown() {
+        public void WhenStarted_IfActivePromos_AndPromoShouldShow_FirstPromoIsShown() {
+            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>() ).Returns( true );
             SetActiveProgressOnMockManagerWithIds( new List<string>() { "Test_1" } );
 
             ShowLoginPromosStep systemUnderTest = CreateSystem();
             systemUnderTest.Start();
 
             MockAllPromosPM.Received().DisplayPromoAndHideOthers( "Test_1" );
+        }
+
+        [Test]
+        public void WhenStarted_IfActivePromos_AndPromoShouldNotShow_PromoIsNotShown() {
+            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>() ).Returns( false );
+            SetActiveProgressOnMockManagerWithIds( new List<string>() { "Test_1" } );
+
+            ShowLoginPromosStep systemUnderTest = CreateSystem();
+            systemUnderTest.Start();
+
+            MockAllPromosPM.DidNotReceive().DisplayPromoAndHideOthers( "Test_1" );
         }
 
         [Test]
@@ -86,6 +100,7 @@ namespace MonsterMatch {
 
         [Test]
         public void WhenPromoIsDismissed_IfOtherPromos_NextPromoIsShown() {
+            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>() ).Returns( true );
             SetActiveProgressOnMockManagerWithIds( new List<string>() { "Test_1", "Test_2" } );
 
             ShowLoginPromosStep systemUnderTest = CreateSystem();
@@ -112,7 +127,7 @@ namespace MonsterMatch {
         }
 
         private ShowLoginPromosStep CreateSystem() {
-            ShowLoginPromosStep systemUnderTest = new ShowLoginPromosStep( MockAllPromosPM, MockPromoManager, MockMessenger, MockFlowManager );
+            ShowLoginPromosStep systemUnderTest = new ShowLoginPromosStep( MockHelper, MockAllPromosPM, MockPromoManager, MockMessenger, MockFlowManager );
             return systemUnderTest;
         }
     }
