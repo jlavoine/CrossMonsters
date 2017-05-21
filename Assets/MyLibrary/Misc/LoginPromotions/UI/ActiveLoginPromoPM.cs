@@ -18,8 +18,8 @@ namespace MyLibrary {
         }
 
         private void CreateButtonPMs() {
-            foreach ( ILoginPromotionData promoData in mManager.ActivePromotionData ) {
-                IActiveLoginPromoButtonPM pm = mSpawnerForButtonPM.Create( promoData );
+            foreach ( KeyValuePair<string,ILoginPromotionData> kvp in mManager.ActivePromotionData ) {
+                IActiveLoginPromoButtonPM pm = mSpawnerForButtonPM.Create( kvp.Value );
                 ButtonPMs.Add( pm );
             }
         }

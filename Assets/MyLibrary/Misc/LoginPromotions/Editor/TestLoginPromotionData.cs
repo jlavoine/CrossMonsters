@@ -26,6 +26,14 @@ namespace MyLibrary {
             Assert.AreEqual( expectedEndTime, systemUnderTest.GetEndTime() );
         }
 
+        [Test]
+        public void GetRewardCount_ReturnsRewardDataCount() {
+            LoginPromotionData systemUnderTest = new LoginPromotionData();
+            systemUnderTest.RewardData = new List<GameRewardData>() { new GameRewardData(), new GameRewardData() };
+
+            Assert.AreEqual( 2, systemUnderTest.GetRewardsCount() );
+        }
+
         static object[] IsActiveTests = {
             new object[] { 0, 1000, 0, true },
             new object[] { 1, 1000, 0, false },

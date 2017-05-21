@@ -5,7 +5,7 @@ namespace MyLibrary {
         long GetLastCollectedTime();
         int GetCollectCount();
 
-        bool AreRewardsRemaining( ILoginPromotionManager i_manager );
+        bool AreRewardsRemaining( ILoginPromotionData i_promoData );
         bool HasRewardBeenClaimedToday( IBackendManager i_backend );
     }
 }

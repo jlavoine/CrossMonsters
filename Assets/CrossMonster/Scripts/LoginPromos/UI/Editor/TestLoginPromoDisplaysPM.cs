@@ -24,7 +24,7 @@ namespace MonsterMatch {
 
         [Test]
         public void WhenCreating_ForEachActivePromo_DisplayPM_IsSpawned() {
-            MockManager.ActivePromotionData.Returns( new List<ILoginPromotionData>() { Substitute.For<ILoginPromotionData>(), Substitute.For<ILoginPromotionData>() } );
+            MockManager.ActivePromotionData.Returns( new Dictionary<string,ILoginPromotionData>() { { "A", Substitute.For<ILoginPromotionData>() }, { "B", Substitute.For<ILoginPromotionData>() } } );
             LoginPromoDisplaysPM systemUnderTest = CreateSystem();
 
             Assert.AreEqual( 2, systemUnderTest.DisplayPMs.Count );

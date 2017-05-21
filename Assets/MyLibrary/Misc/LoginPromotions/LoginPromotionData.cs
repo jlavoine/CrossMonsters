@@ -21,6 +21,10 @@ namespace MyLibrary {
             return PromoPrefab;
         }
 
+        public int GetRewardsCount() {
+            return RewardData.Count;
+        }
+
         public List<IGameRewardData> GetRewardData() {
             List<IGameRewardData> rewards = new List<IGameRewardData>();
             foreach ( GameRewardData data in RewardData ) {

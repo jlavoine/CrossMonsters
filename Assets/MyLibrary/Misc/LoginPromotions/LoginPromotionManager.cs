@@ -8,8 +8,8 @@ namespace MyLibrary {
 
         private IBasicBackend mBackend;
 
-        private List<ILoginPromotionData> mActivePromotionData = new List<ILoginPromotionData>();
-        public List<ILoginPromotionData> ActivePromotionData { get { return mActivePromotionData; } set { mActivePromotionData = value; } }
+        private Dictionary<string, ILoginPromotionData> mActivePromotionData = new Dictionary<string, ILoginPromotionData>();
+        public Dictionary<string, ILoginPromotionData> ActivePromotionData { get { return mActivePromotionData; } set { mActivePromotionData = value; } }
 
         private Dictionary<string, ISingleLoginPromoProgressSaveData> mPromoProgress = new Dictionary<string, ISingleLoginPromoProgressSaveData>();
         public Dictionary<string, ISingleLoginPromoProgressSaveData> PromoProgress { get { return mPromoProgress; } set { mPromoProgress = value; } }
@@ -32,14 +32,17 @@ namespace MyLibrary {
             return saveData;
         }
 
-        private bool IsPromoActive( string i_id ) {
-            foreach ( ILoginPromotionData promoData in ActivePromotionData ) {
-                if ( promoData.GetId() == i_id ) {
-                    return true;
-                }
+        public ILoginPromotionData GetDataForPromo( string i_id ) {
+            if ( ActivePromotionData.ContainsKey( i_id ) ) {
+                return ActivePromotionData[i_id];
+            } else {
+                return null;
             }
+        }
 
-            return false;
+        private bool IsPromoActive( string i_id ) {
+            ILoginPromotionData promo = GetDataForPromo( i_id );
+            return promo != null;
         }
 
         private void DownloadAllPromotions() {
@@ -63,7 +66,7 @@ namespace MyLibrary {
         public void AddToActivePromosIfActive( ILoginPromotionData i_promo ) {
             bool isActive = i_promo.IsActive( mBackend.GetDateTime() );
             if ( isActive ) {
-                ActivePromotionData.Add( i_promo );
+                ActivePromotionData.Add( i_promo.GetId(), i_promo );
             }
         }
     }

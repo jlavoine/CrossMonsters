@@ -7,6 +7,8 @@ namespace MyLibrary {
         string GetNameKey();
         string GetPromoPrefab();
 
+        int GetRewardsCount();
+
         List<IGameRewardData> GetRewardData();
 
         DateTime GetStartTime();

@@ -40,7 +40,7 @@ namespace MonsterMatch {
             LoginPromoPopupHelper systemUnderTest = CreateSystem();
             MockAllPromosPM.DoesHaveDisplayForPromo( Arg.Any<string>() ).Returns( i_doesHaveUI );
             mockData.HasRewardBeenClaimedToday( MockBackend ).Returns( i_hasClaimedRewardToday );
-            mockData.AreRewardsRemaining( MockPromoManager ).Returns( i_hasRewardsRemaining );
+            mockData.AreRewardsRemaining( Arg.Any<ILoginPromotionData>() ).Returns( i_hasRewardsRemaining );
 
             bool shouldShow = systemUnderTest.ShouldShowPromoAsPopup( mockData );
 

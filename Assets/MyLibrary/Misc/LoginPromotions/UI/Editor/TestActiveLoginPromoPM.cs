@@ -24,7 +24,7 @@ namespace MyLibrary {
 
         [Test]
         public void WhenCreated_CreatedButtonPMs_MatchActivePromos() {
-            MockManager.ActivePromotionData.Returns( new List<ILoginPromotionData>() { Substitute.For<ILoginPromotionData>(), Substitute.For<ILoginPromotionData>() } );
+            MockManager.ActivePromotionData.Returns( new Dictionary<string, ILoginPromotionData>() { { "A", Substitute.For<ILoginPromotionData>() }, { "B", Substitute.For<ILoginPromotionData>() } } );
             ActiveLoginPromoPM systemUnderTest = new ActiveLoginPromoPM( MockSpawner, MockManager );
 
             Assert.AreEqual( 2, systemUnderTest.ButtonPMs.Count );

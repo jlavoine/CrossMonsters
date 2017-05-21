@@ -41,14 +41,14 @@ namespace MyLibrary {
         public void GettingListOfActivePromoSaveData_ReturnsAsExpected() {
             // this test kind of sucks. I think I've learned my lesson. Nothing should have a List<T>, it should have a structure that 
             // holds a List<T> I think, so I can easier mock its functionality
-            List<ILoginPromotionData> mockActiveDataList = new List<ILoginPromotionData>();
+            Dictionary<string, ILoginPromotionData> mockActiveData = new Dictionary<string, ILoginPromotionData>();
             ILoginPromotionData mockData_1 = Substitute.For<ILoginPromotionData>();
             mockData_1.GetId().Returns( "A" );
             ILoginPromotionData mockData_2 = Substitute.For<ILoginPromotionData>();
             mockData_2.GetId().Returns( "C" );
-            mockActiveDataList.Add( mockData_1 );
-            mockActiveDataList.Add( mockData_2 );
-            systemUnderTest.ActivePromotionData = mockActiveDataList;
+            mockActiveData.Add( "A", mockData_1 );
+            mockActiveData.Add( "C", mockData_2 );
+            systemUnderTest.ActivePromotionData = mockActiveData;
 
             Dictionary<string, ISingleLoginPromoProgressSaveData> mockSaveProgress = new Dictionary<string, ISingleLoginPromoProgressSaveData>();
             ISingleLoginPromoProgressSaveData mockSave_1 = Substitute.For<ISingleLoginPromoProgressSaveData>();
@@ -73,7 +73,7 @@ namespace MyLibrary {
 
             ILoginPromotionData mockPromo = Substitute.For<ILoginPromotionData>();
             mockPromo.IsActive( Arg.Any<DateTime>() ).Returns( true );
-            systemUnderTest.ActivePromotionData = new List<ILoginPromotionData>();
+            systemUnderTest.ActivePromotionData = new Dictionary<string, ILoginPromotionData>();
 
             systemUnderTest.AddToActivePromosIfActive( mockPromo );
 
@@ -87,11 +87,29 @@ namespace MyLibrary {
 
             ILoginPromotionData mockPromo = Substitute.For<ILoginPromotionData>();
             mockPromo.IsActive( Arg.Any<DateTime>() ).Returns( false );
-            systemUnderTest.ActivePromotionData = new List<ILoginPromotionData>();
+            systemUnderTest.ActivePromotionData = new Dictionary<string, ILoginPromotionData>();
 
             systemUnderTest.AddToActivePromosIfActive( mockPromo );
 
             Assert.AreEqual( 0, systemUnderTest.ActivePromotionData.Count );
+        }
+
+        [Test]
+        public void GetDataForPromo_ReturnsNullIfNoData() {
+            systemUnderTest.ActivePromotionData = new Dictionary<string, ILoginPromotionData>();
+
+            ILoginPromotionData data = systemUnderTest.GetDataForPromo( "SomePromo" );
+
+            Assert.IsNull( data );
+        }
+
+        [Test]
+        public void GetDataForPromo_ReturnsData_WhenItExists() {
+            systemUnderTest.ActivePromotionData = new Dictionary<string, ILoginPromotionData>() { { "SomePromo", Substitute.For<ILoginPromotionData>() } };
+
+            ILoginPromotionData data = systemUnderTest.GetDataForPromo( "SomePromo" );
+
+            Assert.IsNotNull( data );
         }
     }
 }

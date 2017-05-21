@@ -13,6 +13,36 @@ namespace MyLibrary {
     [TestFixture]
     public class TestSingleLoginPromoSaveData : ZenjectUnitTestFixture {
 
+        static object[] AreRewardsRemainingTests = {
+            new object[] { 0, 3, true },
+            new object[] { 1, 3, true },
+            new object[] { 2, 3, true },
+            new object[] { 3, 3, false },
+            new object[] { 4, 3, false }
+        };
+
+        [Test, TestCaseSource( "AreRewardsRemainingTests" )]
+        public void AreRewardsRemaining_ReturnsAsExpected( int i_rewardsCollected, int i_totalRewards, bool i_expectedResult ) {
+            SingleLoginPromoProgressSaveData systemUnderTest = new SingleLoginPromoProgressSaveData();
+            systemUnderTest.CollectCount = i_rewardsCollected;
+
+            ILoginPromotionData mockData = Substitute.For<ILoginPromotionData>();
+            mockData.GetRewardsCount().Returns( i_totalRewards );
+            bool areRewardsRemaining = systemUnderTest.AreRewardsRemaining( mockData );
+
+            Assert.AreEqual( i_expectedResult, areRewardsRemaining );
+        }
+
+        [Test]
+        public void WhenPromoDataIsNull_AreRewardsRemaining_ReturnsFalse() {
+            SingleLoginPromoProgressSaveData systemUnderTest = new SingleLoginPromoProgressSaveData();
+            systemUnderTest.CollectCount = 1;
+
+            bool areRewardsRemaining = systemUnderTest.AreRewardsRemaining( null );
+
+            Assert.IsFalse( areRewardsRemaining );
+        }
+
         static object[] HasRewardBeenClaimedTodayTests = {
             new object[] { new DateTime( 1970, 2, 1, 0, 0, 0, DateTimeKind.Utc ), new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ), false },
             new object[] { new DateTime( 1970, 2, 1, 0, 0, 0, DateTimeKind.Utc ), new DateTime( 1970, 1, 31, 0, 0, 0, DateTimeKind.Utc ), false },

@@ -37,8 +37,8 @@ namespace MonsterMatch {
             DisplayPMs = new List<ISingleLoginPromoDisplayPM>();
 
             if ( mManager.ActivePromotionData != null ) {
-                foreach ( ILoginPromotionData promoData in mManager.ActivePromotionData ) {
-                    ISingleLoginPromoDisplayPM pm = mSpawner.Create( promoData );
+                foreach ( KeyValuePair<string,ILoginPromotionData> kvp in mManager.ActivePromotionData ) {
+                    ISingleLoginPromoDisplayPM pm = mSpawner.Create( kvp.Value );
                     DisplayPMs.Add( pm );
                 }
             }

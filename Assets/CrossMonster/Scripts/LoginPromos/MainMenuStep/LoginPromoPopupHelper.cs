@@ -14,7 +14,7 @@ namespace MonsterMatch {
 
         public bool ShouldShowPromoAsPopup( ISingleLoginPromoProgressSaveData i_promoData ) {
             bool doesHaveUI = mAllPromosPM.DoesHaveDisplayForPromo( i_promoData.GetId() );
-            bool areRewardsRemaining = i_promoData.AreRewardsRemaining( mPromoManager );
+            bool areRewardsRemaining = i_promoData.AreRewardsRemaining( mPromoManager.GetDataForPromo( i_promoData.GetId() ) );
             bool hasRewardBeenClaimedToday = i_promoData.HasRewardBeenClaimedToday( mBackend );
 
             return doesHaveUI && areRewardsRemaining && !hasRewardBeenClaimedToday;

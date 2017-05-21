@@ -18,8 +18,12 @@ namespace MyLibrary {
             return CollectCount;
         }
 
-        public bool AreRewardsRemaining( ILoginPromotionManager i_manager ) {
-            return true;
+        public bool AreRewardsRemaining( ILoginPromotionData i_promoData ) {
+            if ( i_promoData != null ) {
+                return CollectCount < i_promoData.GetRewardsCount();
+            } else {
+                return false;
+            }
         }
 
         public bool HasRewardBeenClaimedToday( IBackendManager i_backend ) {
