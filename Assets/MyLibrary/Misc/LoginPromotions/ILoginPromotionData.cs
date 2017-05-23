@@ -10,6 +10,7 @@ namespace MyLibrary {
         int GetRewardsCount();
 
         List<IGameRewardData> GetRewardData();
+        IGameRewardData GetRewardDataForDay( int i_day );      
 
         DateTime GetStartTime();
         DateTime GetEndTime();

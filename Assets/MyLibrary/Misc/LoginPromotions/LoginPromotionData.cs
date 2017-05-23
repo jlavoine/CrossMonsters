@@ -34,6 +34,15 @@ namespace MyLibrary {
             return rewards;
         }
 
+        public IGameRewardData GetRewardDataForDay( int i_day ) {
+            int index = i_day - 1;
+            if ( RewardData.Count >= index ) {
+                return RewardData[index];
+            } else {
+                return null;
+            }
+        }
+
         public DateTime GetStartTime() {
             return new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ).AddMilliseconds( StartDateInMs );
         }

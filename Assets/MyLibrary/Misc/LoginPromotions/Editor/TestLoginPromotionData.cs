@@ -53,5 +53,33 @@ namespace MyLibrary {
 
             Assert.AreEqual( i_expected, isActive );
         }
+
+        [Test]
+        public void GetRewardForData_ReturnsNull_IfDayIsOutOfBounds() {
+            LoginPromotionData systemUnderTest = new LoginPromotionData();
+            systemUnderTest.RewardData = new List<GameRewardData>();
+
+            IGameRewardData rewardData = systemUnderTest.GetRewardDataForDay( 5 );
+
+            Assert.IsNull( rewardData );
+        }
+
+        [Test]
+        public void GetRewardDataForDay_ReturnsIndexedReward() {
+            List<GameRewardData> mockRewardData = new List<GameRewardData>();
+            GameRewardData reward1 = new GameRewardData();
+            GameRewardData reward2 = new GameRewardData();
+            mockRewardData.Add( reward1 );
+            mockRewardData.Add( reward2 );
+
+            LoginPromotionData systemUnderTest = new LoginPromotionData();
+            systemUnderTest.RewardData = mockRewardData;
+
+            IGameRewardData data1 = systemUnderTest.GetRewardDataForDay( 1 );
+            IGameRewardData data2 = systemUnderTest.GetRewardDataForDay( 2 );
+
+            Assert.AreEqual( reward1, data1 );
+            Assert.AreEqual( reward2, data2 );
+        }
     }
 }

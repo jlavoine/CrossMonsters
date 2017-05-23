@@ -7,6 +7,8 @@ namespace MyLibrary {
         void Init( IBasicBackend i_backend );
         void MakeCloudCall( string i_methodName, Dictionary<string, string> i_params, Callback<Dictionary<string, string>> i_requestSuccessCallback );
 
+        long GetTimeInMs();
+
         string GetPlayerId();
     }
 }

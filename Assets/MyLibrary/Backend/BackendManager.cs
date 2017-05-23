@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace MyLibrary {
     public class BackendManager : IBackendManager {
@@ -18,6 +19,11 @@ namespace MyLibrary {
 
         public string GetPlayerId() {
             return mBackend.PlayerId;
+        }
+
+        public long GetTimeInMs() {
+            DateTime curTime = mBackend.GetDateTime();
+            return (long)curTime.Subtract( new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc ) ).TotalMilliseconds;
         }
     }
 }

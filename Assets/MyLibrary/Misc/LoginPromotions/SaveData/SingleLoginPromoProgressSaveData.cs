@@ -18,6 +18,11 @@ namespace MyLibrary {
             return CollectCount;
         }
 
+        public void OnAwarded( long i_curTime ) {
+            LastCollectedTime = i_curTime;
+            CollectCount++;
+        }
+
         public bool AreRewardsRemaining( ILoginPromotionData i_promoData ) {
             if ( i_promoData != null ) {
                 return CollectCount < i_promoData.GetRewardsCount();

@@ -7,18 +7,18 @@ namespace MonsterMatch {
         readonly IMessageService mMessenger;
         readonly ILoginPromotionManager mPromoManager;
         readonly ILoginPromoDisplaysPM mAllPromosPM;
-        readonly ILoginPromoPopupHelper mHelper;
+        readonly ILoginPromoPopupHelper mHelper;        
 
         private List<ISingleLoginPromoProgressSaveData> mActiveSaveData = new List<ISingleLoginPromoProgressSaveData>();
         public List<ISingleLoginPromoProgressSaveData> ActivePromoSaveData { get { return mActiveSaveData; } set { mActiveSaveData = value; } }
 
-        public ShowLoginPromosStep( ILoginPromoPopupHelper i_popupHelper, ILoginPromoDisplaysPM i_allPromosPM, ILoginPromotionManager i_manager, IMessageService i_messenger, ISceneStartFlowManager i_sceneManager ) : base (i_sceneManager ) {
+        public ShowLoginPromosStep( IBackendManager i_backend, ILoginPromoPopupHelper i_popupHelper, ILoginPromoDisplaysPM i_allPromosPM, ILoginPromotionManager i_manager, IMessageService i_messenger, ISceneStartFlowManager i_sceneManager ) : base( i_sceneManager ) {
             mMessenger = i_messenger;
             mPromoManager = i_manager;
             mAllPromosPM = i_allPromosPM;
             mHelper = i_popupHelper;
 
-            ActivePromoSaveData = i_manager.GetActivePromoSaveData();            
+            ActivePromoSaveData = i_manager.GetActivePromoSaveData();
         }
 
         public override void Start() {
@@ -41,18 +41,21 @@ namespace MonsterMatch {
 
         public void ProcessNextPromotion() {
             if ( ActivePromoSaveData.Count > 0 ) {
-                TryToShowNextPromo();                
+                TryToShowAndAwardNextPromo();
             } else {
                 Done();
             }
         }
 
-        private void TryToShowNextPromo() {
-            ISingleLoginPromoProgressSaveData nextPromoToShow = ActivePromoSaveData[0];
+        private void TryToShowAndAwardNextPromo() {
+            ISingleLoginPromoProgressSaveData promoProgress = ActivePromoSaveData[0];
+            ILoginPromotionData promoData = mPromoManager.GetDataForPromo( promoProgress.GetId() );
             ActivePromoSaveData.RemoveAt( 0 );
 
-            if ( mHelper.ShouldShowPromoAsPopup( nextPromoToShow ) ) {
-                mAllPromosPM.DisplayPromoAndHideOthers( nextPromoToShow.GetId() );
+            if ( mHelper.ShouldShowPromoAsPopup( promoProgress, promoData ) ) {
+                mAllPromosPM.DisplayPromoAndHideOthers( promoProgress.GetId() );
+                mHelper.AwardPromoOnClient( promoProgress, promoData );
+                mHelper.AwardPromoOnServer( promoData );                
             } else {
                 ProcessNextPromotion();
             }

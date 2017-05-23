@@ -65,5 +65,25 @@ namespace MyLibrary {
 
             Assert.AreEqual( i_expected, hasClaimedToday );
         }
+
+        [Test]
+        public void WhenAwarded_CollectTimeIsSet() {
+            SingleLoginPromoProgressSaveData systemUnderTest = new SingleLoginPromoProgressSaveData();
+            systemUnderTest.LastCollectedTime = 0;
+
+            systemUnderTest.OnAwarded( 1000 );
+
+            Assert.AreEqual( 1000, systemUnderTest.GetLastCollectedTime() );
+        }
+
+        [Test]
+        public void WhenAwarded_CollectCountIsIncremented() {
+            SingleLoginPromoProgressSaveData systemUnderTest = new SingleLoginPromoProgressSaveData();
+            systemUnderTest.CollectCount = 1;
+
+            systemUnderTest.OnAwarded( 1000 );
+
+            Assert.AreEqual( 2, systemUnderTest.GetCollectCount() );
+        }
     }
 }

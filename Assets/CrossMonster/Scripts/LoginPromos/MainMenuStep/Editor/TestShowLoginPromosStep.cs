@@ -16,9 +16,11 @@ namespace MonsterMatch {
         private ILoginPromoDisplaysPM MockAllPromosPM;
         private ISceneStartFlowManager MockFlowManager;
         private ILoginPromoPopupHelper MockHelper;
+        private IBackendManager MockBackend;
 
         [SetUp]
         public void CommonInstall() {
+            MockBackend = Substitute.For<IBackendManager>();
             MockMessenger = Substitute.For<IMessageService>();
             MockPromoManager = Substitute.For<ILoginPromotionManager>();
             MockAllPromosPM = Substitute.For<ILoginPromoDisplaysPM>();
@@ -67,18 +69,20 @@ namespace MonsterMatch {
 
         [Test]
         public void WhenStarted_IfActivePromos_AndPromoShouldShow_FirstPromoIsShown() {
-            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>() ).Returns( true );
+            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>(), Arg.Any<ILoginPromotionData>() ).Returns( true );
             SetActiveProgressOnMockManagerWithIds( new List<string>() { "Test_1" } );
 
             ShowLoginPromosStep systemUnderTest = CreateSystem();
             systemUnderTest.Start();
 
             MockAllPromosPM.Received().DisplayPromoAndHideOthers( "Test_1" );
+            MockHelper.Received().AwardPromoOnClient( Arg.Any<ISingleLoginPromoProgressSaveData>(), Arg.Any<ILoginPromotionData>() );
+            MockHelper.Received().AwardPromoOnServer( Arg.Any<ILoginPromotionData>() );
         }
 
         [Test]
         public void WhenStarted_IfActivePromos_AndPromoShouldNotShow_PromoIsNotShown() {
-            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>() ).Returns( false );
+            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>(), Arg.Any<ILoginPromotionData>() ).Returns( false );
             SetActiveProgressOnMockManagerWithIds( new List<string>() { "Test_1" } );
 
             ShowLoginPromosStep systemUnderTest = CreateSystem();
@@ -100,7 +104,7 @@ namespace MonsterMatch {
 
         [Test]
         public void WhenPromoIsDismissed_IfOtherPromos_NextPromoIsShown() {
-            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>() ).Returns( true );
+            MockHelper.ShouldShowPromoAsPopup( Arg.Any<ISingleLoginPromoProgressSaveData>(), Arg.Any<ILoginPromotionData>() ).Returns( true );
             SetActiveProgressOnMockManagerWithIds( new List<string>() { "Test_1", "Test_2" } );
 
             ShowLoginPromosStep systemUnderTest = CreateSystem();
@@ -116,7 +120,7 @@ namespace MonsterMatch {
             foreach ( string id in i_ids ) {
                 ISingleLoginPromoProgressSaveData mockProgress = Substitute.For<ISingleLoginPromoProgressSaveData>();
                 mockProgress.GetId().Returns( id );
-                mockActivePromos.Add( mockProgress );
+                mockActivePromos.Add( mockProgress );                
             }
 
             MockPromoManager.GetActivePromoSaveData().Returns( mockActivePromos );
@@ -127,7 +131,7 @@ namespace MonsterMatch {
         }
 
         private ShowLoginPromosStep CreateSystem() {
-            ShowLoginPromosStep systemUnderTest = new ShowLoginPromosStep( MockHelper, MockAllPromosPM, MockPromoManager, MockMessenger, MockFlowManager );
+            ShowLoginPromosStep systemUnderTest = new ShowLoginPromosStep( MockBackend, MockHelper, MockAllPromosPM, MockPromoManager, MockMessenger, MockFlowManager );
             return systemUnderTest;
         }
     }

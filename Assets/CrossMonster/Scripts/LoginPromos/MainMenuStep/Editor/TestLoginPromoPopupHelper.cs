@@ -12,13 +12,13 @@ using System;
 namespace MonsterMatch {
     [TestFixture]
     public class TestLoginPromoPopupHelper : ZenjectUnitTestFixture {
-        private ILoginPromotionManager MockPromoManager;
+        private IDungeonRewardSpawner MockRewardSpawner;
         private ILoginPromoDisplaysPM MockAllPromosPM;
         private IBackendManager MockBackend;
 
         [SetUp]
         public void CommonInstall() {
-            MockPromoManager = Substitute.For<ILoginPromotionManager>();
+            MockRewardSpawner = Substitute.For<IDungeonRewardSpawner>();
             MockAllPromosPM = Substitute.For<ILoginPromoDisplaysPM>();
             MockBackend = Substitute.For<IBackendManager>();
         }
@@ -42,14 +42,38 @@ namespace MonsterMatch {
             mockData.HasRewardBeenClaimedToday( MockBackend ).Returns( i_hasClaimedRewardToday );
             mockData.AreRewardsRemaining( Arg.Any<ILoginPromotionData>() ).Returns( i_hasRewardsRemaining );
 
-            bool shouldShow = systemUnderTest.ShouldShowPromoAsPopup( mockData );
+            bool shouldShow = systemUnderTest.ShouldShowPromoAsPopup( mockData, Substitute.For<ILoginPromotionData>() );
 
             Assert.AreEqual( i_expected, shouldShow );
         }
 
+        [Test]
+        public void WhenAwardingPromoOnServer_ProperBackendCall_IsMade() {
+            ILoginPromotionData mockData = Substitute.For<ILoginPromotionData>();
+            mockData.GetId().Returns( "TestId" );
+
+            LoginPromoPopupHelper systemUnderTest = CreateSystem();
+            systemUnderTest.AwardPromoOnServer( mockData );
+
+            MockBackend.Received().MakeCloudCall( BackendMethods.UPDATE_LOGIN_PROMO_PROGRESS, 
+                Arg.Is<Dictionary<string, string>>( x => x.ContainsKey( LoginPromoPopupHelper.PROMO_ID ) && x[LoginPromoPopupHelper.PROMO_ID] == "TestId" ), 
+                Arg.Any<Callback<Dictionary<string, string>>>() );
+        }
+
+        [Test]
+        public void WhenAwardingPromoOnClient_ClientSaveDataIsUpdated() {
+            MockBackend.GetTimeInMs().Returns( 1000 );
+            ILoginPromotionData mockData = Substitute.For<ILoginPromotionData>();
+            ISingleLoginPromoProgressSaveData mockProgress = Substitute.For<ISingleLoginPromoProgressSaveData>();
+
+            LoginPromoPopupHelper systemUnderTest = CreateSystem();
+            systemUnderTest.AwardPromoOnClient( mockProgress, mockData );
+
+            mockProgress.Received().OnAwarded( 1000 );
+        }
 
         private LoginPromoPopupHelper CreateSystem() {
-            LoginPromoPopupHelper systemUnderTest = new LoginPromoPopupHelper( MockBackend, MockPromoManager, MockAllPromosPM );
+            LoginPromoPopupHelper systemUnderTest = new LoginPromoPopupHelper( MockRewardSpawner, MockBackend, MockAllPromosPM );
             return systemUnderTest;
         }
     }
