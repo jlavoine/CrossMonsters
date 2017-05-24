@@ -24,7 +24,7 @@ namespace MonsterMatch {
         }
 
         public int GetActiveMonsterCount() {
-            return 3;
+            return 1;
         }
 
         public int GetBoardSize() {
