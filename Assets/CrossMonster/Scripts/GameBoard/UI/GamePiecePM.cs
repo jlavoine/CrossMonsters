@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MonsterMatch {
     public class GamePiecePM : PresentationModel, IGamePiecePM {
         public const string PIECE_TYPE_PROPERTY = "PieceType";
-        public const string BG_COLOR_PROPERTY = "BackgroundColor";
+        public const string IS_ON_PROPERTY = "IsOn";
 
         private IGamePiece mPiece;
         public IGamePiece GamePiece { get { return mPiece; } set { mPiece = value; } }
@@ -15,7 +15,7 @@ namespace MonsterMatch {
             ListenForMessages( true );
 
             UpdateProperties();            
-            ResetColorBackgroundPropertyToDefault();            
+            ResetIsOnProperty();            
         }
 
         protected override void _Dispose() {
@@ -34,12 +34,12 @@ namespace MonsterMatch {
 
         public void OnPieceAddedToChain( IGamePiece i_piece ) {
             if ( GamePiece == i_piece ) {
-                SetBackgroundColorProperty( Color.yellow ); // TODO make constant
+                SetIsOnProperty( true );
             }
         }
 
         public void OnChainReset() {
-            ResetColorBackgroundPropertyToDefault();
+            ResetIsOnProperty();
         }
 
         protected override void OnModelUpdated() {
@@ -54,12 +54,12 @@ namespace MonsterMatch {
             ViewModel.SetProperty( PIECE_TYPE_PROPERTY, GamePiece.PieceType.ToString() );
         }
 
-        private void SetBackgroundColorProperty( Color i_color ) {
-            ViewModel.SetProperty( BG_COLOR_PROPERTY, i_color );
+        private void SetIsOnProperty( bool i_on ) {
+            ViewModel.SetProperty( IS_ON_PROPERTY, i_on );
         }
 
-        private void ResetColorBackgroundPropertyToDefault() {
-            SetBackgroundColorProperty( Color.white ); // TODO make constant
+        private void ResetIsOnProperty() {
+            SetIsOnProperty( false);
         }
     }
 }

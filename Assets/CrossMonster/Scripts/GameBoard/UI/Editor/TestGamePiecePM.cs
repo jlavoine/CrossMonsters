@@ -39,41 +39,41 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenCreating_BackgroundColorProperty_IsDefault() {
+        public void WhenCreating_IsOnProperty_IsFalse() {
             GamePiecePM systemUnderTest = new GamePiecePM( Substitute.For<IGamePiece>() );
 
-            Assert.AreEqual( Color.white, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
+            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( GamePiecePM.IS_ON_PROPERTY ) );
         }
 
         [Test]
-        public void WhenPieceIsAddedToChain_IfThisPMsPiece_BackgroundColorPropertyAsExpected() {
+        public void WhenPieceIsAddedToChain_IfThisPMsPiece_IsOnProperty_IsTrue() {
             IGamePiece mockPiece = Substitute.For<IGamePiece>();
             GamePiecePM systemUnderTest = new GamePiecePM( mockPiece );
 
             systemUnderTest.OnPieceAddedToChain( mockPiece );
 
-            Assert.AreEqual( Color.yellow, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
+            Assert.IsTrue( systemUnderTest.ViewModel.GetPropertyValue<bool>( GamePiecePM.IS_ON_PROPERTY ) );
         }
 
         [Test]
-        public void WhenPieceIsAddedToChain_IfNotPMsPiece_BackgroundColorIsDefault() {
+        public void WhenPieceIsAddedToChain_IfNotPMsPiece_IsOnProperty_IsFalse() {
             IGamePiece mockPiece = Substitute.For<IGamePiece>();
             IGamePiece notSamePiece = Substitute.For<IGamePiece>();
             GamePiecePM systemUnderTest = new GamePiecePM( mockPiece );
 
             systemUnderTest.OnPieceAddedToChain( notSamePiece );
 
-            Assert.AreEqual( Color.white, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
+            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( GamePiecePM.IS_ON_PROPERTY ) );
         }
 
         [Test]
-        public void WhenChainIsReset_BackgroundColorPropertyIsDefault() {
+        public void WhenChainIsReset_IsOnProperty_IsFalse() {
             GamePiecePM systemUnderTest = new GamePiecePM( Substitute.For<IGamePiece>() );
-            systemUnderTest.ViewModel.SetProperty( GamePiecePM.BG_COLOR_PROPERTY, Color.yellow );
+            systemUnderTest.ViewModel.SetProperty( GamePiecePM.IS_ON_PROPERTY, Color.yellow );
 
             systemUnderTest.OnChainReset();
 
-            Assert.AreEqual( Color.white, systemUnderTest.ViewModel.GetPropertyValue<Color>( GamePiecePM.BG_COLOR_PROPERTY ) );
+            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( GamePiecePM.IS_ON_PROPERTY ) );
         }
 
         [Test]
