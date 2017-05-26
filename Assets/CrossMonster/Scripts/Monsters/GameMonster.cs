@@ -48,6 +48,12 @@ namespace MonsterMatch {
             while ( AttackCycle >= AttackRate ) {
                 PerformAttack();                
             }
+
+            SendModelChangedEvent();
+        }
+
+        public float GetAttackProgress() {
+            return AttackCycle / AttackRate;
         }
 
         public bool DoesMatchCombo( List<IGamePiece> i_combo ) {

@@ -5,6 +5,7 @@ namespace MonsterMatch {
     public class MonsterPM : PresentationModel, IMonsterPM {
         public const string ID_PROPERTY = "Id";
         public const string HP_PROPERTY = "HP";
+        public const string ATTACK_PROGRESS_PROPERTY = "AttackProgress";
         public const string DESTROY_PROPERTY = "ShouldDestroy";
 
         private IGameMonster mMonster;
@@ -25,6 +26,10 @@ namespace MonsterMatch {
             ViewModel.SetProperty( HP_PROPERTY, mMonster.RemainingHP );
         }
 
+        private void SetAttackProgressProperty() {
+            ViewModel.SetProperty( ATTACK_PROGRESS_PROPERTY, mMonster.GetAttackProgress() );
+        }
+
         private void SetShouldDestroyProperty() {
             bool shouldDestroy = mMonster.IsDead();
             ViewModel.SetProperty( DESTROY_PROPERTY, shouldDestroy );
@@ -32,6 +37,7 @@ namespace MonsterMatch {
 
         private void UpdateProperties() {
             SetHpProperty();
+            SetAttackProgressProperty();
             SetShouldDestroyProperty();
         }
 

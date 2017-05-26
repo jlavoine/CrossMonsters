@@ -145,6 +145,22 @@ namespace MonsterMatch {
             Assert.AreEqual( 254, systemUnderTest.AttackCycle );
         }
 
+        static object[] AttackProgressTests = {
+            new object[] { 100, 200, 0.5f },
+            new object[] { 10, 100, 0.1f }
+        };
+
+        [Test, TestCaseSource( "AttackProgressTests" )]
+        public void GetAttackProgress_ReturnsAsExpected( long i_curAttackCycle, long i_attackRate, float i_expected ) {
+            IMonsterData mockMonsterData = Substitute.For<IMonsterData>();
+            mockMonsterData.GetAttackRate().Returns( i_attackRate );
+
+            GameMonster systemUnderTest = new GameMonster( mockMonsterData );
+            systemUnderTest.Tick( i_curAttackCycle );
+
+            Assert.AreEqual( i_expected, systemUnderTest.GetAttackProgress() );
+        }
+
         static object[] AttackCountTests = {
             new object[] { 1000, 1 },
             new object[] { 1500, 1 },

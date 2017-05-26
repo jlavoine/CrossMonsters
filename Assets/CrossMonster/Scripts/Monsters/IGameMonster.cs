@@ -14,5 +14,7 @@ namespace MonsterMatch {
 
         bool DoesMatchCombo( List<IGamePiece> i_combo );
         bool IsDead();
+
+        float GetAttackProgress();
     }
 }

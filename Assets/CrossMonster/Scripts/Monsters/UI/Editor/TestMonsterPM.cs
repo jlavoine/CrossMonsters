@@ -15,12 +15,14 @@ namespace MonsterMatch {
             IGameMonster mockMonster = Substitute.For<IGameMonster>();
             mockMonster.Id.Returns( "Blob" );
             mockMonster.RemainingHP = 100;
+            mockMonster.GetAttackProgress().Returns( .1f );
             mockMonster.AttackCombo = mockAttackCombo;
 
             MonsterPM systemUnderTest = new MonsterPM( mockMonster );
 
             Assert.AreEqual( "Blob", systemUnderTest.ViewModel.GetPropertyValue<string>( MonsterPM.ID_PROPERTY ) );
             Assert.AreEqual( 100, systemUnderTest.ViewModel.GetPropertyValue<int>( MonsterPM.HP_PROPERTY ) );
+            Assert.AreEqual( .1f, systemUnderTest.ViewModel.GetPropertyValue<float>( MonsterPM.ATTACK_PROGRESS_PROPERTY ) );
             Assert.AreEqual( mockAttackCombo, systemUnderTest.AttackCombo );
             Assert.AreEqual( false, systemUnderTest.ViewModel.GetPropertyValue<bool>( MonsterPM.DESTROY_PROPERTY ) );
         }
@@ -29,13 +31,17 @@ namespace MonsterMatch {
         public void WhenModelUpdated_PropertiesAsExpected() {
             IGameMonster mockMonster = Substitute.For<IGameMonster>();
             mockMonster.RemainingHP = 100;
+            mockMonster.GetAttackProgress().Returns( .1f );
             MonsterPM systemUnderTest = new MonsterPM( mockMonster );
 
             Assert.AreEqual( 100, systemUnderTest.ViewModel.GetPropertyValue<int>( MonsterPM.HP_PROPERTY ) );
+            Assert.AreEqual( .1f, systemUnderTest.ViewModel.GetPropertyValue<float>( MonsterPM.ATTACK_PROGRESS_PROPERTY ) );
 
             mockMonster.RemainingHP = 50;
+            mockMonster.GetAttackProgress().Returns( .2f );
             mockMonster.ModelUpdated += Raise.Event<ModelUpdateHandler>();
             Assert.AreEqual( 50, systemUnderTest.ViewModel.GetPropertyValue<int>( MonsterPM.HP_PROPERTY ) );
+            Assert.AreEqual( .2f, systemUnderTest.ViewModel.GetPropertyValue<float>( MonsterPM.ATTACK_PROGRESS_PROPERTY ) );
         }
 
         [Test]
