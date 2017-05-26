@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 114440642556689778}
   - component: {fileID: 225268172515257262}
   - component: {fileID: 114638639586782932}
+  - component: {fileID: 114664111782467060}
+  - component: {fileID: 95032046959995970}
   m_Layer: 5
   m_Name: OnImage
   m_TagString: Untagged
@@ -69,6 +71,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &95032046959995970
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652542564485966}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114033806237552962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,6 +228,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PropertyName: IsOn
   IsAlphaBoolean: 1
+--- !u!114 &114664111782467060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652542564485966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c109492ce048c4a9b5ad3ec7da2ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: IsOn
 --- !u!114 &114685943224969326
 MonoBehaviour:
   m_ObjectHideFlags: 1
