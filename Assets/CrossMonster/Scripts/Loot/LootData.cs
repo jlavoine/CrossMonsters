@@ -10,5 +10,9 @@ namespace MonsterMatch {
         public string GetId() {
             return Id;
         }             
+
+        public string GetRarity() {
+            return Rarity;
+        }
     }
 }
