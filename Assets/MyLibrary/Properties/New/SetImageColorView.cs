@@ -2,17 +2,7 @@
 using UnityEngine.UI;
 
 namespace MyLibrary {
-    public class SetImageColorView : PropertyView {
-        private Image mImage;
-        public Image Image {
-            get {
-                if ( mImage == null ) {
-                    mImage = GetComponent<Image>();
-                }
-
-                return mImage;
-            }
-        }
+    public class SetImageColorView : BaseImageView {
 
         public override void UpdateView() {
             Color textColor = GetValue<Color>();
