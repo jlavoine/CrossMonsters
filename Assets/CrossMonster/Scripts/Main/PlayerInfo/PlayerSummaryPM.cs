@@ -4,6 +4,7 @@ namespace MonsterMatch {
     public class PlayerSummaryPM : PresentationModel, IPlayerSummaryPM {
         public const string GOLD_PROPERTY = "Gold";
         public const string TREASURE_LEVEL_PROPERTY = "TreasureLevel";
+        public const string TREASURE_LEVEL_PROGRESS_PROPERTY = "NextTreasureLevelProgress";
 
         readonly IPlayerDataManager mPlayerManager;
         readonly IMessageService mMessenger;
@@ -18,6 +19,7 @@ namespace MonsterMatch {
 
             SetGoldProperty();
             SetTreasureLevelProperty();
+            SetTreasureLevelProgressProperty();
         }
 
         protected override void _Dispose() {
@@ -38,6 +40,10 @@ namespace MonsterMatch {
 
         private void SetTreasureLevelProperty() {
             ViewModel.SetProperty( TREASURE_LEVEL_PROPERTY, mTreasureManager.GetPlayerTreasureLevel().ToString() );
+        }
+
+        private void SetTreasureLevelProgressProperty() {
+            ViewModel.SetProperty( TREASURE_LEVEL_PROGRESS_PROPERTY, mTreasureManager.GetPlayerTreasureLevelProgress() );
         }
     }
 }

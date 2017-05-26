@@ -11,5 +11,7 @@ namespace MonsterMatch {
 
         int GetValueForRarity( string i_rarity );
         int GetPlayerTreasureLevel();
+
+        float GetPlayerTreasureLevelProgress();
     }
 }

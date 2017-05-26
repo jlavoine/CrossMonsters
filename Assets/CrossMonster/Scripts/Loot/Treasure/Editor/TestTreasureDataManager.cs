@@ -84,6 +84,17 @@ namespace MonsterMatch {
             Assert.AreEqual( 3, level ); // temp; level should be 1 + (total xp / 100)
         }
 
+        [Test]
+        public void GetPlayerTreasureLevelProgress_ReturnsAsExpected() {
+            systemUnderTest.PlayerTreasure = new Dictionary<string, ITreasure>();
+            systemUnderTest.PlayerTreasure.Add( "A", CreateMockTreasureWithValue( 100 ) );
+            systemUnderTest.PlayerTreasure.Add( "B", CreateMockTreasureWithValue( 105 ) );
+
+            float progress = systemUnderTest.GetPlayerTreasureLevelProgress();
+
+            Assert.AreEqual( 0.05f, progress );
+        }
+
         private ITreasure CreateMockTreasureWithValue( int i_value ) {
             ITreasure treasure = Substitute.For<ITreasure>();
             treasure.GetValue().Returns( i_value );

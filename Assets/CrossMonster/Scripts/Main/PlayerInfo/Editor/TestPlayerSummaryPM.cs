@@ -29,21 +29,16 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenCreating_Gold_SetToExpectedValue() {
+        public void WhenCreating_PropertiesSetToExpectedValues() {
             MockPlayerManager.Gold.Returns( 100 );
+            MockTreasureManager.GetPlayerTreasureLevel().Returns( 11 );
+            MockTreasureManager.GetPlayerTreasureLevelProgress().Returns( 0.5f );
 
             PlayerSummaryPM systemUnderTest = CreateSystem();
 
             Assert.AreEqual( "100", systemUnderTest.ViewModel.GetPropertyValue<string>( PlayerSummaryPM.GOLD_PROPERTY ) );
-        }
-
-        [Test]
-        public void WhenCreating_TreasureLevel_SetToExpectedValue() {
-            MockTreasureManager.GetPlayerTreasureLevel().Returns( 11 );
-
-            PlayerSummaryPM systemUnderTest = CreateSystem();
-
             Assert.AreEqual( "11", systemUnderTest.ViewModel.GetPropertyValue<string>( PlayerSummaryPM.TREASURE_LEVEL_PROPERTY ) );
+            Assert.AreEqual( 0.5f, systemUnderTest.ViewModel.GetPropertyValue<float>( PlayerSummaryPM.TREASURE_LEVEL_PROGRESS_PROPERTY ) );
         }
 
         [Test]
