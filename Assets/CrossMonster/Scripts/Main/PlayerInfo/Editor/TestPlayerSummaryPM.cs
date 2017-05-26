@@ -12,33 +12,53 @@ namespace MonsterMatch {
     [TestFixture]
     public class TestPlayerInfoPM : ZenjectUnitTestFixture {
 
-        [Test]
-        public void WhenCreating_GoldSetToExpectedValue() {
-            IPlayerDataManager mockManager = Substitute.For<IPlayerDataManager>();
-            mockManager.Gold.Returns( 100 );
+        private IPlayerDataManager MockPlayerManager;
+        private ITreasureDataManager MockTreasureManager;
+        private IMessageService MockMessenger;
 
-            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( mockManager, Substitute.For<IMessageService>() );
+        [SetUp]
+        public void CommonInstall() {
+            MockPlayerManager = Substitute.For<IPlayerDataManager>();
+            MockTreasureManager = Substitute.For<ITreasureDataManager>();
+            MockMessenger = Substitute.For<IMessageService>();
+        }
+
+        private PlayerSummaryPM CreateSystem() {
+            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( MockPlayerManager, MockTreasureManager, MockMessenger );
+            return systemUnderTest;
+        }
+
+        [Test]
+        public void WhenCreating_Gold_SetToExpectedValue() {
+            MockPlayerManager.Gold.Returns( 100 );
+
+            PlayerSummaryPM systemUnderTest = CreateSystem();
 
             Assert.AreEqual( "100", systemUnderTest.ViewModel.GetPropertyValue<string>( PlayerSummaryPM.GOLD_PROPERTY ) );
         }
 
         [Test]
+        public void WhenCreating_TreasureLevel_SetToExpectedValue() {
+            MockTreasureManager.GetPlayerTreasureLevel().Returns( 11 );
+
+            PlayerSummaryPM systemUnderTest = CreateSystem();
+
+            Assert.AreEqual( "11", systemUnderTest.ViewModel.GetPropertyValue<string>( PlayerSummaryPM.TREASURE_LEVEL_PROPERTY ) );
+        }
+
+        [Test]
         public void WhenCreating_MessagesSubscribed_AsExpected() {
-            IMessageService mockMessenger = Substitute.For<IMessageService>();
+            PlayerSummaryPM systemUnderTest = CreateSystem();
 
-            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( Substitute.For<IPlayerDataManager>(), mockMessenger );
-
-            mockMessenger.Received().AddListener( GameMessages.PLAYER_GOLD_CHANGED, Arg.Any<Callback>() );
+            MockMessenger.Received().AddListener( GameMessages.PLAYER_GOLD_CHANGED, Arg.Any<Callback>() );
         }
 
         [Test]
         public void WhenDisposing_MessagesUnsubscribed_AsExpected() {
-            IMessageService mockMessenger = Substitute.For<IMessageService>();
-
-            PlayerSummaryPM systemUnderTest = new PlayerSummaryPM( Substitute.For<IPlayerDataManager>(), mockMessenger );
+            PlayerSummaryPM systemUnderTest = CreateSystem();
             systemUnderTest.Dispose();
 
-            mockMessenger.Received().RemoveListener( GameMessages.PLAYER_GOLD_CHANGED, Arg.Any<Callback>() );
+            MockMessenger.Received().RemoveListener( GameMessages.PLAYER_GOLD_CHANGED, Arg.Any<Callback>() );
         }
     }
 }

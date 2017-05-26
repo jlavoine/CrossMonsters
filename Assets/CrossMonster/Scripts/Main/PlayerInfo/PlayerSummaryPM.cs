@@ -3,17 +3,21 @@
 namespace MonsterMatch {
     public class PlayerSummaryPM : PresentationModel, IPlayerSummaryPM {
         public const string GOLD_PROPERTY = "Gold";
+        public const string TREASURE_LEVEL_PROPERTY = "TreasureLevel";
 
-        readonly IPlayerDataManager mManager;
+        readonly IPlayerDataManager mPlayerManager;
         readonly IMessageService mMessenger;
+        readonly ITreasureDataManager mTreasureManager;
 
-        public PlayerSummaryPM( IPlayerDataManager i_manager, IMessageService i_messenger ) {
+        public PlayerSummaryPM( IPlayerDataManager i_playerManager, ITreasureDataManager i_treasureManager, IMessageService i_messenger ) {
             mMessenger = i_messenger;
-            mManager = i_manager;
+            mPlayerManager = i_playerManager;
+            mTreasureManager = i_treasureManager;
 
             ListenForMessages( true );
 
             SetGoldProperty();
+            SetTreasureLevelProperty();
         }
 
         protected override void _Dispose() {
@@ -29,7 +33,11 @@ namespace MonsterMatch {
         }
 
         private void SetGoldProperty() {
-            ViewModel.SetProperty( GOLD_PROPERTY, mManager.Gold.ToString() );
+            ViewModel.SetProperty( GOLD_PROPERTY, mPlayerManager.Gold.ToString() );
+        }
+
+        private void SetTreasureLevelProperty() {
+            ViewModel.SetProperty( TREASURE_LEVEL_PROPERTY, mTreasureManager.GetPlayerTreasureLevel().ToString() );
         }
     }
 }
