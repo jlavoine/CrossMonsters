@@ -17,7 +17,7 @@ namespace MonsterMatch {
 
         private Dictionary<string, ITreasureData> mAllTreasure = new Dictionary<string, ITreasureData>();
         private List<ITreasureSetData> mAllTreasureSets;
-        private Dictionary<string, ITreasure> mPlayerTreasure;
+        private Dictionary<string, ITreasure> mPlayerTreasure = new Dictionary<string, ITreasure>();
         private Dictionary<string, int> mTreasureValue = new Dictionary<string, int>();
 
         public Dictionary<string, ITreasureData> AllTreasure { get { return mAllTreasure; } set { mAllTreasure = value; } }
