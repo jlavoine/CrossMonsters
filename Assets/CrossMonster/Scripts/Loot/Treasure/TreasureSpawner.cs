@@ -1,16 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿
+namespace MonsterMatch {
+    public interface ITreasureSpawner {
+        ITreasure Create( ITreasureData i_data );
+    }
 
-public class TreasureSpawner : MonoBehaviour {
+    public class TreasureSpawner : ITreasureSpawner {
+        readonly Treasure.Factory factory;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public TreasureSpawner( Treasure.Factory i_factory ) {
+            this.factory = i_factory;
+        }
+
+        public ITreasure Create( ITreasureData i_data ) {
+            return factory.Create( i_data );
+        }
+    }
 }

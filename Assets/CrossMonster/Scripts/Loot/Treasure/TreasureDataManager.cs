@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MyLibrary;
 using Newtonsoft.Json;
+using Zenject;
 
 namespace MonsterMatch {
     public class TreasureDataManager : ITreasureDataManager {
@@ -11,27 +12,29 @@ namespace MonsterMatch {
 
         private IBasicBackend mBackend;
 
-        private List<TreasureData> mAllTreasure;
+        [Inject]
+        ITreasureSpawner TreasureSpawner;
+
+        private Dictionary<string, ITreasureData> mAllTreasure = new Dictionary<string, ITreasureData>();
         private List<ITreasureSetData> mAllTreasureSets;
-        private List<string> mPlayerTreasure;
+        private Dictionary<string, ITreasure> mPlayerTreasure;
         private Dictionary<string, int> mTreasureValue = new Dictionary<string, int>();
 
-        public List<TreasureData> AllTreasure { get { return mAllTreasure; } set { mAllTreasure = value; } }
+        public Dictionary<string, ITreasureData> AllTreasure { get { return mAllTreasure; } set { mAllTreasure = value; } }
         public List<ITreasureSetData> TreasureSetData { get { return mAllTreasureSets; } set { mAllTreasureSets = value; } }
-        public List<string> PlayerTreasure { get { return mPlayerTreasure; } set { mPlayerTreasure = value; } }
+        public Dictionary<string, ITreasure> PlayerTreasure { get { return mPlayerTreasure; } set { mPlayerTreasure = value; } }
         public Dictionary<string, int> TreasureValues { get { return mTreasureValue; } set { mTreasureValue = value; } }
 
         public void Init( IBasicBackend i_backend ) {
             mBackend = i_backend;
 
-            DownloadTreasureData();
+            DownloadTreasureData_ThenPlayerTreasureData();
             DownloadTreasureSets();
-            DownloadTreasureValues();
-            DownloadPlayerTreasure();            
+            DownloadTreasureValues();                    
         }
 
         public bool DoesPlayerHaveTreasure( string i_treasureId ) {
-            return PlayerTreasure.Contains( i_treasureId );
+            return PlayerTreasure.ContainsKey( i_treasureId );
         }
 
         public int GetValueForRarity( string i_rarity ) {
@@ -42,11 +45,22 @@ namespace MonsterMatch {
             }
         }
 
-        private void DownloadTreasureData() {
-            mAllTreasure = new List<TreasureData>();
+        public ITreasureData GetTreasureDataForId( string i_id ) {
+            if ( AllTreasure.ContainsKey( i_id ) ) {
+                return AllTreasure[i_id];
+            } else {
+                return null;
+            }
+        }
 
+        private void DownloadTreasureData_ThenPlayerTreasureData() {
             mBackend.GetTitleData( TREASURE_DATA_TITLE_KEY, ( result ) => {
-                mAllTreasure = JsonConvert.DeserializeObject<List<TreasureData>>( result );
+                List<TreasureData> allData = JsonConvert.DeserializeObject<List<TreasureData>>( result );
+                foreach ( TreasureData data in allData ) {
+                    AllTreasure.Add( data.GetId(), data );
+                }
+
+                DownloadAndCreatePlayerTreasure();
             } );
         }
 
@@ -64,16 +78,25 @@ namespace MonsterMatch {
 
         private void DownloadTreasureValues() {
             mBackend.GetTitleData( TREASURE_VALUE_KEY, ( result ) => {
-                Dictionary<string, int> values = JsonConvert.DeserializeObject<Dictionary<string, int>>( result );
+                TreasureValues = JsonConvert.DeserializeObject<Dictionary<string, int>>( result );
             } );
         }
 
-        private void DownloadPlayerTreasure() {
-            mPlayerTreasure = new List<string>();
-
+        private void DownloadAndCreatePlayerTreasure() {
             mBackend.GetReadOnlyPlayerData( TREASURE_PROGRESS_KEY, ( result ) => {
-                mPlayerTreasure = JsonConvert.DeserializeObject<List<string>>( result );
+                List<string> treasureIds = JsonConvert.DeserializeObject<List<string>>( result );
+                CreatePlayerTreasure( treasureIds );
             } );
+        }
+
+        private void CreatePlayerTreasure( List<string> i_treasureIds ) {
+            foreach ( string treasureId in i_treasureIds ) {
+                ITreasureData data = GetTreasureDataForId( treasureId );
+                if ( data != null ) {
+                    ITreasure treasure = TreasureSpawner.Create( data );
+                    PlayerTreasure.Add( treasureId, treasure );
+                }
+            }
         }
     }
 }

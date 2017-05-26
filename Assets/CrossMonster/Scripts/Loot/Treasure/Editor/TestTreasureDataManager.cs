@@ -14,8 +14,12 @@ namespace MonsterMatch {
         [Inject]
         TreasureDataManager systemUnderTest;
 
+        [Inject]
+        ITreasureSpawner MockSpawner;
+
         [SetUp]
-        public void CommonInstall() {            
+        public void CommonInstall() {
+            Container.Bind<ITreasureSpawner>().FromInstance( Substitute.For<ITreasureSpawner>() );            
             Container.Bind<TreasureDataManager>().AsSingle();
             Container.Inject( this );
         }
@@ -27,8 +31,7 @@ namespace MonsterMatch {
 
             mockBackend.Received().GetTitleData( TreasureDataManager.TREASURE_DATA_TITLE_KEY, Arg.Any<Callback<string>>() );
             mockBackend.Received().GetTitleData( TreasureDataManager.TREASURE_SETS_TITLE_KEY, Arg.Any<Callback<string>>() );
-            mockBackend.Received().GetTitleData( TreasureDataManager.TREASURE_VALUE_KEY, Arg.Any<Callback<string>>() );
-            mockBackend.Received().GetReadOnlyPlayerData( TreasureDataManager.TREASURE_PROGRESS_KEY, Arg.Any<Callback<string>>() );
+            mockBackend.Received().GetTitleData( TreasureDataManager.TREASURE_VALUE_KEY, Arg.Any<Callback<string>>() );            
         }
 
         [Test]
@@ -49,6 +52,25 @@ namespace MonsterMatch {
             int valueC = systemUnderTest.GetValueForRarity( "Rarity_C" );
 
             Assert.AreEqual( valueC, 0 );
+        }
+
+        [Test]
+        public void IfTreasureDataExists_GetTreasureData_ReturnsValue() {
+            ITreasureData mockData = Substitute.For<ITreasureData>();
+            systemUnderTest.AllTreasure = new Dictionary<string, ITreasureData>() { { "TestId", mockData } };
+
+            ITreasureData value = systemUnderTest.GetTreasureDataForId( "TestId" );
+
+            Assert.AreEqual( value, mockData );
+        }
+
+        [Test]
+        public void IfTreasureDataDoesNotExist_GetTreasureData_ReturnsNull() {
+            systemUnderTest.AllTreasure = new Dictionary<string, ITreasureData>();
+
+            ITreasureData value = systemUnderTest.GetTreasureDataForId( "TestId" );
+
+            Assert.IsNull( value );
         }
     }
 }

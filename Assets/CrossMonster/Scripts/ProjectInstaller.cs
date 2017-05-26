@@ -27,5 +27,8 @@ public class ProjectInstaller : MonoInstaller {
 
         Container.BindFactory<long, ICountdownCallback, MyCountdown, MyCountdown.Factory>();
         Container.Bind<IMyCountdown_Spawner>().To<MyCountdown_Spawner>().AsSingle();
+
+        Container.BindFactory<ITreasureData, Treasure, Treasure.Factory>();
+        Container.Bind<ITreasureSpawner>().To<TreasureSpawner>().AsSingle();
     }
 }
