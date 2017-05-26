@@ -45,6 +45,19 @@ namespace MonsterMatch {
             }
         }
 
+        public int GetPlayerTreasureLevel() {
+            int level = 1;
+            int totalXp = 0;
+            
+            foreach ( KeyValuePair<string, ITreasure> kvp in PlayerTreasure ) {
+                totalXp += kvp.Value.GetValue();
+            }
+
+            level += totalXp / 100;
+
+            return level;
+        }
+
         public ITreasureData GetTreasureDataForId( string i_id ) {
             if ( AllTreasure.ContainsKey( i_id ) ) {
                 return AllTreasure[i_id];

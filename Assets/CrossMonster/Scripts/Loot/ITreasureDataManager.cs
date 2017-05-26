@@ -8,6 +8,8 @@ namespace MonsterMatch {
         List<ITreasureSetData> TreasureSetData { get; }
 
         bool DoesPlayerHaveTreasure( string i_treasureId );
+
         int GetValueForRarity( string i_rarity );
+        int GetPlayerTreasureLevel();
     }
 }
