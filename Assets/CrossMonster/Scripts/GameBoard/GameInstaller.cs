@@ -38,6 +38,8 @@ namespace MonsterMatch {
             Container.Bind<ISingleRewardPM_Spawner>().To<SingleRewardPM_Spawner>().AsSingle();
 
             Container.Bind<IDungeonWavePM>().To<DungeonWavePM>().AsSingle();
+
+            Container.Bind<IInGameSettingsPM>().To<InGameSettingsPM>().AsSingle();
         }
     }
 }

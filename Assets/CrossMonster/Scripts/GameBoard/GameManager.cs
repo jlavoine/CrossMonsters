@@ -62,7 +62,7 @@ namespace MonsterMatch {
             return State == GameStates.Playing;
         }
 
-        private void SetState( GameStates i_state ) {
+        public void SetState( GameStates i_state ) {
             State = i_state;
         }
 

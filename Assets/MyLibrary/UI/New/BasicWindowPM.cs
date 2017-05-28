@@ -5,6 +5,7 @@ namespace MyLibrary {
 
         public void Show() {
             SetVisibleProperty( true );
+            OnShown();
         }
 
         public void Hide() {
@@ -16,6 +17,8 @@ namespace MyLibrary {
             ViewModel.SetProperty( VISIBLE_PROPERTY, i_visible );
         }
 
+        // virtual not abstract as to not force child classes to implement
+        protected virtual void OnShown() { }
         protected virtual void OnHidden() { }
     }
 }
