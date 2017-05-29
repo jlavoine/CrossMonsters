@@ -14,11 +14,14 @@ namespace MonsterMatch {
         private int mHP;
         public int HP { get { return mHP; } set { mHP = value; } }
 
+        private int mMaxHP;
+        public int MaxHP { get { return mMaxHP; } set { mMaxHP = value; } }
+
         public GamePlayer( IDamageCalculator i_damageCalculator, IPlayerDataManager i_playerDataManager ) {
             mDamageCalculator = i_damageCalculator;
             mPlayerDataManager = i_playerDataManager;
 
-            SetHP();            
+            SetStartingHP();            
         }
 
         public void Initialize() {
@@ -39,8 +42,16 @@ namespace MonsterMatch {
 
         public void OnAttacked( IGameMonster i_monster ) {
             int damageTaken = mDamageCalculator.GetDamageFromMonster( i_monster, this );
-            RemoveHP( damageTaken );
-            SendUpdateHealthMessage();
+            AlterHP( -damageTaken );            
+        }
+
+        public void OnWaveFinished() {
+            int hpRegen = GetHpRegenPerWave();
+            AlterHP( hpRegen );
+        }
+
+        public int GetHpRegenPerWave() {
+            return mPlayerDataManager.GetStat( PlayerStats.WAVE_HP_REGEN );
         }
 
         public int GetAttackPowerForType( int i_type ) {
@@ -51,16 +62,25 @@ namespace MonsterMatch {
             return mPlayerDataManager.GetStat( PlayerStats.PHY_DEF );
         }
 
-        public void RemoveHP( int i_damage ) {
-            HP = Mathf.Max( 0, HP - i_damage );
+        public void AlterHP( int i_hpChange ) {
+            HP = HP + i_hpChange;
+
+            if ( HP < 0 ) {
+                HP = 0;
+            } else if ( HP > MaxHP ) {
+                HP = MaxHP;
+            }
+
+            SendUpdateHealthMessage();
 
             if ( IsDead() ) {
                 SendPlayerDeadMessage();
-            }
+            }            
         }
 
-        private void SetHP() {
+        private void SetStartingHP() {
             HP = mPlayerDataManager.GetStat( PlayerStats.HP );
+            MaxHP = HP;
         }
 
         private bool IsDead() {

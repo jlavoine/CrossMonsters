@@ -24,6 +24,9 @@ namespace MonsterMatch {
         IDungeonWavePM MockWavePM;
 
         [Inject]
+        IGamePlayer MockPlayer;
+
+        [Inject]
         GameManager systemUnderTest;
 
         [SetUp]
@@ -31,6 +34,7 @@ namespace MonsterMatch {
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
             Container.Bind<IDungeonWavePM>().FromInstance( Substitute.For<IDungeonWavePM>() );
             Container.Bind<IBackendManager>().FromInstance( Substitute.For<IBackendManager>() );
+            Container.Bind<IGamePlayer>().FromInstance( Substitute.For<IGamePlayer>() );
             Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
             Container.Bind<GameManager>().AsSingle();
             Container.Inject( this );
@@ -123,6 +127,13 @@ namespace MonsterMatch {
             systemUnderTest.PrepareForNextWave();
 
             MockWavePM.Received().Show();
+        }
+
+        [Test]
+        public void WhenPreparingForNextWave_GamePlayerIsAltered() {
+            systemUnderTest.PrepareForNextWave();
+
+            MockPlayer.Received().OnWaveFinished();
         }
     }
 }

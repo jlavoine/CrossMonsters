@@ -6,5 +6,6 @@ namespace MonsterMatch {
         int HP { get; }
 
         void Dispose();
+        void OnWaveFinished();
     }
 }

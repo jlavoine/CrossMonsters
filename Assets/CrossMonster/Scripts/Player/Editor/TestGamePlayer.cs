@@ -61,9 +61,17 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void GetHpRegenPerWave_ReturnsExpected() {
+            PlayerDataManager.GetStat( PlayerStats.WAVE_HP_REGEN ).Returns( 333 );
+
+            Assert.AreEqual( 333, systemUnderTest.GetHpRegenPerWave() );
+        }
+
+        [Test]
         public void WhenAttacked_DamageIsSubstractedFromHP() {
             DamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );            
             systemUnderTest.HP = 100;
+            systemUnderTest.MaxHP = 100;
 
             systemUnderTest.OnAttacked( Substitute.For<IGameMonster>() );
 
@@ -71,10 +79,8 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenAttacked_UpdateMessageIsSent() {
-            DamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );
-
-            systemUnderTest.OnAttacked( Substitute.For<IGameMonster>() );
+        public void WhenHpIsAltered_UpdateMessageIsSent() {            
+            systemUnderTest.AlterHP( 1 );
 
             Messenger.Received().Send( GameMessages.UPDATE_PLAYER_HP );
         }
@@ -83,7 +89,7 @@ namespace MonsterMatch {
         public void WhenRemovingHP_IfPlayerIsDead_MessageSent() {
             systemUnderTest.HP = 100;
 
-            systemUnderTest.RemoveHP( 101 );
+            systemUnderTest.AlterHP( -101 );
 
             Messenger.Received().Send( GameMessages.PLAYER_DEAD );
         }
@@ -92,9 +98,30 @@ namespace MonsterMatch {
         public void WhenRemovingHP_HpWontFallBelowZero() {
             systemUnderTest.HP = 100;
 
-            systemUnderTest.RemoveHP( 101 );
+            systemUnderTest.AlterHP( -101 );
 
             Assert.AreEqual( 0, systemUnderTest.HP );
+        }
+
+        [Test]
+        public void WhenAlteringHP_HpWontGoAboveMax() {
+            systemUnderTest.MaxHP = 100;
+            systemUnderTest.HP = 100;
+
+            systemUnderTest.AlterHP( 100 );
+
+            Assert.AreEqual( 100, systemUnderTest.HP );
+        }
+
+        [Test]
+        public void OnWaveFinished_HpIsAdded_BasedOnRegenStat() {
+            systemUnderTest.HP = 100;
+            systemUnderTest.MaxHP = 200;
+            PlayerDataManager.GetStat( PlayerStats.WAVE_HP_REGEN ).Returns( 50 );
+
+            systemUnderTest.OnWaveFinished();
+
+            Assert.AreEqual( 150, systemUnderTest.HP );
         }
     }
 }

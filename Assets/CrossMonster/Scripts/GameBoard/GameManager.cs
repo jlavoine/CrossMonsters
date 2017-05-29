@@ -15,6 +15,9 @@ namespace MonsterMatch {
         [Inject]
         IDungeonWavePM DungeonWavePM;
 
+        [Inject]
+        IGamePlayer Player;
+
         private GameStates mState = GameStates.Paused;
         public GameStates State { get { return mState; } set { mState = value; } }
 
@@ -33,6 +36,7 @@ namespace MonsterMatch {
         public void PrepareForNextWave() {
             SetState( GameStates.Paused );
             DungeonWavePM.Show();
+            Player.OnWaveFinished();
         }
 
         public void BeginWaveGameplay() {
