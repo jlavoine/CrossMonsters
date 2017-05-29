@@ -15,10 +15,12 @@ namespace MonsterMatch {
             Container.Bind<ITreasurePM_Spawner>().To<TreasurePM_Spawner>().AsSingle();
 
             Container.BindFactory<ITreasureSetData, TreasureSetPM, TreasureSetPM.Factory>();
-            Container.BindFactory<string, TreasurePM, TreasurePM.Factory>();
-            Container.BindFactory<DungeonLoader, DungeonLoader.Factory>();
+            Container.BindFactory<string, TreasurePM, TreasurePM.Factory>();            
 
             Container.Bind<ILoadingScreenPM>().To<LoadingScreenPM>().AsSingle();
+
+            Container.Bind<IDungeonLoader>().To<DungeonLoader>().AsSingle();
+            Container.Bind<IEnterDungeonPM>().To<EnterDungeonPM>().AsSingle();
 
             Container.Bind<MainMenuFlow>().AsSingle();
 

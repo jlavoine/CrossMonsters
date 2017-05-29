@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 
 namespace MonsterMatch {
-    public class DungeonLoader {
+    public class DungeonLoader : IDungeonLoader {
         readonly ILoadingScreenPM mLoadingPM;
         readonly IBackendManager mBackendManager;
         readonly ICurrentDungeonGameManager mCurrentDungeonData;
@@ -18,7 +18,7 @@ namespace MonsterMatch {
             mSceneManager = i_sceneManager;
         }
 
-        public void OnClick( string i_gameType, int i_areaId, int i_dungeonId ) {
+        public void LoadDungeon( string i_gameType, int i_areaId, int i_dungeonId ) {
             mLoadingPM.Show();
             GetGameSessionFromServer( i_gameType, i_areaId, i_dungeonId );
         }
