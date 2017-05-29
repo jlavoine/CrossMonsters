@@ -4,6 +4,8 @@ using Zenject;
 namespace MonsterMatch {
     public class DungeonLoaderButton : MonoBehaviour {
         public string GameType;
+        public int AreaId;
+        public int DungeonId;
 
         [Inject]
         DungeonLoader.Factory DungeonLoaderFactory;
@@ -15,7 +17,7 @@ namespace MonsterMatch {
         }
 
         public void OnClick() {
-            mLoader.OnClick( GameType );
+            mLoader.OnClick( GameType, AreaId, DungeonId );
         }
     }
 }

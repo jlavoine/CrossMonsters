@@ -39,7 +39,7 @@ namespace MonsterMatch {
 
         [Test]
         public void OnClick_LoadingScreenShowIsCalled() {
-            systemUnderTest.OnClick( TEST_GAME_MODE );
+            systemUnderTest.OnClick( TEST_GAME_MODE, 0, 0 );
 
             MockLoadingPM.Received().Show();
         }
@@ -48,7 +48,7 @@ namespace MonsterMatch {
         public void OnClick_BackendCloudCallMade_ToGetGameSession() {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             MockBackendManager.GetBackend<IBasicBackend>().Returns( mockBackend );
-            systemUnderTest.OnClick( TEST_GAME_MODE );
+            systemUnderTest.OnClick( TEST_GAME_MODE, 0, 0 );
 
             mockBackend.Received().MakeCloudCall( BackendMethods.GET_DUNGEON_SESSION, Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
         }
