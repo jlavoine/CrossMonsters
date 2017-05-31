@@ -67,5 +67,23 @@ namespace MyLibrary {
             mockItem_1.DidNotReceive().RemoveUses( 1 );
             mockItem_2.DidNotReceive().RemoveUses( 1 );
         }
+
+        [Test]
+        public void GetItemsWithTag_ReturnsItemsThatHaveTag() {
+            IMyItemInstance mockItem_1 = Substitute.For<IMyItemInstance>();
+            IMyItemInstance mockItem_2 = Substitute.For<IMyItemInstance>();
+            IMyItemInstance mockItem_3 = Substitute.For<IMyItemInstance>();
+
+            mockItem_1.HasTag( "SomeTag" ).Returns( true );
+            mockItem_2.HasTag( "SomeTag" ).Returns( false );
+            mockItem_3.HasTag( "SomeTag" ).Returns( true );
+            systemUnderTest.Inventory = new Dictionary<string, IMyItemInstance>() { { "Item_1", mockItem_1 }, { "Item_2", mockItem_2 }, { "Item_3", mockItem_3 } };
+
+            List<IMyItemInstance> items = systemUnderTest.GetItemsWithTag( "SomeTag" );
+
+            Assert.IsTrue( items.Contains( mockItem_1 ) );
+            Assert.IsFalse( items.Contains( mockItem_2 ) );
+            Assert.IsTrue( items.Contains( mockItem_3 ) );
+        }
     }
 }

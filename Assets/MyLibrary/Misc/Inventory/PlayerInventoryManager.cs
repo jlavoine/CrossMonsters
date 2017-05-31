@@ -30,6 +30,19 @@ namespace MyLibrary {
             }
         }
 
+        public List<IMyItemInstance> GetItemsWithTag( string i_tag ) {
+            List<IMyItemInstance> items = new List<IMyItemInstance>();
+
+            foreach ( KeyValuePair<string, IMyItemInstance> kvp in Inventory ) {
+                IMyItemInstance item = kvp.Value;
+                if ( item.HasTag( i_tag ) ) {
+                    items.Add( item );
+                }
+            }
+
+            return items;
+        }
+
         private void DownloadItemCatalogAndPlayerInventory() {
             mBackend.GetItemCatalog( ( catalogResult ) => {
                 mCatalog = catalogResult;
@@ -38,8 +51,8 @@ namespace MyLibrary {
                     foreach ( IMyItemInstance item in inventoryResult ) {
                         item.SetCatalogItem( mCatalog.GetItem( item.GetId() ) );
                         Inventory.Add( item.GetId(), item );                        
-                    }                    
-                } );
+                    }
+                } );                
             } );
         }
     }
