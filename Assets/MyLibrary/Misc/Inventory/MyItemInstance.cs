@@ -10,6 +10,10 @@ namespace MyLibrary {
             CatalogItem = i_catalogItem;
         }
 
+        public bool HasTag( string i_tag ) {
+            return CatalogItem.HasTag( i_tag );
+        }
+
         public string GetId() {
             return Id;
         }

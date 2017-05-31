@@ -28,5 +28,27 @@ namespace MyLibrary {
 
             Assert.AreEqual( 0, systemUnderTest.Count );
         }
+
+        [Test]
+        public void WhenCatalogItemHasTag_HasTag_ReturnsTrue() {
+            IMyCatalogItem mockCatalogItem = Substitute.For<IMyCatalogItem>();
+            mockCatalogItem.HasTag( "SomeTag" ).Returns( true );
+
+            MyItemInstance systemUnderTest = new MyItemInstance();
+            systemUnderTest.SetCatalogItem( mockCatalogItem );
+
+            Assert.IsTrue( systemUnderTest.HasTag( "SomeTag" ) );
+        }
+
+        [Test]
+        public void WhenCatalogItemDoesNotHaveTag_HasTag_ReturnsFalse() {
+            IMyCatalogItem mockCatalogItem = Substitute.For<IMyCatalogItem>();
+            mockCatalogItem.HasTag( "SomeTag" ).Returns( false );
+
+            MyItemInstance systemUnderTest = new MyItemInstance();
+            systemUnderTest.SetCatalogItem( mockCatalogItem );
+
+            Assert.IsFalse( systemUnderTest.HasTag( "SomeTag" ) );
+        }
     }
 }
