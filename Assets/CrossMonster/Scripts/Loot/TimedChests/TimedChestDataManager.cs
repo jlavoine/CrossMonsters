@@ -11,9 +11,6 @@ namespace MonsterMatch {
         private List<ITimedChestData> mAllChestData;
         public List<ITimedChestData> TimedChestData { get { return mAllChestData; } set { mAllChestData = value; } }
 
-        private ITimedChestSaveData mSaveData;
-        public ITimedChestSaveData SaveData { get { return mSaveData; } set { mSaveData = value; } }
-
         public void Init( IBasicBackend i_backend ) {
             mBackend = i_backend;
 
