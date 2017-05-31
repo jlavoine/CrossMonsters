@@ -4,6 +4,11 @@ namespace MyLibrary {
     public class MyItemInstance : IMyItemInstance {
         public string Id;
         public int Count;
+        public IMyCatalogItem CatalogItem;
+
+        public void SetCatalogItem( IMyCatalogItem i_catalogItem ) {
+            CatalogItem = i_catalogItem;
+        }
 
         public string GetId() {
             return Id;

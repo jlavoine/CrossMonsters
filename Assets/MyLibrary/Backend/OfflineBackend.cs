@@ -164,7 +164,7 @@ namespace MyLibrary {
             throw new NotImplementedException();
         }
 
-        public void GetItemCatalog( Callback<Dictionary<string, IMyCatalogItem>> successCallback ) {
+        public void GetItemCatalog( Callback<IMyItemCatalog> successCallback ) {
             throw new NotImplementedException();
         }
 

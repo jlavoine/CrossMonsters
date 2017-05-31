@@ -370,17 +370,18 @@ namespace MyLibrary {
             ( error ) => { HandleError( error, BackendMessages.TITLE_DATA_FAIL ); } );
         }
 
-        public void GetItemCatalog( Callback<Dictionary<string, IMyCatalogItem>> successCallback ) {
+        public void GetItemCatalog( Callback<IMyItemCatalog> successCallback ) {
             StartRequest( "Getting item catalog" );
             GetCatalogItemsRequest request = new GetCatalogItemsRequest();
 
             PlayFabClientAPI.GetCatalogItems( request, ( result ) => {
                 Dictionary<string, IMyCatalogItem> catalogItems = new Dictionary<string, IMyCatalogItem>();
                 foreach ( CatalogItem item in result.Catalog ) {                    
-                    catalogItems.Add( item.ItemId, new MyCatalogItem() { Id = item.ItemId, Tags = item.Tags } );
+                    catalogItems.Add( item.ItemId, new MyCatalogItem() { Id = item.ItemId, Tags = item.Tags } );                    
                 }
 
-                successCallback( catalogItems );
+                IMyItemCatalog catalog = new MyItemCatalog( catalogItems );
+                successCallback( catalog );
 
                 RequestComplete( "GetItemCatalog() complete", LogTypes.Info ); // do this AFTER so that the callback is processed
             },

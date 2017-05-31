@@ -23,7 +23,7 @@ namespace MyLibrary {
         void GetPlayerDataDeserialized<T>( string i_key, Callback<T> requestSuccessCallback );
         void GetVirtualCurrency( string i_key, Callback<int> requetSuccessCallback );
 
-        void GetItemCatalog( Callback<Dictionary<string,IMyCatalogItem>> successCallback );
+        void GetItemCatalog( Callback<IMyItemCatalog> successCallback );
         void GetInventory( Callback<List<IMyItemInstance>> successCallback );
 
         void LinkDeviceToAccount( Callback<bool> i_requestCallback );

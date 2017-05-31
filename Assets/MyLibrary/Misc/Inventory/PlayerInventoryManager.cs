@@ -5,7 +5,7 @@ namespace MyLibrary {
 
         private IBasicBackend mBackend;
 
-        //private Dictionary<string, IMyCatalogItem> mCatalog;  // I think I need this for later
+        private IMyItemCatalog mCatalog;
 
         private Dictionary<string, IMyItemInstance> mInventory;
         public Dictionary<string, IMyItemInstance> Inventory { get { return mInventory; } set { mInventory = value; } }
@@ -32,11 +32,12 @@ namespace MyLibrary {
 
         private void DownloadItemCatalogAndPlayerInventory() {
             mBackend.GetItemCatalog( ( catalogResult ) => {
-                //mCatalog = catalogResult;                 // I think I need this for later
+                mCatalog = catalogResult;
                 mBackend.GetInventory( ( inventoryResult ) => {
                     Inventory = new Dictionary<string, IMyItemInstance>();
                     foreach ( IMyItemInstance item in inventoryResult ) {
-                        Inventory.Add( item.GetId(), item );
+                        item.SetCatalogItem( mCatalog.GetItem( item.GetId() ) );
+                        Inventory.Add( item.GetId(), item );                        
                     }                    
                 } );
             } );

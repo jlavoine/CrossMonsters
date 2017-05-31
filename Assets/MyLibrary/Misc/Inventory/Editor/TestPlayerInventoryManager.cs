@@ -24,7 +24,7 @@ namespace MyLibrary {
             IBasicBackend mockBackend = Substitute.For<IBasicBackend>();
             systemUnderTest.Init( mockBackend );
 
-            mockBackend.Received().GetItemCatalog( Arg.Any<Callback<Dictionary<string,IMyCatalogItem>>>() );
+            mockBackend.Received().GetItemCatalog( Arg.Any<Callback<IMyItemCatalog>>() );
         }
 
         [Test]
