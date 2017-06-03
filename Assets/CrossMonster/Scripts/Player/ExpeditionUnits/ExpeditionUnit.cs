@@ -9,6 +9,10 @@ namespace MonsterMatch {
         public ExpeditionUnit( IMyItemInstance i_itemInstance, IExpeditionUnitCustomData i_data ) {
             mItem = i_itemInstance;
             mData = i_data;
+
+            if ( mData == null ) {
+                mData = new ExpeditionUnitCustomData(); // this is an ultimate safeguard, not sure how else to better do this
+            }
         }
 
         public bool HasEffect( string i_effectId ) {
