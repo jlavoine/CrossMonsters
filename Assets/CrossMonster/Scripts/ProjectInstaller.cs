@@ -22,6 +22,7 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<IPlayerInventoryManager>().To<PlayerInventoryManager>().AsSingle();
         Container.Bind<IPreferredLoginMethod>().To<PreferredLoginMethod>().AsSingle();
 
+        Container.Bind<IExpeditionUnitSaveData>().To<ExpeditionUnitSaveData>().AsSingle();
         Container.BindFactory<IMyItemInstance, IExpeditionUnitCustomData, ExpeditionUnit, ExpeditionUnit.Factory>();
         Container.Bind<IExpeditionUnitSpawner>().To<ExpeditionUnitSpawner>().AsSingle();
 
