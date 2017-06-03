@@ -4,6 +4,7 @@ using UnityEngine;
 namespace MonsterMatch {
     public class GamePiecePM : PresentationModel, IGamePiecePM {
         public const string PIECE_TYPE_PROPERTY = "PieceType";
+        public const string PIECE_TYPE_NUMBER_PROPERTY = "PieceTypeNumber";
         public const string IS_ON_PROPERTY = "IsOn";
 
         private IGamePiece mPiece;
@@ -51,7 +52,9 @@ namespace MonsterMatch {
         }
 
         private void SetPieceTypeProperty() {
+            // this is temporary; i think everything will just use the piece type property when we're done
             ViewModel.SetProperty( PIECE_TYPE_PROPERTY, GamePiece.PieceType.ToString() );
+            ViewModel.SetProperty( PIECE_TYPE_NUMBER_PROPERTY, GamePiece.PieceType );
         }
 
         private void SetIsOnProperty( bool i_on ) {
