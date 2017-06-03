@@ -40,6 +40,9 @@ namespace MonsterMatch {
         ITimedChestDataManager TimedChestDataManager;
 
         [Inject]
+        IExpeditionUnitSaveData ExpeditionUnitSaveData;
+
+        [Inject]
         ITimedChestSaveData TimedChestSaveData;
 
         [Inject]
@@ -157,7 +160,13 @@ namespace MonsterMatch {
 
             yield return InitPlayer();
 
+            // other systems rely on the player's inventory to be inited, so do this before proceeding
             PlayerInventoryManager.Init( mBackend );
+            while ( mBackend.IsBusy() ) {
+                yield return 0;
+            }
+
+            ExpeditionUnitSaveData.Init();
             NewsManager.Init( mBackend );
             TreasureDataManager.Init( mBackend );
             TimedChestDataManager.Init( mBackend );

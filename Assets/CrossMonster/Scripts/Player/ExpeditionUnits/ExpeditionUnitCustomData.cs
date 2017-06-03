@@ -2,7 +2,7 @@
 
 namespace MonsterMatch {
     public class ExpeditionUnitCustomData : IExpeditionUnitCustomData {
-        public Dictionary<string, int> Effects;
+        public Dictionary<string, int> Effects = new Dictionary<string, int>();
 
         public bool HasEffect( string i_effectId ) {
             return Effects.ContainsKey( i_effectId );
