@@ -10,8 +10,7 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<ITreasureDataManager>().To<TreasureDataManager>().AsSingle();
         Container.Bind<ITimedChestDataManager>().To<TimedChestDataManager>().AsSingle();
         Container.Bind<ILoginPromotionManager>().To<LoginPromotionManager>().AsSingle();
-        Container.Bind<ITimedChestSaveData>().To<TimedChestSaveData>().AsSingle();
-        Container.Bind<IExpeditionUnitDataManager>().To<ExpeditionUnitDataManager>().AsSingle();
+        Container.Bind<ITimedChestSaveData>().To<TimedChestSaveData>().AsSingle();        
         Container.Bind<IMonsterDataManager>().To<MonsterDataManager>().AsSingle();
         Container.Bind<IPlayerDataManager>().To<PlayerDataManager>().AsSingle();        
         Container.Bind<IBackendManager>().To<BackendManager>().AsSingle();
