@@ -12,7 +12,11 @@ namespace MyLibrary {
         }
 
         public T GetCustomData<T>() {
-            return JsonConvert.DeserializeObject<T>( CustomData );
+            try {
+                return JsonConvert.DeserializeObject<T>( CustomData );
+            } catch {
+                return default( T );
+            }
         }
 
         public List<string> GetTags() {
