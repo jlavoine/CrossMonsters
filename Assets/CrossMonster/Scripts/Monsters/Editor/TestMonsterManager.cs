@@ -129,6 +129,15 @@ namespace MonsterMatch {
             GameBoard.Received().RandomizeGameBoardIfNoMonsterCombosAvailable();
         }
 
+        [Test]
+        public void GetLongestComboFromCurrentWave_ReturnsExpectedValue() {
+            IMonsterWave mockWave = Substitute.For<IMonsterWave>();
+            mockWave.GetLongestCombo().Returns( 11 );
+            systemUnderTest.CurrentWave = mockWave;
+
+            Assert.AreEqual( 11, systemUnderTest.GetLongestComboFromCurrentWave() );
+        }
+
         private void SetCurrentWaveToBeClear() {
             IMonsterWave mockWave = Substitute.For<IMonsterWave>();
             mockWave.IsCleared().Returns( true );

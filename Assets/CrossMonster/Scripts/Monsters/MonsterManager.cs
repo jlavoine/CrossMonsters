@@ -58,6 +58,10 @@ namespace MonsterMatch {
             return CurrentWave.DoesMoveMatchAnyCurrentMonsters( i_move );
         }
 
+        public int GetLongestComboFromCurrentWave() {
+            return CurrentWave.GetLongestCombo();
+        }
+
         public List<List<int>> GetCurrentMonsterCombos() {
             return CurrentWave.GetCurrentMonsterCombos();
         }

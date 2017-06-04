@@ -166,6 +166,27 @@ namespace MonsterMatch {
             Assert.IsFalse( systemUnderTest.IsCleared() );
         }
 
+        [Test]
+        public void GetMaxLength_ReturnsLengthOfLongestCombo() {
+            IGameMonster monster1 = GetMockMonsterWithComboLength( 7 );
+            IGameMonster monster2 = GetMockMonsterWithComboLength( 1 );
+            IGameMonster monster3 = GetMockMonsterWithComboLength( 3 );
+            systemUnderTest.CurrentMonsters = new List<IGameMonster>() { monster1, monster2, monster3 };
+
+            Assert.AreEqual( 7, systemUnderTest.GetLongestCombo() );
+        }
+
+        private IGameMonster GetMockMonsterWithComboLength( int i_length ) {
+            IGameMonster mockMonster = Substitute.For<IGameMonster>();
+            mockMonster.AttackCombo = new List<int>();
+            
+            for ( int i = 0; i < i_length; ++i ) {
+                mockMonster.AttackCombo.Add( i );
+            }
+
+            return mockMonster;
+        }
+
         private IGameMonster GetMockMonsterWithMatchCombo( bool i_doesMatch ) {
             IGameMonster mockMonster = Substitute.For<IGameMonster>();
             mockMonster.DoesMatchCombo( Arg.Any<List<IGamePiece>>() ).Returns( i_doesMatch );

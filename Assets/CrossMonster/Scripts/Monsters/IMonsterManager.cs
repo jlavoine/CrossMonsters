@@ -12,5 +12,7 @@ namespace MonsterMatch {
         List<IMonsterWave> RemainingWaves { get; }
 
         List<List<int>> GetCurrentMonsterCombos();
+
+        int GetLongestComboFromCurrentWave();
     }
 }

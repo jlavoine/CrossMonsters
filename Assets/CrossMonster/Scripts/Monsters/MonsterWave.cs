@@ -85,6 +85,18 @@ namespace MonsterMatch {
             return false;
         }
 
+        public int GetLongestCombo() {
+            int longestCombo = 0;
+
+            foreach ( IGameMonster monster in CurrentMonsters ) {
+                if ( monster.AttackCombo.Count > longestCombo ) {
+                    longestCombo = monster.AttackCombo.Count;
+                }
+            }
+
+            return longestCombo;
+        }
+
         private int GetNumberOfMissingCurrentMonsters() {
             int numCurrentMonsters = CurrentMonsters.Count;
             int requiredActiveMonsters = mRules.GetActiveMonsterCount();

@@ -10,6 +10,7 @@ namespace MonsterMatch {
             Container.Bind<IChainValidator_DuplicatePieces>().To<ChainValidator_DuplicatePieces>().AsSingle();
             Container.Bind<IChainValidator_DiagonalPieces>().To<ChainValidator_DiagonalPieces>().AsSingle();
             Container.Bind<IChainValidator_StraightLinesOnly>().To<ChainValidator_StraightLinesOnly>().AsSingle();
+            Container.Bind<IChainValidator_MaxLength>().To<ChainValidator_MaxLength>().AsSingle();
 
             Container.Bind<IInitializable>().To<GameManager>().AsSingle();
             Container.Bind<IGameManager>().To<GameManager>().AsSingle();
