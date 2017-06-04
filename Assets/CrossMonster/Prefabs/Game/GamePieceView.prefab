@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 224323400313746370}
   - component: {fileID: 222254773875511440}
   - component: {fileID: 114804144482399754}
+  - component: {fileID: 114213985592043210}
   m_Layer: 5
   m_Name: GamePiece_2
   m_TagString: Untagged
@@ -215,6 +216,7 @@ GameObject:
   - component: {fileID: 224805785130553992}
   - component: {fileID: 222106459208525774}
   - component: {fileID: 114667371492783444}
+  - component: {fileID: 114916353996339140}
   m_Layer: 5
   m_Name: GamePiece_4
   m_TagString: Untagged
@@ -284,6 +286,7 @@ GameObject:
   - component: {fileID: 224226602521503098}
   - component: {fileID: 222733474223789738}
   - component: {fileID: 114212839695856730}
+  - component: {fileID: 114784954980854116}
   m_Layer: 5
   m_Name: GamePiece_1
   m_TagString: Untagged
@@ -403,6 +406,7 @@ GameObject:
   - component: {fileID: 224430651942978574}
   - component: {fileID: 222875012031980998}
   - component: {fileID: 114008703166489098}
+  - component: {fileID: 114692867132563954}
   m_Layer: 5
   m_Name: GamePiece_3
   m_TagString: Untagged
@@ -733,6 +737,7 @@ GameObject:
   - component: {fileID: 224693298312901998}
   - component: {fileID: 222916384507214712}
   - component: {fileID: 114407638645811596}
+  - component: {fileID: 114256871070373096}
   m_Layer: 5
   m_Name: GamePiece_0
   m_TagString: Untagged
@@ -972,6 +977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PropertyName: IsOn
+  SetToState: 0
   Objects:
   - {fileID: 1232655439528396}
 --- !u!114 &114010854999161600
@@ -1348,8 +1354,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PropertyName: IsOn
+  SetToState: 0
   Objects:
   - {fileID: 1139148431207092}
+--- !u!114 &114213985592043210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124250652542566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3500923986af4c4388b4df11feb06d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: IsOn
+  SetToState: 1
+  Objects:
+  - {fileID: 1933077921695370}
 --- !u!114 &114222488301678914
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1404,6 +1426,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114256871070373096
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1811872265018204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3500923986af4c4388b4df11feb06d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: IsOn
+  SetToState: 1
+  Objects:
+  - {fileID: 1406627640203940}
 --- !u!114 &114291535580080498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1536,6 +1573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PropertyName: IsOn
+  SetToState: 0
   Objects:
   - {fileID: 1603418899692662}
 --- !u!114 &114414624343357278
@@ -1823,6 +1861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PropertyName: IsOn
+  SetToState: 0
   Objects:
   - {fileID: 1674206310513662}
 --- !u!114 &114690259445701612
@@ -1837,6 +1876,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &114692867132563954
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388226751876736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3500923986af4c4388b4df11feb06d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: IsOn
+  SetToState: 1
+  Objects:
+  - {fileID: 1526098335522264}
 --- !u!114 &114779404196704572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1891,6 +1945,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114784954980854116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1269840816369070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3500923986af4c4388b4df11feb06d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: IsOn
+  SetToState: 1
+  Objects:
+  - {fileID: 1278531872182066}
 --- !u!114 &114804144482399754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1903,6 +1972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PropertyName: IsOn
+  SetToState: 0
   Objects:
   - {fileID: 1454658871049386}
 --- !u!114 &114808928427475866
@@ -2013,6 +2083,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114916353996339140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1179173225220974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3500923986af4c4388b4df11feb06d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: IsOn
+  SetToState: 1
+  Objects:
+  - {fileID: 1210397637834098}
 --- !u!114 &114922667784175154
 MonoBehaviour:
   m_ObjectHideFlags: 1
