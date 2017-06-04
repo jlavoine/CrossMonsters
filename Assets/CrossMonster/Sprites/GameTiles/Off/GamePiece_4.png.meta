@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c923c480002b0e748b9ddaabd353fad0
+guid: f257543b371e1f444b6960ff3d458897
 timeCreated: 1495570357
 licenseType: Free
 TextureImporter:
@@ -36,7 +36,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -78,7 +78,7 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
-  spritePackingTag: 
+  spritePackingTag: TILES
   userData: 
   assetBundleName: 
   assetBundleVariant: 
