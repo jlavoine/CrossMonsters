@@ -10,7 +10,7 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<ITreasureDataManager>().To<TreasureDataManager>().AsSingle();
         Container.Bind<ITimedChestDataManager>().To<TimedChestDataManager>().AsSingle();
         Container.Bind<ILoginPromotionManager>().To<LoginPromotionManager>().AsSingle();
-        Container.Bind<ITimedChestSaveData>().To<TimedChestSaveData>().AsSingle();
+        Container.Bind<ITimedChestSaveData>().To<TimedChestSaveData>().AsSingle();        
         Container.Bind<IMonsterDataManager>().To<MonsterDataManager>().AsSingle();
         Container.Bind<IPlayerDataManager>().To<PlayerDataManager>().AsSingle();        
         Container.Bind<IBackendManager>().To<BackendManager>().AsSingle();
@@ -20,6 +20,10 @@ public class ProjectInstaller : MonoInstaller {
         Container.Bind<INewsManager>().To<NewsManager>().AsSingle();
         Container.Bind<IPlayerInventoryManager>().To<PlayerInventoryManager>().AsSingle();
         Container.Bind<IPreferredLoginMethod>().To<PreferredLoginMethod>().AsSingle();
+
+        Container.Bind<IExpeditionUnitSaveData>().To<ExpeditionUnitSaveData>().AsSingle();
+        Container.BindFactory<IMyItemInstance, IExpeditionUnitCustomData, ExpeditionUnit, ExpeditionUnit.Factory>();
+        Container.Bind<IExpeditionUnitSpawner>().To<ExpeditionUnitSpawner>().AsSingle();
 
         Container.Bind<ICurrentDungeonGameManager>().To<CurrentDungeonGameManager>().AsSingle();
         Container.BindFactory<IGameRewardData, DungeonReward, DungeonReward.Factory>();

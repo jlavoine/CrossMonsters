@@ -377,7 +377,7 @@ namespace MyLibrary {
             PlayFabClientAPI.GetCatalogItems( request, ( result ) => {
                 Dictionary<string, IMyCatalogItem> catalogItems = new Dictionary<string, IMyCatalogItem>();
                 foreach ( CatalogItem item in result.Catalog ) {                    
-                    catalogItems.Add( item.ItemId, new MyCatalogItem() { Id = item.ItemId, Tags = item.Tags } );                    
+                    catalogItems.Add( item.ItemId, new MyCatalogItem() { Id = item.ItemId, Tags = item.Tags, CustomData = item.CustomData } );                
                 }
 
                 IMyItemCatalog catalog = new MyItemCatalog( catalogItems );

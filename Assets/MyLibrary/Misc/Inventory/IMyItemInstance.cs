@@ -7,6 +7,8 @@ namespace MyLibrary {
 
         bool HasTag( string i_tag );
 
+        T GetCustomData<T>();
+
         void SetCatalogItem( IMyCatalogItem i_catalogItem );
         void RemoveUses( int i_count );
     }
