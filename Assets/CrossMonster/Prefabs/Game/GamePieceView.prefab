@@ -1840,7 +1840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca55f98f41369464a85d1778989f58a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PropertyName: PieceTypeNumber
+  PropertyName: PieceType
   Objects:
   - Object: {fileID: 1811872265018204}
     TargetValue: 0

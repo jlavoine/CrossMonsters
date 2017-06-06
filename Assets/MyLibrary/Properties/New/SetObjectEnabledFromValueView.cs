@@ -7,18 +7,18 @@ namespace MyLibrary {
         [Serializable]
         public class EnabledPair {
             public GameObject Object;
-            public int TargetValue;
+            public string TargetValue;
         }
 
         public List<EnabledPair> Objects;
 
         public override void UpdateView() {
-            int value = GetValue<int>();
+            string value = GetValue<string>();
 
             SetObjectsEnabledState( value );
         }
 
-        private void SetObjectsEnabledState( int i_targetValue ) {
+        private void SetObjectsEnabledState( string i_targetValue ) {
             foreach ( EnabledPair pair in Objects ) {
                 bool isTarget = pair.TargetValue == i_targetValue;
                 GameObject obj = pair.Object;
