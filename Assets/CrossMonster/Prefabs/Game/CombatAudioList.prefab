@@ -57,7 +57,7 @@ MonoBehaviour:
   - Key: BadChain
     Clip: {fileID: 8300000, guid: 543244ed7a2ca9948a2ee52657f40fb0, type: 3}
   - Key: ChainComplete
-    Clip: {fileID: 8300000, guid: d4062cc474a42bb47b7d8bc69375ad50, type: 3}
+    Clip: {fileID: 8300000, guid: 8c0836038caa310438ed0e57065b2f85, type: 3}
   - Key: GameLoss
     Clip: {fileID: 8300000, guid: 8aa79e4eea04be34fb1e306755cc3040, type: 3}
   - Key: GameWin

@@ -22,6 +22,9 @@ namespace MonsterMatch {
         IChainValidator ChainValidator;
 
         [Inject]
+        IAudioManager Audio;
+
+        [Inject]
         IMessageService MyMessenger;
 
         [SetUp]
@@ -29,6 +32,7 @@ namespace MonsterMatch {
             Container.Bind<IChainProcessor>().FromInstance( Substitute.For<IChainProcessor>() );
             Container.Bind<IChainValidator>().FromInstance( Substitute.For<IChainValidator>() );
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
+            Container.Bind<IAudioManager>().FromInstance( Substitute.For<IAudioManager>() );
             Container.Bind<ChainBuilder>().AsSingle();
             Container.Inject( this );
         }
@@ -96,6 +100,15 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenAddingToChain_SoundIsPlayed() {
+            CreateChainManager_WithEmptyActiveChain();
+
+            systemUnderTest.AddPieceToChain( Substitute.For<IGamePiece>() );
+
+            Audio.Received().PlayOneShot( CombatAudioKeys.ADD_TO_CHAIN );
+        }
+
+        [Test]
         public void WhenNoChain_ContinuingChain_DoesNothing() {
             CreateChainManager_WithNoChain();
 
@@ -152,6 +165,15 @@ namespace MonsterMatch {
             systemUnderTest.CancelChain();
 
             MyMessenger.Received().Send( GameMessages.CHAIN_RESET );
+        }
+
+        [Test]
+        public void WhenChainCanceled_SoundIsPlayed() {
+            CreateChainManager_WithEmptyActiveChain();
+
+            systemUnderTest.CancelChain();
+
+            Audio.Received().PlayOneShot( CombatAudioKeys.CHAIN_BROKEN );
         }
 
         [Test]

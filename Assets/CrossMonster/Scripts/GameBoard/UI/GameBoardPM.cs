@@ -7,9 +7,6 @@ namespace MonsterMatch {
         [Inject]
         IGameBoard GameBoard;
 
-        [Inject]
-        IAudioManager Audio;
-
         private List<IGamePiecePM> mGamePiecePMs = new List<IGamePiecePM>();
         public List<IGamePiecePM> GamePiecePMs { get { return mGamePiecePMs; } set { GamePiecePMs = value; } }
 
@@ -21,7 +18,7 @@ namespace MonsterMatch {
 
         private void CreateGamePiecePMs() {
             foreach ( IGamePiece piece in GameBoard.BoardPieces ) {
-                IGamePiecePM piecePM = new GamePiecePM( Audio, piece );
+                IGamePiecePM piecePM = new GamePiecePM( piece );
                 GamePiecePMs.Add( piecePM );
             }
         }

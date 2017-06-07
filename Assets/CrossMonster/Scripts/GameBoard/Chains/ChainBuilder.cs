@@ -11,6 +11,9 @@ namespace MonsterMatch {
         IChainValidator ChainValidator;
 
         [Inject]
+        IAudioManager Audio;
+
+        [Inject]
         IMessageService MyMessenger;
 
         private List<IGamePiece> mChain = null;
@@ -59,7 +62,13 @@ namespace MonsterMatch {
             if ( IsActiveChain() ) {
                 ResetChain();
                 SendChainResetEvent();
+                Audio.PlayOneShot( CombatAudioKeys.CHAIN_BROKEN );
             }
+        }
+
+        public void AddPieceToChain( IGamePiece i_piece ) {
+            mChain.Add( i_piece );
+            Audio.PlayOneShot( CombatAudioKeys.ADD_TO_CHAIN );
         }
 
         public bool IsNoChain() {
@@ -76,10 +85,6 @@ namespace MonsterMatch {
 
         private void ResetChain() {
             mChain = null;
-        }
-
-        private void AddPieceToChain( IGamePiece i_piece ) {
-            mChain.Add( i_piece );
         }
 
         private void SendPieceAddedEvent( IGamePiece i_piece ) {

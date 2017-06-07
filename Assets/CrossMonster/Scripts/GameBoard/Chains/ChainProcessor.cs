@@ -1,5 +1,6 @@
 ﻿using Zenject;
 using System.Collections.Generic;
+using MyLibrary;
 
 namespace MonsterMatch {
     public class ChainProcessor : IChainProcessor {
@@ -10,6 +11,9 @@ namespace MonsterMatch {
         IGamePlayer GamePlayer;
 
         [Inject]
+        IAudioManager Audio;
+
+        [Inject]
         IGameBoard GameBoard;
 
         public void Process( List<IGamePiece> i_chain ) {
@@ -17,6 +21,9 @@ namespace MonsterMatch {
                 MonsterManager.ProcessPlayerMove( GamePlayer, i_chain );
                 UsePiecesInChain( i_chain );
                 RandomizeGameBoardIfNoMonsterCombosAvailable();
+                Audio.PlayOneShot( CombatAudioKeys.CHAIN_COMPLETE );
+            } else {
+                Audio.PlayOneShot( CombatAudioKeys.CHAIN_BROKEN );
             }
         }
 

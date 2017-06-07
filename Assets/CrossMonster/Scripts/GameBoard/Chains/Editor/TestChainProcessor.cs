@@ -18,6 +18,9 @@ namespace MonsterMatch {
         IGameBoard GameBoard;
 
         [Inject]
+        IAudioManager Audio;
+
+        [Inject]
         ChainProcessor systemUnderTest;
 
         [SetUp]
@@ -25,6 +28,7 @@ namespace MonsterMatch {
             Container.Bind<IMonsterManager>().FromInstance( Substitute.For<IMonsterManager>() );
             Container.Bind<IGameBoard>().FromInstance( Substitute.For<IGameBoard>() );
             Container.Bind<IGamePlayer>().FromInstance( Substitute.For<IGamePlayer>() );
+            Container.Bind<IAudioManager>().FromInstance( Substitute.For<IAudioManager>() );
             Container.Bind<ChainProcessor>().AsSingle();
             Container.Inject( this );
         }
@@ -40,13 +44,33 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenProcessingChain_IfChainDoesNotMatchAnyMonster_MonsterManagerProcesses() {
+        public void WhenProcessingChain_IfChainMatchesAnyMonster_SoundIsPlayed() {
+            MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( true );
+            List<IGamePiece> chain = new List<IGamePiece>();
+
+            systemUnderTest.Process( chain );
+
+            Audio.Received().PlayOneShot( CombatAudioKeys.CHAIN_COMPLETE );
+        }
+
+        [Test]
+        public void WhenProcessingChain_IfChainDoesNotMatchAnyMonster_MonsterManagerDoesNotProcess() {
             MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( false );
             List<IGamePiece> chain = new List<IGamePiece>();
 
             systemUnderTest.Process( chain );
 
             MonsterManager.DidNotReceive().ProcessPlayerMove( Arg.Any<IGamePlayer>(), chain );
+        }
+
+        [Test]
+        public void WhenProcessingChain_IfChainDoesNotMatchAnyMonster_SoundIsPlayed() {
+            MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( false );
+            List<IGamePiece> chain = new List<IGamePiece>();
+
+            systemUnderTest.Process( chain );
+
+            Audio.Received().PlayOneShot( CombatAudioKeys.CHAIN_BROKEN );
         }
 
         [Test]

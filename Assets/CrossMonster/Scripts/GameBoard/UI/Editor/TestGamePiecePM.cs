@@ -10,18 +10,16 @@ using System.Collections.Generic;
 namespace MonsterMatch {
     [TestFixture]
     public class TestGamePiecePM : CrossMonstersUnitTest {
-        private IAudioManager MockAudio;
         private IGamePiece MockPiece;
 
         [SetUp]
         public override void BeforeTest() {
             base.BeforeTest();
-            MockAudio = Substitute.For<IAudioManager>();
             MockPiece = Substitute.For<IGamePiece>();
         }
 
         private GamePiecePM CreateSystem() {
-            GamePiecePM systemUnderTest = new GamePiecePM( MockAudio, MockPiece );
+            GamePiecePM systemUnderTest = new GamePiecePM( MockPiece );
             return systemUnderTest;
         }
 
@@ -69,15 +67,6 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenPieceIsAddedToChain_IfThisPMsPiece_SoundIsPlayed() {
-            GamePiecePM systemUnderTest = CreateSystem();
-
-            systemUnderTest.OnPieceAddedToChain( MockPiece );
-
-            MockAudio.Received().PlayOneShot( CombatAudioKeys.ADD_TO_CHAIN );
-        }
-
-        [Test]
         public void WhenPieceIsAddedToChain_IfNotPMsPiece_IsOnProperty_IsFalse() {
             IGamePiece notSamePiece = Substitute.For<IGamePiece>();
             GamePiecePM systemUnderTest = CreateSystem();
@@ -85,16 +74,6 @@ namespace MonsterMatch {
             systemUnderTest.OnPieceAddedToChain( notSamePiece );
 
             Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( GamePiecePM.IS_ON_PROPERTY ) );
-        }
-
-        [Test]
-        public void WhenPieceIsAddedToChain_IfNotPMsPiece_NoSoundIsPlayed() {
-            IGamePiece notSamePiece = Substitute.For<IGamePiece>();
-            GamePiecePM systemUnderTest = CreateSystem();
-
-            systemUnderTest.OnPieceAddedToChain( notSamePiece );
-
-            MockAudio.DidNotReceive().PlayOneShot( CombatAudioKeys.ADD_TO_CHAIN );
         }
 
         [Test]
