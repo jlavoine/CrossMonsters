@@ -16,6 +16,9 @@ namespace MonsterMatch {
         IDungeonWavePM DungeonWavePM;
 
         [Inject]
+        IAudioManager Audio;
+
+        [Inject]
         IGamePlayer Player;
 
         private GameStates mState = GameStates.Paused;
@@ -54,12 +57,14 @@ namespace MonsterMatch {
         public void OnPlayerDied() {
             SetState( GameStates.Ended );
             SendGameOverMessage( false );
+            Audio.PlayOneShot( CombatAudioKeys.GAME_OVER_LOSS );
         }
 
         public void OnAllMonstersDead() {
             SetState( GameStates.Ended );
             SendGameOverMessage( true );
             AwardDungeonRewards();
+            Audio.PlayOneShot( CombatAudioKeys.GAME_OVER_WIN );
         }
 
         public bool IsGamePlaying() {

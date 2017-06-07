@@ -27,6 +27,9 @@ namespace MonsterMatch {
         IGamePlayer MockPlayer;
 
         [Inject]
+        IAudioManager MockAudio;
+
+        [Inject]
         GameManager systemUnderTest;
 
         [SetUp]
@@ -35,6 +38,7 @@ namespace MonsterMatch {
             Container.Bind<IDungeonWavePM>().FromInstance( Substitute.For<IDungeonWavePM>() );
             Container.Bind<IBackendManager>().FromInstance( Substitute.For<IBackendManager>() );
             Container.Bind<IGamePlayer>().FromInstance( Substitute.For<IGamePlayer>() );
+            Container.Bind<IAudioManager>().FromInstance( Substitute.For<IAudioManager>() );
             Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
             Container.Bind<GameManager>().AsSingle();
             Container.Inject( this );
@@ -67,17 +71,31 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenPlayerDies_SoundIsPlayed() {
+            systemUnderTest.OnPlayerDied();
+
+            MockAudio.Received().PlayOneShot( CombatAudioKeys.GAME_OVER_LOSS );
+        }
+
+        [Test]
         public void WhenAllMonstersDead_GameStateIsEnded() {
             systemUnderTest.OnAllMonstersDead();
 
             Assert.AreEqual( GameStates.Ended, systemUnderTest.State );
         }
-
+    
         [Test]
         public void WhenAllMonstersDead_DungeonRewardsAreAwarded() {
             systemUnderTest.OnAllMonstersDead();
 
             MockCurrentDungeon.Received().AwardRewards();
+        }
+
+        [Test]
+        public void WhenAllMonstersDead_SoundIsPlayed() {
+            systemUnderTest.OnAllMonstersDead();
+
+            MockAudio.Received().PlayOneShot( CombatAudioKeys.GAME_OVER_WIN );
         }
 
         [Test]
