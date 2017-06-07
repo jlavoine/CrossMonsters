@@ -6,10 +6,13 @@ namespace MonsterMatch {
         public const string PIECE_TYPE_PROPERTY = "PieceType";
         public const string IS_ON_PROPERTY = "IsOn";
 
+        readonly IAudioManager Audio;
+
         private IGamePiece mPiece;
         public IGamePiece GamePiece { get { return mPiece; } set { mPiece = value; } }
 
-        public GamePiecePM( IGamePiece i_piece ) : base( i_piece ) {
+        public GamePiecePM( IAudioManager i_audio, IGamePiece i_piece ) : base( i_piece ) {
+            Audio = i_audio;
             GamePiece = i_piece;
 
             ListenForMessages( true );
@@ -35,6 +38,7 @@ namespace MonsterMatch {
         public void OnPieceAddedToChain( IGamePiece i_piece ) {
             if ( GamePiece == i_piece ) {
                 SetIsOnProperty( true );
+                Audio.PlayOneShot( CombatAudioKeys.ADD_TO_CHAIN );
             }
         }
 
