@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1938118008501514}
+  m_IsPrefabParent: 1
+--- !u!1 &1938118008501514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4325444671229166}
+  - component: {fileID: 114841230135542806}
+  m_Layer: 0
+  m_Name: CombatAudioList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4325444671229166
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938118008501514}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 359.1044, y: 582.6223, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114841230135542806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938118008501514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e515c8467930a56428962a1878df0f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Clips:
+  - Key: AddToChain
+    Clip: {fileID: 8300000, guid: 544e5edd0fc9d4d4abea751f4ec10ace, type: 3}
+  - Key: BadChain
+    Clip: {fileID: 8300000, guid: 543244ed7a2ca9948a2ee52657f40fb0, type: 3}
+  - Key: ChainComplete
+    Clip: {fileID: 8300000, guid: d4062cc474a42bb47b7d8bc69375ad50, type: 3}
+  - Key: GameLoss
+    Clip: {fileID: 8300000, guid: 8aa79e4eea04be34fb1e306755cc3040, type: 3}
+  - Key: GameWin
+    Clip: {fileID: 8300000, guid: 76be1e4577f5f11419de5dd20d50ffd8, type: 3}
+  - Key: NextMonsterWave
+    Clip: {fileID: 8300000, guid: 48f7670d13f38e443b5f31f0fc3cc7c1, type: 3}

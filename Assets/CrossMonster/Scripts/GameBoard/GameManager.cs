@@ -21,7 +21,7 @@ namespace MonsterMatch {
         private GameStates mState = GameStates.Paused;
         public GameStates State { get { return mState; } set { mState = value; } }
 
-        public GameManager() {                        
+        public GameManager() {            
         }
 
         public void Initialize() {
