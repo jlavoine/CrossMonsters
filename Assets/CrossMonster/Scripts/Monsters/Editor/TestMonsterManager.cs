@@ -24,6 +24,9 @@ namespace MonsterMatch {
         IGameManager GameManager;
 
         [Inject]
+        IAudioManager Audio;
+
+        [Inject]
         MonsterManager systemUnderTest;
 
         [SetUp]
@@ -32,6 +35,7 @@ namespace MonsterMatch {
             Container.Bind<IGameRules>().FromInstance( Substitute.For<IGameRules>() );
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
             Container.Bind<IGameManager>().FromInstance( Substitute.For<IGameManager>() );
+            Container.Bind<IAudioManager>().FromInstance( Substitute.For<IAudioManager>() );
             Container.Bind<MonsterManager>().AsSingle();
             Container.Inject( this );
         }
@@ -98,6 +102,7 @@ namespace MonsterMatch {
 
             Assert.AreEqual( mockNextWave, systemUnderTest.CurrentWave );
             mockNextWave.Received().Prepare();
+            Audio.Received().PlayOneShot( CombatAudioKeys.START_NEXT_WAVE );
         }
 
         [Test]

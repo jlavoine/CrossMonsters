@@ -14,6 +14,9 @@ namespace MonsterMatch {
         IGameRules Rules;
 
         [Inject]
+        IAudioManager Audio;
+
+        [Inject]
         IMessageService MessageService;
 
         private IMonsterWave mCurrentWave;
@@ -50,6 +53,7 @@ namespace MonsterMatch {
                     PrepareNextWave();
                     GameManager.PrepareForNextWave();
                     SendNewWaveEvent();
+                    Audio.PlayOneShot( CombatAudioKeys.START_NEXT_WAVE );
                 }
             }                      
         }
