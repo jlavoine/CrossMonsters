@@ -9,11 +9,11 @@ using System.Collections.Generic;
 
 namespace MonsterMatch {
     [TestFixture]
-    public class TestExpeditionUnitCustomData : ZenjectUnitTestFixture {
+    public class TestBoostUnitCustomData : ZenjectUnitTestFixture {
 
         [Test]
         public void HasEffect_ReturnsTrue_IfEffectInDictionary() {
-            ExpeditionUnitCustomData systemUnderTest = new ExpeditionUnitCustomData();
+            BoostUnitCustomData systemUnderTest = new BoostUnitCustomData();
             systemUnderTest.Effects = new Dictionary<string, int>() { { "TestEffect", 1 } };
 
             Assert.IsTrue( systemUnderTest.HasEffect( "TestEffect" ) );
@@ -21,7 +21,7 @@ namespace MonsterMatch {
 
         [Test]
         public void HasEffect_ReturnsFalse_IfEffectNotInDictionary() {
-            ExpeditionUnitCustomData systemUnderTest = new ExpeditionUnitCustomData();
+            BoostUnitCustomData systemUnderTest = new BoostUnitCustomData();
             systemUnderTest.Effects = new Dictionary<string, int>();
 
             Assert.IsFalse( systemUnderTest.HasEffect( "TestEffect" ) );
@@ -29,7 +29,7 @@ namespace MonsterMatch {
 
         [Test]
         public void GetEffect_ReturnsEffectValue_IfEffectInDictionary() {
-            ExpeditionUnitCustomData systemUnderTest = new ExpeditionUnitCustomData();
+            BoostUnitCustomData systemUnderTest = new BoostUnitCustomData();
             systemUnderTest.Effects = new Dictionary<string, int>() { { "TestEffect", 1 } };
 
             Assert.AreEqual( 1, systemUnderTest.GetEffect( "TestEffect" ) );
@@ -37,7 +37,7 @@ namespace MonsterMatch {
 
         [Test]
         public void GetEffect_ReturnsZero_IfEffectNotInDictionary() {
-            ExpeditionUnitCustomData systemUnderTest = new ExpeditionUnitCustomData();
+            BoostUnitCustomData systemUnderTest = new BoostUnitCustomData();
             systemUnderTest.Effects = new Dictionary<string, int>();
 
             Assert.AreEqual( 0, systemUnderTest.GetEffect( "TestEffect" ) );

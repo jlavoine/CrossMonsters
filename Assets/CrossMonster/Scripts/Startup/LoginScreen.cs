@@ -40,7 +40,7 @@ namespace MonsterMatch {
         ITimedChestDataManager TimedChestDataManager;
 
         [Inject]
-        IExpeditionUnitSaveData ExpeditionUnitSaveData;
+        IBoostUnitSaveData ExpeditionUnitSaveData;
 
         [Inject]
         ITimedChestSaveData TimedChestSaveData;

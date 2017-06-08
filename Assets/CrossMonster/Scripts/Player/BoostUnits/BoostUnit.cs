@@ -2,16 +2,16 @@
 using MyLibrary;
 
 namespace MonsterMatch {
-    public class ExpeditionUnit : IExpeditionUnit {
+    public class BoostUnit : IBoostUnit {
         private IMyItemInstance mItem;
-        private IExpeditionUnitCustomData mData;
+        private IBoostUnitCustomData mData;
 
-        public ExpeditionUnit( IMyItemInstance i_itemInstance, IExpeditionUnitCustomData i_data ) {
+        public BoostUnit( IMyItemInstance i_itemInstance, IBoostUnitCustomData i_data ) {
             mItem = i_itemInstance;
             mData = i_data;
 
             if ( mData == null ) {
-                mData = new ExpeditionUnitCustomData(); // this is an ultimate safeguard, not sure how else to better do this
+                mData = new BoostUnitCustomData(); // this is an ultimate safeguard, not sure how else to better do this
             }
         }
 
@@ -28,6 +28,6 @@ namespace MonsterMatch {
             }
         }
 
-        public class Factory : Factory<IMyItemInstance, IExpeditionUnitCustomData, ExpeditionUnit> { }
+        public class Factory : Factory<IMyItemInstance, IBoostUnitCustomData, BoostUnit> { }
     }
 }

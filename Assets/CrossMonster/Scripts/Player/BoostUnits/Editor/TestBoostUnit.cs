@@ -9,18 +9,18 @@ using Zenject;
 #pragma warning disable 0414
 
 namespace MonsterMatch {
-    public class TestExpeditionUnit : ZenjectUnitTestFixture {
+    public class TestBoostUnit : ZenjectUnitTestFixture {
         private IMyItemInstance MockItemInstance;
-        private IExpeditionUnitCustomData MockCustomData;
+        private IBoostUnitCustomData MockCustomData;
 
         [SetUp]
         public void CommonInstall() {
             MockItemInstance = Substitute.For<IMyItemInstance>();
-            MockCustomData = Substitute.For<IExpeditionUnitCustomData>();
+            MockCustomData = Substitute.For<IBoostUnitCustomData>();
         }
 
-        private ExpeditionUnit CreateSystem() {
-            ExpeditionUnit systemUnderTest = new ExpeditionUnit( MockItemInstance, MockCustomData );
+        private BoostUnit CreateSystem() {
+            BoostUnit systemUnderTest = new BoostUnit( MockItemInstance, MockCustomData );
             return systemUnderTest;
         }
 
@@ -28,7 +28,7 @@ namespace MonsterMatch {
         public void HasEffect_ReturnsTrue_IfCustomDataHasEffect() {
             MockCustomData.HasEffect( "Test" ).Returns( true );
 
-            ExpeditionUnit systemUnderTest = CreateSystem();
+            BoostUnit systemUnderTest = CreateSystem();
 
             Assert.IsTrue( systemUnderTest.HasEffect( "Test" ) );
         }
@@ -37,7 +37,7 @@ namespace MonsterMatch {
         public void HasEffect_ReturnsFalse_IfCustomDataDoesNotHaveEffect() {
             MockCustomData.HasEffect( "Test" ).Returns( false );
 
-            ExpeditionUnit systemUnderTest = CreateSystem();
+            BoostUnit systemUnderTest = CreateSystem();
 
             Assert.IsFalse( systemUnderTest.HasEffect( "Test" ) );
         }
@@ -46,7 +46,7 @@ namespace MonsterMatch {
         public void GetEffect_ReturnsZero_IfCustomDataDoesNotHaveEffect() {
             MockCustomData.HasEffect( "Test" ).Returns( false );
 
-            ExpeditionUnit systemUnderTest = CreateSystem();
+            BoostUnit systemUnderTest = CreateSystem();
 
             Assert.AreEqual( 0, systemUnderTest.GetEffect( "Test" ) );
         }
@@ -57,7 +57,7 @@ namespace MonsterMatch {
             MockCustomData.GetEffect( "Test" ).Returns( 5 );
             MockCustomData.HasEffect( "Test" ).Returns( true );
 
-            ExpeditionUnit systemUnderTest = CreateSystem();
+            BoostUnit systemUnderTest = CreateSystem();
 
             Assert.AreEqual( 15, systemUnderTest.GetEffect( "Test" ) );
         }

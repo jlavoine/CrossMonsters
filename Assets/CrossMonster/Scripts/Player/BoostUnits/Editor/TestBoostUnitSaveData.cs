@@ -9,22 +9,22 @@ using Zenject;
 #pragma warning disable 0414
 
 namespace MonsterMatch {
-    public class TestExpeditionUnitSaveData : ZenjectUnitTestFixture {
+    public class TestBoostUnitSaveData : ZenjectUnitTestFixture {
 
         [Inject]
-        ExpeditionUnitSaveData systemUnderTest;
+        BoostUnitSaveData systemUnderTest;
 
         [Inject]
         IPlayerInventoryManager MockInventory;
 
         [Inject]
-        IExpeditionUnitSpawner MockUnitSpawner;
+        IBoostUnitSpawner MockUnitSpawner;
 
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IPlayerInventoryManager>().FromInstance( Substitute.For<IPlayerInventoryManager>() );
-            Container.Bind<IExpeditionUnitSpawner>().FromInstance( Substitute.For<IExpeditionUnitSpawner>() );
-            Container.Bind<ExpeditionUnitSaveData>().AsSingle();
+            Container.Bind<IBoostUnitSpawner>().FromInstance( Substitute.For<IBoostUnitSpawner>() );
+            Container.Bind<BoostUnitSaveData>().AsSingle();
             Container.Inject( this );
         }
 
@@ -34,7 +34,7 @@ namespace MonsterMatch {
             IMyItemInstance expeditionUnitItem_2 = CreateExpeditionUnitItemWithId( "2" );
             IMyItemInstance expeditionUnitItem_3 = CreateExpeditionUnitItemWithId( "3" );
             List<IMyItemInstance> expeditionUnitItems = new List<IMyItemInstance>() { expeditionUnitItem_1, expeditionUnitItem_2, expeditionUnitItem_3 };
-            MockInventory.GetItemsWithTag( ExpeditionUnitSaveData.EXPEDITION_UNIT_ITEM_TAG ).Returns( expeditionUnitItems );
+            MockInventory.GetItemsWithTag( BoostUnitSaveData.EXPEDITION_UNIT_ITEM_TAG ).Returns( expeditionUnitItems );
 
             systemUnderTest.Init();
 

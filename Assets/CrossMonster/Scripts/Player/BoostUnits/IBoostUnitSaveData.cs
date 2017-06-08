@@ -1,6 +1,6 @@
 ﻿
 namespace MonsterMatch {
-    public interface IExpeditionUnitSaveData {
+    public interface IBoostUnitSaveData {
         void Init();
     }
 }

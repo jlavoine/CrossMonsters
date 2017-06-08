@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace MonsterMatch {
-    public class ExpeditionUnitCustomData : IExpeditionUnitCustomData {
+    public class BoostUnitCustomData : IBoostUnitCustomData {
         public Dictionary<string, int> Effects = new Dictionary<string, int>();
 
         public bool HasEffect( string i_effectId ) {

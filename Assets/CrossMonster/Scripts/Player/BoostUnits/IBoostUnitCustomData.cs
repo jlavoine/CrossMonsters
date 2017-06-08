@@ -1,6 +1,6 @@
 ﻿
 namespace MonsterMatch {
-    public interface IExpeditionUnitCustomData {
+    public interface IBoostUnitCustomData {
         bool HasEffect( string i_effectId );
 
         int GetEffect( string i_effectId );
