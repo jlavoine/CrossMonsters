@@ -1,10 +1,14 @@
 ﻿using Zenject;
-using System.Collections.Generic;
+using UnityEngine;
 using MyLibrary;
 
 namespace MonsterMatch {
     public class MainMenuInstaller : MonoInstaller {
+        public GameObject AudioManager;
+
         public override void InstallBindings() {
+            Container.Bind<IAudioManager>().To<MyLibrary.AudioManager>().FromComponentInNewPrefab( AudioManager ).AsSingle();
+
             Container.Bind<IInitializable>().To<AllTreasurePM>().AsSingle();
             Container.Bind<AllTreasurePM>().AsSingle();
 
