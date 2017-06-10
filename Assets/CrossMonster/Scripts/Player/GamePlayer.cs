@@ -4,10 +4,8 @@ using UnityEngine;
 using Zenject;
 
 namespace MonsterMatch {
-    public class GamePlayer : IGamePlayer, IInitializable {
-        [Inject]
-        IMessageService Messenger;
-
+    public class GamePlayer : IGamePlayer, IInitializable {        
+        private IMessageService Messenger;
         private IDamageCalculator mDamageCalculator;
         private IPlayerDataManager mPlayerDataManager;
         private ICurrentBoostUnits mBoostUnits;
@@ -18,10 +16,11 @@ namespace MonsterMatch {
         private int mMaxHP;
         public int MaxHP { get { return mMaxHP; } set { mMaxHP = value; } }
 
-        public GamePlayer( ICurrentBoostUnits i_boostUnits, IDamageCalculator i_damageCalculator, IPlayerDataManager i_playerDataManager ) {
+        public GamePlayer( IMessageService i_messenger, ICurrentBoostUnits i_boostUnits, IDamageCalculator i_damageCalculator, IPlayerDataManager i_playerDataManager ) {
             mDamageCalculator = i_damageCalculator;
             mPlayerDataManager = i_playerDataManager;
             mBoostUnits = i_boostUnits;
+            Messenger = i_messenger;
 
             SetStartingHP();            
         }
@@ -86,6 +85,7 @@ namespace MonsterMatch {
 
         private void SetStartingHP() {
             HP = mPlayerDataManager.GetStat( PlayerStats.HP );
+            HP += mBoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_BONUS_HP );
             MaxHP = HP;
         }
 

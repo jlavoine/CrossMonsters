@@ -10,78 +10,95 @@ namespace MonsterMatch {
     [TestFixture]
     public class TestGamePlayer : ZenjectUnitTestFixture {
 
-        [Inject]
-        IMessageService Messenger;
-
-        [Inject]
-        IDamageCalculator DamageCalculator;
-
-        [Inject]
-        ICurrentBoostUnits BoostUnits;
-
-        [Inject]
-        GamePlayer systemUnderTest;
-
-        [Inject]
-        IPlayerDataManager PlayerDataManager;
+        IMessageService MockMessenger;
+        IPlayerDataManager MockPlayerData;
+        IDamageCalculator MockDamageCalculator;
+        ICurrentBoostUnits MockBoostUnits;       
 
         [SetUp]
         public void CommonInstall() {
-            Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
-            Container.Bind<IDamageCalculator>().FromInstance( Substitute.For<IDamageCalculator>() );
-            Container.Bind<IPlayerDataManager>().FromInstance( Substitute.For<IPlayerDataManager>() );
-            Container.Bind<ICurrentBoostUnits>().FromInstance( Substitute.For<ICurrentBoostUnits>() );
-            Container.Bind<GamePlayer>().AsSingle();
-            Container.Inject( this );
+            MockMessenger = Substitute.For<IMessageService>();
+            MockDamageCalculator = Substitute.For<IDamageCalculator>();
+            MockPlayerData = Substitute.For<IPlayerDataManager>();
+            MockBoostUnits = Substitute.For<ICurrentBoostUnits>();
+        }
+
+        private GamePlayer CreateSystem() {
+            GamePlayer systemUnderTest = new GamePlayer( MockMessenger, MockBoostUnits, MockDamageCalculator, MockPlayerData );
+            return systemUnderTest;
+        }
+
+        [Test]
+        public void WhenCreating_MaxHP_MatchesPlayerDataManager() {
+            MockPlayerData.GetStat( PlayerStats.HP ).Returns( 999 );
+            GamePlayer systemUnderTest = CreateSystem();
+
+            Assert.AreEqual( 999, systemUnderTest.MaxHP );
+        }
+
+        [Test]
+        public void WhenCreate_MaxHP_IsEffectedByBoostUnits() {
+            MockPlayerData.GetStat( PlayerStats.HP ).Returns( 999 );
+            MockBoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_BONUS_HP ).Returns( 1 );
+            GamePlayer systemUnderTest = CreateSystem();
+
+            Assert.AreEqual( 1000, systemUnderTest.MaxHP );
         }
 
         [Test]
         public void WhenCreating_SubscribesToExpectedMessages() {
+            GamePlayer systemUnderTest = CreateSystem();
             systemUnderTest.Initialize();
 
-            Messenger.Received().AddListener<IGameMonster>( GameMessages.MONSTER_ATTACK, Arg.Any<Callback<IGameMonster>>() );
+            MockMessenger.Received().AddListener<IGameMonster>( GameMessages.MONSTER_ATTACK, Arg.Any<Callback<IGameMonster>>() );
         }
 
         [Test]
         public void WhenDisposing_UnsubscribesToExpectedMessages() {
+            GamePlayer systemUnderTest = CreateSystem();
             systemUnderTest.Initialize();
             systemUnderTest.Dispose();
 
-            Messenger.Received().RemoveListener<IGameMonster>( GameMessages.MONSTER_ATTACK, Arg.Any<Callback<IGameMonster>>() );
+            MockMessenger.Received().RemoveListener<IGameMonster>( GameMessages.MONSTER_ATTACK, Arg.Any<Callback<IGameMonster>>() );
         }
 
         [Test]
         public void GetDefenseForType_ReturnsExpected() {
-            PlayerDataManager.GetStat( PlayerStats.PHY_DEF ).Returns( 100 );
+            GamePlayer systemUnderTest = CreateSystem();
+            MockPlayerData.GetStat( PlayerStats.PHY_DEF ).Returns( 100 );
             
             Assert.AreEqual( 100, systemUnderTest.GetDefenseForType( 0 ) );
         }
 
         [Test]
         public void GetAttackPowerForType_ReturnsExpected() {
-            PlayerDataManager.GetStat( PlayerStats.PHY_ATK ).Returns( 100 );
+            GamePlayer systemUnderTest = CreateSystem();
+            MockPlayerData.GetStat( PlayerStats.PHY_ATK ).Returns( 100 );
 
             Assert.AreEqual( 100, systemUnderTest.GetAttackPowerForType( 0 ) );
         }
 
         [Test]
         public void GetAttackPowerForType_GetsBonus_FromBoostUnits() {
-            PlayerDataManager.GetStat( PlayerStats.PHY_ATK ).Returns( 100 );
-            BoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_BONUS_DAMAGE ).Returns( 5 );
+            GamePlayer systemUnderTest = CreateSystem();
+            MockPlayerData.GetStat( PlayerStats.PHY_ATK ).Returns( 100 );
+            MockBoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_BONUS_DAMAGE ).Returns( 5 );
 
             Assert.AreEqual( 105, systemUnderTest.GetAttackPowerForType( 0 ) );
         }
 
         [Test]
         public void GetHpRegenPerWave_ReturnsExpected() {
-            PlayerDataManager.GetStat( PlayerStats.WAVE_HP_REGEN ).Returns( 333 );
+            GamePlayer systemUnderTest = CreateSystem();
+            MockPlayerData.GetStat( PlayerStats.WAVE_HP_REGEN ).Returns( 333 );
 
             Assert.AreEqual( 333, systemUnderTest.GetHpRegenPerWave() );
         }
 
         [Test]
         public void WhenAttacked_DamageIsSubstractedFromHP() {
-            DamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );            
+            GamePlayer systemUnderTest = CreateSystem();
+            MockDamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );            
             systemUnderTest.HP = 100;
             systemUnderTest.MaxHP = 100;
 
@@ -91,23 +108,26 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenHpIsAltered_UpdateMessageIsSent() {            
+        public void WhenHpIsAltered_UpdateMessageIsSent() {
+            GamePlayer systemUnderTest = CreateSystem();
             systemUnderTest.AlterHP( 1 );
 
-            Messenger.Received().Send( GameMessages.UPDATE_PLAYER_HP );
+            MockMessenger.Received().Send( GameMessages.UPDATE_PLAYER_HP );
         }
 
         [Test]
         public void WhenRemovingHP_IfPlayerIsDead_MessageSent() {
+            GamePlayer systemUnderTest = CreateSystem();
             systemUnderTest.HP = 100;
 
             systemUnderTest.AlterHP( -101 );
 
-            Messenger.Received().Send( GameMessages.PLAYER_DEAD );
+            MockMessenger.Received().Send( GameMessages.PLAYER_DEAD );
         }
 
         [Test]
         public void WhenRemovingHP_HpWontFallBelowZero() {
+            GamePlayer systemUnderTest = CreateSystem();
             systemUnderTest.HP = 100;
 
             systemUnderTest.AlterHP( -101 );
@@ -117,6 +137,7 @@ namespace MonsterMatch {
 
         [Test]
         public void WhenAlteringHP_HpWontGoAboveMax() {
+            GamePlayer systemUnderTest = CreateSystem();
             systemUnderTest.MaxHP = 100;
             systemUnderTest.HP = 100;
 
@@ -127,9 +148,10 @@ namespace MonsterMatch {
 
         [Test]
         public void OnWaveFinished_HpIsAdded_BasedOnRegenStat() {
+            GamePlayer systemUnderTest = CreateSystem();
             systemUnderTest.HP = 100;
             systemUnderTest.MaxHP = 200;
-            PlayerDataManager.GetStat( PlayerStats.WAVE_HP_REGEN ).Returns( 50 );
+            MockPlayerData.GetStat( PlayerStats.WAVE_HP_REGEN ).Returns( 50 );
 
             systemUnderTest.OnWaveFinished();
 
