@@ -52,7 +52,11 @@ namespace MonsterMatch {
         }
 
         public int GetHpRegenPerWave() {
-            return mPlayerDataManager.GetStat( PlayerStats.WAVE_HP_REGEN );
+            int baseRegen = mPlayerDataManager.GetStat( PlayerStats.WAVE_HP_REGEN );
+            int bonusRegen = mBoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_HP_WAVE_REGEN );
+            int totalRegen = baseRegen + bonusRegen;
+
+            return totalRegen;
         }
 
         public int GetAttackPowerForType( int i_type ) {

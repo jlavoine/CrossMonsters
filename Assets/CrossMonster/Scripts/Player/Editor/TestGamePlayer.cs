@@ -96,6 +96,15 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void GetHpRegenPerWave_IsEffectedByBoostUnits() {
+            GamePlayer systemUnderTest = CreateSystem();
+            MockPlayerData.GetStat( PlayerStats.WAVE_HP_REGEN ).Returns( 333 );
+            MockBoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_HP_WAVE_REGEN ).Returns( 222 );
+
+            Assert.AreEqual( 555, systemUnderTest.GetHpRegenPerWave() );
+        }
+
+        [Test]
         public void WhenAttacked_DamageIsSubstractedFromHP() {
             GamePlayer systemUnderTest = CreateSystem();
             MockDamageCalculator.GetDamageFromMonster( Arg.Any<IGameMonster>(), Arg.Any<IGamePlayer>() ).Returns( 10 );            
