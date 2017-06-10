@@ -68,7 +68,7 @@ namespace MonsterMatch {
         }
 
         public int GetDefenseForType( int i_type ) {
-            return mPlayerDataManager.GetStat( PlayerStats.PHY_DEF );
+
         }
 
         public void AlterHP( int i_hpChange ) {

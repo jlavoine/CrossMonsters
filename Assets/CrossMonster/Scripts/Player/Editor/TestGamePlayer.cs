@@ -71,6 +71,15 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void GetDefenseForType_GetsBonus_FromBoostUnits() {
+            GamePlayer systemUnderTest = CreateSystem();
+            MockPlayerData.GetStat( PlayerStats.PHY_DEF ).Returns( 1 );
+            MockBoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_BONUS_DEFENSE ).Returns( 5 );
+
+            Assert.AreEqual( 6, systemUnderTest.GetDefenseForType( 0 ) );
+        }
+
+        [Test]
         public void GetAttackPowerForType_ReturnsExpected() {
             GamePlayer systemUnderTest = CreateSystem();
             MockPlayerData.GetStat( PlayerStats.PHY_ATK ).Returns( 100 );
