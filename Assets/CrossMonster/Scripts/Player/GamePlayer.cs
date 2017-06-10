@@ -68,7 +68,11 @@ namespace MonsterMatch {
         }
 
         public int GetDefenseForType( int i_type ) {
+            int bonusDefense = mBoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_BONUS_DEFENSE );
+            int baseDefense = mPlayerDataManager.GetStat( PlayerStats.PHY_DEF );
+            int totalDefense = bonusDefense + baseDefense;
 
+            return totalDefense;
         }
 
         public void AlterHP( int i_hpChange ) {
