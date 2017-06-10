@@ -10,6 +10,7 @@ namespace MonsterMatch {
 
         private IDamageCalculator mDamageCalculator;
         private IPlayerDataManager mPlayerDataManager;
+        private ICurrentBoostUnits mBoostUnits;
 
         private int mHP;
         public int HP { get { return mHP; } set { mHP = value; } }
@@ -17,9 +18,10 @@ namespace MonsterMatch {
         private int mMaxHP;
         public int MaxHP { get { return mMaxHP; } set { mMaxHP = value; } }
 
-        public GamePlayer( IDamageCalculator i_damageCalculator, IPlayerDataManager i_playerDataManager ) {
+        public GamePlayer( ICurrentBoostUnits i_boostUnits, IDamageCalculator i_damageCalculator, IPlayerDataManager i_playerDataManager ) {
             mDamageCalculator = i_damageCalculator;
             mPlayerDataManager = i_playerDataManager;
+            mBoostUnits = i_boostUnits;
 
             SetStartingHP();            
         }
@@ -55,7 +57,11 @@ namespace MonsterMatch {
         }
 
         public int GetAttackPowerForType( int i_type ) {
-            return mPlayerDataManager.GetStat( PlayerStats.PHY_ATK );
+            int bonusDamage = mBoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_BONUS_DAMAGE );
+            int baseDamage = mPlayerDataManager.GetStat( PlayerStats.PHY_ATK );
+            int totalDamage = bonusDamage + baseDamage;
+
+            return totalDamage;
         }
 
         public int GetDefenseForType( int i_type ) {

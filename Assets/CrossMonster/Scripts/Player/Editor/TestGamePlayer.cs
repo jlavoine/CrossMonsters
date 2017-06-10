@@ -17,6 +17,9 @@ namespace MonsterMatch {
         IDamageCalculator DamageCalculator;
 
         [Inject]
+        ICurrentBoostUnits BoostUnits;
+
+        [Inject]
         GamePlayer systemUnderTest;
 
         [Inject]
@@ -27,6 +30,7 @@ namespace MonsterMatch {
             Container.Bind<IMessageService>().FromInstance( Substitute.For<IMessageService>() );
             Container.Bind<IDamageCalculator>().FromInstance( Substitute.For<IDamageCalculator>() );
             Container.Bind<IPlayerDataManager>().FromInstance( Substitute.For<IPlayerDataManager>() );
+            Container.Bind<ICurrentBoostUnits>().FromInstance( Substitute.For<ICurrentBoostUnits>() );
             Container.Bind<GamePlayer>().AsSingle();
             Container.Inject( this );
         }
@@ -58,6 +62,14 @@ namespace MonsterMatch {
             PlayerDataManager.GetStat( PlayerStats.PHY_ATK ).Returns( 100 );
 
             Assert.AreEqual( 100, systemUnderTest.GetAttackPowerForType( 0 ) );
+        }
+
+        [Test]
+        public void GetAttackPowerForType_GetsBonus_FromBoostUnits() {
+            PlayerDataManager.GetStat( PlayerStats.PHY_ATK ).Returns( 100 );
+            BoostUnits.GetEffectValue( BoostUnitKeys.PLAYER_BONUS_DAMAGE ).Returns( 5 );
+
+            Assert.AreEqual( 105, systemUnderTest.GetAttackPowerForType( 0 ) );
         }
 
         [Test]
