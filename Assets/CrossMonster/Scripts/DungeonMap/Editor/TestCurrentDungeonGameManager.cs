@@ -29,6 +29,17 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenClearing_DataIsEmptied() {
+            systemUnderTest.Rewards = new List<IDungeonReward>() { Substitute.For<IDungeonReward>() };
+            systemUnderTest.Monsters = new List<IMonsterWaveData>() { Substitute.For<IMonsterWaveData>() };
+
+            systemUnderTest.Clear();
+
+            Assert.AreEqual( 0, systemUnderTest.Rewards.Count );
+            Assert.AreEqual( 0, systemUnderTest.Monsters.Count );
+        }
+
+        [Test]
         public void WhenSettingData_DataIsSaved() {
             IDungeonGameSessionData mockData = Substitute.For<IDungeonGameSessionData>();
             mockData.GetMonsters().Returns( new List<string>() { "a", "b", "c" } );
@@ -42,6 +53,7 @@ namespace MonsterMatch {
         public void WhenSettingData_MonstersAreGenerated() {
             IDungeonGameSessionData mockData = Substitute.For<IDungeonGameSessionData>();
             mockData.GetMonsters().Returns( new List<string>() { "a", "b", "c" } );
+            mockData.GetNumWaves().Returns( 3 );
             MockMonsterData.GetData( Arg.Any<string>() ).Returns( Substitute.For<IMonsterData>() );
 
             systemUnderTest.SetData( mockData );

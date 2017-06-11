@@ -36,13 +36,6 @@ namespace MonsterMatch {
         }
 
         [Test]
-        public void WhenCreating_CanContinue_IsFalse() {
-            AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), new List<IDungeonReward>() );
-
-            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( AllRewardsPM.CAN_CONTINUE_PROPERTY ) );
-        }
-
-        [Test]
         public void WhenCreating_SingleRewardPMs_AreCreatedFromIncomingData() {
             List<IDungeonReward> mockRewards = GetMockRewards( 3 );
             AllRewardsPM systemUnderTest = new AllRewardsPM( Substitute.For<ISingleRewardPM_Spawner>(), Substitute.For<IMessageService>(), mockRewards );

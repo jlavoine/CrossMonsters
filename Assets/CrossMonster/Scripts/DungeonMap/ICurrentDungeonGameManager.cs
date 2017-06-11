@@ -5,6 +5,7 @@ namespace MonsterMatch {
         void SetData( IDungeonGameSessionData i_data );
 
         void AwardRewards();
+        void Clear();
 
         IDungeonGameSessionData Data { get; }
         List<IMonsterWaveData> Monsters { get; }

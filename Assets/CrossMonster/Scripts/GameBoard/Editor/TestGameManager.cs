@@ -78,12 +78,26 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenPlayerDies_CurrentDungeonIsCleared() {
+            systemUnderTest.OnPlayerDied();
+
+            MockCurrentDungeon.Received().Clear();
+        }
+
+        [Test]
         public void WhenAllMonstersDead_GameStateIsEnded() {
             systemUnderTest.OnAllMonstersDead();
 
             Assert.AreEqual( GameStates.Ended, systemUnderTest.State );
         }
-    
+
+        [Test]
+        public void WhenAllMonstersDead_CurrentDungeonIsCleared() {
+            systemUnderTest.OnAllMonstersDead();
+
+            MockCurrentDungeon.Received().Clear();
+        }
+
         [Test]
         public void WhenAllMonstersDead_DungeonRewardsAreAwarded() {
             systemUnderTest.OnAllMonstersDead();

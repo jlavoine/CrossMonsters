@@ -58,6 +58,7 @@ namespace MonsterMatch {
             SetState( GameStates.Ended );
             SendGameOverMessage( false );
             Audio.PlayOneShot( CombatAudioKeys.GAME_OVER_LOSS );
+            CurrentDungeonManager.Clear();
         }
 
         public void OnAllMonstersDead() {
@@ -65,6 +66,7 @@ namespace MonsterMatch {
             SendGameOverMessage( true );
             AwardDungeonRewards();
             Audio.PlayOneShot( CombatAudioKeys.GAME_OVER_WIN );
+            CurrentDungeonManager.Clear();
         }
 
         public bool IsGamePlaying() {

@@ -23,7 +23,7 @@ namespace MonsterMatch {
             CreateSingleRewardPMs( i_rewards );
             ListenForMessages( true );
             SetVisibleProperty( false );
-            SetCanContinueProperty( false );
+            UpdateCanContinueProperty();
         }
 
         protected override void _Dispose() {
@@ -47,7 +47,7 @@ namespace MonsterMatch {
 
         public void RewardUncovered() {
             ReduceCoveredRewardCount();
-            AllowContinueIfAllRewardsUncovered();
+            UpdateCanContinueProperty();
         }
 
         private void CreateSingleRewardPMs( List<IDungeonReward> i_rewards ) {
@@ -61,10 +61,9 @@ namespace MonsterMatch {
             CoveredRewardCount--;
         }
 
-        private void AllowContinueIfAllRewardsUncovered() {
-            if ( CoveredRewardCount <= 0 ) {
-                SetCanContinueProperty( true );
-            }
+        private void UpdateCanContinueProperty() {
+            bool canContinue = CoveredRewardCount <= 0;
+            SetCanContinueProperty( canContinue );
         }
 
         private void SetCanContinueProperty( bool i_can ) {

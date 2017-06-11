@@ -12,7 +12,7 @@ namespace MonsterMatch {
         private List<IMonsterWaveData> mMonsters;
         public List<IMonsterWaveData> Monsters { get { return mMonsters; } set { mMonsters = value; } }
 
-        private List<IDungeonReward> mRewards;
+        private List<IDungeonReward> mRewards = new List<IDungeonReward>();
         public List<IDungeonReward> Rewards { get { return mRewards; } set { mRewards = value; } }
 
         public CurrentDungeonGameManager( IMonsterDataManager i_monsterDataManager, IDungeonRewardSpawner i_rewardSpawner ) {
@@ -24,6 +24,11 @@ namespace MonsterMatch {
             Data = i_data;
             SetMonsters();
             SetRewards();
+        }
+
+        public void Clear() {
+            Rewards = new List<IDungeonReward>();
+            Monsters = new List<IMonsterWaveData>();
         }
 
         public void AwardRewards() {
@@ -48,7 +53,6 @@ namespace MonsterMatch {
         }
 
         private void SetRewards() {
-            Rewards = new List<IDungeonReward>();
             if ( Data.GetRewards() != null ) {
                 foreach ( IGameRewardData data in Data.GetRewards() ) {
                     Rewards.Add( mRewardSpawner.Create( data ) );
