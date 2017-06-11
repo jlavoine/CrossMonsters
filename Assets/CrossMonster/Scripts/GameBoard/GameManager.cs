@@ -69,11 +69,12 @@ namespace MonsterMatch {
             SendGameOverMessage( true );
             AwardDungeonRewards();
             Audio.PlayOneShot( CombatAudioKeys.GAME_OVER_WIN );
-            CurrentDungeonManager.Clear();
 
-            if ( CurrentGauntletManager.IsGauntletSessionInProgress ) {
+            if ( CurrentGauntletManager.IsGauntletSessionInProgress() ) {
                 CurrentGauntletManager.ComingFromGauntletVictory = true;
             }
+
+            CurrentDungeonManager.Clear();
         }
 
         public bool IsGamePlaying() {

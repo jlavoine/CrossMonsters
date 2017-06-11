@@ -97,7 +97,7 @@ namespace MonsterMatch {
 
         [Test]
         public void WhenAllMonstersDead_IfGauntletInProgress_VictoryIsSet() {
-            MockGauntletManager.IsGauntletSessionInProgress.Returns( true );
+            MockGauntletManager.IsGauntletSessionInProgress().Returns( true );
             systemUnderTest.OnAllMonstersDead();
 
             MockGauntletManager.Received().ComingFromGauntletVictory = true;
@@ -105,7 +105,7 @@ namespace MonsterMatch {
 
         [Test]
         public void WhenAllMonstersDead_IfNoGauntletInProgress_VictoryIsNotSet() {
-            MockGauntletManager.IsGauntletSessionInProgress.Returns( false );
+            MockGauntletManager.IsGauntletSessionInProgress().Returns( false );
             systemUnderTest.OnAllMonstersDead();
 
             MockGauntletManager.DidNotReceive().ComingFromGauntletVictory = true;
