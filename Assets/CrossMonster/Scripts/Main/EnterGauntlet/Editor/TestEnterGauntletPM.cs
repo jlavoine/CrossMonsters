@@ -70,9 +70,29 @@ namespace MonsterMatch {
             EnterGauntletPM systemUnderTest = CreateSystem();
             systemUnderTest.Index = 0;
 
-            systemUnderTest.EnterGauntlet( GauntletDifficulties.Easy );
+            systemUnderTest.EnterGauntlet( 0 );
 
             MockInventory.Received().ConsumeGauntletKeyForIndex( 0 );
+        }
+
+        [Test]
+        public void WhenEnteringGauntlet_DungeonLoaderLoadsWithExpectedValues() {
+            EnterGauntletPM systemUnderTest = CreateSystem();
+            systemUnderTest.Index = 0;
+
+            systemUnderTest.EnterGauntlet( 2 );
+
+            MockDungeonLoader.Received().LoadDungeon( EnterGauntletPM.GAUNTLET_GAME_TYPE, 0, 2 );
+        }
+
+        [Test]
+        public void WhenEnteringGauntlet_SystemHidesItself() {
+            EnterGauntletPM systemUnderTest = CreateSystem();
+            systemUnderTest.ViewModel.SetProperty( EnterGauntletPM.VISIBLE_PROPERTY, true );
+
+            systemUnderTest.EnterGauntlet( 0 );
+
+            Assert.IsFalse( systemUnderTest.ViewModel.GetPropertyValue<bool>( EnterGauntletPM.VISIBLE_PROPERTY ) );
         }
     }
 }

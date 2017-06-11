@@ -18,7 +18,7 @@ namespace MonsterMatch {
             PM.Dispose();
         }
 
-        public void EnterGauntlet( GauntletDifficulties i_difficulty ) {
+        public void EnterGauntlet( int i_difficulty ) {
             PM.EnterGauntlet( i_difficulty );
         }
 

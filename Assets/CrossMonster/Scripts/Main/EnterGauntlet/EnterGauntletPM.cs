@@ -5,6 +5,8 @@ namespace MonsterMatch {
         public const string KEY_COUNT_PROPERTY = "KeyCount";
         public const string CAN_ENTER_GAUNTLET_PROPERTY = "CanEnter";
 
+        public const string GAUNTLET_GAME_TYPE = "Gauntlet";
+
         readonly IGauntletInventoryHelper mInventory;
         readonly IDungeonLoader mDungeonLoader;
 
@@ -24,9 +26,10 @@ namespace MonsterMatch {
             UpdateProperties();
         }
 
-        public void EnterGauntlet( GauntletDifficulties i_difficulty ) {
-            //mDungeonLoader.LoadDungeon( GameType, AreaId, DungeonId );
+        public void EnterGauntlet( int i_difficulty ) {
+            mDungeonLoader.LoadDungeon( GAUNTLET_GAME_TYPE, Index, i_difficulty );
             mInventory.ConsumeGauntletKeyForIndex( Index );
+            Hide();
         }
 
         private void UpdateProperties() {
