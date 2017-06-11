@@ -3,6 +3,7 @@ using Zenject;
 
 namespace MonsterMatch {
     public class EnterGauntletView : GroupView {
+        public int Index;
 
         [Inject]
         IEnterGauntletPM PM;
@@ -18,6 +19,7 @@ namespace MonsterMatch {
         }
 
         public void ShowView() {
+            PM.SetIndex( Index );
             PM.Show();
         }
 

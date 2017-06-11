@@ -26,6 +26,7 @@ namespace MonsterMatch {
             Container.Bind<IDungeonLoader>().To<DungeonLoader>().AsSingle();
             Container.Bind<IEnterDungeonPM>().To<EnterDungeonPM>().AsSingle();
 
+            Container.Bind<IGauntletInventoryHelper>().To<GauntletInventoryHelper>().AsSingle();
             Container.Bind<IEnterGauntletPM>().To<EnterGauntletPM>().AsSingle();
 
             Container.Bind<MainMenuFlow>().AsSingle();
