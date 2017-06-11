@@ -12,15 +12,17 @@ namespace MonsterMatch {
 
         private IGauntletInventoryHelper MockInventory;
         private IDungeonLoader MockDungeonLoader;
+        private ICurrentGauntletManager MockGauntletManager;
 
         [SetUp]
         public void CommonInstall() {
             MockInventory = Substitute.For<IGauntletInventoryHelper>();
             MockDungeonLoader = Substitute.For<IDungeonLoader>();
+            MockGauntletManager = Substitute.For<ICurrentGauntletManager>();
         }
 
         private EnterGauntletPM CreateSystem() {
-            EnterGauntletPM systemUnderTest = new EnterGauntletPM( MockInventory, MockDungeonLoader );
+            EnterGauntletPM systemUnderTest = new EnterGauntletPM( MockGauntletManager, MockInventory, MockDungeonLoader );
             return systemUnderTest;
         }
 
@@ -73,6 +75,16 @@ namespace MonsterMatch {
             systemUnderTest.EnterGauntlet( 0 );
 
             MockInventory.Received().ConsumeGauntletKeyForIndex( 0 );
+        }
+
+        [Test]
+        public void WhenEnteringGauntlet_CurrentIndexSetOnManager() {
+            EnterGauntletPM systemUnderTest = CreateSystem();
+            systemUnderTest.Index = 11;
+
+            systemUnderTest.EnterGauntlet( 0 );
+
+            MockGauntletManager.Received().CurrentGauntletIndex = 11;
         }
 
         [Test]

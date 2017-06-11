@@ -9,13 +9,15 @@ namespace MonsterMatch {
 
         readonly IGauntletInventoryHelper mInventory;
         readonly IDungeonLoader mDungeonLoader;
+        readonly ICurrentGauntletManager mGauntletManager;
 
         private int mIndex;
         public int Index { get { return mIndex; } set { mIndex = value; } }
 
-        public EnterGauntletPM( IGauntletInventoryHelper i_inventory, IDungeonLoader i_dungeonLoader ) {
+        public EnterGauntletPM( ICurrentGauntletManager i_gauntletManager, IGauntletInventoryHelper i_inventory, IDungeonLoader i_dungeonLoader ) {
             mInventory = i_inventory;
             mDungeonLoader = i_dungeonLoader;
+            mGauntletManager = i_gauntletManager;
 
             Hide();
             SetCanEnterProperty( false );
@@ -27,6 +29,7 @@ namespace MonsterMatch {
         }
 
         public void EnterGauntlet( int i_difficulty ) {
+            mGauntletManager.CurrentGauntletIndex = Index;
             mDungeonLoader.LoadDungeon( GAUNTLET_GAME_TYPE, Index, i_difficulty );
             mInventory.ConsumeGauntletKeyForIndex( Index );
             Hide();
