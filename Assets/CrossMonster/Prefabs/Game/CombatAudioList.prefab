@@ -61,6 +61,6 @@ MonoBehaviour:
   - Key: GameLoss
     Clip: {fileID: 8300000, guid: 8aa79e4eea04be34fb1e306755cc3040, type: 3}
   - Key: GameWin
-    Clip: {fileID: 8300000, guid: 76be1e4577f5f11419de5dd20d50ffd8, type: 3}
+    Clip: {fileID: 8300000, guid: 4e5b5828361269e42a15c6bba70076ed, type: 3}
   - Key: NextMonsterWave
     Clip: {fileID: 8300000, guid: 48f7670d13f38e443b5f31f0fc3cc7c1, type: 3}
