@@ -297,6 +297,7 @@ namespace MyLibrary {
             };
 
             PlayFabClientAPI.ExecuteCloudScript( request, ( result ) => {
+                OutputCloudscriptError( result );
                 RequestComplete( "Cloud logs for " + i_methodName + "(" + result.ExecutionTimeSeconds + ")", LogTypes.Info );
                 OutputResultLogs( result.Logs );                
 
@@ -312,6 +313,13 @@ namespace MyLibrary {
                     i_requestSuccessCallback( resultsDeserialized );
                 }
             }, ( error ) => { HandleError( error, i_methodName ); } );
+        }
+
+        private void OutputCloudscriptError( ExecuteCloudScriptResult i_result ) {
+            if ( i_result.Error != null ) {
+                string output = i_result.Error + ": " + i_result.Error.Message + " -> " + i_result.Error.StackTrace;
+                MyMessenger.Instance.Send<LogTypes, string, string>( MyLogger.LOG_EVENT, LogTypes.Error, output, PLAYFAB );
+            }
         }
 
         private void OutputResultLogs( List<LogStatement> i_logs ) {
