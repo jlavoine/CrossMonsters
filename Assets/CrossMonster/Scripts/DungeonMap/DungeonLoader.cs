@@ -29,14 +29,24 @@ namespace MonsterMatch {
             cloudParams.Add( "DungeonId", i_dungeonId.ToString() );
             cloudParams.Add( "GameType", i_gameType );
 
-            mBackendManager.GetBackend<IBasicBackend>().MakeCloudCall( BackendMethods.GET_DUNGEON_SESSION, cloudParams, ( result ) => {
-                OnDungeonGameSessionResponse( JsonConvert.DeserializeObject<DungeonGameSessionData>( result["data"] ) );
+            mBackendManager.GetBackend<IBasicBackend>().MakeCloudCall( BackendMethods.GET_DUNGEON_SESSION, cloudParams, ( result ) => {                               
+                if ( result.ContainsKey( "data" ) ) {
+                    string resultData = result["data"];
+                    OnDungeonGameSessionResponse( JsonConvert.DeserializeObject<DungeonGameSessionData>( resultData ) );
+                } else {
+                    OnDungeonGameSessionResponse( null );
+                }
             } );
         }
 
-        public void OnDungeonGameSessionResponse( IDungeonGameSessionData i_data ) {           
-            mCurrentDungeonData.SetData( i_data );
-            mSceneManager.LoadScene( "Combat" );
+        public void OnDungeonGameSessionResponse( IDungeonGameSessionData i_data ) {
+            // this check is bare minimum work to not hang/crash/freeze the app if something is wrong with dungeon session
+            if ( i_data != null ) {
+                mCurrentDungeonData.SetData( i_data );
+                mSceneManager.LoadScene( "Combat" );
+            } else {
+                mLoadingPM.Hide();
+            }
         }
 
         public class Factory : Factory<DungeonLoader> { }

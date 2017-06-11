@@ -62,6 +62,13 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenReceivingDungeonData_IfNull_LoadingScreenIsHidden() {
+            systemUnderTest.OnDungeonGameSessionResponse( null );
+
+            MockLoadingPM.Received().Hide();
+        }
+
+        [Test]
         public void WhenReceivingDungeonData_GameSceneIsLoaded() {
             IDungeonGameSessionData mockData = Substitute.For<IDungeonGameSessionData>();
             systemUnderTest.OnDungeonGameSessionResponse( mockData );

@@ -22,6 +22,10 @@ namespace MyLibrary {
             SetVisibleProperty( true );
         }
 
+        public void Hide() {
+            SetVisibleProperty( false );
+        }
+
         private void SetVisibleProperty( bool i_visible ) {
             ViewModel.SetProperty( VISIBLE_PROPERTY, i_visible );
         }
