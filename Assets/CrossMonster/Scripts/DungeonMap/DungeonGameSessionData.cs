@@ -12,8 +12,14 @@ namespace MonsterMatch {
 
         public int NumWaves;
 
+        public string GameMode;
+
         public List<string> GetMonsters() {
             return Monsters;
+        }
+
+        public string GetGameMode() {
+            return GameMode;
         }
 
         public int GetNumWaves() {

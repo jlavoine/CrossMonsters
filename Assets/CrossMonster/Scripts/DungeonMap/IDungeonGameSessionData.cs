@@ -3,6 +3,8 @@ using MyLibrary;
 
 namespace MonsterMatch {
     public interface IDungeonGameSessionData {
+        string GetGameMode();
+
         List<string> GetMonsters();
         List<IGameRewardData> GetRewards();
 
