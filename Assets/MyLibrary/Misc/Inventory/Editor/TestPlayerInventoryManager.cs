@@ -35,6 +35,21 @@ namespace MyLibrary {
         }
 
         [Test]
+        public void WhenInventoryHasItem_GetItem_ReturnsItem() {
+            IMyItemInstance mockItem = Substitute.For<IMyItemInstance>();
+            systemUnderTest.Inventory = new Dictionary<string, IMyItemInstance>() { { "Test", mockItem } };
+
+            Assert.AreEqual( mockItem, systemUnderTest.GetItem( "Test" ) );
+        }
+        
+        [Test]
+        public void WhenInventoryDoesNotHaveItem_GetItem_ReturnsNull() {
+            systemUnderTest.Inventory = new Dictionary<string, IMyItemInstance>();
+
+            Assert.IsNull( systemUnderTest.GetItem( "SomeId" ) );
+        }
+
+        [Test]
         public void GetItemCount_ReturnsExpected() {
             IMyItemInstance mockItem = Substitute.For<IMyItemInstance>();
             mockItem.GetCount().Returns( 111 );

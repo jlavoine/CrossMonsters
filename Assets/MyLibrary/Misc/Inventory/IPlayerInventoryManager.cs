@@ -8,6 +8,7 @@ namespace MyLibrary {
 
         int GetItemCount( string i_itemId );
 
+        IMyItemInstance GetItem( string i_id );
         List<IMyItemInstance> GetItemsWithTag( string i_tag );
     }
 }

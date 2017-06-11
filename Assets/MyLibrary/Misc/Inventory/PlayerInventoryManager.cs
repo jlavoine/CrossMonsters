@@ -30,6 +30,15 @@ namespace MyLibrary {
             }
         }
 
+        public IMyItemInstance GetItem( string i_id ) {
+            if ( Inventory.ContainsKey( i_id ) ) {
+                return Inventory[i_id];
+            }
+            else {
+                return null;
+            }
+        }
+
         public List<IMyItemInstance> GetItemsWithTag( string i_tag ) {
             List<IMyItemInstance> items = new List<IMyItemInstance>();
 
