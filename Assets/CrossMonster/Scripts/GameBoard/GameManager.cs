@@ -16,6 +16,9 @@ namespace MonsterMatch {
         IDungeonWavePM DungeonWavePM;
 
         [Inject]
+        ICurrentGauntletManager CurrentGauntletManager;
+
+        [Inject]
         IAudioManager Audio;
 
         [Inject]
@@ -67,6 +70,10 @@ namespace MonsterMatch {
             AwardDungeonRewards();
             Audio.PlayOneShot( CombatAudioKeys.GAME_OVER_WIN );
             CurrentDungeonManager.Clear();
+
+            if ( CurrentGauntletManager.IsGauntletSessionInProgress ) {
+                CurrentGauntletManager.ComingFromGauntletVictory = true;
+            }
         }
 
         public bool IsGamePlaying() {

@@ -30,6 +30,9 @@ namespace MonsterMatch {
         IAudioManager MockAudio;
 
         [Inject]
+        ICurrentGauntletManager MockGauntletManager;
+
+        [Inject]
         GameManager systemUnderTest;
 
         [SetUp]
@@ -39,6 +42,7 @@ namespace MonsterMatch {
             Container.Bind<IBackendManager>().FromInstance( Substitute.For<IBackendManager>() );
             Container.Bind<IGamePlayer>().FromInstance( Substitute.For<IGamePlayer>() );
             Container.Bind<IAudioManager>().FromInstance( Substitute.For<IAudioManager>() );
+            Container.Bind<ICurrentGauntletManager>().FromInstance( Substitute.For<ICurrentGauntletManager>() );
             Container.Bind<ICurrentDungeonGameManager>().FromInstance( Substitute.For<ICurrentDungeonGameManager>() );
             Container.Bind<GameManager>().AsSingle();
             Container.Inject( this );
@@ -92,6 +96,22 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenAllMonstersDead_IfGauntletInProgress_VictoryIsSet() {
+            MockGauntletManager.IsGauntletSessionInProgress.Returns( true );
+            systemUnderTest.OnAllMonstersDead();
+
+            MockGauntletManager.Received().ComingFromGauntletVictory = true;
+        }
+
+        [Test]
+        public void WhenAllMonstersDead_IfNoGauntletInProgress_VictoryIsNotSet() {
+            MockGauntletManager.IsGauntletSessionInProgress.Returns( false );
+            systemUnderTest.OnAllMonstersDead();
+
+            MockGauntletManager.DidNotReceive().ComingFromGauntletVictory = true;
+        }
+
+        [Test]
         public void WhenAllMonstersDead_CurrentDungeonIsCleared() {
             systemUnderTest.OnAllMonstersDead();
 
@@ -117,7 +137,7 @@ namespace MonsterMatch {
             systemUnderTest.OnAllMonstersDead();
 
             MockBackend.Received().MakeCloudCall( BackendMethods.COMPLETE_DUNGEON_SESSION, Arg.Any<Dictionary<string, string>>(), Arg.Any<Callback<Dictionary<string, string>>>() );
-        }
+        }        
 
         [Test]
         public void WhenPlayerDies_NoBackendVictoryMethodCalled() {
