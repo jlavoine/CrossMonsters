@@ -11,14 +11,16 @@ namespace MonsterMatch {
     public class TestEnterGauntletPM : MonoBehaviour {
 
         private IGauntletInventoryHelper MockInventory;
+        private IDungeonLoader MockDungeonLoader;
 
         [SetUp]
         public void CommonInstall() {
             MockInventory = Substitute.For<IGauntletInventoryHelper>();
+            MockDungeonLoader = Substitute.For<IDungeonLoader>();
         }
 
         private EnterGauntletPM CreateSystem() {
-            EnterGauntletPM systemUnderTest = new EnterGauntletPM( MockInventory );
+            EnterGauntletPM systemUnderTest = new EnterGauntletPM( MockInventory, MockDungeonLoader );
             return systemUnderTest;
         }
 
@@ -61,6 +63,16 @@ namespace MonsterMatch {
             bool canEnter = systemUnderTest.ViewModel.GetPropertyValue<bool>( EnterGauntletPM.CAN_ENTER_GAUNTLET_PROPERTY );
 
             Assert.IsFalse( canEnter );
+        }
+
+        [Test]
+        public void WhenEnteringGauntlet_KeyIsConsumedFromInventory() {
+            EnterGauntletPM systemUnderTest = CreateSystem();
+            systemUnderTest.Index = 0;
+
+            systemUnderTest.EnterGauntlet( GauntletDifficulties.Easy );
+
+            MockInventory.Received().ConsumeGauntletKeyForIndex( 0 );
         }
     }
 }

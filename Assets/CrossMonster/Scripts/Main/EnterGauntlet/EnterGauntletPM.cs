@@ -6,12 +6,14 @@ namespace MonsterMatch {
         public const string CAN_ENTER_GAUNTLET_PROPERTY = "CanEnter";
 
         readonly IGauntletInventoryHelper mInventory;
+        readonly IDungeonLoader mDungeonLoader;
 
         private int mIndex;
         public int Index { get { return mIndex; } set { mIndex = value; } }
 
-        public EnterGauntletPM( IGauntletInventoryHelper i_inventory ) {
+        public EnterGauntletPM( IGauntletInventoryHelper i_inventory, IDungeonLoader i_dungeonLoader ) {
             mInventory = i_inventory;
+            mDungeonLoader = i_dungeonLoader;
 
             Hide();
             SetCanEnterProperty( false );
@@ -20,6 +22,11 @@ namespace MonsterMatch {
         public void SetIndex( int i_index ) {
             Index = i_index;
             UpdateProperties();
+        }
+
+        public void EnterGauntlet( GauntletDifficulties i_difficulty ) {
+            //mDungeonLoader.LoadDungeon( GameType, AreaId, DungeonId );
+            mInventory.ConsumeGauntletKeyForIndex( Index );
         }
 
         private void UpdateProperties() {

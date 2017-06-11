@@ -18,6 +18,10 @@ namespace MonsterMatch {
             PM.Dispose();
         }
 
+        public void EnterGauntlet( GauntletDifficulties i_difficulty ) {
+            PM.EnterGauntlet( i_difficulty );
+        }
+
         public void ShowView() {
             PM.SetIndex( Index );
             PM.Show();
