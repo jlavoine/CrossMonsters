@@ -22,11 +22,15 @@ namespace MonsterMatch {
         [Inject]
         IShowLoginPromosStepSpawner MockLoginPromoStepSpawner;
 
+        [Inject]
+        IShowGauntletStepSpawner MockShowGauntletStepSpawner;
+
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IUpcomingMaintenanceFlowStepSpawner>().FromInstance( Substitute.For<IUpcomingMaintenanceFlowStepSpawner>() );
             Container.Bind<IShowNewsStepSpawner>().FromInstance( Substitute.For<IShowNewsStepSpawner>() );
             Container.Bind<IShowLoginPromosStepSpawner>().FromInstance( Substitute.For<IShowLoginPromosStepSpawner>() );
+            Container.Bind<IShowGauntletStepSpawner>().FromInstance( Substitute.For<IShowGauntletStepSpawner>() );
             Container.Bind<MainMenuFlow>().AsSingle();
             Container.Inject( this );
         }
@@ -38,6 +42,7 @@ namespace MonsterMatch {
             MockMaintenanceStepSpawner.Received().Create( systemUnderTest );
             MockNewsStepSpawner.Received().Create( systemUnderTest );
             MockLoginPromoStepSpawner.Received().Create( systemUnderTest );
+            MockShowGauntletStepSpawner.Received().Create( systemUnderTest );
         }
     }
 }

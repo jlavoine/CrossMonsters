@@ -6,13 +6,15 @@ namespace MonsterMatch {
         readonly IUpcomingMaintenanceFlowStepSpawner mMaintenanceStepSpawner;
         readonly IShowNewsStepSpawner mNewStepSpawner;
         readonly IShowLoginPromosStepSpawner mLoginPromosStepSpawner;
+        readonly IShowGauntletStepSpawner mShowGauntletStepSpawner;
 
         private Queue<ISceneStartFlowStep> mSteps = new Queue<ISceneStartFlowStep>();
 
-        public MainMenuFlow( IUpcomingMaintenanceFlowStepSpawner i_maintenanceStepSpawner, IShowNewsStepSpawner i_newsStepSpawner, IShowLoginPromosStepSpawner i_loginPromoStepSpawner ) {
+        public MainMenuFlow( IShowGauntletStepSpawner i_gauntletStepSpawner, IUpcomingMaintenanceFlowStepSpawner i_maintenanceStepSpawner, IShowNewsStepSpawner i_newsStepSpawner, IShowLoginPromosStepSpawner i_loginPromoStepSpawner ) {
             mMaintenanceStepSpawner = i_maintenanceStepSpawner;
             mNewStepSpawner = i_newsStepSpawner;
             mLoginPromosStepSpawner = i_loginPromoStepSpawner;
+            mShowGauntletStepSpawner = i_gauntletStepSpawner;
         }
 
         public void StepFinished() {            
@@ -28,6 +30,7 @@ namespace MonsterMatch {
             mSteps.Enqueue( mMaintenanceStepSpawner.Create( this ) );
             mSteps.Enqueue( mNewStepSpawner.Create( this ) );
             mSteps.Enqueue( mLoginPromosStepSpawner.Create( this ) );
+            mSteps.Enqueue( mShowGauntletStepSpawner.Create( this ) );
         }
 
         private void ProcessNextStep() {

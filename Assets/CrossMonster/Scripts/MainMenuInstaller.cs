@@ -31,6 +31,9 @@ namespace MonsterMatch {
 
             Container.Bind<MainMenuFlow>().AsSingle();
 
+            Container.BindFactory<ISceneStartFlowManager, ShowGauntletStep, ShowGauntletStep.Factory>();
+            Container.Bind<IShowGauntletStepSpawner>().To<ShowGauntletStepSpawner>().AsSingle();
+
             Container.Bind<IUpcomingMaintenancePM>().To<UpcomingMaintenancePM>().AsSingle();
             Container.BindFactory<ISceneStartFlowManager, UpcomingMaintenanceFlowStep, UpcomingMaintenanceFlowStep.Factory>();
             Container.Bind<IUpcomingMaintenanceFlowStepSpawner>().To<UpcomingMaintenanceFlowStepSpawner>().AsSingle();
