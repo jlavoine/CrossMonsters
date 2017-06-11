@@ -3,7 +3,6 @@ using MyLibrary;
 
 namespace MonsterMatch {
     public class CurrentDungeonGameManager : ICurrentDungeonGameManager {
-        private const int MONSTER_WAVE_COUNT = 3; // temp
         readonly IMonsterDataManager mMonsterDataManager;
         readonly IDungeonRewardSpawner mRewardSpawner;
 
@@ -36,7 +35,7 @@ namespace MonsterMatch {
         private void SetMonsters() {
             Monsters = new List<IMonsterWaveData>();
             if ( Data.GetMonsters() != null ) {
-                for ( int i = 0; i < MONSTER_WAVE_COUNT; ++i ) {
+                for ( int i = 0; i < mData.GetNumWaves(); ++i ) {
                     IMonsterWaveData wave = new MonsterWaveData();
                     foreach ( string monsterId in Data.GetMonsters() ) {
                         IMonsterData monsterData = mMonsterDataManager.GetData( monsterId );

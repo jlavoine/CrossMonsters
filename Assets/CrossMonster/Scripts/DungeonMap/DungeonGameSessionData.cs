@@ -8,10 +8,16 @@ namespace MonsterMatch {
 
         public bool AllowDiagonalMoves;
         public bool StraightLinesOnly;
-        public bool ShouldRotatePiecesAfterUse;   
+        public bool ShouldRotatePiecesAfterUse;
+
+        public int NumWaves;
 
         public List<string> GetMonsters() {
             return Monsters;
+        }
+
+        public int GetNumWaves() {
+            return NumWaves;
         }
 
         public List<IGameRewardData> GetRewards() {
