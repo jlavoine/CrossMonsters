@@ -31,5 +31,24 @@ namespace MonsterMatch {
 
             MockInventory.Received().GetItem( expectedKey );
         }
+
+        [Test]
+        public void WhenConsumingGauntletKey_ItemRemovedFromInventory() {
+            GauntletInventoryHelper systemUnderTest = CreateSystem();
+
+            systemUnderTest.ConsumeGauntletKeyForIndex( 0 );
+
+            MockInventory.Received().RemoveUsesFromItem( "Gauntlet_Key_0", 1 );
+        }
+
+        [Test]
+        public void GetItemIdKeyForIndex_ReturnsExpected() {
+            string expectedKey = "Gauntlet_Key_0";
+            GauntletInventoryHelper systemUnderTest = CreateSystem();
+
+            string key = systemUnderTest.GetGauntletItemKeyForIndex( 0 );
+
+            Assert.AreEqual( expectedKey, key );
+        }
     }
 }
