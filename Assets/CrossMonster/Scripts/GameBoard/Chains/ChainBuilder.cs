@@ -1,4 +1,4 @@
-﻿using MyLibrary;
+using MyLibrary;
 using System.Collections.Generic;
 using Zenject;
 
@@ -52,16 +52,35 @@ namespace MonsterMatch {
 
         public void EndChain() {
             if ( IsActiveChain() ) {
+                string phase = ChainProcessor.Process( mChain );
+                ResetChain();
+                if (phase == GameMessages.CHAIN_COMPLETE)
+                {
+                    SendChainCompleteEvent();
+                    return;
+                }
+                else if (phase == GameMessages.CHAIN_DROPPED)
+                {
+                    SendCancelChainEvent();
+                    return;
+                }
+                SendChainResetEvent();
+            }
+        }
+
+        // use this when chain is cancelled not by correct or incorrect chain (maybe by pause or transitions etc).
+        public void ClearChain() {
+            if ( IsActiveChain() ) {
                 ChainProcessor.Process( mChain );
                 ResetChain();
-                SendChainResetEvent();                
+                SendChainResetEvent();
             }
         }
 
         public void CancelChain() {
             if ( IsActiveChain() ) {
                 ResetChain();
-                SendChainResetEvent();
+                SendCancelChainEvent();
                 Audio.PlayOneShot( CombatAudioKeys.CHAIN_BROKEN );
             }
         }
@@ -89,6 +108,15 @@ namespace MonsterMatch {
 
         private void SendPieceAddedEvent( IGamePiece i_piece ) {
             MyMessenger.Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, i_piece );
+        }
+
+        private void SendCancelChainEvent() {
+            MyMessenger.Send( GameMessages.CHAIN_DROPPED );
+        }
+
+        private void SendChainCompleteEvent()
+        {
+            MyMessenger.Send( GameMessages.CHAIN_COMPLETE );
         }
 
         private void SendChainResetEvent() {

@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 222254773875511440}
   - component: {fileID: 114804144482399754}
   - component: {fileID: 114213985592043210}
+  - component: {fileID: 114671398001880760}
   m_Layer: 5
   m_Name: GamePiece_2
   m_TagString: Untagged
@@ -199,6 +200,7 @@ GameObject:
   - component: {fileID: 114180260870604666}
   - component: {fileID: 95439579157306700}
   - component: {fileID: 114478174584141352}
+  - component: {fileID: 114654864591576198}
   m_Layer: 5
   m_Name: On
   m_TagString: Untagged
@@ -252,6 +254,7 @@ GameObject:
   - component: {fileID: 222106459208525774}
   - component: {fileID: 114667371492783444}
   - component: {fileID: 114916353996339140}
+  - component: {fileID: 114525563690638696}
   m_Layer: 5
   m_Name: GamePiece_4
   m_TagString: Untagged
@@ -287,7 +290,7 @@ GameObject:
   - component: {fileID: 222491258437855902}
   - component: {fileID: 114936365935198938}
   m_Layer: 5
-  m_Name: Base
+  m_Name: Off
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -305,6 +308,7 @@ GameObject:
   - component: {fileID: 114421804089222688}
   - component: {fileID: 95294052247195304}
   - component: {fileID: 114219032584399572}
+  - component: {fileID: 114394318760015402}
   m_Layer: 5
   m_Name: On
   m_TagString: Untagged
@@ -374,6 +378,7 @@ GameObject:
   - component: {fileID: 222733474223789738}
   - component: {fileID: 114212839695856730}
   - component: {fileID: 114784954980854116}
+  - component: {fileID: 114739561093326078}
   m_Layer: 5
   m_Name: GamePiece_1
   m_TagString: Untagged
@@ -409,7 +414,7 @@ GameObject:
   - component: {fileID: 222847148196410022}
   - component: {fileID: 114874874460664312}
   m_Layer: 5
-  m_Name: Base
+  m_Name: Off
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -511,6 +516,7 @@ GameObject:
   - component: {fileID: 222875012031980998}
   - component: {fileID: 114008703166489098}
   - component: {fileID: 114692867132563954}
+  - component: {fileID: 114085937808151024}
   m_Layer: 5
   m_Name: GamePiece_3
   m_TagString: Untagged
@@ -547,6 +553,7 @@ GameObject:
   - component: {fileID: 114235838822450422}
   - component: {fileID: 95916846950941222}
   - component: {fileID: 114396370968250084}
+  - component: {fileID: 114389619202369076}
   m_Layer: 5
   m_Name: On
   m_TagString: Untagged
@@ -669,7 +676,7 @@ GameObject:
   - component: {fileID: 222658673903250702}
   - component: {fileID: 114634469027612612}
   m_Layer: 5
-  m_Name: Base
+  m_Name: Off
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -704,6 +711,7 @@ GameObject:
   - component: {fileID: 114291535580080498}
   - component: {fileID: 95814866485288850}
   - component: {fileID: 114867387552781840}
+  - component: {fileID: 114826086855324700}
   m_Layer: 5
   m_Name: On
   m_TagString: Untagged
@@ -793,6 +801,7 @@ GameObject:
   - component: {fileID: 114983333368737452}
   - component: {fileID: 95767086939576318}
   - component: {fileID: 114154613281601700}
+  - component: {fileID: 114202662707212076}
   m_Layer: 5
   m_Name: On
   m_TagString: Untagged
@@ -913,6 +922,7 @@ GameObject:
   - component: {fileID: 222916384507214712}
   - component: {fileID: 114407638645811596}
   - component: {fileID: 114256871070373096}
+  - component: {fileID: 114680446971547230}
   m_Layer: 5
   m_Name: GamePiece_0
   m_TagString: Untagged
@@ -984,7 +994,7 @@ GameObject:
   - component: {fileID: 222116457617431538}
   - component: {fileID: 114064572465367982}
   m_Layer: 5
-  m_Name: Base
+  m_Name: Off
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1409,6 +1419,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114085937808151024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388226751876736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae2635691b16a74e9939083e161e37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: GamePieceOn_3
+  ChildTarget: {fileID: 1232655439528396}
 --- !u!114 &114118175766831454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1611,6 +1634,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114202662707212076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1674206310513662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb0fde938c69734a9c9060ef8b34f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: TileAnimationComplete
 --- !u!114 &114212839695856730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1924,6 +1959,30 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114389619202369076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1454658871049386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb0fde938c69734a9c9060ef8b34f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: TileAnimationComplete
+--- !u!114 &114394318760015402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1232655439528396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb0fde938c69734a9c9060ef8b34f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: TileAnimationComplete
 --- !u!114 &114396370968250084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2149,6 +2208,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114525563690638696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1179173225220974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae2635691b16a74e9939083e161e37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: GamePieceOn_4
+  ChildTarget: {fileID: 1674206310513662}
 --- !u!114 &114541463983857860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2238,6 +2310,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114654864591576198
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1139148431207092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb0fde938c69734a9c9060ef8b34f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: TileAnimationComplete
 --- !u!114 &114661103542717528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2280,6 +2364,32 @@ MonoBehaviour:
   SetToState: 0
   Objects:
   - {fileID: 1674206310513662}
+--- !u!114 &114671398001880760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124250652542566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae2635691b16a74e9939083e161e37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: GamePieceOn_2
+  ChildTarget: {fileID: 1454658871049386}
+--- !u!114 &114680446971547230
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1811872265018204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae2635691b16a74e9939083e161e37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: GamePieceOn_0
+  ChildTarget: {fileID: 1603418899692662}
 --- !u!114 &114690259445701612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2334,6 +2444,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114739561093326078
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1269840816369070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae2635691b16a74e9939083e161e37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropertyName: GamePieceOn_1
+  ChildTarget: {fileID: 1139148431207092}
 --- !u!114 &114779404196704572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2472,6 +2595,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114826086855324700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1603418899692662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb0fde938c69734a9c9060ef8b34f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: TileAnimationComplete
 --- !u!114 &114847188689038374
 MonoBehaviour:
   m_ObjectHideFlags: 1

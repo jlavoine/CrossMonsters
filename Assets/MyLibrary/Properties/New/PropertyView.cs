@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 
 namespace MyLibrary {
@@ -45,7 +45,6 @@ namespace MyLibrary {
         }
 
         protected T GetValue<T>() {
-            //return Model.GetPropertyValue<T>( PropertyName );
             return Model.GetPropertyValue<T>( PropertyName );   
         }
     }

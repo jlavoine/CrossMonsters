@@ -1,4 +1,4 @@
-﻿
+
 namespace MonsterMatch {
     public static class GameMessages {
         public const string MONSTER_ATTACK = "MonsterAttack";
@@ -9,6 +9,9 @@ namespace MonsterMatch {
 
         public const string PIECE_ADDED_TO_CHAIN = "PieceAddedToChain";
         public const string CHAIN_RESET = "ChainReset";
+        public const string CHAIN_COMPLETE = "ChainComplete";
+        public const string CHAIN_DROPPED = "ChainDropped";
+        public const string TILE_ANIMATION_COMPLETE = "TileAnimationComplete";
 
         public const string GAME_OVER = "GameOver";
 
