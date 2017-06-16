@@ -18,8 +18,8 @@ namespace MonsterMatch {
 
             ListenForMessages( true );
 
-            UpdateProperties();            
-            ResetIsOnProperty();            
+            UpdateProperties();
+            ResetIsOnProperty();
         }
 
         protected override void _Dispose() {
@@ -31,20 +31,20 @@ namespace MonsterMatch {
                 MyMessenger.Instance.AddListener<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, OnPieceAddedToChain );
                 MyMessenger.Instance.AddListener( GameMessages.TILE_ANIMATION_COMPLETE, OnDropComboAnimationComplete );
                 MyMessenger.Instance.AddListener( GameMessages.CHAIN_RESET, OnChainReset );
-                MyMessenger.Instance.AddListener( GameMessages.CHAIN_COMPLETE, OnChainComplete );
-                MyMessenger.Instance.AddListener( GameMessages.CHAIN_DROPPED, OnChainDropped );
+                MyMessenger.Instance.AddListener<IGamePiece>( GameMessages.CHAIN_COMPLETE, OnChainComplete );
+                MyMessenger.Instance.AddListener<IGamePiece>( GameMessages.CHAIN_DROPPED, OnChainDropped );
             } else {
                 MyMessenger.Instance.RemoveListener<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, OnPieceAddedToChain );
                 MyMessenger.Instance.RemoveListener( GameMessages.TILE_ANIMATION_COMPLETE, OnDropComboAnimationComplete );
                 MyMessenger.Instance.RemoveListener( GameMessages.CHAIN_RESET, OnChainReset );
-                MyMessenger.Instance.RemoveListener( GameMessages.CHAIN_COMPLETE, OnChainComplete );
-                MyMessenger.Instance.RemoveListener( GameMessages.CHAIN_DROPPED, OnChainDropped );
+                MyMessenger.Instance.RemoveListener<IGamePiece>( GameMessages.CHAIN_COMPLETE, OnChainComplete );
+                MyMessenger.Instance.RemoveListener<IGamePiece>( GameMessages.CHAIN_DROPPED, OnChainDropped );
             }
         }
 
         public void OnPieceAddedToChain( IGamePiece i_piece ) {
             if ( GamePiece == i_piece ) {
-                SetIsOnProperty( true );                
+                SetIsOnProperty( true );
             }
         }
 
@@ -52,12 +52,18 @@ namespace MonsterMatch {
             ResetIsOnProperty();
         }
 
-        public void OnChainComplete() {
-            SetTriggerState(CHAIN_COMPLETE_TRIGGER);
+        public void OnChainComplete( IGamePiece i_piece ) {
+            if (GamePiece == i_piece)
+            {
+                SetTriggerState(CHAIN_COMPLETE_TRIGGER);
+            }
         }
 
-        public void OnChainDropped() {
-            SetTriggerState(CHAIN_DROPPED_TRIGGER);
+        public void OnChainDropped( IGamePiece i_piece ) {
+            if (GamePiece == i_piece)
+            {
+                SetTriggerState(CHAIN_DROPPED_TRIGGER);
+            }
         }
 
         public void OnDropComboAnimationComplete( ) {
@@ -85,7 +91,7 @@ namespace MonsterMatch {
         }
 
         private void ResetIsOnProperty() {
-            SetIsOnProperty( false);
+            SetIsOnProperty( false );
         }
     }
 }
