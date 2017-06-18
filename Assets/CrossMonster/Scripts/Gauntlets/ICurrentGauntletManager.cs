@@ -5,5 +5,7 @@ namespace MonsterMatch {
 
         bool ComingFromGauntletVictory { get; set; }
         bool IsGauntletSessionInProgress();
+
+        IGauntletProgress Progress { get; set; }
     }
 }

@@ -10,6 +10,9 @@ namespace MonsterMatch {
         private bool mComingFromGauntletVictory = false;
         public bool ComingFromGauntletVictory { get { return mComingFromGauntletVictory; } set { mComingFromGauntletVictory = value; } }
 
+        private IGauntletProgress mProgress;
+        public IGauntletProgress Progress { get { return mProgress; } set { mProgress = value; } }
+
         public CurrentGauntletManager( ICurrentDungeonGameManager i_dungeonManager ) {
             mDungeonManager = i_dungeonManager;
         }
