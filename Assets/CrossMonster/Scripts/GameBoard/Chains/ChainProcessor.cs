@@ -16,7 +16,7 @@ namespace MonsterMatch {
         [Inject]
         IGameBoard GameBoard;
 
-        public string Process( List<IGamePiece> i_chain ) {
+        public void Process( List<IGamePiece> i_chain ) {
             string chainPhase = "";
             if ( MonsterManager.DoesMoveMatchAnyCurrentMonsters( i_chain ) ) {
                 MonsterManager.ProcessPlayerMove( GamePlayer, i_chain );
