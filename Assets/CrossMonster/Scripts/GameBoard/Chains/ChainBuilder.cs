@@ -50,41 +50,37 @@ namespace MonsterMatch {
             }
         }
 
-        public void ClearChain()
-        {
-            if (IsActiveChain())
-            {
-                ChainProcessor.Process(mChain);
+        public void EndChain() {
+            if ( IsActiveChain() ) {
+                string phase = ChainProcessor.Process( mChain );
+                ResetChain();
+                if (phase == GameMessages.CHAIN_COMPLETE)
+                {
+                    SendChainCompleteEvent();
+                    return;
+                }
+                else if (phase == GameMessages.CHAIN_DROPPED)
+                {
+                    SendCancelChainEvent();
+                    return;
+                }
+                SendChainResetEvent();
+            }
+        }
+
+        // use this when chain is cancelled not by correct or incorrect chain (maybe by pause or transitions etc).
+        public void ClearChain() {
+            if ( IsActiveChain() ) {
+                ChainProcessor.Process( mChain );
                 ResetChain();
                 SendChainResetEvent();
             }
         }
 
-        public void EndChain() {
-            if ( IsActiveChain() ) {
-                string phase = ChainProcessor.Process( mChain );
-
-                if (phase == GameMessages.CHAIN_COMPLETE) {
-                    foreach (IGamePiece piece in mChain) {
-                        SendChainCompleteEvent(piece);
-                    }
-                }
-                else if (phase == GameMessages.CHAIN_DROPPED) {
-                    foreach(IGamePiece piece in mChain) {
-                        SendCancelChainEvent(piece);
-                    }
-                }
-                ResetChain();
-            }
-        }
-
         public void CancelChain() {
             if ( IsActiveChain() ) {
-                foreach (IGamePiece piece in mChain) {
-                    SendCancelChainEvent(piece);
-                }
-
                 ResetChain();
+                SendCancelChainEvent();
                 Audio.PlayOneShot( CombatAudioKeys.CHAIN_BROKEN );
             }
         }
@@ -114,16 +110,17 @@ namespace MonsterMatch {
             MyMessenger.Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, i_piece );
         }
 
-        private void SendCancelChainEvent( IGamePiece i_piece ) {
-            MyMessenger.Send<IGamePiece>( GameMessages.CHAIN_DROPPED, i_piece);
+        private void SendCancelChainEvent() {
+            MyMessenger.Send( GameMessages.CHAIN_DROPPED );
         }
 
-        private void SendChainCompleteEvent( IGamePiece i_piece ) {
-            MyMessenger.Send<IGamePiece>( GameMessages.CHAIN_COMPLETE, i_piece);
+        private void SendChainCompleteEvent()
+        {
+            MyMessenger.Send( GameMessages.CHAIN_COMPLETE );
         }
 
         private void SendChainResetEvent() {
-            MyMessenger.Send(GameMessages.CHAIN_RESET);
-        }
+            MyMessenger.Send( GameMessages.CHAIN_RESET );
+        }       
     }
 }
