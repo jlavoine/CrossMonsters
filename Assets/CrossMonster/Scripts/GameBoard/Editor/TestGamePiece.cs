@@ -34,6 +34,7 @@ namespace MonsterMatch {
 
             Assert.AreEqual( 5, systemUnderTest.PieceType );
             Assert.AreEqual( 11, systemUnderTest.Index );
+            Assert.AreEqual( GamePieceStates.Selectable, systemUnderTest.State );
         }
 
         [Test]
@@ -44,6 +45,24 @@ namespace MonsterMatch {
             systemUnderTest.UsePiece();
 
             Assert.AreEqual( 5, systemUnderTest.PieceType );
+        }
+
+        [Test]
+        public void WhenUsingPiece_StateIsSetToCorrect() {
+            GamePiece systemUnderTest = SystemFactory.Create( 0, 0 );
+
+            systemUnderTest.UsePiece();
+
+            Assert.AreEqual( GamePieceStates.Correct, systemUnderTest.State );
+        }
+
+        [Test]
+        public void WhenPieceFailsMatch_StateIsSetToIncorrect() {
+            GamePiece systemUnderTest = SystemFactory.Create( 0, 0 );
+
+            systemUnderTest.PieceFailedMatch();
+
+            Assert.AreEqual( GamePieceStates.Incorrect, systemUnderTest.State );
         }
     }
 }

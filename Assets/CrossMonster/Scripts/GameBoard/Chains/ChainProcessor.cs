@@ -17,23 +17,26 @@ namespace MonsterMatch {
         IGameBoard GameBoard;
 
         public void Process( List<IGamePiece> i_chain ) {
-            string chainPhase = "";
             if ( MonsterManager.DoesMoveMatchAnyCurrentMonsters( i_chain ) ) {
                 MonsterManager.ProcessPlayerMove( GamePlayer, i_chain );
                 UsePiecesInChain( i_chain );
                 RandomizeGameBoardIfNoMonsterCombosAvailable();
                 Audio.PlayOneShot( CombatAudioKeys.CHAIN_COMPLETE );
-                chainPhase = GameMessages.CHAIN_COMPLETE;
             } else {
+                MarkPiecesIncorrect( i_chain );
                 Audio.PlayOneShot( CombatAudioKeys.CHAIN_BROKEN );
-                chainPhase = GameMessages.CHAIN_DROPPED;
             }
-            return chainPhase;
         }
 
         private void UsePiecesInChain( List<IGamePiece> i_pieces ) {
             foreach ( IGamePiece piece in i_pieces ) {
                 piece.UsePiece();
+            }
+        }
+
+        private void MarkPiecesIncorrect( List<IGamePiece> i_pieces ) {
+            foreach ( IGamePiece piece in i_pieces ) {
+                piece.PieceFailedMatch();
             }
         }
 

@@ -74,6 +74,17 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenProcessingChain_IfChainDoesNotMatchAnyMonster_PiecesFailedMatch_IsCalled() {
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();            
+            List<IGamePiece> chain = new List<IGamePiece>() { mockPiece };
+            MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( false );
+
+            systemUnderTest.Process( chain );
+
+            mockPiece.Received().PieceFailedMatch();
+        }
+
+        [Test]
         public void WhenProcessingChain_IfChainIsProcessed_PiecesInvolvedAreUsed() {
             MonsterManager.DoesMoveMatchAnyCurrentMonsters( Arg.Any<List<IGamePiece>>() ).Returns( true );
             List<IGamePiece> chain = new List<IGamePiece>();

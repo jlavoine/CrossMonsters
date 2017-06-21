@@ -40,5 +40,9 @@ namespace MonsterMatch {
                 ChainManager.EndChain();
             }
         }
+
+        public void OnAnimationComplete() {
+            mPM.OnAnimationComplete();
+        }
     }
 }
