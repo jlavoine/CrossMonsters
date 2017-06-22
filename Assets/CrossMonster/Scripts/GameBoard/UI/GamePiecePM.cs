@@ -8,7 +8,6 @@ namespace MonsterMatch {
         public const string TRIGGER_PROPERTY = "GamePieceOn_";
         public const string CHAIN_DROPPED_TRIGGER = "ChainDropped";
         public const string CHAIN_COMPLETE_TRIGGER = "ChainComplete";
-        
 
         private IGamePiece mPiece;
         public IGamePiece GamePiece { get { return mPiece; } set { mPiece = value; } }
@@ -43,6 +42,7 @@ namespace MonsterMatch {
         public void OnAnimationComplete() {
             ResetIsOnProperty();
             GamePiece.State = GamePieceStates.Selectable;
+            UpdateProperties();
         }
 
         public string GetAnimState( GamePieceStates i_state ) {
@@ -57,7 +57,7 @@ namespace MonsterMatch {
         }
 
         protected override void OnModelUpdated() {
-            UpdateProperties();
+            UpdateProperties();        
         }
 
         private void UpdateProperties() {
@@ -73,7 +73,6 @@ namespace MonsterMatch {
             string state = GetAnimState( GamePiece.State );
 
             if ( !string.IsNullOrEmpty( state ) ) {
-                //UnityEngine.Debug.LogError( "Setting state to " + state );
                 ViewModel.SetProperty( TRIGGER_PROPERTY + GamePiece.PieceType, state );
             }
         }
