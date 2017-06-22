@@ -15,6 +15,8 @@ namespace MonsterMatch {
 
         public const string GAME_OVER = "GameOver";
 
+        public const string GAME_STATE_CHANGED = "GameStateChanged";
+
         public const string PLAYER_GOLD_CHANGED = "PlayerGoldChanged";
 
         public const string NEW_MONSTER_WAVE_EVENT = "NewMonsterWave";

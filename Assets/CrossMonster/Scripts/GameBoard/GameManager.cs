@@ -83,6 +83,7 @@ namespace MonsterMatch {
 
         public void SetState( GameStates i_state ) {
             State = i_state;
+            MyMessenger.Send<GameStates>( GameMessages.GAME_STATE_CHANGED, i_state );
         }
 
         private void SendGameOverMessage( bool i_won ) {

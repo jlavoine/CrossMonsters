@@ -405,6 +405,7 @@ GameObject:
   - component: {fileID: 419451451}
   - component: {fileID: 419451450}
   - component: {fileID: 419451453}
+  - component: {fileID: 419451454}
   m_Layer: 5
   m_Name: GameBoardView
   m_TagString: Untagged
@@ -500,6 +501,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GamePieceViewPrefab: {fileID: 1831073700973074, guid: 8894a3482da7f0346bc8903fd3a91f7d,
     type: 2}
+--- !u!114 &419451454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 419451448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f42b4e22b5e12d47a61c4b02c820f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &512007027
 GameObject:
   m_ObjectHideFlags: 0

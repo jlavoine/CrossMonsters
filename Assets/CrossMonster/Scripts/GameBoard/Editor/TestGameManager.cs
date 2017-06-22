@@ -12,7 +12,7 @@ namespace MonsterMatch {
     [TestFixture]
     public class TestGameManager : ZenjectUnitTestFixture {
         [Inject]
-        IMessageService MyMessenger;
+        IMessageService MockMessenger;
 
         [Inject]
         ICurrentDungeonGameManager MockCurrentDungeon;
@@ -52,14 +52,14 @@ namespace MonsterMatch {
         public void WhenCreating_SubscribesToExpectedMessages() {
             systemUnderTest.Initialize();
 
-            MyMessenger.Received().AddListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
+            MockMessenger.Received().AddListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
         }
 
         [Test]
         public void WhenDisposing_UnsubscribesToExpectedMessages() {
             systemUnderTest.Dispose();
 
-            MyMessenger.Received().RemoveListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
+            MockMessenger.Received().RemoveListener( GameMessages.PLAYER_DEAD, Arg.Any<Callback>() );
         }
 
         [Test]
@@ -157,14 +157,14 @@ namespace MonsterMatch {
         public void WhenPlayerDies_GameOverMessageSent() {
             systemUnderTest.OnPlayerDied();
 
-            MyMessenger.Received().Send<bool>( GameMessages.GAME_OVER, false );
+            MockMessenger.Received().Send<bool>( GameMessages.GAME_OVER, false );
         }
 
         [Test]
         public void WhenAllMonstersDead_GameOverMessageSent() {
             systemUnderTest.OnAllMonstersDead();
 
-            MyMessenger.Received().Send<bool>( GameMessages.GAME_OVER, true );
+            MockMessenger.Received().Send<bool>( GameMessages.GAME_OVER, true );
         }
 
         [Test]
@@ -186,6 +186,19 @@ namespace MonsterMatch {
             systemUnderTest.PrepareForNextWave();
 
             MockPlayer.Received().OnWaveFinished();
+        }
+
+        static object[] StateMessageTests = {
+            new object[] { GameStates.Ended },
+            new object[] { GameStates.Paused },
+            new object[] { GameStates.Playing }
+        };
+
+        [Test, TestCaseSource( "StateMessageTests" )]
+        public void WhenGameStateChanges_MessageIsSent( GameStates i_state ) {
+            systemUnderTest.SetState( i_state );
+
+            MockMessenger.Received().Send<GameStates>( GameMessages.GAME_STATE_CHANGED, i_state );
         }
     }
 }
