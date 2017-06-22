@@ -50,41 +50,19 @@ namespace MonsterMatch {
             }
         }
 
-        public void ClearChain()
-        {
-            if (IsActiveChain())
-            {
-                ChainProcessor.Process(mChain);
+        public void EndChain() {
+            if ( IsActiveChain() ) {
+                ChainProcessor.Process( mChain );
                 ResetChain();
                 SendChainResetEvent();
             }
         }
 
-        public void EndChain() {
-            if ( IsActiveChain() ) {
-                string phase = ChainProcessor.Process( mChain );
-
-                if (phase == GameMessages.CHAIN_COMPLETE) {
-                    foreach (IGamePiece piece in mChain) {
-                        SendChainCompleteEvent(piece);
-                    }
-                }
-                else if (phase == GameMessages.CHAIN_DROPPED) {
-                    foreach(IGamePiece piece in mChain) {
-                        SendCancelChainEvent(piece);
-                    }
-                }
-                ResetChain();
-            }
-        }
-
         public void CancelChain() {
             if ( IsActiveChain() ) {
-                foreach (IGamePiece piece in mChain) {
-                    SendCancelChainEvent(piece);
-                }
-
+                MarkPiecesIncorrect( mChain );
                 ResetChain();
+                SendChainResetEvent();                          
                 Audio.PlayOneShot( CombatAudioKeys.CHAIN_BROKEN );
             }
         }
@@ -110,16 +88,16 @@ namespace MonsterMatch {
             mChain = null;
         }
 
+        private void MarkPiecesIncorrect( List<IGamePiece> i_pieces ) {
+            if ( i_pieces != null ) {
+                foreach ( IGamePiece piece in i_pieces ) {
+                    piece.PieceFailedMatch();
+                }
+            }
+        }
+
         private void SendPieceAddedEvent( IGamePiece i_piece ) {
             MyMessenger.Send<IGamePiece>( GameMessages.PIECE_ADDED_TO_CHAIN, i_piece );
-        }
-
-        private void SendCancelChainEvent( IGamePiece i_piece ) {
-            MyMessenger.Send<IGamePiece>( GameMessages.CHAIN_DROPPED, i_piece);
-        }
-
-        private void SendChainCompleteEvent( IGamePiece i_piece ) {
-            MyMessenger.Send<IGamePiece>( GameMessages.CHAIN_COMPLETE, i_piece);
         }
 
         private void SendChainResetEvent() {

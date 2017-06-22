@@ -15,29 +15,49 @@ namespace MonsterMatch {
         private int mIndex;
         public int Index { get { return mIndex; } set { mIndex = value; } }
 
+        private GamePieceStates mState;
+        public GamePieceStates State { get { return mState; } set { mState = value; } }
+
         public GamePiece( int i_pieceType, int i_pieceIndex ) {
             Index = i_pieceIndex;
             PieceType = i_pieceType;
+            State = GamePieceStates.Selectable;
         }
 
         public void UsePiece() {
             if ( DungeonManager.Data.ShouldRotatePieces() ) {
-                RotatePiece();
+                RotatePiece();                
             }
+
+            SetPieceState( GamePieceStates.Correct );
+            SendModelChangedEvent();
+        }
+
+        public void PieceFailedMatch() {
+            SetPieceState( GamePieceStates.Incorrect );
+            SendModelChangedEvent();
         }
 
         public void Randomize() {
             int randomPieceType = ListUtils.GetRandomElement<int>( GameRules.GetPieceTypes() );
             SetPieceType( randomPieceType );
+            SendModelChangedEvent();
         }
 
         private void RotatePiece() {
             Randomize();
         }
 
+        public bool IsSelectable() {
+            return State == GamePieceStates.Selectable;
+        }
+
         private void SetPieceType( int i_pieceType ) {
-            PieceType = i_pieceType;
-            SendModelChangedEvent();
+            PieceType = i_pieceType;            
+        }
+        
+        private void SetPieceState( GamePieceStates i_state ) {
+            State = i_state;
         }
 
         public class Factory : Factory<int, int, GamePiece> {}

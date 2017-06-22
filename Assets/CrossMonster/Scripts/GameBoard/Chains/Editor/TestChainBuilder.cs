@@ -159,6 +159,17 @@ namespace MonsterMatch {
         }
 
         [Test]
+        public void WhenChainCanceled_PiecesInChain_AreFailed() {
+            systemUnderTest.Chain = new List<IGamePiece>();
+            IGamePiece mockPiece = Substitute.For<IGamePiece>();
+            systemUnderTest.Chain.Add( mockPiece );
+
+            systemUnderTest.CancelChain();
+
+            mockPiece.Received().PieceFailedMatch();
+        }
+
+        [Test]
         public void WhenChainCanceled_ChainResetEventIsSent() {
             CreateChainManager_WithEmptyActiveChain();
 

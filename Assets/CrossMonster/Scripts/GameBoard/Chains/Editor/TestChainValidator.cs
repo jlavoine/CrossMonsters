@@ -26,12 +26,16 @@ namespace MonsterMatch {
         [Inject]
         IChainValidator_MaxLength MockMaxLengthValidator;
 
+        [Inject]
+        IChainValidator_SelectablePieces MockSelectablePieceValidator;
+
         [SetUp]
         public void CommonInstall() {
             Container.Bind<IChainValidator_DuplicatePieces>().FromInstance( Substitute.For<IChainValidator_DuplicatePieces>() );
             Container.Bind<IChainValidator_DiagonalPieces>().FromInstance( Substitute.For<IChainValidator_DiagonalPieces>() );
             Container.Bind<IChainValidator_StraightLinesOnly>().FromInstance( Substitute.For<IChainValidator_StraightLinesOnly>() );
             Container.Bind<IChainValidator_MaxLength>().FromInstance( Substitute.For<IChainValidator_MaxLength>() );
+            Container.Bind<IChainValidator_SelectablePieces>().FromInstance( Substitute.For<IChainValidator_SelectablePieces>() );
             Container.Bind<ChainValidator>().AsSingle();
             Container.Inject( this );
         }
@@ -42,6 +46,7 @@ namespace MonsterMatch {
             MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
             MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
             MockMaxLengthValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockSelectablePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
 
             Assert.IsFalse( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
         }
@@ -52,6 +57,7 @@ namespace MonsterMatch {
             MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
             MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
             MockMaxLengthValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockSelectablePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
 
             Assert.IsFalse( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
         }
@@ -62,6 +68,7 @@ namespace MonsterMatch {
             MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
             MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
             MockMaxLengthValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockSelectablePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
 
             Assert.IsFalse( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
         }
@@ -72,6 +79,18 @@ namespace MonsterMatch {
             MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
             MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
             MockMaxLengthValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
+            MockSelectablePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+
+            Assert.IsFalse( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
+        }
+
+        [Test]
+        public void IfJustSelectablePieceValidationFails_ValidationFails() {
+            MockDuplicatePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockMaxLengthValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockSelectablePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( false );
 
             Assert.IsFalse( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
         }
@@ -82,6 +101,7 @@ namespace MonsterMatch {
             MockDiagonalPieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
             MockStraightLinesOnlyValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
             MockMaxLengthValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
+            MockSelectablePieceValidator.IsValidPieceInChain( Arg.Any<IGamePiece>(), Arg.Any<List<IGamePiece>>() ).Returns( true );
 
             Assert.IsTrue( systemUnderTest.IsValidPieceInChain( Substitute.For<IGamePiece>(), new List<IGamePiece>() ) );
         }
