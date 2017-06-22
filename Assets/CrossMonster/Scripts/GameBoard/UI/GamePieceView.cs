@@ -24,7 +24,7 @@ namespace MonsterMatch {
         }
 
         public void OnPointerDown() {
-            if ( ChainManager.IsNoChain() && GameManager.IsGamePlaying() ) {
+            if ( ChainManager.IsNoChain() && GameManager.IsGamePlaying() && mPM.GamePiece.IsSelectable() ) {
                 ChainManager.StartChain( mPM.GamePiece );
             }
         }
