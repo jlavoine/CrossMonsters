@@ -48,6 +48,10 @@ namespace MonsterMatch {
             Randomize();
         }
 
+        public bool IsSelectable() {
+            return State == GamePieceStates.Selectable;
+        }
+
         private void SetPieceType( int i_pieceType ) {
             PieceType = i_pieceType;            
         }

@@ -6,6 +6,8 @@ namespace MonsterMatch {
         int PieceType { get; }
         int Index { get; }
 
+        bool IsSelectable();
+
         void UsePiece();
         void Randomize();
         void PieceFailedMatch();

@@ -64,5 +64,21 @@ namespace MonsterMatch {
 
             Assert.AreEqual( GamePieceStates.Incorrect, systemUnderTest.State );
         }
+
+        static object[] IsSelectableTests = {
+            new object[] { GamePieceStates.Correct, false },
+            new object[] { GamePieceStates.Incorrect, false },
+            new object[] { GamePieceStates.Selectable, true }
+        };
+
+        [Test, TestCaseSource( "IsSelectableTests" )]
+        public void IsSelectable_ReturnsAsExpected( GamePieceStates i_state, bool i_expected ) {
+            GamePiece systemUnderTest = SystemFactory.Create( 0, 0 );
+            systemUnderTest.State = i_state;
+
+            bool isSelectable = systemUnderTest.IsSelectable();
+
+            Assert.AreEqual( i_expected, isSelectable );
+        }
     }
 }
